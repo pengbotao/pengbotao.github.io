@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>Mysql中Myisam、InnoDB碎片优化 - 老彭的博客</title>
-    <link rel="stylesheet" href="/static/css/markdown.css">
+    <link rel="stylesheet" href="http://itopic.org/static/css/markdown.css">
     <script>
     var _hmt = _hmt || [];
     (function() {
@@ -18,7 +18,7 @@
 </head>
 <body>
 <h1 style="font-weight:600;width:90%;margin-bottom:0px;">Mysql中Myisam、InnoDB碎片优化</h1>
-<a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
+<a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
 <hr />
 <p>起因：查看线上数据库中Table Information时发现有一个日志表数据大小和索引大小有915M，但实际行数只有92行。该表需要频繁插入并且会定时去删掉旧的记录。表类型为Myisam，已建立一个索引，所以应该是产生了大量碎片，使用 Optimize table 表名 优化后大小变为2.19M，少了很多， 同时可以看出该表上的索引建的多余，因为插入操作比查询操作要多很多，而且查询不多，查询的数据量也一般比较小。</p>
 
@@ -58,7 +58,7 @@
 
 <div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
 <div style="float:right;">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
 </div>
 <div style="padding: 0 10px;text-align:right;float:right;">
     发表于：
