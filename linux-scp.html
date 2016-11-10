@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Linux命令 - scp - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?0f0111c99240380ee020030f3be990f5";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</head>
+<body>
+<h1 style="font-weight:600;width:90%;margin-bottom:0px;">Linux命令 - scp</h1>
+<a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
+<hr />
+<p>拷贝远程文件到本地</p>
+
+<pre><code>scp root@192.168.0.1:/home/database.php /var/www/database.php
+</code></pre>
+
+<p>拷贝本地文件到其他服务器</p>
+
+<pre><code>scp /var/www/database.php root@192.168.0.1:/home/database.php
+</code></pre>
+
+<p>拷贝目录带上 -r 参数， ssh非22端口带上-P 参数。</p>
+
+<pre><code>scp -P 2133 -r root@192.168.0.1:/home/wwwroot/ /var/www/
+scp -P 2133 /var/www/ root@192.168.0.1:/home/wwwroot/
+</code></pre>
+
+<p><strong>几个可能有用的参数 :</strong></p>
+
+<ul>
+<li>-v 和大多数 linux 命令中的 -v 意思一样 , 用来显示进度 . 可以用来查看连接 , 认证 , 或是配置错误 .</li>
+<li>-C 使能压缩选项 .</li>
+<li>-r 传递目录下的所有内容 .</li>
+<li>-P 选择端口 . 注意 -p 已经被 rcp 使用 .</li>
+<li>-4 强行使用 IPV4 地址 .</li>
+<li>-6 强行使用 IPV6 地址 .</li>
+</ul>
+
+<div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
+<div style="float:right;">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2013-11.html">2013-11-15 11:16</a></code>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/linux.html">Linux</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/scp.html">scp</a></code>
+</div>
+
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="linux-scp" data-title="Linux命令 - scp" data-url="http://itopic.org/linux-scp.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"itopic"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</body>
+</html>

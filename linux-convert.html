@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Linux命令 - convert - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?0f0111c99240380ee020030f3be990f5";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</head>
+<body>
+<h1 style="font-weight:600;width:90%;margin-bottom:0px;">Linux命令 - convert</h1>
+<a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
+<hr />
+<h1>安装ImageMagick</h1>
+
+<pre><code># yum install ImageMagick ImageMagick-devel
+ 
+# convert -version
+Version: ImageMagick 6.2.8 05/07/12 Q16 file:/usr/share/ImageMagick-6.2.8/doc/index.html
+Copyright: Copyright (C) 1999-2006 ImageMagick Studio LLC
+</code></pre>
+
+<p>同时也可以安装PHP扩展 imagick: <a href="http://php.net/manual/en/book.imagick.php">http://php.net/manual/en/book.imagick.php</a></p>
+
+<h1>convert命令</h1>
+
+<p>转换图片格式</p>
+
+<pre><code># convert src.jpg dst.png
+</code></pre>
+
+<p>指定处理后的图片品质</p>
+
+<pre><code># convert -quality 80 src.jpg dst.png
+</code></pre>
+
+<p>缩放</p>
+
+<pre><code>-resize widthxheight{%} {@} {!} {&lt;} {&gt;} {^}
+</code></pre>
+
+<p>1、按照宽高中大的一边放大或缩小，另一边按比例处理。</p>
+
+<pre><code># convert -resize 600×600 src.jpg dst.jpg
+</code></pre>
+
+<p>这里的600x600表示600px，同时也可以用百分比来表示，下面命令表示将宽缩到50%，高缩到80%</p>
+
+<pre><code># convert -resize 50%x80% src.jpg dst.jpg
+</code></pre>
+
+<p>2、将图片调整到固定尺寸，可以在宽高后面加上一个感叹号!</p>
+
+<pre><code># convert -resize 600×600! src.jpg dst.jpg
+</code></pre>
+
+<p>3、固定宽度或高度缩放，另一边按比例处理</p>
+
+<pre><code># convert -resize 400 src.jpg dst.jpg
+
+# convert -resize x400 src.jpg dst.jpg
+</code></pre>
+
+<p>4、使用 @ 来指定图片的像素个数。</p>
+
+<pre><code># convert -resize &quot;10000@&quot; src.jpg dst.jpg
+</code></pre>
+
+<p>原图大小910x1365，执行后缩为81x122</p>
+
+<p>5、图片大于或小于某个尺寸时缩放</p>
+
+<pre><code># convert -resize &quot;300x200&gt;&quot; src.jpg dst.jpg
+</code></pre>
+
+<p>300x200&gt;表示当图片大于300x200时进行缩小</p>
+
+<p>300x200&lt;表示当图片小于300x200时进行放大</p>
+
+<div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
+<div style="float:right;">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2015-03.html">2015-03-26 17:50</a></code>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/linux.html">Linux</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/convert.html">convert</a></code>
+</div>
+
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="linux-convert" data-title="Linux命令 - convert" data-url="http://itopic.org/linux-convert.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"itopic"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</body>
+</html>

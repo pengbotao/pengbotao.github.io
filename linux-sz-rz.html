@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Linux命令 - rzsz - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?0f0111c99240380ee020030f3be990f5";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</head>
+<body>
+<h1 style="font-weight:600;width:90%;margin-bottom:0px;">Linux命令 - rzsz</h1>
+<a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
+<hr />
+<h1>1、软件安装</h1>
+
+<p><strong>编译安装</strong></p>
+
+<pre><code>cd /tmp
+wget http://www.ohse.de/uwe/releases/lrzsz-0.12.20.tar.gz
+tar zxvf lrzsz-0.12.20.tar.gz &amp;&amp; cd lrzsz-0.12.20
+./configure &amp;&amp; make &amp;&amp; make install
+</code></pre>
+
+<p>创建软链接，并命名为rz/sz：</p>
+
+<pre><code>cd /usr/bin
+ln -s /usr/local/bin/lrz rz
+ln -s /usr/local/bin/lsz sz
+</code></pre>
+
+<p><strong>yum安装</strong></p>
+
+<pre><code>yum install -y lrzsz
+</code></pre>
+
+<h1>2、使用说明</h1>
+
+<p>sz命令发送文件到本地：</p>
+
+<pre><code># sz filename
+</code></pre>
+
+<p>rz命令本地上传文件到服务器：</p>
+
+<pre><code># rz
+</code></pre>
+
+<p>执行该命令后，在弹出框中选择要上传的文件即可。</p>
+
+<p>说明：打开SecureCRT软件 -&gt; Options -&gt; session options -&gt; X/Y/Zmodem 下可以设置上传和下载的目录。</p>
+
+<div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
+<div style="float:right;">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2014-01.html">2014-01-23 10:24</a></code>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/linux.html">Linux</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/rz.html">rz</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/sz.html">sz</a></code>
+</div>
+
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="linux-sz-rz" data-title="Linux命令 - rzsz" data-url="http://itopic.org/linux-sz-rz.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"itopic"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</body>
+</html>

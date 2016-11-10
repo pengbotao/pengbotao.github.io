@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Redis中批量删除KEY - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?0f0111c99240380ee020030f3be990f5";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</head>
+<body>
+<h1 style="font-weight:600;width:90%;margin-bottom:0px;">Redis中批量删除KEY</h1>
+<a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
+<hr />
+<p>Redis server went away</p>
+
+<p>查看系统日志文件时发现每天定时有该错误抛出：</p>
+
+<blockquote>
+<p>PHP Fatal error: Uncaught exception &lsquo;RedisException&rsquo; with message &lsquo;Redis server went away&rsquo;</p>
+</blockquote>
+
+<p>抛出该问题的脚本为统计脚本，需要读取前一天数据并入库，最初以为是REDIS读取太频繁造成的，但将数据导到测试机后执行脚本发现不会出现该情况，仔细调试发现手动执行时有一行代码没有执行，若执行该行则十分缓慢。该行代码为：</p>
+
+<pre><code>$Redis-&gt;delete($Redis-&gt;keys($pre_key_del.'*'));
+</code></pre>
+
+<p>查看手册有相应提示：
+&gt; KEYS 的速度非常快，但在一个大的数据库中使用它仍然可能造成性能问题，如果你需要从一个数据集中查找特定的 key ，你最好还是用 Redis 的集合结构(set)来代替。</p>
+
+<p>登录redis通过info查看，内存使用25G多，而KEY也有1.44亿了。。。REIDS中有大量无用而又未设置过期时间的KEY存在。设置个过期时间，举手之劳的事，还是有必要的。</p>
+
+<pre><code>used_memory_human:24.72G
+db0:keys=144856453,expires=25357
+</code></pre>
+
+<p>通过测试机执行 keys prefix* 导致REDIS卡死，其他连接也连不上。所以定位到问题出现在keys命令上，也正如手册上说的造成性能问题。</p>
+
+<p><strong>如何删除未用到的KEY？</strong></p>
+
+<p>大部分KEY是有规律的，有特定前缀，需要拿到特定前缀的KEY然后删除，网上有这样的命令：</p>
+
+<pre><code>redis-cli -a redis-pwd -n 0 keys &quot;preffix*&quot; | xargs redis-cli -p 6379 -a redis-pwd -n 0 del
+</code></pre>
+
+<p>测试机执行keys &ldquo;preffix-1*&ldquo;时间大概40多s，这意味着redis要停40s+，而前缀是按天设置的，这样子需要操作多次，因为业务的原因，不允许这么操作，分分钟都是钱~最后想到的办法是先从测试机上把满足条件的key导到文本，前面的语句通过cat文本去拿。如：</p>
+
+<pre><code>redis-cli -p 6380 -a redis-pwd keys &quot;preffix-1*&quot; &gt; /home/keys_redis/preffix-1
+</code></pre>
+
+<p>然后通过这些数据删掉生产环境上的key。</p>
+
+<pre><code>cat /home/keys_redis/preffix-1 | xargs redis-cli -a redis-pwd -n 0 del
+</code></pre>
+
+<p>删除的速度非常快，内存耗的也挺快，感觉像是有多少耗多少的。执行之后KEY的数量减少了95%+，内存也从25G降到了2G。不过有一个指数升高：<code>mem_fragmentation_ratio</code>，前后的memory对比：</p>
+
+<pre><code># Memory 处理前
+used_memory:26839186032
+used_memory_human:25.00G
+used_memory_rss:23518339072
+used_memory_peak:26963439000
+used_memory_peak_human:25.11G
+used_memory_lua:31744
+mem_fragmentation_ratio:0.88
+mem_allocator:jemalloc-3.2.0
+
+# Memory 处理后
+used_memory:2399386704
+used_memory_human:2.23G
+used_memory_rss:4621533184
+used_memory_peak:26963439000
+used_memory_peak_human:25.11G
+used_memory_lua:31744
+mem_fragmentation_ratio:1.93
+mem_allocator:jemalloc-3.2.0
+</code></pre>
+
+<p>mem_fragmentation_ratio的问题可能还需要优化下，从redis这个问题可以看到，设置cache的时候我们也需要考虑到cache的维护问题，是否该设置cache的过期时间，key的命名方式如何管理，不能只想着把数据塞进去就万事大吉了。</p>
+
+<div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
+<div style="float:right;">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2014-02.html">2014-02-28 22:30</a></code>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/数据库.html">数据库</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/redis.html">Redis</a></code>
+</div>
+
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="redis-delete-keys" data-title="Redis中批量删除KEY" data-url="http://itopic.org/redis-delete-keys.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"itopic"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Mysql导出表结构和数据 - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?0f0111c99240380ee020030f3be990f5";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</head>
+<body>
+<h1 style="font-weight:600;width:90%;margin-bottom:0px;">Mysql导出表结构和数据</h1>
+<a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
+<hr />
+<h1>导出数据库</h1>
+
+<pre><code>-- 导出dbname表结构
+mysqldump -uroot -p123456 -d dbname &gt; dbname.sql
+ 
+-- 导出dbname表数据
+mysqldump -uroot -p123456 -t dbname &gt; dbname.sql
+ 
+-- 导出dbname表结构和数据
+mysqldump -uroot -p123456 dbname &gt; dbname.sql
+</code></pre>
+
+<h1>导出数据库中指定表</h1>
+
+<pre><code>-- 导出dbname下的test表结构
+mysqldump -uroot -p123456 -d dbname test &gt; test.sql
+ 
+-- 导出dbname下的test表数据
+mysqldump -uroot -p123456 -t dbname test &gt; test.sql
+ 
+-- 导出dbname下的test表结构和数据
+mysqldump -uroot -p123456 dbname test &gt; test.sql
+</code></pre>
+
+<h1>还原</h1>
+
+<pre><code>-- 创建数据库
+CREATE DATABASE dbname DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+ 
+-- 还原数据库
+mysql -uroot -p123456 dbname &lt; /path/dbname.sql
+ 
+-- 还原数据库
+source dbname.sql
+ 
+-- 查看表结构
+desc wp_users;
+show create table wp_users \G;
+</code></pre>
+
+<h1>SELECT INTO OUTFILE导出</h1>
+
+<pre><code>SELECT * INTO OUTFILE 'temp.txt' 
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '&quot;' LINES TERMINATED BY '\n' 
+FROM table_name 
+WHERE createtime &lt; 1382716800;
+</code></pre>
+
+<h1>LOAD DATA 导入</h1>
+
+<pre><code>LOAD DATA INFILE '/home/temp.txt' 
+INTO TABLE table_name 
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '&quot;' LINES TERMINATED BY '\n'
+(product_id,uuid,mac,monitor,win_version,ip,createtime) ;
+</code></pre>
+
+<p>注： 从本地导入远程服务器需使用<code>LOAD DATA LOCAL INFILE</code></p>
+
+<p>确保local_infile打开且有权限的情况下LOAD DATA若报错：message:The used command is not allowed with this MySQL version</p>
+
+<p>1.mysql_connect指定第五个参数128测试，即mysql_connect($host, $user, $pwd, false, CLIENT_LOCAL_FILES)</p>
+
+<p>2.PHP中mysql扩展版本（待确认）</p>
+
+<div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
+<div style="float:right;">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2013-05.html">2013-05-15 18:15</a></code>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/数据库.html">数据库</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/mysql.html">Mysql</a></code>
+</div>
+
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="mysqldump" data-title="Mysql导出表结构和数据" data-url="http://itopic.org/mysqldump.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"itopic"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</body>
+</html>

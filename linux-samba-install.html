@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Linux下安装 Samba - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?0f0111c99240380ee020030f3be990f5";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</head>
+<body>
+<h1 style="font-weight:600;width:90%;margin-bottom:0px;">Linux下安装 Samba</h1>
+<a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
+<hr />
+<p>Samba可以实现Linux与Win之间的文件共享，在内部开发文档共享上还是极好的。</p>
+
+<h1>安装Samba</h1>
+
+<p>查看Samba是否已安装</p>
+
+<pre><code># rpm -qa | grep samba
+</code></pre>
+
+<p>通过yum直接安装Samba服务端和客户端</p>
+
+<pre><code>#yum -y install samba samba-client
+</code></pre>
+
+<h1>配置Samba</h1>
+
+<p>Samba的主配置文件为<code>/etc/samba/smb.conf</code>，这里主要达到在win下通过帐号登录linux共享即可，复杂的配置可参考最后的地址。直接在smb.conf后加上一段共享块。</p>
+
+<pre><code>[public]
+    comment = Public Files
+    path = /data/share/public
+    public = yes
+    writable = yes
+    browseable = yes
+    create mode = 0664
+    directory mode = 0775
+    write list = smbuser
+    guest ok = no
+</code></pre>
+
+<p>配置块通过TAB来缩进，拷贝出来的可能是空格。添加系统用户并将用户添加到samba账户中</p>
+
+<pre><code># useradd -s /sbin/nologin smbuser
+# smbpasswd -a smbuser
+</code></pre>
+
+<p>smbpasswd命令</p>
+
+<ul>
+<li>smbpasswd -a 增加用户（要增加的用户必须以是系统用户）</li>
+<li>smbpasswd -d 冻结用户，就是这个用户不能在登录了</li>
+<li>smbpasswd -e 恢复用户，解冻用户，让冻结的用户可以在使用</li>
+<li>smbpasswd -n 把用户的密码设置成空. 注意如果设置了&rdquo;NO PASSWORD&rdquo;之后，要允许使用者以空口令登入到Samba服务器，管理员必须在smb.conf配置档案的[global]段中设置以下的参数：null passwords = yes</li>
+<li>smbpasswd -x 删除用户</li>
+</ul>
+
+<p>测试配置是否无误 - <strong>testparm</strong></p>
+
+<p>测试Samba的设置是否正确无误，如上面的配置</p>
+
+<pre><code># testparm -s smb.conf 
+Load smb config files from smb.conf
+Processing section &quot;[public]&quot;
+Loaded services file OK.
+Server role: ROLE_STANDALONE
+[global]
+    workgroup = MYGROUP
+    server string = Samba Server Version %v
+    passdb backend = tdbsam
+    log file = /var/log/samba/%m.log
+    cups options = raw
+ 
+[public]
+    comment = Public Files
+    path = /data/share/public
+    read only = No
+</code></pre>
+
+<h1>启动Samba</h1>
+
+<p>查看Samba服务状态、启动及重启。</p>
+
+<pre><code># service smb status
+smbd (pid  30408) is running...
+nmbd (pid  30411) is running...
+ 
+# service smb stop
+Shutting down SMB services:                                [  OK  ]
+Shutting down NMB services:                                [  OK  ]
+ 
+# service smb start
+Starting SMB services:                                     [  OK  ]
+Starting NMB services:                                     [  OK  ]
+ 
+# service smb restart
+Shutting down SMB services:                                [  OK  ]
+Shutting down NMB services:                                [  OK  ]
+Starting SMB services:                                     [  OK  ]
+Starting NMB services:                                     [  OK  ]
+</code></pre>
+
+<p>设置Samba服务开机自启动</p>
+
+<pre><code># chkconfig --list | grep smb
+smb             0:off   1:off   2:off   3:off   4:off   5:off   6:off
+# chkconfig --level 35 smb on
+# chkconfig --list | grep smb
+smb             0:off   1:off   2:off   3:on    4:off   5:on    6:off
+</code></pre>
+
+<p><strong>Windows清除共享记录</strong></p>
+
+<p>通过Samba连接成功后会在本地记录登录的帐号密码，下次可直接连接，如果需要切换帐号可手动删除连接记录。
+查看访问记录</p>
+
+<pre><code>C:\Users\Administrator&gt;net use
+不记录新的网络连接。
+ 
+状态       本地        远程                      网络
+ 
+--------------------------------------------------------------------------
+OK                     \\42.121.104.209\public   Microsoft Windows Network
+命令成功完成。
+</code></pre>
+
+<p><strong>清除访问记录</strong></p>
+
+<pre><code>C:\Users\Administrator&gt;net use \\42.121.104.209\public /delete
+\\42.121.104.209\public 已经删除。
+</code></pre>
+
+<p><strong>说明</strong>：如何Window下提示没有权限访问，请与管理员管理员联系请求访问权限。则可能是selinux防火墙的问题，执行下面命令关闭selinux防火墙试试：</p>
+
+<pre><code>setenforce 0
+</code></pre>
+
+<div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
+<div style="float:right;">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2014-09.html">2014-09-25 19:52</a></code>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/linux.html">Linux</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/samba.html">Samba</a></code>
+</div>
+
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="linux-samba-install" data-title="Linux下安装 Samba" data-url="http://itopic.org/linux-samba-install.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"itopic"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</body>
+</html>
