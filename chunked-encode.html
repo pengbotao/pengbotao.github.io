@@ -17,9 +17,9 @@
     </script>
 </head>
 <body>
-<h1 style="font-weight:600;width:90%;margin-bottom:0px;">HTTP Chunked编码</h1>
-<a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
-<hr />
+<h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">HTTP Chunked编码</h1>
+<a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
+
 <p>前不久同事调接口时发现了一个奇怪的问题，直接使用CURL请求接口，返回没有问题；而通过Socket请求时返回的信息多了两行。查看HTTP响应头发现，有时候会指定Content-Length，有时则是Transfer-Encoding: chunked。当chunked编码时，通过socket请求就出错。而如果此时服务端指定返回的长度则没问题。</p>
 
 <p>问题就出在此！通常情况下会通过Content-Length来指定返回内容的长度，而有些时候无法确定长度时，可采用chunked编码动态返回。</p>
