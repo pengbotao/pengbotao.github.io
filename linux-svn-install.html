@@ -29,7 +29,7 @@
 # svnadmin create itopic
 </code></pre>
 
-<p>采用branches/tags/trunk目录结构</p>
+<p>采用branches/tags/trunk目录结构，从某个目录导入到SVN（可选）。</p>
 
 <pre><code># mkdir -p code/{branches,tags,trunk}
 # svn import code file:///data/svndata/itopic -m &quot;init&quot;
@@ -93,10 +93,15 @@ kim = rw
 <pre><code># svnserve -d -r /data/svndata
 </code></pre>
 
-<p>单个项目启动方式</p>
+<p>单个项目启动方式。</p>
 
 <pre><code># svnserve -d  -r /data/svndata/itopic
 # svnserve -d --listen-port 3691 -r /data/svndata/laozi
+</code></pre>
+
+<p>单项目启动时[itopic:/]需要配置为 [/]，如上面的authz配置启动方式为：</p>
+
+<pre><code># svnserve -d  -r /data/svndata
 </code></pre>
 
 <p>开机启动</p>
@@ -201,9 +206,11 @@ svn help ci
 
 <p>14、创建纳入版本控制下的新目录</p>
 
-<p><code>svn mkdir</code>: 创建纳入版本控制下的新目录。用法:
-1、mkdir PATH…
-2、mkdir URL…</p>
+<p><code>svn mkdir</code>: 创建纳入版本控制下的新目录。用法:</p>
+
+<pre><code>1、mkdir PATH…
+2、mkdir URL…
+</code></pre>
 
 <p>创建版本控制的目录。</p>
 
@@ -215,7 +222,9 @@ svn help ci
 
 <p>15、恢复本地修改</p>
 
-<p><code>svn revert</code>: 恢复原始未改变的工作副本文件 (恢复大部份的本地修改)。<code>revert</code>:用法:</p>
+<p><code>svn revert</code>: 恢复原始未改变的工作副本文件 (恢复大部份的本地修改)。</p>
+
+<p><code>revert</code>用法:</p>
 
 <pre><code>revert PATH…
 </code></pre>
