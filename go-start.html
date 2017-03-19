@@ -20,7 +20,7 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Golang环境搭建</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>Go安装</h1>
+<h1>一、Go安装</h1>
 
 <p>Go的安装方式比较简单，没有什么依赖，直接通过官网下载即可。</p>
 
@@ -36,7 +36,7 @@
 
 <p><img src="/static/uploads/golang-start.png" alt="" /></p>
 
-<h2>添加环境变量</h2>
+<h2>1.1 添加环境变量</h2>
 
 <p>GO的开发过程中还需要配置一些环境变量，GO程序依赖这些配置，所以必须得配。</p>
 
@@ -68,7 +68,7 @@
 
 <p>接下来试试Hello World.</p>
 
-<h2>Go Hello World</h2>
+<h2>1.2 Go Hello World</h2>
 
 <p>在<code>/Users/peng/workspace/golang/src</code>下创建<code>hello.go</code>，内容如下：</p>
 
@@ -95,7 +95,7 @@ func main() {
 go run hello.go
 </code></p>
 
-<h2>常用命令</h2>
+<h2>1.3 常用命令</h2>
 
 <p>前面执行<code>go</code>命令的过程就可以看到go的一些常用命令。介绍几个常用的命令：</p>
 
@@ -109,7 +109,7 @@ go run hello.go
 
 <p>到这里已经对go有个基本的认识，接下来说下一下IDE的配置，接触过的IDE有LiteIDE和VScode，两个都跨平台，开发go程序也非常方便，还有一些其他的IDE，比如：sublime、GoEclipse等等。这里着重介绍下vscode。</p>
 
-<h1>VsCode IDE介绍</h1>
+<h1>二、VsCode IDE介绍</h1>
 
 <p>安装vscode的<code>Go</code>扩展，首选项里配置GO路径(win下为分号)：</p>
 
@@ -136,7 +136,7 @@ go get -v github.com/cweill/gotests/...
 
 <p>go的包管理非集中式的，当一个地方不通的时候，可以考虑换个仓库去试。</p>
 
-<h2>VsCode常用操作</h2>
+<h2>2.1 VsCode常用操作</h2>
 
 <ul>
 <li><code>ctrl+shift+p</code>(<code>cmd+shift+p</code>)或<code>F1</code>:打开命令面板。</li>

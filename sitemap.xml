@@ -2,9 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <url>
       <loc>http://itopic.org/</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>weekly</changefreq>
       <priority>1</priority>
+   </url>
+   <url>
+      <loc>http://itopic.org/graphviz.html</loc>
+      <lastmod>2017-03-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.9</priority>
    </url>
    <url>
       <loc>http://itopic.org/thirty-years-old.html</loc>
@@ -439,506 +445,524 @@
       <priority>0.9</priority>
    </url>
    <url>
+      <loc>http://itopic.org/2017-03.html</loc>
+      <lastmod>2017-03-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.2</priority>
+   </url>
+   <url>
       <loc>http://itopic.org/2016-12.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2016-11.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2016-08.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2016-07.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2016-06.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2016-05.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2016-01.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2015-12.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2015-06.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2015-05.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2015-04.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2015-03.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2014-09.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2014-08.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2014-07.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2014-04.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2014-03.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2014-02.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2014-01.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2013-12.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2013-11.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2013-10.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2013-06.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2013-05.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2013-04.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2013-03.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/2013-01.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/markdown.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/c%2B%2B.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/cmake.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/c.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/gcc.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E7%BA%BF%E7%A8%8B.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E6%8C%87%E9%92%88.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E5%BC%95%E7%94%A8.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/golang.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/vscode.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/lua.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/php.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/codeigniter.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/http.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/workerman.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/swoole.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/twig.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/rbac.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/rsa.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/session.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E4%BD%8D%E8%BF%90%E7%AE%97.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/python.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/jquery.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/validate.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/uploadify.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/charles.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/eclipse.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/git.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/jmeter.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.2</priority>
+   </url>
+   <url>
+      <loc>http://itopic.org/tag/graphviz.html</loc>
+      <lastmod>2017-03-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.2</priority>
+   </url>
+   <url>
+      <loc>http://itopic.org/tag/dot.html</loc>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/burpsuite.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/confluence.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E6%95%B0%E6%8D%AE%E5%BA%93.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/mysql.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/redis.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/twemproxy.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/linux.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/memcache.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/nginx.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/svn.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/samba.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/vsftp.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/convert.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/rz.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/sz.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/scp.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/split.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/tar.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/phpize.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E9%9A%8F%E7%AC%94.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E5%90%90%E6%A7%BD.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
       <loc>http://itopic.org/tag/%E8%A7%84%E8%8C%83.html</loc>
-      <lastmod>2017-03-12</lastmod>
+      <lastmod>2017-03-19</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
    </url>
