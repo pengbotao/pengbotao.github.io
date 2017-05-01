@@ -173,7 +173,8 @@ Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
 
 <p>将安装路径C:/soft/mysql-5.7.11-winx64/bin添加到环境变量；并将mysql-default.ini重命名为my.ini，设置相关路径</p>
 
-<pre><code>basedir = C:/soft/mysql-5.7.11-winx64
+<pre><code>[mysqld]
+basedir = C:/soft/mysql-5.7.11-winx64
 datadir = C:/soft/mysql-5.7.11-winx64/data
 character_set_server = utf8
 port = 3306
@@ -210,9 +211,12 @@ port = 3306
 <p>修改密码：</p>
 
 <pre><code>mysql&gt; use mysql;
-mysql&gt; UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';
+-- mysql&gt; UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';
+**mysql&gt; set password = '123456';**
 mysql&gt; FLUSH PRIVILEGES;
 </code></pre>
+
+<p>报缺少<code>MSVCR120.dll</code>需安装<code>Visual C++ Redistributable Packages for Visual Studio 2013</code></p>
 
 <h1>四、Redis服务端安装</h1>
 
