@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Vscode常用配置 - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?0f0111c99240380ee020030f3be990f5";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</head>
+<body>
+<h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Vscode常用配置</h1>
+<a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
+
+<h1>一、关于VSCode</h1>
+
+<p>在 Build 2015 大会上，微软除了发布了 Microsoft Edge 浏览器和新的 Windows 10 系统外，最大的惊喜莫过于宣布推出免费跨平台的 Visual Studio Code 编辑器了！</p>
+
+<p>Visual Studio Code (简称 VS Code / VSC) 是一款免费开源的现代化轻量级代码编辑器，支持几乎所有主流的开发语言的语法高亮、智能代码补全、自定义热键、括号匹配、代码片段、代码对比 Diff、GIT 等特性，支持插件扩展，并针对网页开发和云端应用开发做了优化。软件跨平台支持 Win、Mac 以及 Linux，运行流畅，可谓是微软的良心之作</p>
+
+<h2>1.1 整体体验</h2>
+
+<p>体验过<code>UltraEdit</code>、<code>Notepadd++</code>、<code>Atom</code>、<code>Sublime</code>等编辑器，但入手VSCode后感觉挺适合自己，整体比较清爽简洁，风格还比较喜欢，自带命令行终端、Git、文件对比、Markdown等功能。目前已成为主力编辑器。</p>
+
+<h2>1.2 软件安装</h2>
+
+<p>VSCode为跨平台编辑器，下载安装包安装即可。</p>
+
+<h2>1.3 手感调试</h2>
+
+<p>编辑器安装好之后已可以满足大部分功能，这里从自身开发角度来看还有一些痛点。而这些可以通过一些扩展的方式来解决。本文主要记录一下使用到的扩展。</p>
+
+<h1>二、常用扩展</h1>
+
+<p>目前已安装的扩展：</p>
+
+<p># /Users/peng/.vscode/extensions</p>
+
+<pre><code>drwxr-xr-x  10 peng  staff   340B  6 28 07:25 AlanWalk.markdown-toc-1.5.5
+drwxr-xr-x  16 peng  staff   544B  7  8 22:47 DotJoshJohnson.xml-1.9.2
+drwxr-xr-x   9 peng  staff   306B  5  5 23:02 Stephanvs.dot-0.0.1
+drwxr-xr-x  11 peng  staff   374B  7  9 12:41 alefragnani.project-manager-0.18.1
+drwxr-xr-x  11 peng  staff   374B  7  4 10:21 donjayamanne.githistory-0.2.1
+drwxr-xr-x  22 peng  staff   748B  7  8 22:47 donjayamanne.python-0.6.7
+drwxr-xr-x  17 peng  staff   578B  7  8 22:47 felixfbecker.php-intellisense-1.4.3
+drwxr-xr-x  22 peng  staff   748B  7  9 12:23 jebbs.plantuml-2.0.1
+drwxr-xr-x   9 peng  staff   306B  5  5 23:08 keyring.lua-0.0.9
+drwxr-xr-x  18 peng  staff   612B  7  8 22:47 lukehoban.go-0.6.62
+drwxr-xr-x   9 peng  staff   306B  3 23 22:50 mohsen1.prettify-json-0.0.3
+drwxr-xr-x   9 peng  staff   306B  7  9 13:03 patrys.vscode-code-outline-0.0.7
+</code></pre>
+
+<h2>2.1 Project Manager</h2>
+
+<p>Vscode本身是不可以在一个窗口打开多个文件夹的，要打开多个文件夹要在新建窗口中打开，并且下次打开时可能还需要重新添加这个文件夹。这个扩展主要用来解决多个Project的保存、以及Project之间的切换问题，将文件夹加入到Project之后可以快速的在不同文件夹之间切换。</p>
+
+<h2>2.2 PHP IntelliSense</h2>
+
+<p>PHP开发用到，可以补全及函数之间跳转。</p>
+
+<h2>2.3 Git Histroy(git log)</h2>
+
+<p>Vscode自带了Git功能，这个插件可以方便查看Git日志。</p>
+
+<h2>2.4 Go</h2>
+
+<p>用VScode开发Go语言程序很舒服，起初使用VScode也是因为Go开发。</p>
+
+<h2>2.5 Markdown TOC</h2>
+
+<p>Vscode已经自带关于Markdown的预览，但格式不是Github上的样式，调整为Github样式方法可参考：<code>https://github.com/Yukaii/vscode-markdown-github-css</code>，样式文件：</p>
+
+<ul>
+<li><a href="/static/uploads/github-markdown.css">github-markdown.css</a></li>
+<li><a href="/static/uploads/github.css">github.css</a></li>
+</ul>
+
+<p><code>Markdown TOC</code>主要用来生成TOC，有一些地方无法解析TOC语法，可以用这个扩展直接生成目录。</p>
+
+<p>关于Markdown的一些其他插件也装过，但并不是十分顺手，主要还是用自带的预览或者专业的Markdown编辑器。</p>
+
+<h2>2.6 Code Outline</h2>
+
+<p>开发过程中有些人会习惯使用<code>Outline</code>的功能，没有大纲这个功能开发上感觉总别扭，还好VSCode上有这么个扩展可以看到函数、变量列表。</p>
+
+<p>虽然自带的<code>Ctrl+Shift+O</code>可以列出一些，但感觉还是不太好用，一方面列的信息可能比较多，另一方面列出的信息无法固定在编辑器窗口。</p>
+
+<h2>2.7 PlantUML</h2>
+
+<p>画图扩展，可以用来画一些图，可以实时预览。Dot语法解析可以安装<code>Graphviz (dot) language support for Visual Studio Code</code></p>
+
+<h2>2.8 Python</h2>
+
+<p>Python开发扩展。</p>
+
+<h2>2.9 Prettify JSON</h2>
+
+<p>格式化JSON内容，有些时候需要格式化JSON，可以直接拷贝内容到编辑器格式化比较方便。</p>
+
+<h2>2.10 XML Tools</h2>
+
+<p>格式化XML内容，同JSON。开发过程中经常碰到这些格式，使用的也还频繁。</p>
+
+<h1>三、其他功能</h1>
+
+<h2>3.1 文件对比</h2>
+
+<p>在编辑器中打开两个文件，打开的编辑器文件列表中，选中一个文件后右键选择<code>选择以进行比较</code>，然后在另外一个文件选择与它对比即可。</p>
+
+<h2>3.2 命令行</h2>
+
+<p><code>ctrl+反引号</code>可以打开终端，这个功能也非常赞。</p>
+
+<h1>四、配置文件</h1>
+
+<h2>3.1 settings.json</h2>
+
+<pre><code>{
+    &quot;editor.fontSize&quot;: 14,
+    &quot;editor.fontFamily&quot;: &quot;'Courier New', monospace&quot;,
+    &quot;editor.wordWrap&quot;: &quot;on&quot;,
+    &quot;editor.renderWhitespace&quot;: &quot;all&quot;,
+    &quot;editor.renderControlCharacters&quot;: true,
+    &quot;editor.minimap.enabled&quot;: true,
+    &quot;editor.scrollBeyondLastLine&quot;: false,
+    &quot;editor.renderIndentGuides&quot;:false,
+    &quot;terminal.integrated.fontSize&quot;: 14,
+    &quot;terminal.integrated.cursorBlinking&quot;: true,
+    &quot;terminal.integrated.lineHeight&quot;: 1.3,
+    &quot;terminal.integrated.cursorStyle&quot;: &quot;underline&quot;,
+    &quot;workbench.welcome.enabled&quot;: true,
+    &quot;workbench.sideBar.location&quot;: &quot;left&quot;,
+    &quot;workbench.activityBar.visible&quot;: false,
+    &quot;workbench.statusBar.visible&quot;: true,
+    &quot;workbench.editor.enablePreview&quot;: false,
+    &quot;window.zoomLevel&quot;: 0,
+    &quot;php.validate.executablePath&quot;: &quot;/usr/local/server/php7.1.2/bin/php&quot;,
+    &quot;php.executablePath&quot;: &quot;/usr/local/server/php7.1.2/bin/php&quot;,
+    &quot;window.title&quot;: &quot;${activeEditorLong}&quot;,
+
+    &quot;go.gopath&quot;:&quot;/usr/local/server/gopath:/Users/peng/workspace/golang&quot;,
+    &quot;go.goroot&quot;: &quot;/usr/local/server/go1.8&quot;,
+    &quot;markdown.styles&quot;: [
+        &quot;/Users/peng/.vscode/github-markdown.css&quot;,
+        &quot;/Users/peng/.vscode/github.css&quot;
+    ],
+    &quot;workbench.colorTheme&quot;: &quot;Visual Studio Light&quot;
+}
+</code></pre>
+
+<h2>3.2 keybindings.json</h2>
+
+<pre><code>[
+    { &quot;key&quot;: &quot;ctrl+shift+`&quot;, &quot;command&quot;: &quot;workbench.action.toggleMaximizedPanel&quot; },
+    { &quot;key&quot;: &quot;ctrl+shift+j&quot;, &quot;command&quot;: &quot;extension.prettifyJSON&quot;, &quot;when&quot;: &quot;editorTextFocus&quot; },
+    { &quot;key&quot;: &quot;ctrl+shift+x&quot;, &quot;command&quot;: &quot;xmlTools.formatAsXml&quot; }
+]
+</code></pre>
+
+<div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
+<div style="float:right;">
+    <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2017-05.html">2017-05-20 10:42</a></code>
+</div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/vscode.html">vscode</a></code>
+</div>
+
+<BR>
+
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href, 
+    sourceId: "vscode",
+    productKey: "47a1277aece74470855c0e74c1208eaf",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+</body>
+</html>
