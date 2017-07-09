@@ -20,7 +20,43 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Windows下Web环境配置</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>一、Nginx安装</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#一-nginx安装">一、Nginx安装</a>
+<ul>
+<li><a href="#1-1-配置文件">1.1 配置文件</a></li>
+<li><a href="#1-2-示例站点">1.2 示例站点</a></li>
+</ul></li>
+<li><a href="#二-php安装">二、PHP安装</a>
+<ul>
+<li><a href="#2-1-下载及安装">2.1 下载及安装</a></li>
+<li><a href="#2-2-解压及配置">2.2 解压及配置</a>
+<ul>
+<li><a href="#2-2-1-修改php扩展路径">2.2.1 修改PHP扩展路径</a></li>
+<li><a href="#2-2-2-打开常用扩展">2.2.2 打开常用扩展</a></li>
+<li><a href="#2-2-3-打开错误显示及设置错误级别">2.2.3 打开错误显示及设置错误级别</a></li>
+<li><a href="#2-2-4-设置时区">2.2.4 设置时区</a></li>
+</ul></li>
+<li><a href="#2-3-命令行运行">2.3 命令行运行</a></li>
+<li><a href="#2-4-启动php">2.4 启动PHP</a></li>
+<li><a href="#2-5-php扩展">2.5 PHP扩展</a></li>
+</ul></li>
+<li><a href="#三-mysql安装">三、Mysql安装</a>
+<ul>
+<li><a href="#3-1-下载">3.1 下载</a></li>
+<li><a href="#3-2-配置">3.2 配置</a></li>
+<li><a href="#3-3-安装mysql为系统服务">3.3 安装Mysql为系统服务</a></li>
+<li><a href="#3-4-mysql初始化">3.4 Mysql初始化</a></li>
+<li><a href="#3-5-启动mysql">3.5 启动Mysql</a></li>
+<li><a href="#3-6-登录mysql">3.6 登录Mysql</a></li>
+</ul></li>
+<li><a href="#四-redis服务端安装">四、Redis服务端安装</a></li>
+<li><a href="#五-php-nginx-启动">五、PHP、Nginx、启动</a></li>
+</ul>
+</nav>
+
+<h1 id="一-nginx安装">一、Nginx安装</h1>
 
 <blockquote>
 <p>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。</p>
@@ -38,14 +74,14 @@
 
 <p><img src="/static/uploads/nginx-start.png" alt="" /></p>
 
-<h2>1.1 配置文件</h2>
+<h2 id="1-1-配置文件">1.1 配置文件</h2>
 
 <p>nginx配置文件位于./conf/nginx.conf。这里采用vhost的方式来配置nginx，即一个站点配置在一个文件中，主配置文件引入该配置文件即可。nginx.conf文件引入vhost配置文件方式为在http区域增加以下部分，并创建vhost目录。</p>
 
 <pre><code>include vhost/*.conf;
 </code></pre>
 
-<h2>1.2 示例站点</h2>
+<h2 id="1-2-示例站点">1.2 示例站点</h2>
 
 <p>假设现在需要配置一个后台站点，我们可以设定访问域名为 <a href="http://asm_admin.local">http://asm_admin.local</a> ，然后创建vhost/asm_admin.conf，写如以下配置信息：</p>
 
@@ -76,9 +112,9 @@
 <pre><code>fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
 </code></pre>
 
-<h1>二、PHP安装</h1>
+<h1 id="二-php安装">二、PHP安装</h1>
 
-<h2>2.1 下载及安装</h2>
+<h2 id="2-1-下载及安装">2.1 下载及安装</h2>
 
 <p>可直接通过PHP官网下载PHP包，下载地址：<a href="http://php.net/downloads.php">http://php.net/downloads.php</a> ，Window用户点击Windows downloads即可跳转到Windows下的下载页面。可发现有多种包可选，VC11、VC14；X86、X64；Non Thread Safe与Thread Safe</p>
 
@@ -102,16 +138,16 @@
 
 <p>Thread Safe就是线程安全，执行时会进行线程（thread）安全检查，以防止有新要求就启动新线程的 CGI 执行方式耗尽系统资源。Apache选择次类型。</p>
 
-<h2>2.2 解压及配置</h2>
+<h2 id="2-2-解压及配置">2.2 解压及配置</h2>
 
 <p>下载对应的包后解压，并将PHP路径设置在环境变量PATH中，开发环境将根目录中的php.ini-development拷贝并重命名为php.ini</p>
 
-<h3>2.2.1 修改PHP扩展路径</h3>
+<h3 id="2-2-1-修改php扩展路径">2.2.1 修改PHP扩展路径</h3>
 
 <pre><code>extension_dir = &quot;C:/soft/php-7.0.4-nts-Win32-VC14-x64/ext&quot;
 </code></pre>
 
-<h3>2.2.2 打开常用扩展</h3>
+<h3 id="2-2-2-打开常用扩展">2.2.2 打开常用扩展</h3>
 
 <pre><code>extension=php_curl.dll
 extension=php_gd2.dll
@@ -123,18 +159,18 @@ extension=php_xmlrpc.dll
 extension=php_sockets.dll
 </code></pre>
 
-<h3>2.2.3 打开错误显示及设置错误级别</h3>
+<h3 id="2-2-3-打开错误显示及设置错误级别">2.2.3 打开错误显示及设置错误级别</h3>
 
 <pre><code>error_reporting = E_ALL
 display_errors = On
 </code></pre>
 
-<h3>2.2.4 设置时区</h3>
+<h3 id="2-2-4-设置时区">2.2.4 设置时区</h3>
 
 <pre><code>date.timezone = PRC
 </code></pre>
 
-<h2>2.3 命令行运行</h2>
+<h2 id="2-3-命令行运行">2.3 命令行运行</h2>
 
 <p>输入php -v，查看PHP版本信息，看到下面输出则表示成功。</p>
 
@@ -144,7 +180,7 @@ Copyright (c) 1997-2016 The PHP Group
 Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
 </code></pre>
 
-<h2>2.4 启动PHP</h2>
+<h2 id="2-4-启动php">2.4 启动PHP</h2>
 
 <p>本地PHP路径为C:/soft/php-7.0.4-nts-Win32-VC14-x64/则，命令行执行下列命令：</p>
 
@@ -153,7 +189,7 @@ Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
 
 <p>执行后无任何输出则表示启动成功，配合前面的Nginx，创建文件输出phpinfo并访问，如果能正确访问则说明PHP和Nginx安装成功。</p>
 
-<h2>2.5 PHP扩展</h2>
+<h2 id="2-5-php扩展">2.5 PHP扩展</h2>
 
 <p>项目需要用到REDIS，PHP需安装REDIS扩展，下载地址： <a href="http://windows.php.net/downloads/pecl/snaps/redis/">http://windows.php.net/downloads/pecl/snaps/redis/</a>
 选择对应的版本下载后将php_redis.dll放到extension_dir指定的ext目录中。php.ini中新增</p>
@@ -163,13 +199,13 @@ Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
 
 <p>重启PHP，查看phpinfo中是否出现redis扩展，若出现则表示安装成功。</p>
 
-<h1>三、Mysql安装</h1>
+<h1 id="三-mysql安装">三、Mysql安装</h1>
 
-<h2>3.1 下载</h2>
+<h2 id="3-1-下载">3.1 下载</h2>
 
 <p>下载地址： <a href="http://dev.mysql.com/downloads/mysql/">http://dev.mysql.com/downloads/mysql/</a> ，选择对应版本下载后直接解压缩即可。</p>
 
-<h2>3.2 配置</h2>
+<h2 id="3-2-配置">3.2 配置</h2>
 
 <p>将安装路径C:/soft/mysql-5.7.11-winx64/bin添加到环境变量；并将mysql-default.ini重命名为my.ini，设置相关路径</p>
 
@@ -180,7 +216,7 @@ character_set_server = utf8
 port = 3306
 </code></pre>
 
-<h2>3.3 安装Mysql为系统服务</h2>
+<h2 id="3-3-安装mysql为系统服务">3.3 安装Mysql为系统服务</h2>
 
 <p>命令行执行</p>
 
@@ -189,7 +225,7 @@ port = 3306
 
 <p>#移除服务命令为：mysqld -remove</p>
 
-<h2>3.4 Mysql初始化</h2>
+<h2 id="3-4-mysql初始化">3.4 Mysql初始化</h2>
 
 <pre><code>mysqld --initialize
 </code></pre>
@@ -198,12 +234,12 @@ port = 3306
 
 <p>A temporary password is generated for root@localhost: 2r-Pdtkihlu5</p>
 
-<h2>3.5 启动Mysql</h2>
+<h2 id="3-5-启动mysql">3.5 启动Mysql</h2>
 
 <pre><code>net start/stop mysql
 </code></pre>
 
-<h2>3.6 登录Mysql</h2>
+<h2 id="3-6-登录mysql">3.6 登录Mysql</h2>
 
 <pre><code>mysql -u root -p
 </code></pre>
@@ -218,11 +254,11 @@ mysql&gt; FLUSH PRIVILEGES;
 
 <p>报缺少<code>MSVCR120.dll</code>需安装<code>Visual C++ Redistributable Packages for Visual Studio 2013</code></p>
 
-<h1>四、Redis服务端安装</h1>
+<h1 id="四-redis服务端安装">四、Redis服务端安装</h1>
 
 <p>这里为Redis服务端，本地需要用到Redis的场景可直接连接本机的Redis，Win下直接下载即可使用。64位可直接<a href="/static/attachments/Redis-x64-2.8.2400.zip">点此下载</a>。</p>
 
-<h1>五、PHP、Nginx、启动</h1>
+<h1 id="五-php-nginx-启动">五、PHP、Nginx、启动</h1>
 
 <p>前面PHP的启动命令输入后命令行窗口不可关掉，关掉后PHP就退出了， 所以需要把PHP放后台执行，系统需要先安装一个<a href="/static/attachments/2010-5-RunHiddenConsole.zip">RunHiddenConsole.exe</a>（解压后放在system32目录），然后可以直接将启动命令写在一个批处理脚本，如：</p>
 
@@ -312,6 +348,7 @@ pause
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

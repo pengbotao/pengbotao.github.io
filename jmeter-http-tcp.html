@@ -20,11 +20,27 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">JMeter压力测试HTTP&TCP</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>一、概述</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#一-概述">一、概述</a></li>
+<li><a href="#二-安装与启动">二、安装与启动</a></li>
+<li><a href="#三-常规测试-http">三、常规测试 - HTTP</a>
+<ul>
+<li><a href="#3-1-添加线程组">3.1 添加线程组</a></li>
+<li><a href="#3-2-添加采样器">3.2 添加采样器</a></li>
+<li><a href="#3-3-添加监视器">3.3 添加监视器</a></li>
+<li><a href="#3-4-运行">3.4 运行</a></li>
+</ul></li>
+<li><a href="#四-tcp压测">四、TCP压测</a></li>
+</ul>
+</nav>
+
+<h1 id="一-概述">一、概述</h1>
 
 <p>Apache JMeter是Apache组织开发的基于Java的压力测试工具。用于对软件做压力测试，它最初被设计用于Web应用测试但后来扩展到其他测试领域。 它可以用于测试静态和动态资源例如静态文件、Java 小服务程序、CGI 脚本、Java 对象、数据库， FTP 服务器， 等等。JMeter 可以用于对服务器、网络或对象模拟巨大的负载，来自不同压力类别下测试它们的强度和分析整体性能。另外，JMeter能够对应用程序做功能/回归测试，通过创建带有断言的脚本来验证你的程序返回了你期望的结果。为了最大限度的灵活性，JMeter允许使用正则表达式创建断言。</p>
 
-<h1>二、安装与启动</h1>
+<h1 id="二-安装与启动">二、安装与启动</h1>
 
 <p>下载地址： <a href="http://jmeter.apache.org/download_jmeter.cgi">http://jmeter.apache.org/download_jmeter.cgi</a></p>
 
@@ -32,9 +48,9 @@
 
 <p><img src="/static/uploads/jmeter-start.png" alt="" /></p>
 
-<h1>三、常规测试 - HTTP</h1>
+<h1 id="三-常规测试-http">三、常规测试 - HTTP</h1>
 
-<h2>3.1 添加线程组</h2>
+<h2 id="3-1-添加线程组">3.1 添加线程组</h2>
 
 <p>测试计划 -&gt; 添加 -&gt; <code>Threads(User)</code> -&gt; 线程组，添加后进入如下界面：</p>
 
@@ -48,7 +64,7 @@
 
 <p>默认为1个线程执行1次，可等请求调通后再修改此处。</p>
 
-<h2>3.2 添加采样器</h2>
+<h2 id="3-2-添加采样器">3.2 添加采样器</h2>
 
 <p>样器可理解为针对前面创建的线程需要做什么事情，这里以添加HTTP请求为例。</p>
 
@@ -58,11 +74,11 @@
 
 <p>从界面上可以看到，分别可以对GET和POST进行压测。同时需要设置请求的域名或IP，端口，请求路径等等参数。同时可以上传文件、设置代理等。</p>
 
-<h2>3.3 添加监视器</h2>
+<h2 id="3-3-添加监视器">3.3 添加监视器</h2>
 
 <p>监视器可以理解为针对结果的不同查看方式。JMeter里提供了多种结果表现形式。可通过 HTTP请求 -&gt; 添加 -&gt; 监视器 -&gt; 察看结果树、聚合报告等等。</p>
 
-<h2>3.4 运行</h2>
+<h2 id="3-4-运行">3.4 运行</h2>
 
 <p>切换到察看结果树页面，点击工具栏上的绿色执行按钮。如果请求没错会看到HTTP请求的绿色图标。</p>
 
@@ -135,7 +151,7 @@
 </tbody>
 </table>
 
-<h1>四、TCP压测</h1>
+<h1 id="四-tcp压测">四、TCP压测</h1>
 
 <p>官方TCP文档： <a href="https://wiki.apache.org/jmeter/UserManual/Reference/TcpSampler">https://wiki.apache.org/jmeter/UserManual/Reference/TcpSampler</a></p>
 
@@ -190,6 +206,7 @@
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

@@ -20,7 +20,21 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">CodeIgniter项目初始化</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>一、目录结构</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#一-目录结构">一、目录结构</a></li>
+<li><a href="#二-环境配置-svn配置">二、环境配置、SVN配置</a></li>
+<li><a href="#三-权限-调试-项目发布">三、权限、调试、项目发布</a>
+<ul>
+<li><a href="#3-1-目录权限">3.1. 目录权限</a></li>
+<li><a href="#3-2-开启调试">3.2 开启调试</a></li>
+</ul></li>
+<li><a href="#3-3-项目发布">3.3 项目发布</a></li>
+</ul>
+</nav>
+
+<h1 id="一-目录结构">一、目录结构</h1>
 
 <p>CodeIgniter框架已帮我们配置好了项目目录结构，来看看<code>Codeigniter</code>的目录结构：</p>
 
@@ -46,7 +60,7 @@
 
 <p>最后回头看看自己的项目，日志文件是否乱放而且在可访问的目录下，不该访问到的缓存、模版文件是否都可以访问到，一些备份的文件是否也直接在根目录下？</p>
 
-<h1>二、环境配置、SVN配置</h1>
+<h1 id="二-环境配置-svn配置">二、环境配置、SVN配置</h1>
 
 <p>先来看一个实际的例子，项目中存在这样一个配置文件：</p>
 
@@ -126,13 +140,13 @@ $KEY_INFO = array(
 
 <p><strong>SVN应尽可能的保持干净，以免因疏忽而导致提交异常代码到SVN，从而影响到其他人的开发效率和生产环境的正常功能。</strong></p>
 
-<h1>三、权限、调试、项目发布</h1>
+<h1 id="三-权限-调试-项目发布">三、权限、调试、项目发布</h1>
 
 <p>碰到过这样子的情况，测试环境部署某个项目，配置好了站点以及修改权限等配置后可以访问，但登录提交却直接刷新本页面，没有正常跳转到其他地址，后来查找原因是某个目录没有写权限。我们在开发的时候自己常常比较清楚该怎么配置，但后面他人接手时就不会这么清楚了。所以开发的时候我们应当尽可能的减少一些不必要的异常，这里完全可以把该目录移到cache目录下。</p>
 
 <p>接下来看看CI初始化时还需要做的一些事情：</p>
 
-<h2>3.1. 目录权限</h2>
+<h2 id="3-1-目录权限">3.1. 目录权限</h2>
 
 <p>application目录的cache目录和logs目录分别用来存放缓存和日志文件，需要设置为递归可写。</p>
 
@@ -146,7 +160,7 @@ $KEY_INFO = array(
 
 <p><strong>log：</strong> 主要用来记录运行日志，开启系统日志后会在该目录下生成log-{date}.php的日志文件。</p>
 
-<h2>3.2 开启调试</h2>
+<h2 id="3-2-开启调试">3.2 开启调试</h2>
 
 <p>CI中允许你开启或禁用评测器，评测器将在页的底部显示测试基准点或调试、优化需要的其他数据。在控制器任何位置插入下面语句即可。</p>
 
@@ -161,7 +175,7 @@ $KEY_INFO = array(
 <li>3、 设置database.php中的调试开关（db_debug），开启调试，有SQL出错将直接在页面上打印，方便查看。</li>
 </ul>
 
-<h1>3.3 项目发布</h1>
+<h1 id="3-3-项目发布">3.3 项目发布</h1>
 
 <p>1、发布PHP代码和创建相应数据库，并更改服务器配置增加新的站点并指向到public目录。</p>
 
@@ -241,6 +255,7 @@ RewriteRule . index.php
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

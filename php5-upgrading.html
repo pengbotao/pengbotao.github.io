@@ -20,6 +20,59 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">PHP5.2至5.6的新增功能详解</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#php5-2以前">PHP5.2以前</a>
+<ul>
+<li><a href="#autoload">autoload</a></li>
+<li><a href="#pdo-和-mysqli">PDO 和 MySQLi</a></li>
+<li><a href="#类型约束">类型约束</a></li>
+</ul></li>
+<li><a href="#php5-2">PHP5.2</a>
+<ul>
+<li><a href="#json-支持">JSON 支持</a></li>
+</ul></li>
+<li><a href="#php5-3">PHP5.3</a>
+<ul>
+<li><a href="#弃用的功能">弃用的功能</a>
+<ul>
+<li><a href="#register-globals">Register Globals</a></li>
+<li><a href="#magic-quotes">Magic Quotes</a></li>
+<li><a href="#safe-mode">Safe Mode</a></li>
+</ul></li>
+<li><a href="#匿名函数">匿名函数</a></li>
+<li><a href="#魔术方法-invoke-callstatic">魔术方法：__invoke(), __callStatic()</a></li>
+<li><a href="#命名空间">命名空间</a></li>
+<li><a href="#后期静态绑定">后期静态绑定</a></li>
+<li><a href="#heredoc-和-nowdoc">Heredoc 和 Nowdoc</a></li>
+<li><a href="#用-const-定义常量">用 const 定义常量</a></li>
+<li><a href="#三元运算符简写形式">三元运算符简写形式</a></li>
+<li><a href="#phar">Phar</a></li>
+</ul></li>
+<li><a href="#php5-4">PHP5.4</a>
+<ul>
+<li><a href="#short-open-tag">Short Open Tag</a></li>
+<li><a href="#数组简写形式">数组简写形式</a></li>
+<li><a href="#traits">Traits</a></li>
+<li><a href="#内置-web-服务器">内置 Web 服务器</a></li>
+<li><a href="#细节修改">细节修改</a></li>
+</ul></li>
+<li><a href="#php5-5">PHP5.5</a>
+<ul>
+<li><a href="#yield">yield</a></li>
+<li><a href="#list-用于-foreach">list() 用于 foreach</a></li>
+<li><a href="#细节修改-1">细节修改</a></li>
+</ul></li>
+<li><a href="#php5-6">PHP5.6</a>
+<ul>
+<li><a href="#更好的常量">更好的常量</a></li>
+<li><a href="#更好的可变函数参数">更好的可变函数参数</a></li>
+</ul></li>
+<li><a href="#命名空间-1">命名空间</a></li>
+</ul>
+</nav>
+
 <p>截至目前(2014.2), PHP 的最新稳定版本是 PHP5.5, 但有差不多一半的用户仍在使用已经不在维护[注]的 PHP5.2, 其余的一半用户在使用 PHP5.3[注]
 因为 PHP 那“集百家之长”的蛋疼语法，加上社区氛围不好，很多人对新版本，新特征并无兴趣。</p>
 
@@ -38,13 +91,13 @@
 
 <p><strong>注</strong>：<a href="http://w3techs.com/technologies/details/pl-php/5/all">http://w3techs.com/technologies/details/pl-php/5/all</a></p>
 
-<h1>PHP5.2以前</h1>
+<h1 id="php5-2以前">PHP5.2以前</h1>
 
 <p>(2006前)</p>
 
 <p>顺便介绍一下 PHP5.2 已经出现但值得介绍的特征。</p>
 
-<h2>autoload</h2>
+<h2 id="autoload">autoload</h2>
 
 <p>大家可能都知道 __autoload() 函数，如果定义了该函数，那么当在代码中使用一个未定义的类的时候，该函数就会被调用，你可以在该函数中加载相应的类实现文件，如：</p>
 
@@ -65,7 +118,7 @@
 
 <p><strong>注</strong>：SPL: Standard PHP Library, 标准PHP库, 被设计用来解决一些经典问题(如数据结构).</p>
 
-<h2>PDO 和 MySQLi</h2>
+<h2 id="pdo-和-mysqli">PDO 和 MySQLi</h2>
 
 <p>即 PHP Data Object, PHP 数据对象，这是 PHP 的新式数据库访问接口。</p>
 
@@ -119,7 +172,7 @@ foreach($query-&gt;execute() as $row)
 
 <p><strong>注</strong>：<a href="http://www.php.net/manual/en/mysqli.quickstart.php">http://www.php.net/manual/en/mysqli.quickstart.php</a></p>
 
-<h2>类型约束</h2>
+<h2 id="类型约束">类型约束</h2>
 
 <p>通过类型约束可以限制参数的类型，不过这一机制并不完善，目前仅适用于类和 callable(可执行类型) 以及 array(数组), 不适用于 string 和 int.</p>
 
@@ -130,11 +183,11 @@ function MyFunction(MyClass $a, callable $b, array $c)
 }
 </code></pre>
 
-<h1>PHP5.2</h1>
+<h1 id="php5-2">PHP5.2</h1>
 
 <p>(2006-2011)</p>
 
-<h2>JSON 支持</h2>
+<h2 id="json-支持">JSON 支持</h2>
 
 <p>包括 <code>json_encode()</code>, <code>json_decode()</code> 等函数，JSON 算是在 Web 领域非常常用的数据交换格式，可以被 JS 直接支持，<code>JSON</code> 实际上是 JS 语法的一部分。</p>
 
@@ -165,17 +218,17 @@ stdClass Object
 
 <p>值得注意的是<code>json_decode()</code>默认会返回一个对象而非数组，如果需要返回数组需要将第二个参数设置为 true.</p>
 
-<h1>PHP5.3</h1>
+<h1 id="php5-3">PHP5.3</h1>
 
 <p>(2009-2012)</p>
 
 <p>PHP5.3 算是一个非常大的更新，新增了大量新特征，同时也做了一些不向下兼容的修改。</p>
 
-<h2>弃用的功能</h2>
+<h2 id="弃用的功能">弃用的功能</h2>
 
 <p>以下几个功能被弃用，若在配置文件中启用，则 PHP 会在运行时发出警告。</p>
 
-<h3>Register Globals</h3>
+<h3 id="register-globals">Register Globals</h3>
 
 <p>这是 php.ini 中的一个选项(<code>register_globals</code>), 开启后会将所有表单变量(<code>$_GET</code>和<code>$_POST</code>)注册为全局变量.看下面的例子：</p>
 
@@ -191,18 +244,18 @@ if($authorized)
 
 <p>该特征属于历史遗留问题，在 PHP4.2 中被默认关闭，在 PHP5.4 中被移除。</p>
 
-<h3>Magic Quotes</h3>
+<h3 id="magic-quotes">Magic Quotes</h3>
 
 <p>对应 php.ini 中的选项 <code>magic_quotes_gpc</code>, 这个特征同样属于历史遗留问题，已经在 PHP5.4 中移除。</p>
 
 <p>该特征会将所有用户输入进行转义，这看上去不错，在第一章我们提到过要对用户输入进行转义。
 但是 PHP 并不知道哪些输入会进入 SQL , 哪些输入会进入 Shell, 哪些输入会被显示为 HTML, 所以很多时候这种转义会引起混乱。</p>
 
-<h3>Safe Mode</h3>
+<h3 id="safe-mode">Safe Mode</h3>
 
 <p>很多虚拟主机提供商使用 <code>Safe Mode</code> 来隔离多个用户，但 Safe Mode 存在诸多问题，例如某些扩展并不按照 Safe Mode 来进行权限控制。PHP官方推荐使用操作系统的机制来进行权限隔离，让Web服务器以不同的用户权限来运行PHP解释器，请参见第一章中的最小权限原则.</p>
 
-<h2>匿名函数</h2>
+<h2 id="匿名函数">匿名函数</h2>
 
 <p>也叫闭包(Closures), 经常被用来临时性地创建一个无名函数，用于回调函数等用途。</p>
 
@@ -228,7 +281,7 @@ $func(&quot;Hello World&quot;);
 <p>在 arrayPlus() 的实现中，我们使用了 <code>array_walk()</code> 函数，它会为一个数组的每一项执行一个回调函数，即我们定义的匿名函数。
 在匿名函数的参数列表后，我们用 use 关键字将匿名函数外的 $num 捕捉到了函数内，以便知道到底应该加上多少。</p>
 
-<h2>魔术方法：__invoke(), __callStatic()</h2>
+<h2 id="魔术方法-invoke-callstatic">魔术方法：__invoke(), __callStatic()</h2>
 
 <p>PHP 的面向对象体系中，提供了若干“魔术方法”，用于实现类似其他语言中的“重载”，如在访问不存在的属性、方法时触发某个魔术方法。</p>
 
@@ -252,7 +305,7 @@ $a(&quot;Hello World&quot;);
 
 <p><code>__callStatic()</code> 则会在调用一个不存在的静态方法时被调用。</p>
 
-<h2>命名空间</h2>
+<h2 id="命名空间">命名空间</h2>
 
 <p>PHP的命名空间有着前无古人后无来者的无比蛋疼的语法：</p>
 
@@ -291,7 +344,7 @@ namespace Other {
 
 <p>注：<a href="http://www.php.net/manual/zh/language.namespaces.php">http://www.php.net/manual/zh/language.namespaces.php</a></p>
 
-<h2>后期静态绑定</h2>
+<h2 id="后期静态绑定">后期静态绑定</h2>
 
 <p>PHP 的 OPP 机制，具有继承和类似虚函数的功能，例如如下的代码：</p>
 
@@ -369,7 +422,7 @@ $b-&gt;callFuncXXOO();
 <pre><code>B::funcXXOO
 </code></pre>
 
-<h2>Heredoc 和 Nowdoc</h2>
+<h2 id="heredoc-和-nowdoc">Heredoc 和 Nowdoc</h2>
 
 <p>PHP5.3 对 Heredoc 以及 Nowdoc 进行了一些改进，它们都用于在 PHP 代码中嵌入大段字符串。<code>Heredoc</code> 的行为类似于一个双引号字符串：</p>
 
@@ -412,7 +465,7 @@ TEXT;
 <pre><code>My name is &quot;{$name}&quot;.
 </code></pre>
 
-<h2>用 const 定义常量</h2>
+<h2 id="用-const-定义常量">用 const 定义常量</h2>
 
 <p>PHP5.3 起同时支持在全局命名空间和类中使用 <code>const</code> 定义常量。</p>
 
@@ -434,7 +487,7 @@ const XXOO = 1234;
 const XXOO = 2 * 617;
 </code></pre>
 
-<h2>三元运算符简写形式</h2>
+<h2 id="三元运算符简写形式">三元运算符简写形式</h2>
 
 <p>旧式风格：</p>
 
@@ -448,7 +501,7 @@ const XXOO = 2 * 617;
 
 <p>即如果省略三元运算符的第二个部分，会默认用第一个部分代替。</p>
 
-<h2>Phar</h2>
+<h2 id="phar">Phar</h2>
 
 <p>Phar即<code>PHP Archive</code>, 起初只是Pear中的一个库而已，后来在PHP5.3被重新编写成C扩展并内置到 PHP 中。Phar用来将多个 .php 脚本打包(也可以打包其他文件)成一个 .phar 的压缩文件(通常是ZIP格式)。目的在于模仿 Java 的 .jar, 不对，目的是为了让发布PHP应用程序更加方便。同时还提供了数字签名验证等功能。</p>
 
@@ -462,11 +515,11 @@ require(&quot;phar://xxoo.phar/xo/ox.php&quot;);
 
 <p>注：<a href="http://www.php.net/manual/zh/phar.using.intro.php">http://www.php.net/manual/zh/phar.using.intro.php</a></p>
 
-<h1>PHP5.4</h1>
+<h1 id="php5-4">PHP5.4</h1>
 
 <p>(2012-2013)</p>
 
-<h2>Short Open Tag</h2>
+<h2 id="short-open-tag">Short Open Tag</h2>
 
 <p><code>Short Open Tag</code> 自 PHP5.4 起总是可用。在这里集中讲一下有关 PHP 起止标签的问题。即：</p>
 
@@ -486,7 +539,7 @@ require(&quot;phar://xxoo.phar/xo/ox.php&quot;);
 
 <p>注：Header 和 Cookie 必须在输出任何内容之前被发送。</p>
 
-<h2>数组简写形式</h2>
+<h2 id="数组简写形式">数组简写形式</h2>
 
 <p>这是非常方便的一项特征！</p>
 
@@ -496,7 +549,7 @@ $arr = array(&quot;key&quot; =&gt; &quot;value&quot;, &quot;key2&quot; =&gt; &qu
 $arr = [&quot;key&quot; =&gt; &quot;value&quot;, &quot;key2&quot; =&gt; &quot;value2&quot;];
 </code></pre>
 
-<h2>Traits</h2>
+<h2 id="traits">Traits</h2>
 
 <p>所谓<code>Traits</code>就是“构件”，是用来替代继承的一种机制。PHP中无法进行多重继承，但一个类可以包含多个Traits.</p>
 
@@ -522,7 +575,7 @@ $xxoo-&gt;sayHello();
 
 <p>注：<a href="http://www.php.net/manual/zh/language.oop5.traits.php">http://www.php.net/manual/zh/language.oop5.traits.php</a></p>
 
-<h2>内置 Web 服务器</h2>
+<h2 id="内置-web-服务器">内置 Web 服务器</h2>
 
 <p>PHP从5.4开始内置一个轻量级的Web服务器，不支持并发，定位是用于开发和调试环境。在开发环境使用它的确非常方便。</p>
 
@@ -538,7 +591,7 @@ $xxoo-&gt;sayHello();
 
 <p>这样一来，所有的请求都会由index.php来处理。你还可以使用 <code>XDebug</code> 来进行断点调试。</p>
 
-<h2>细节修改</h2>
+<h2 id="细节修改">细节修改</h2>
 
 <p>PHP5.4 新增了动态访问静态方法的方式：</p>
 
@@ -556,11 +609,11 @@ A::{$func}();
 <pre><code>print func()[0];
 </code></pre>
 
-<h1>PHP5.5</h1>
+<h1 id="php5-5">PHP5.5</h1>
 
 <p>(2013起)</p>
 
-<h2>yield</h2>
+<h2 id="yield">yield</h2>
 
 <p>yield关键字用于当函数需要返回一个迭代器的时候, 逐个返回值。</p>
 
@@ -573,7 +626,7 @@ A::{$func}();
 
 <p>该函数的返回值是一个数组：</p>
 
-<h2>list() 用于 foreach</h2>
+<h2 id="list-用于-foreach">list() 用于 foreach</h2>
 
 <p>可以用 list() 在 foreach 中解析嵌套的数组：</p>
 
@@ -591,7 +644,7 @@ foreach ($array as list($a, $b, $c))
 4 5 6
 </code></pre>
 
-<h2>细节修改</h2>
+<h2 id="细节修改-1">细节修改</h2>
 
 <ul>
 <li>不推荐使用 mysql 函数，推荐使用 PDO 或 MySQLi, 参见前文。</li>
@@ -601,9 +654,9 @@ foreach ($array as list($a, $b, $c))
 <li>try-catch 结构新增 finally 块。</li>
 </ul>
 
-<h1>PHP5.6</h1>
+<h1 id="php5-6">PHP5.6</h1>
 
-<h2>更好的常量</h2>
+<h2 id="更好的常量">更好的常量</h2>
 
 <p>定义常量时允许使用之前定义的常量进行计算：</p>
 
@@ -621,7 +674,7 @@ class C
 <pre><code>function func($arg = C::STR2)
 </code></pre>
 
-<h2>更好的可变函数参数</h2>
+<h2 id="更好的可变函数参数">更好的可变函数参数</h2>
 
 <p>用于代替 func_get_args()</p>
 
@@ -641,7 +694,7 @@ add(1, ...$arr);
 // 结果为 6
 </code></pre>
 
-<h1>命名空间</h1>
+<h1 id="命名空间-1">命名空间</h1>
 
 <p>命名空间支持常量和函数：</p>
 
@@ -686,6 +739,7 @@ namespace {
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

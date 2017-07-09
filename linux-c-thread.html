@@ -20,7 +20,15 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Linux C线程</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>进程和线程</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#进程和线程">进程和线程</a></li>
+<li><a href="#线程的使用">线程的使用</a></li>
+</ul>
+</nav>
+
+<h1 id="进程和线程">进程和线程</h1>
 
 <p>程序是一组用计算机语言编写的命令序列的集合。程序并不能单独运行，只有将程序装载到内存中，系统为它分配资源才能运行，而这种执行的「程序」就称之为进程。</p>
 
@@ -31,7 +39,7 @@
 <p>启动一个新的进程必须分配给它独立的地址空间，建立众多的数据表来维护它的代码段、堆栈段和数据段，这是一种&rdquo;昂贵&rdquo;的多任务工作方式。而运行于一个进程中的多个线程，它们彼此之间使用相同的地址空间，共享大部分数据，启动一个线程所花费的空间远远小于启动一个进程所花费的空间，而且，线程间彼此切换所需的时间也远远小于进程间切换所需要的时间。
 同时，对不同进程来说，它们拥有独立的数据空间，要进行数据的传递只能通过通信的方式进行，这种方式不仅费时，而且很不方便。线程则不然，由于同一进程下的线程之间共享数据空间，所以一个线程的数据可以直接为其它线程所用，这不仅快捷，而且方便。当然，数据的共享也带来其他 一些问题，有的变量不能同时被两个线程所修改，有的子程序中声明为static的数据更有可能给多线程程序带来灾难性的打击，这些正是编写多线程程序时最需要注意的地方。</p>
 
-<h1>线程的使用</h1>
+<h1 id="线程的使用">线程的使用</h1>
 
 <p>Linux系统下的多线程遵循POSIX线程接口，称为pthread。编写Linux下的多线程程序，需要使用头文件pthread.h ，下面看一段小程序thread.cpp：</p>
 
@@ -166,6 +174,7 @@ int main(int argc, char **argv)
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

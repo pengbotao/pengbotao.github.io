@@ -20,7 +20,25 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Linux下安装 Nginx</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>Nginx安装</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#nginx安装">Nginx安装</a></li>
+<li><a href="#常用操作">常用操作</a></li>
+<li><a href="#启动nginx">启动Nginx</a></li>
+<li><a href="#nginx-conf配置">nginx.conf配置</a>
+<ul>
+<li><a href="#upstream模块">upstream模块</a>
+<ul>
+<li><a href="#1-轮询">1、轮询</a></li>
+<li><a href="#2-weight">2、weight</a></li>
+<li><a href="#3-ip-hash">3、ip_hash</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="nginx安装">Nginx安装</h1>
 
 <pre><code># yum -y install gcc* pcre glib2-devel openssl-devel pcre-devel bzip2-devel gzip-devel lrzsz 
  
@@ -39,7 +57,7 @@
 <pre><code># yum -y install make
 </code></pre>
 
-<h1>常用操作</h1>
+<h1 id="常用操作">常用操作</h1>
 
 <pre><code>-- root软连接到nginx.conf
 # ln -s /usr/local/webserver/nginx/conf/nginx.conf /root/nginx.conf
@@ -54,7 +72,7 @@
 # echo '/usr/local/webserver/nginx/sbin/nginx' &gt;&gt;/etc/rc.local
 </code></pre>
 
-<h1>启动Nginx</h1>
+<h1 id="启动nginx">启动Nginx</h1>
 
 <pre><code># /usr/local/webserver/nginx/sbin/nginx
  
@@ -65,7 +83,7 @@
 # /usr/local/webserver/nginx/sbin/nginx -s reload
 </code></pre>
 
-<h1>nginx.conf配置</h1>
+<h1 id="nginx-conf配置">nginx.conf配置</h1>
 
 <p>配置示例，通过vhost来配置新站点，避免nginx.conf文件过长，不方便管理。</p>
 
@@ -131,11 +149,11 @@ http {
 }
 </code></pre>
 
-<h2>upstream模块</h2>
+<h2 id="upstream模块">upstream模块</h2>
 
 <p>nginx可以通过upstream实现反向代理，将请求分发到后端的不同机器上。</p>
 
-<h3>1、轮询</h3>
+<h3 id="1-轮询">1、轮询</h3>
 
 <p>轮询是upstream的默认分配方式，即每个请求按照时间顺序轮流分配到不同的后端服务器，如果某个后端服务器down掉后，能自动剔除。</p>
 
@@ -146,7 +164,7 @@ http {
 }
 </code></pre>
 
-<h3>2、weight</h3>
+<h3 id="2-weight">2、weight</h3>
 
 <p>轮询的加强版，即可以指定轮询比率，weight和访问几率成正比，主要应用于后端服务器异质的场景下。</p>
 
@@ -157,7 +175,7 @@ http {
 }
 </code></pre>
 
-<h3>3、ip_hash</h3>
+<h3 id="3-ip-hash">3、ip_hash</h3>
 
 <p>每个请求按照访问ip（即Nginx的前置服务器或者客户端IP）的hash结果分配，这样每个访客会固定访问一个后端服务器，可以解决session一致问题。</p>
 
@@ -200,6 +218,7 @@ http {
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

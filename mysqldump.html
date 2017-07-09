@@ -20,7 +20,18 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Mysql导出表结构和数据</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>导出数据库</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#导出数据库">导出数据库</a></li>
+<li><a href="#导出数据库中指定表">导出数据库中指定表</a></li>
+<li><a href="#还原">还原</a></li>
+<li><a href="#select-into-outfile导出">SELECT INTO OUTFILE导出</a></li>
+<li><a href="#load-data-导入">LOAD DATA 导入</a></li>
+</ul>
+</nav>
+
+<h1 id="导出数据库">导出数据库</h1>
 
 <pre><code>-- 导出dbname表结构
 mysqldump -uroot -p123456 -d dbname &gt; dbname.sql
@@ -32,7 +43,7 @@ mysqldump -uroot -p123456 -t dbname &gt; dbname.sql
 mysqldump -uroot -p123456 dbname &gt; dbname.sql
 </code></pre>
 
-<h1>导出数据库中指定表</h1>
+<h1 id="导出数据库中指定表">导出数据库中指定表</h1>
 
 <pre><code>-- 导出dbname下的test表结构
 mysqldump -uroot -p123456 -d dbname test &gt; test.sql
@@ -44,7 +55,7 @@ mysqldump -uroot -p123456 -t dbname test &gt; test.sql
 mysqldump -uroot -p123456 dbname test &gt; test.sql
 </code></pre>
 
-<h1>还原</h1>
+<h1 id="还原">还原</h1>
 
 <pre><code>-- 创建数据库
 CREATE DATABASE dbname DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -60,7 +71,7 @@ desc wp_users;
 show create table wp_users \G;
 </code></pre>
 
-<h1>SELECT INTO OUTFILE导出</h1>
+<h1 id="select-into-outfile导出">SELECT INTO OUTFILE导出</h1>
 
 <pre><code>SELECT * INTO OUTFILE 'temp.txt' 
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '&quot;' LINES TERMINATED BY '\n' 
@@ -68,7 +79,7 @@ FROM table_name
 WHERE createtime &lt; 1382716800;
 </code></pre>
 
-<h1>LOAD DATA 导入</h1>
+<h1 id="load-data-导入">LOAD DATA 导入</h1>
 
 <pre><code>LOAD DATA INFILE '/home/temp.txt' 
 INTO TABLE table_name 
@@ -110,6 +121,7 @@ FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '&quot;' LINES TERMINATED BY '\n
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

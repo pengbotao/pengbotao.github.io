@@ -20,14 +20,44 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">PHP异步并行扩展 - Swoole</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>一、概述</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#一-概述">一、概述</a>
+<ul>
+<li><a href="#1-1-swoole简介">1.1 Swoole简介</a></li>
+<li><a href="#1-2-swoole优势">1.2 Swoole优势</a></li>
+<li><a href="#1-3-使用场景">1.3 使用场景</a></li>
+<li><a href="#1-4-开发模式">1.4 开发模式</a></li>
+<li><a href="#1-5-研究目标">1.5 研究目标</a></li>
+</ul></li>
+<li><a href="#二-swoole功能介绍">二、Swoole功能介绍</a>
+<ul>
+<li><a href="#2-1-swoole安装">2.1 Swoole安装</a></li>
+<li><a href="#2-2-swoole-httpserver">2.2 Swoole HttpServer</a>
+<ul>
+<li><a href="#2-2-1-web-server实现">2.2.1 Web Server实现</a></li>
+<li><a href="#2-2-2-压力测试">2.2.2 压力测试</a></li>
+</ul></li>
+<li><a href="#2-3-swoole-tcp-server">2.3 Swoole TCP Server</a>
+<ul>
+<li><a href="#2-3-1-tcp-server实现">2.3.1 TCP Server实现</a></li>
+<li><a href="#2-3-2-压力测试">2.3.2 压力测试</a></li>
+</ul></li>
+<li><a href="#2-4-其他功能">2.4 其他功能</a></li>
+</ul></li>
+<li><a href="#三-总结">三、总结</a></li>
+</ul>
+</nav>
 
-<h2>1.1 Swoole简介</h2>
+<h1 id="一-概述">一、概述</h1>
+
+<h2 id="1-1-swoole简介">1.1 Swoole简介</h2>
 
 <p>Swoole是一个PHP的异步、并行、高性能网络通信引擎，使用纯C语言编写，提供了PHP语言的异步多线程服务器，异步TCP/UDP网络客户端，异步MySQL，异步Redis，数据库连接池，AsyncTask，消息队列，毫秒定时器，异步文件读写，异步DNS查询。 Swoole内置了Http/WebSocket服务器端/客户端、Http2.0服务器端。
 Swoole可以广泛应用于互联网、移动通信、企业软件、云计算、网络游戏、物联网（IOT）、车联网、智能家居等领域。 使用PHP+Swoole作为网络通信框架，可以使企业IT研发团队的效率大大提升，更加专注于开发创新产品。</p>
 
-<h2>1.2 Swoole优势</h2>
+<h2 id="1-2-swoole优势">1.2 Swoole优势</h2>
 
 <ul>
 <li>纯C编写性能极强</li>
@@ -42,22 +72,22 @@ Swoole可以广泛应用于互联网、移动通信、企业软件、云计算�
 <li>支持IPv4/IPv6网络</li>
 </ul>
 
-<h2>1.3 使用场景</h2>
+<h2 id="1-3-使用场景">1.3 使用场景</h2>
 
 <p>Swoole为了弥补PHP在网络编程、异步IO等方面的不足而产生的。它用C语言实现网络通信及其中的异步等逻辑，PHPer同样可以用PHP写出高性能的服务端程序。
 使用Swoole可以提供基于tcp的即时通信、异步任务调度、Websocket服务、异步IO等功能。</p>
 
-<h2>1.4 开发模式</h2>
+<h2 id="1-4-开发模式">1.4 开发模式</h2>
 
 <p>Swoole给PHPer提供了一种全新的开发模式，其编程思路不同于传统的PHPWeb编程，更类似Python、Nodejs，在命令行通过PHP执行一个脚本即启动服务，中间该脚本有更新需要重新启动服务。Swoole实现了HTTP，所以可以不依赖Nginx等Web服务器。</p>
 
-<h2>1.5 研究目标</h2>
+<h2 id="1-5-研究目标">1.5 研究目标</h2>
 
 <p>查看是否可以使用Swoole实现异步任务调度，如发送短信、推送、缓存更新等，其中的效率怎样？</p>
 
-<h1>二、Swoole功能介绍</h1>
+<h1 id="二-swoole功能介绍">二、Swoole功能介绍</h1>
 
-<h2>2.1 Swoole安装</h2>
+<h2 id="2-1-swoole安装">2.1 Swoole安装</h2>
 
 <ul>
 <li>官网：<a href="http://www.swoole.com">http://www.swoole.com</a></li>
@@ -74,9 +104,9 @@ Swoole可以广泛应用于互联网、移动通信、企业软件、云计算�
 
 <p>然后修改php.ini添加到扩展里即可。</p>
 
-<h2>2.2 Swoole HttpServer</h2>
+<h2 id="2-2-swoole-httpserver">2.2 Swoole HttpServer</h2>
 
-<h3>2.2.1 Web Server实现</h3>
+<h3 id="2-2-1-web-server实现">2.2.1 Web Server实现</h3>
 
 <p>Swoole实现了HTTP，一个简单HTTP示例如下：</p>
 
@@ -92,7 +122,7 @@ $http-&gt;start();
 
 <p>在命令行启动该脚本即可监听9501端口，实现基本的Web服务功能。实现后第一个想到的问题是他的性能和PHP+Nginx的性能怎样？</p>
 
-<h3>2.2.2 压力测试</h3>
+<h3 id="2-2-2-压力测试">2.2.2 压力测试</h3>
 
 <p>这里以Hello World作为参考，100个线程不断执行，下图是Swoole的压测结果：</p>
 
@@ -132,9 +162,9 @@ $http-&gt;start();
 
 <p>当然，PHP也可以直接起一个进程去执行脚本。根据压测的结果Http Server的稳定成都还不算满意。接下来进行一下TCP方式的测试。</p>
 
-<h2>2.3 Swoole TCP Server</h2>
+<h2 id="2-3-swoole-tcp-server">2.3 Swoole TCP Server</h2>
 
-<h3>2.3.1 TCP Server实现</h3>
+<h3 id="2-3-1-tcp-server实现">2.3.1 TCP Server实现</h3>
 
 <p>设想一个这样子的场景，由PHP发送一个请求给TCP Server，Server可以同步返回也可以异步返回。
 异步返回比如，将一些缓存的更新、短信的发送、推送等事件发送给TCP Server即可，Server收到请求后即返回；
@@ -287,7 +317,7 @@ fclose($fp);
 
 <p>这样子封包过程和解包过程就实现了。下面也看看压测的结果。</p>
 
-<h3>2.3.2 压力测试</h3>
+<h3 id="2-3-2-压力测试">2.3.2 压力测试</h3>
 
 <p><img src="/static/uploads/swoole-tcp.png" alt="" /></p>
 
@@ -299,7 +329,7 @@ fclose($fp);
 
 <p>目前的访问量来看不会出现这么大量，但不能确保系统不会做一些批量操作之类的，这样导致服务挂掉的情况。而稳定性在生产环境上却是首要考虑的问题。</p>
 
-<h2>2.4 其他功能</h2>
+<h2 id="2-4-其他功能">2.4 其他功能</h2>
 
 <p>Swoole还提供了很多功能，比如WebScoket、AsyncIO、内存操作、进程操作，Mysql、Reds连接池等等，但和上面某类似的感觉，会存在一些不靠谱的情况。比如异步IO中的异步写文件：</p>
 
@@ -308,7 +338,7 @@ fclose($fp);
 
 <p>当不指定第四个参数回调函数时，执行报段错误，若是传入一个NULL则不会。但文档上标注的是一个可写参数。</p>
 
-<h1>三、总结</h1>
+<h1 id="三-总结">三、总结</h1>
 
 <p>整体来说，Swoole给PHPer提供了一种新的开发思路，是件不错的事情。测试脚本中没有什么业务的前提下看到内存的控制是不错的，直到挂掉也还是占用2M的内存。Swoole也提供了一些参数来控制进程执行请求数的数量，当达到这个数量后进程后重启。但文档的欠缺，稳定性上的不足是需要考虑的，社区的活跃程度也不高。我觉得官方需要做的不是提供一个又一个的功能，而是从程序的健壮性和完善文档方面来考虑，让PHP在服务端网络编程方面也能占一席之地。</p>
 
@@ -340,6 +370,7 @@ fclose($fp);
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

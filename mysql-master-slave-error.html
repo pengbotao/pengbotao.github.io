@@ -20,9 +20,17 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Mysql主从同步出错</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#slave-io-running和slave-sql-running均为yes-主从同步出错">Slave_IO_Running和Slave_SQL_Running均为YES，主从同步出错</a></li>
+<li><a href="#max-allowed-packet限制导致主从同步出错">max_allowed_packet限制导致主从同步出错</a></li>
+</ul>
+</nav>
+
 <p>Mysql主从运行有一段时间了，没有出过什么问题。但最近接着出了两次问题，记录下方便后面排查！</p>
 
-<h1>Slave_IO_Running和Slave_SQL_Running均为YES，主从同步出错</h1>
+<h1 id="slave-io-running和slave-sql-running均为yes-主从同步出错">Slave_IO_Running和Slave_SQL_Running均为YES，主从同步出错</h1>
 
 <p>首先还是确认下各服务器状态。查看主库状态正常，binlog position一直在变，进程状态也正常。</p>
 
@@ -83,7 +91,7 @@ mysql&gt;slave start;
 
 <p>跳过后Mysql恢复正常，最后手动清空重库中该表的数据。至于为什么这个大的删除导致重库停止，还有待深究。</p>
 
-<h1>max_allowed_packet限制导致主从同步出错</h1>
+<h1 id="max-allowed-packet限制导致主从同步出错">max_allowed_packet限制导致主从同步出错</h1>
 
 <p>产生的原因也是执行了一个较大的更新，往数据库中更新几十兆的数据（可见更新的不合理），导致主从同步出错，查看重库状态显示</p>
 
@@ -132,6 +140,7 @@ start slave;
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

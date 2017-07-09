@@ -20,15 +20,24 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Mysql中Myisam、InnoDB碎片优化</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#myisam清理碎片">Myisam清理碎片</a></li>
+<li><a href="#innodb碎片优化">InnoDB碎片优化</a></li>
+<li><a href="#什么是mysql碎片-怎样知道表的碎片有多大呢">什么是mysql碎片?怎样知道表的碎片有多大呢?</a></li>
+</ul>
+</nav>
+
 <p>起因：查看线上数据库中Table Information时发现有一个日志表数据大小和索引大小有915M，但实际行数只有92行。该表需要频繁插入并且会定时去删掉旧的记录。表类型为Myisam，已建立一个索引，所以应该是产生了大量碎片，使用 Optimize table 表名 优化后大小变为2.19M，少了很多， 同时可以看出该表上的索引建的多余，因为插入操作比查询操作要多很多，而且查询不多，查询的数据量也一般比较小。</p>
 
 <p>借此延伸下MYSQL中Myisam、InnoDB碎片优化方式：</p>
 
-<h1>Myisam清理碎片</h1>
+<h1 id="myisam清理碎片">Myisam清理碎片</h1>
 
 <p>OPTIMIZE TABLE table_name</p>
 
-<h1>InnoDB碎片优化</h1>
+<h1 id="innodb碎片优化">InnoDB碎片优化</h1>
 
 <p>if you frequently delete rows (or update rows with variable-length data types), you can end up with a lot of wasted space in your data file(s), similar to filesystem fragmentation.</p>
 
@@ -50,7 +59,7 @@
 
 <p>This is what MySQL does behind the scenes if you run ‘optimize table’ on an InnoDB table. It will result in a read lock, but not a full table lock. How long it takes is completely dependent on the amount of data in the table (but not the size of the data file). If you have a table with a high volume of deletes or updates, you may want to run this monthly, or even weekly.</p>
 
-<h1>什么是mysql碎片?怎样知道表的碎片有多大呢?</h1>
+<h1 id="什么是mysql碎片-怎样知道表的碎片有多大呢">什么是mysql碎片?怎样知道表的碎片有多大呢?</h1>
 
 <p>简单的说,删除数据必然会在数据文件中造成不连续的空白空间,而当插入数据时,这些空白空间则会被利用起来.于是造成了数据的存储位置不连续,以及物理存储顺序与理论上的排序顺序不同,这种是数据碎片.实际上数据碎片分为两种,一种是单行数据碎片,另一种是多行数据碎片.前者的意思就是一行数据,被分成N个片段,存储在N个位置.后者的就是多行数据并未按照逻辑上的顺序排列.当有大量的删除和插入操作时,必然会产生很多未使用的空白空间,这些空间就是多出来的额外空间.索引也是文件数据,所以也会产生索引碎片,理由同上,大概就是顺序紊乱的问题.Engine 不同,OPTIMIZE 的操作也不一样的,MyISAM 因为索引和数据是分开的,所以 OPTIMIZE 可以整理数据文件,并重排索引.</p>
 
@@ -82,6 +91,7 @@
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

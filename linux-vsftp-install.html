@@ -20,7 +20,29 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Linux下安装 Vsftp</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>安装vsftpd</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#安装vsftpd">安装vsftpd</a>
+<ul>
+<li><a href="#卸载vsftpd">卸载vsftpd</a></li>
+<li><a href="#vsftpd相关文件">vsftpd相关文件</a></li>
+<li><a href="#vsftp配置">vsftp配置</a></li>
+</ul></li>
+<li><a href="#vsftp虚拟用户配置">Vsftp虚拟用户配置</a>
+<ul>
+<li><a href="#1-添加虚拟用户列表">1、添加虚拟用户列表</a></li>
+<li><a href="#2-生成虚拟用户口令认证文件">2、生成虚拟用户口令认证文件</a></li>
+<li><a href="#3-设置虚拟用户所需的pam配置文件">3、设置虚拟用户所需的PAM配置文件</a></li>
+<li><a href="#4-创建vsftpd宿主帐号">4、创建vsftpd宿主帐号</a></li>
+<li><a href="#5-编辑vsftpd-conf配置文件">5、编辑vsftpd.conf配置文件</a></li>
+<li><a href="#6-根据虚拟用户设置不同的权限">6、根据虚拟用户设置不同的权限</a></li>
+<li><a href="#7-重启服务">7、重启服务</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="安装vsftpd">安装vsftpd</h1>
 
 <p>查看是否已安装vsftpd</p>
 
@@ -46,13 +68,13 @@ Shutting down vsftpd:                                      [  OK  ]
 vsftpd is stopped
 </code></pre>
 
-<h2>卸载vsftpd</h2>
+<h2 id="卸载vsftpd">卸载vsftpd</h2>
 
 <pre><code># rpm -e vsftpd
 warning: /etc/vsftpd/vsftpd.conf saved as /etc/vsftpd/vsftpd.conf.rpmsave
 </code></pre>
 
-<h2>vsftpd相关文件</h2>
+<h2 id="vsftpd相关文件">vsftpd相关文件</h2>
 
 <table>
 <thead>
@@ -95,7 +117,7 @@ warning: /etc/vsftpd/vsftpd.conf saved as /etc/vsftpd/vsftpd.conf.rpmsave
 </tbody>
 </table>
 
-<h2>vsftp配置</h2>
+<h2 id="vsftp配置">vsftp配置</h2>
 
 <table>
 <thead>
@@ -309,9 +331,9 @@ warning: /etc/vsftpd/vsftpd.conf saved as /etc/vsftpd/vsftpd.conf.rpmsave
 
 <p>vsftp提供了3中登录性质：匿名帐号、本地帐号和虚拟帐号。默认配置就可以实现匿名帐号和真实帐号登录。</p>
 
-<h1>Vsftp虚拟用户配置</h1>
+<h1 id="vsftp虚拟用户配置">Vsftp虚拟用户配置</h1>
 
-<h2>1、添加虚拟用户列表</h2>
+<h2 id="1-添加虚拟用户列表">1、添加虚拟用户列表</h2>
 
 <p>创建一个虚拟用户列表文件，保存需要配置的虚拟帐号，格式为：第一行用户名，第二行密码，依次类推。</p>
 
@@ -322,7 +344,7 @@ ftp_log
 123456
 </code></pre>
 
-<h2>2、生成虚拟用户口令认证文件</h2>
+<h2 id="2-生成虚拟用户口令认证文件">2、生成虚拟用户口令认证文件</h2>
 
 <p>通过db_load命令生成认证文件。查询db_load命令是否已安装，未安装则先安装。</p>
 
@@ -339,7 +361,7 @@ ftp_log
 <pre><code># db_load -T -t hash -f /etc/vsftpd/virtual_user_list /etc/vsftpd/virtual_user_list.db
 </code></pre>
 
-<h2>3、设置虚拟用户所需的PAM配置文件</h2>
+<h2 id="3-设置虚拟用户所需的pam配置文件">3、设置虚拟用户所需的PAM配置文件</h2>
 
 <p>vsftpd.conf中的pam_service_name参数可指定配置文件。这里修改默认的vsftpd文件。</p>
 
@@ -349,12 +371,12 @@ auth required /lib/security/pam_userdb.so db=/etc/vsftpd/virtual_user_list
 account required /lib/security/pam_userdb.so db=/etc/vsftpd/virtual_user_list
 </code></pre>
 
-<h2>4、创建vsftpd宿主帐号</h2>
+<h2 id="4-创建vsftpd宿主帐号">4、创建vsftpd宿主帐号</h2>
 
 <pre><code># useradd vsftpd -s /sbin/nologin
 </code></pre>
 
-<h2>5、编辑vsftpd.conf配置文件</h2>
+<h2 id="5-编辑vsftpd-conf配置文件">5、编辑vsftpd.conf配置文件</h2>
 
 <p>编辑vsftp配置文件，添加虚拟用户相关配置。</p>
 
@@ -374,7 +396,7 @@ virtual_use_local_privs=YES
 user_config_dir=/etc/vsftpd/vconf
 </code></pre>
 
-<h2>6、根据虚拟用户设置不同的权限</h2>
+<h2 id="6-根据虚拟用户设置不同的权限">6、根据虚拟用户设置不同的权限</h2>
 
 <p>设定ftp_www只能访问/data/ftp/www，ftp_log只能文芳/data/ftp/log，创建所需的文件和配置信息。</p>
 
@@ -394,7 +416,7 @@ local_max_rate=10000
 local_root=/data/ftp/log
 </code></pre>
 
-<h2>7、重启服务</h2>
+<h2 id="7-重启服务">7、重启服务</h2>
 
 <pre><code># service vsftpd restart
 </code></pre>
@@ -467,6 +489,7 @@ user_config_dir=/etc/vsftpd/vconf
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

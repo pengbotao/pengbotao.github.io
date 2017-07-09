@@ -20,7 +20,17 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Linux下安装 Memcache</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>安装Memcached服务端</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#安装memcached服务端">安装Memcached服务端</a></li>
+<li><a href="#启动memcached">启动memcached</a></li>
+<li><a href="#php安装memcache扩展">PHP安装memcache扩展</a></li>
+<li><a href="#php安装memcached扩展">PHP安装memcached扩展</a></li>
+</ul>
+</nav>
+
+<h1 id="安装memcached服务端">安装Memcached服务端</h1>
 
 <p>memcached依赖于libevent，需要先安装libevent。</p>
 
@@ -42,7 +52,7 @@
 # make &amp;&amp; make install
 </code></pre>
 
-<h1>启动memcached</h1>
+<h1 id="启动memcached">启动memcached</h1>
 
 <pre><code># cd /usr/local/webserver/memcached/
 # ./bin/memcached -d -m 32 -u root -p 11211 -c 128 –P /tmp/memcached.pid
@@ -61,7 +71,7 @@
 <li>-P 是设置保存Memcache的pid文件。</li>
 </ul>
 
-<h1>PHP安装memcache扩展</h1>
+<h1 id="php安装memcache扩展">PHP安装memcache扩展</h1>
 
 <p>安装地址
 - <strong>memcached</strong> : <a href="http://pecl.php.net/package/memcached">http://pecl.php.net/package/memcached</a>
@@ -76,7 +86,7 @@
 
 <p>编译完成后修改php.ini添加extension=memcache.so ，重启php-fpm</p>
 
-<h1>PHP安装memcached扩展</h1>
+<h1 id="php安装memcached扩展">PHP安装memcached扩展</h1>
 
 <pre><code># wget http://launchpadlibrarian.net/66527034/libmemcached-0.48.tar.gz
 # cd libmemcached-0.48
@@ -143,6 +153,7 @@ configure: error: no, sasl.h is not available. Run configure with --disable-memc
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

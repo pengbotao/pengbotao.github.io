@@ -20,7 +20,24 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">CodeIgniter配置详解</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>一、CodeIgniter配置之autoload</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#一-codeigniter配置之autoload">一、CodeIgniter配置之autoload</a></li>
+<li><a href="#二-codeigniter配置之url">二、CodeIgniter配置之URL</a></li>
+<li><a href="#三-codeigniter配置之xss和csrf">三、CodeIgniter配置之XSS和CSRF</a></li>
+<li><a href="#四-codeigniter配置之session">四、CodeIgniter配置之session</a></li>
+<li><a href="#五-codeigniter配置之config">五、CodeIgniter配置之config</a>
+<ul>
+<li><a href="#配置说明">配置说明</a></li>
+<li><a href="#配置读取">配置读取</a></li>
+</ul></li>
+<li><a href="#六-codeigniter配置之router">六、CodeIgniter配置之router</a></li>
+<li><a href="#七-codeigniter配置之database">七、CodeIgniter配置之database</a></li>
+</ul>
+</nav>
+
+<h1 id="一-codeigniter配置之autoload">一、CodeIgniter配置之autoload</h1>
 
 <p>CodeIgniter带了自动加载的功能，可以全局加载类库、模型、配置、语言包等，对于需要全局使用的功能相当方便。例如：有个全局函数写在app_helper.php中，需要全局加载这个函数，只需设置autoload.php：</p>
 
@@ -44,7 +61,7 @@ $this-&gt;load-&gt;language(array('user_menu', 'user_tips'));
 
 <p>加载方式统一，使用起来比较简单，但load类库时传参有点不方便。再次load类库时不会再去加载，而是从保存好的静态数组中拿出来，需要注意下成员属性的状态，防止因为值还存在而导致程序异常。</p>
 
-<h1>二、CodeIgniter配置之URL</h1>
+<h1 id="二-codeigniter配置之url">二、CodeIgniter配置之URL</h1>
 
 <p>应该有很多项目中会有这样的情况，通过 <a href="http://pc.local">http://pc.local</a> 可以访问，若通过 <a href="http://localhost/pc/public">http://localhost/pc/public</a> 则会出现一些图片、样式显示不到，超链接出错的情况，项目的移植性不太好，主要原因就是创建的URL不够灵活，接下来看看CI中是怎么处理。配置文件中有几个有关URL的配置，影响到路由、参数的获取和URL的创建，它们是：</p>
 
@@ -166,7 +183,7 @@ if(! function_exists('http_build_str_inner'))
 }
 </code></pre>
 
-<h1>三、CodeIgniter配置之XSS和CSRF</h1>
+<h1 id="三-codeigniter配置之xss和csrf">三、CodeIgniter配置之XSS和CSRF</h1>
 
 <p>XSS：跨站脚本攻击，通常情况下为将一段脚本入库，显示时未做处理，导致脚本执行。大多数情况下获取到COOKIE中保存的SESSION ID就表示攻击成功。比如，在评论时填写</p>
 
@@ -195,7 +212,7 @@ if(! function_exists('http_build_str_inner'))
 
 <p>比如，用户设置密码为a，而经过过滤处理后变成了b，这将会导致用户的密码在数据库中实际为b，用户每次通过系统登录时，都会先做一次转换工作再登录，或者输入密码b也能登录成功。那如果其他系统也要做登录功能，用户是共享的，那该用户通过密码a登录就失败了。或者也可能系统升级更换框架， 那这批用户也就登录不成功了。这就是潜在的问题，表面上看起来没问题，但可能为以后造成重大影响。所以<strong>只对需要过滤的参数进行过滤，慎重考虑全局参数控制</strong></p>
 
-<h1>四、CodeIgniter配置之session</h1>
+<h1 id="四-codeigniter配置之session">四、CodeIgniter配置之session</h1>
 
 <p>刚使用Codeigniter时也被其中的SESSION迷惑过，后来就再也没用过CI自带的SESSION，想必还是有必要整理一下SESSION。为弄清CI中的SESSION，先来说一下PHP中SESSION是如何工作的。由于HTTP协议本身是无状态的，所以当保留某个用户的访问状态信息时，需要客户端有一个唯一标识传给服务端，这个唯一标识就是SESSION ID，存放在客户端的COOKIE中，然后服务端根据该标识读取存放的用户状态信息，达到保存会话状态的目的。PHP中启动一个会话需要执行：<code>session_start();</code></p>
 
@@ -293,9 +310,9 @@ Array
 
 <p>可以看到，当出现上面任何一种情况时，SESSION都会清空，出现登录不成功或者跳转到登录页面的情况。如果说不加密、不校验IP、UserAgent呢？因为COOKIE是存放在客户端，需要伴随HTTP请求发给服务端，一来过多的COOKIE会影响速度，对一些图片等资源来说完全时浪费带宽；二来COOKIE只能存储4K的数据，加密处理后能存放的更小。种种的不确定因素将产生各种奇怪的问题，避免过多的纠结，果断改用其他方式吧。</p>
 
-<h1>五、CodeIgniter配置之config</h1>
+<h1 id="五-codeigniter配置之config">五、CodeIgniter配置之config</h1>
 
-<h2>配置说明</h2>
+<h2 id="配置说明">配置说明</h2>
 
 <p>$config[&lsquo;language&rsquo;]：指定项目语言包。需要注意的时Codeigniter自带的类库错误提示语言包位于/system/language/english/目录下，当这里配置非english时， 如果需要用到这些类库，则需要拷贝语言包到指定的目录中，否则会出现load出错。</p>
 
@@ -313,7 +330,7 @@ Array
 
 <p>$config[&lsquo;encryption_key&rsquo;]：加密值，如果要用到CI自带的SESION则必须要设置该值。CI的自带SESSION存储与Cookie中，为安全起见，作加密处理。</p>
 
-<h2>配置读取</h2>
+<h2 id="配置读取">配置读取</h2>
 
 <p>CI初始化开始过程中会通过get_config函数加载config.php文件，同时也提供了config_item来获取config的值，如：<code>echo config_item('charset');</code></p>
 
@@ -325,7 +342,7 @@ echo $this-&gt;config-&gt;item('charset');
 $this-&gt;config-&gt;set_item('charset', 'gbk')
 </code></pre>
 
-<h1>六、CodeIgniter配置之router</h1>
+<h1 id="六-codeigniter配置之router">六、CodeIgniter配置之router</h1>
 
 <p>application/config/routes.php中定义了一个名为$route的数组，用来设置默认路由和404页面以及可以设置一些匹配方式。默认的配置如下：</p>
 
@@ -364,7 +381,7 @@ var_dump($this-&gt;router-&gt;fetch_method());
 
 <p>参数的获取就只能通过段落的方式来获取了。需要注意的是路由将会按照定义的顺序来运行.高层的路由总是优先于低层的路由.最后，能使用CI来设置的路由还是建议使用CI来设置，不依赖服务器配置。</p>
 
-<h1>七、CodeIgniter配置之database</h1>
+<h1 id="七-codeigniter配置之database">七、CodeIgniter配置之database</h1>
 
 <p>CodeIgniter的数据库配置文件位于application/config/database.php， 该文件中定义了$db的二维数组，参考文件如下：</p>
 
@@ -523,6 +540,7 @@ $DB2 = $this-&gt;load-&gt;database('test', TRUE);
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

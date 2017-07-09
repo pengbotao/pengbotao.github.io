@@ -20,7 +20,15 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">CodeIgniter辅助信息</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>一、helpers、libraries</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#一-helpers-libraries">一、helpers、libraries</a></li>
+<li><a href="#二-third-party">二、third_party</a></li>
+</ul>
+</nav>
+
+<h1 id="一-helpers-libraries">一、helpers、libraries</h1>
 
 <p>前面提到过helper、和libraries，主要用来存放一系列辅助函数、辅助类，用来辅助系统实现功能。但helper 和 library 之间到底有什么区别呢？什么时候该用 helper 什么时候该用 library ？这好像是个无聊的问题。。。</p>
 
@@ -37,7 +45,7 @@
 <p>接下来就是PHP功力的比拼了，不管函数或者类需要遵守一个很重要的原则：单一职责， 即一个类，最好只做一件事，只有一个引起它变化的原因。如果一个函数用一句话描述不清楚，那就需要拆成多个函数；如果一个类有跟它不相干的职责，那就拆成多个类。函数应该短小精悍，如果一个函数太长，意味着关联太多，可拆分的可能性很大。编码的时候应时刻提醒自己，它是不是只做了一件事，还能不能在细分？单一职责是程序员要遵守的首要原则，然后再加上适当的说明以及参数的注释，良好的排版风格，我相信这个函数乱不到哪里去。类更复杂点，怎么样组织代码结构，怎么样更方便调用，这些需要编程知识的积累。
 最后，我们可以多回头看看自己的函数或者类，从中吸取经验，让下次写的更好。</p>
 
-<h1>二、third_party</h1>
+<h1 id="二-third-party">二、third_party</h1>
 
 <p>third_party用来存放系统中引入的第三方类库，类库通常提供的功能比较丰富，相应的学习成本也要高些以及系统中能用到功能有限，所以建议在引入类库时进行适当的封装，让系统中更方便使用，其他人使用时只需关注扩展的方法而无法关注具体的实现。以CI集成Twig模版为例吧。</p>
 
@@ -209,6 +217,7 @@ $config['auto_reload'] = true;
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

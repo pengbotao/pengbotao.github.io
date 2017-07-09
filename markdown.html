@@ -20,21 +20,46 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Markdown基本用法</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>H1标题</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#h1标题">H1标题</a>
+<ul>
+<li><a href="#h2粗体-斜体-删除线">H2粗体、斜体、删除线</a>
+<ul>
+<li><a href="#h3引用">H3引用</a>
+<ul>
+<li><a href="#h4列表">H4列表</a>
+<ul>
+<li><a href="#h5超链接和图片">H5超链接和图片</a>
+<ul>
+<li><a href="#h6分割线">H6分割线</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#代码块">代码块</a></li>
+<li><a href="#表格">表格</a></li>
+<li><a href="#markdown源文件">Markdown源文件</a></li>
+</ul>
+</nav>
+
+<h1 id="h1标题">H1标题</h1>
 
 <p>Markdown 是一种轻量级标记语言，创始人为约翰·格鲁伯（<code>John Gruber</code>）。它允许人们“使用易读易写的纯文本格式编写文档，然后转换成有效的<code>XHTML</code>(或者<code>HTML</code>)文档”。这种语言吸收了很多在电子邮件中已有的纯文本标记的特性。</p>
 
-<h2>H2粗体、斜体、删除线</h2>
+<h2 id="h2粗体-斜体-删除线">H2粗体、斜体、删除线</h2>
 
 <p><code>Go</code> is an open source <em>programming language</em> that <del>makes it easy</del> to build <strong>simple</strong>, <strong>reliable</strong>, and <strong>efficient</strong> software.</p>
 
-<h3>H3引用</h3>
+<h3 id="h3引用">H3引用</h3>
 
 <blockquote>
 <p><code>John Gruber</code> 在 2004 年创造了 <code>Markdown</code> 语言，在语法上有很大一部分是跟 <code>Aaron Swartz</code>共同合作的。这个语言的目的是希望大家使用“易于阅读、易于撰写的纯文字格式，并选择性的转换成有效的 <code>XHTML</code> (或是<code>HTML</code>)”。</p>
 </blockquote>
 
-<h4>H4列表</h4>
+<h4 id="h4列表">H4列表</h4>
 
 <ul>
 <li>高效率，自动排版。</li>
@@ -44,15 +69,15 @@
 <li><code>Markdown</code> 转 <code>HTML</code> 非常方便。<code>HTML</code>是整个万维网（<code>web</code>）的标记语言，但更重要的是，它也是目前主流电子书格式所用的标记语言。若采用 <code>Markdown</code>，对于日后的文件转换工作也大有裨益。</li>
 </ul>
 
-<h5>H5超链接和图片</h5>
+<h5 id="h5超链接和图片">H5超链接和图片</h5>
 
 <p><a href="http://www.baidu.com">http://www.baidu.com</a>  <a href="http://www.baidu.com">百度</a>  <a href="http://www.qq.com" title="腾讯官网">腾讯</a>  <img src="/static/favicon.ico" alt="" /></p>
 
-<h6>H6分割线</h6>
+<h6 id="h6分割线">H6分割线</h6>
 
 <hr />
 
-<h1>代码块</h1>
+<h1 id="代码块">代码块</h1>
 
 <pre><code>package main
 
@@ -63,7 +88,7 @@ func main() {
 }
 </code></pre>
 
-<h1>表格</h1>
+<h1 id="表格">表格</h1>
 
 <table>
 <thead>
@@ -93,7 +118,7 @@ func main() {
 
 <hr />
 
-<h1>Markdown源文件</h1>
+<h1 id="markdown源文件">Markdown源文件</h1>
 
 <pre>
 # H1标题
@@ -163,6 +188,7 @@ func main() {
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

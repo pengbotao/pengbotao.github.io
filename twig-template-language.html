@@ -20,9 +20,23 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Twig模版语言入门</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#可用符号">可用符号</a></li>
+<li><a href="#注释">注释</a></li>
+<li><a href="#变量">变量</a></li>
+<li><a href="#数组遍历">数组遍历</a></li>
+<li><a href="#控制结构">控制结构</a></li>
+<li><a href="#内建过滤器">内建过滤器</a></li>
+<li><a href="#借用自php自带函数的过滤器">借用自PHP自带函数的过滤器</a></li>
+<li><a href="#内建函数">内建函数</a></li>
+</ul>
+</nav>
+
 <p>Twig中有两种定界符 <code>{% ... %}</code> 和 <code>{{ ... }}</code> ， 前一种用来执行语句，比如for循环、IF判断、过滤等操作，后一种模版中用来显示变量。Twig常用用法记录如下：</p>
 
-<h1>可用符号</h1>
+<h1 id="可用符号">可用符号</h1>
 
 <p>== != &lt; &gt; &gt;= &lt;= + - ~ * / // % ** | [] . .. and or not in is b-and b-or b-xor</p>
 
@@ -36,11 +50,11 @@
 <li>-：减法以及去除空白的简写用法，如 {{- 数据 }} =&gt; 去除左边的空白、{{ 数据 -}} =&gt; 去除右边的空白、{{- 数据 -}} =&gt; 去除两边的空白</li>
 </ul>
 
-<h1>注释</h1>
+<h1 id="注释">注释</h1>
 
 <p><code>{# This is Twig Comment #}</code></p>
 
-<h1>变量</h1>
+<h1 id="变量">变量</h1>
 
 <p>foo 为PHP赋值变量， 则模版中可以使用 <code>{{ foo }}</code>。如果该变量为数组或者对象，则可以使用<code>{{ foo.bar }}</code>来表示，也可以直接调用类中的方法，如 <code>{{ foo.getName }}</code>或当有参数传递时使用 <code>{{ foo.getName(p1, p2, p3) }}</code></p>
 
@@ -64,7 +78,7 @@
 
 <p>PHP 中非关联数组被映射成 <code>[元素1, 元素2, ...]</code>，关联数组则被映射成 <code>{键1: 值1, 键2: 值2, ...}</code></p>
 
-<h1>数组遍历</h1>
+<h1 id="数组遍历">数组遍历</h1>
 
 <ol>
 <li>按数组value遍历：</li>
@@ -179,7 +193,7 @@ a = 1 or b = 2
 {% endraw %}
 </code></pre>
 
-<h1>控制结构</h1>
+<h1 id="控制结构">控制结构</h1>
 
 <ul>
 <li>{% if aaa %} xxx {% elseif bbb %} yyy {% else %} zzz：判断语句</li>
@@ -201,7 +215,7 @@ a = 1 or b = 2
 <li>{% verbatim %} xxx {% endverbatim %}：阻止模板引擎的编译，是 raw 的新名字</li>
 </ul>
 
-<h1>内建过滤器</h1>
+<h1 id="内建过滤器">内建过滤器</h1>
 
 <p>过滤器用来修饰数据，各过滤器可以用竖线分隔进行链式调用，用括号传递参数。也可以将过滤器当成单独的函数来用，形式如下：</p>
 
@@ -221,7 +235,7 @@ a = 1 or b = 2
 <li>raw：让数据在 autoescape 过滤器里失效</li>
 </ul>
 
-<h1>借用自PHP自带函数的过滤器</h1>
+<h1 id="借用自php自带函数的过滤器">借用自PHP自带函数的过滤器</h1>
 
 <ul>
 <li>abs：取绝对值</li>
@@ -248,7 +262,7 @@ a = 1 or b = 2
 <li>convert_encoding：编码转换，第一个参数指定转换后的编码，第二个参数指定转换前的编码，近似于 iconv</li>
 </ul>
 
-<h1>内建函数</h1>
+<h1 id="内建函数">内建函数</h1>
 
 <ul>
 <li>even：是否为偶数</li>
@@ -298,6 +312,7 @@ a = 1 or b = 2
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

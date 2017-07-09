@@ -20,6 +20,19 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Nginx+Lua入门知识</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#hello-lua">Hello Lua</a>
+<ul>
+<li><a href="#content-by-lua">content_by_lua</a></li>
+<li><a href="#content-by-lua-file">content_by_lua_file</a></li>
+</ul></li>
+<li><a href="#nginx常用参数获取">Nginx常用参数获取</a></li>
+<li><a href="#获取md5示例">获取MD5示例</a></li>
+</ul>
+</nav>
+
 <blockquote>
 <p>OpenResty （也称为 ngx_openresty）是一个全功能的 Web 应用服务器。它打包了标准的 Nginx核心，很多的常用的第三方模块，以及它们的大多数依赖项。</p>
 
@@ -43,11 +56,11 @@
 
 <p>Win下载地址：<a href="http://code.google.com/p/luaforwindows/">http://code.google.com/p/luaforwindows/</a></p>
 
-<h1>Hello Lua</h1>
+<h1 id="hello-lua">Hello Lua</h1>
 
 <p>nginx通过content_by_lua和content_by_lua_file来嵌入lua脚本。</p>
 
-<h2>content_by_lua</h2>
+<h2 id="content-by-lua">content_by_lua</h2>
 
 <p>修改nginx配置文件nginx.conf</p>
 
@@ -61,7 +74,7 @@
 
 <p>重启nginx访问 <a href="http://localhost//hellolua">http://localhost//hellolua</a> 应该可以看到 Hello Lua.</p>
 
-<h2>content_by_lua_file</h2>
+<h2 id="content-by-lua-file">content_by_lua_file</h2>
 
 <pre><code>location /demo {
     lua_code_cache off;
@@ -82,7 +95,7 @@ ngx.say(&quot;Hello Lua Demo.&quot;)
 
 <p>访问 <a href="http://localhost/demo">http://localhost/demo</a> 则可以看到 Hello Lua Demo.</p>
 
-<h1>Nginx常用参数获取</h1>
+<h1 id="nginx常用参数获取">Nginx常用参数获取</h1>
 
 <pre><code>ngx.header.content_type = &quot;text/html&quot;
 ngx.header.PowerBy = &quot;Lua&quot;
@@ -119,7 +132,7 @@ ngx.print(ngx.req.get_body_data())
 -- ngx.redirect(&quot;/&quot;, 200)
 </code></pre>
 
-<h1>获取MD5示例</h1>
+<h1 id="获取md5示例">获取MD5示例</h1>
 
 <p>下面看个小例子，生成字符串的md5值。</p>
 
@@ -160,6 +173,7 @@ ngx.say(ngx.md5(s))
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

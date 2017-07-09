@@ -20,9 +20,18 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Linux下安装 Samba</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#安装samba">安装Samba</a></li>
+<li><a href="#配置samba">配置Samba</a></li>
+<li><a href="#启动samba">启动Samba</a></li>
+</ul>
+</nav>
+
 <p>Samba可以实现Linux与Win之间的文件共享，在内部开发文档共享上还是极好的。</p>
 
-<h1>安装Samba</h1>
+<h1 id="安装samba">安装Samba</h1>
 
 <p>查看Samba是否已安装</p>
 
@@ -34,7 +43,7 @@
 <pre><code>#yum -y install samba samba-client
 </code></pre>
 
-<h1>配置Samba</h1>
+<h1 id="配置samba">配置Samba</h1>
 
 <p>Samba的主配置文件为<code>/etc/samba/smb.conf</code>，这里主要达到在win下通过帐号登录linux共享即可，复杂的配置可参考最后的地址。直接在smb.conf后加上一段共享块。</p>
 
@@ -88,7 +97,7 @@ Server role: ROLE_STANDALONE
     read only = No
 </code></pre>
 
-<h1>启动Samba</h1>
+<h1 id="启动samba">启动Samba</h1>
 
 <p>查看Samba服务状态、启动及重启。</p>
 
@@ -172,6 +181,7 @@ OK                     \\42.121.104.209\public   Microsoft Windows Network
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

@@ -20,7 +20,20 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">C++学习笔记 – 函数</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>函数</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#函数">函数</a></li>
+<li><a href="#函数和数组">函数和数组</a></li>
+<li><a href="#指针和const">指针和const</a></li>
+<li><a href="#函数和c-风格字符串">函数和C-风格字符串</a></li>
+<li><a href="#函数和string对象">函数和string对象</a></li>
+<li><a href="#函数和结构体">函数和结构体</a></li>
+<li><a href="#函数指针">函数指针</a></li>
+</ul>
+</nav>
+
+<h1 id="函数">函数</h1>
 
 <p>创建自己的函数必须自行处理这3方面 - 定义、提供原型和调用。</p>
 
@@ -30,7 +43,7 @@
 
 <p>函数原型不要求提供变量名，有类型列表就足够了。C++中函数原型是必不可少的。</p>
 
-<h1>函数和数组</h1>
+<h1 id="函数和数组">函数和数组</h1>
 
 <p>C++将数组名解释为其第一个元素的地址:</p>
 
@@ -57,7 +70,7 @@ int sum_arr(int *arr, int n)
 <pre><code>void show array(const double ar[], int n);
 </code></pre>
 
-<h1>指针和const</h1>
+<h1 id="指针和const">指针和const</h1>
 
 <p><strong>1、让指针指向一个常量对象，可以防止指针来修改指向的值。</strong></p>
 
@@ -94,7 +107,7 @@ const double * const stick = &amp;trouble;
 
 <p>此时，stick只能指向trouble，并且不能用stick来修改trouble的值。</p>
 
-<h1>函数和C-风格字符串</h1>
+<h1 id="函数和c-风格字符串">函数和C-风格字符串</h1>
 
 <p>C-风格字符串由一系列字符组成，以空字符结尾。数组相关知识也适用于C-风格字符串。例如，将字符串作为参数时意味着传递的是地址，也可以使用const来禁止对字符串进行修改。
 将字符串作为参数传递给函数，有3中表示字符串的方式：</p>
@@ -112,11 +125,11 @@ char * str = &quot;galumphing&quot;;
 
 <p>将字符串作为参数来传递，实际上传递的是字符串第一个字符的地址。意味着函数原型应声明为 char *类型。C-风格字符串与常规char数组之间的一个重要区别是，字符串有内置的结束字符，这意味着不必将字符串长度作为参数传递给函数。</p>
 
-<h1>函数和string对象</h1>
+<h1 id="函数和string对象">函数和string对象</h1>
 
 <p>虽然C-风格字符串和string对象的用途几乎相同，但与数组相比，string对象与结构更相似。例如，可以将一个结构赋给另一个结构，也可以将一个对象赋值给另一个对象。可以将结构作为完整的实体传递给函数，也可以将对象作为完整的实体进行传递。如果需要多个字符串，可以声明一个string对象数组，而不是二维char数组。</p>
 
-<h1>函数和结构体</h1>
+<h1 id="函数和结构体">函数和结构体</h1>
 
 <p>与数组名就是数组第一个元素的地址不同的是，结构名只是结构的名称，要获取结构的地址，必须使用地址运算符&amp;。</p>
 
@@ -128,7 +141,7 @@ char * str = &quot;galumphing&quot;;
 <li>由于形参是指针而不是结构，因此应用间接成员运算符（-&gt;），而不是成员运算符（.）。</li>
 </ul>
 
-<h1>函数指针</h1>
+<h1 id="函数指针">函数指针</h1>
 
 <p>与数据项相似，函数也有地址。函数的地址是存储其机器语言代码的内存的开始地址。可以编写将另一个函数的地址作为参数的函数，这样子第一个函数将能够找到第二个函数，并运行它。函数名即为函数的地址。</p>
 
@@ -158,6 +171,7 @@ char * str = &quot;galumphing&quot;;
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

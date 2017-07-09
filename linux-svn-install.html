@@ -20,7 +20,17 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Linux下安装 SVN</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>SVN服务端安装</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#svn服务端安装">SVN服务端安装</a></li>
+<li><a href="#svn配置">SVN配置</a></li>
+<li><a href="#svn启动">SVN启动</a></li>
+<li><a href="#svn命令">SVN命令</a></li>
+</ul>
+</nav>
+
+<h1 id="svn服务端安装">SVN服务端安装</h1>
 
 <pre><code>yum -y install subversion
  
@@ -35,7 +45,7 @@
 # svn import code file:///data/svndata/itopic -m &quot;init&quot;
 </code></pre>
 
-<h1>SVN配置</h1>
+<h1 id="svn配置">SVN配置</h1>
 
 <p>itopic/conf有3个文件（svnserve.conf、passwd、authz）来配置SVN相关访问信息。</p>
 
@@ -88,7 +98,7 @@ kim = rw
 * =
 </code></pre>
 
-<h1>SVN启动</h1>
+<h1 id="svn启动">SVN启动</h1>
 
 <pre><code># svnserve -d -r /data/svndata
 </code></pre>
@@ -109,7 +119,7 @@ kim = rw
 <pre><code># echo 'svnserve -d -r /data/svndata' &gt;&gt;/etc/rc.local
 </code></pre>
 
-<h1>SVN命令</h1>
+<h1 id="svn命令">SVN命令</h1>
 
 <p>1、将文件checkout到本地目录</p>
 
@@ -283,6 +293,7 @@ svn help ci
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

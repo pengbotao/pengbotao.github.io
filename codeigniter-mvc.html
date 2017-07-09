@@ -20,9 +20,23 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">CodeIgniter框架之MVC</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>一、控制器</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#一-控制器">一、控制器</a>
+<ul>
+<li><a href="#1-1-公用控制器">1.1 公用控制器</a></li>
+<li><a href="#1-2-业务逻辑">1.2 业务逻辑</a></li>
+<li><a href="#1-3-控制器">1.3 控制器</a></li>
+</ul></li>
+<li><a href="#二-模型">二、模型</a></li>
+<li><a href="#三-视图">三、视图</a></li>
+</ul>
+</nav>
 
-<h2>1.1 公用控制器</h2>
+<h1 id="一-控制器">一、控制器</h1>
+
+<h2 id="1-1-公用控制器">1.1 公用控制器</h2>
 
 <p>Codeigniter所有的控制器都必须继承CI_Controller类，但CI_Controller类位于system目录下，不太方便修改。为方便做一些公用的处理，通常情况下我们会在core下创建MY_Controller，用来继承CI_Controller，从而项目中所有的控制器继承MY_Controller。</p>
 
@@ -81,7 +95,7 @@ class MY_Controller extends CI_Controller
 <li>3、 如果不喜欢$this-&gt;herlper的调用方法，可以让控制器去继承不同的公用控制器，思路是一样的，只是可能需要手动引入文件。</li>
 </ul>
 
-<h2>1.2 业务逻辑</h2>
+<h2 id="1-2-业务逻辑">1.2 业务逻辑</h2>
 
 <p>前面对公用控制器按模块分发，方便对特定模块的控制，而具体的实现类则是放在library中。那放在library中是否合适呢？以及控制器中更多的业务逻辑该放在哪里？</p>
 
@@ -118,7 +132,7 @@ class MY_Controller extends CI_Controller
 
 <p>其实主要思路还是需要有一层用来处理业务逻辑，java中都有这一层。随着对CI的不断熟悉，发觉这里需要这一层，达到解放控制器和模型的目的。和这种类似的做法还有很多，如果系统中有很多地方需要用到web service 或者说cache之类的，其实也可以按照上面的思路单独放在一个文件夹中处理，方便管理。</p>
 
-<h2>1.3 控制器</h2>
+<h2 id="1-3-控制器">1.3 控制器</h2>
 
 <p>接着前面看， 如果做用户登录功能，用户模块会写在user_service类中。需要登录判断则会增加一个login方法，传入用户名和密码并返回bool值。user_service示例代码如下：</p>
 
@@ -150,7 +164,7 @@ class MY_Controller extends CI_Controller
 <li>4、 对于公用的Action可以按模块或者按请求类型来区分，具体情况根据项目而定。</li>
 </ul>
 
-<h1>二、模型</h1>
+<h1 id="二-模型">二、模型</h1>
 
 <p>MVC中的业务逻辑放在控制器中或者模型里都是不合适的，所以这里对业务逻辑进行了分离，多出一层用来处理业务逻辑，模型就只当作数据访问层，这样子模型将会变得比较轻。CI中并未通过实体对象来传参，参数的传入和返回都由开发者控制，比较灵活。很多情况下都会以数组的方式传入或者返回。</p>
 
@@ -385,7 +399,7 @@ class MY_Model extends ActiveRecord
 /* Location: ./application/core/MY_Model.php */
 </code></pre>
 
-<h1>三、视图</h1>
+<h1 id="三-视图">三、视图</h1>
 
 <p>CI中视图即application/views/下的模版文件，模版中支持直接使用PHP，所以模版的实现没有太多好说的，说几点从视图想到的吧。</p>
 
@@ -422,6 +436,7 @@ class MY_Model extends ActiveRecord
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

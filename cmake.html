@@ -20,7 +20,20 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">CMake整理</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>CMake简介</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#cmake简介">CMake简介</a></li>
+<li><a href="#安装cmake">安装CMAKE</a></li>
+<li><a href="#hello-world">Hello World</a></li>
+<li><a href="#cmake基本语法规则">cmake基本语法规则</a></li>
+<li><a href="#内部构建与外部构建">内部构建与外部构建</a></li>
+<li><a href="#安装-install指令">安装 - INSTALL指令</a></li>
+<li><a href="#常用命令">常用命令</a></li>
+</ul>
+</nav>
+
+<h1 id="cmake简介">CMake简介</h1>
 
 <p>CMake 是一个跨平台的自动化建构系统,它使用一个名为 CMakeLists.txt 的文件来描述构建过程,可以产生标准的构建文件,如 Unix 的 Makefile 或Windows Visual C++ 的 projects/workspaces 。文件 CMakeLists.txt 需要手工编写,也可以通过编写脚本进行半自动的生成。CMake 提供了比 autoconfig 更简洁的语法。在 linux 平台下使用 CMake 生成 Makefile 并编译的流程如下:</p>
 
@@ -30,7 +43,7 @@
 <li>3、使用 make 命令进行编译。</li>
 </ul>
 
-<h1>安装CMAKE</h1>
+<h1 id="安装cmake">安装CMAKE</h1>
 
 <pre><code># wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
 # tar zxvf cmake-3.2.2.tar.gz 
@@ -41,7 +54,7 @@
 
 <p>接下来通过cmake来构建一个简单的HelloWorld项目。</p>
 
-<h1>Hello World</h1>
+<h1 id="hello-world">Hello World</h1>
 
 <pre><code>$ more main.cpp 
 #include &lt;iostream&gt;
@@ -110,7 +123,7 @@ Install the project...
 
 <p><strong>接下来看看CMake相关知识点</strong></p>
 
-<h1>cmake基本语法规则</h1>
+<h1 id="cmake基本语法规则">cmake基本语法规则</h1>
 
 <ul>
 <li>1，变量使用${}方式取值，但是在 IF 控制语句中是直接使用变量名</li>
@@ -128,7 +141,7 @@ ADD_EXECUTABLE(hello main.cpp;func.cpp)
 
 <p>上面的示例未内部构建（in-source build），而cmake强烈推荐的是外部构建（out-of-source build）。</p>
 
-<h1>内部构建与外部构建</h1>
+<h1 id="内部构建与外部构建">内部构建与外部构建</h1>
 
 <p>在cmake中有两个预定义变量：<code>projectname_BINARY_DIR</code>以及<code>projectname_SOURCE_DIR</code>。在我们的项目中，两个变量分别为：main_BINARY_DIR和main_SOURCE_DIR。</p>
 
@@ -148,7 +161,7 @@ make
 
 <p>两种方法最大的不同在于执行cmake和make的工作路径不同。第一种方法中，cmake生成的所有中间文件和可执行文件都会存放在项目目录中；而第二种方法中，中间文件和可执行文件都将存放在build目录中。第二种方法的优点显而易见，它最大限度的保持了代码目录的整洁。同时由于第二种方法的生成、编译和安装是发生在不同于项目目录的其他目录中，所以第二种方法就叫做“外部构建”。在外部构建的情况下，PROJECT_SOURCE_DIR指向的目录同内部构建相同，仍然为~/main，而PROJECT_BINARY_DIR则有所不同，指向~/main/build目录。当然，cmake强烈推荐使用外部构建的方法。同时在实际的应用中推荐使用PROJECT_BINARY_DIR和PROJECT_SOURCE_DIR变量，这样即使项目名称发生变化也不会影响CMakeLists.txt文件。</p>
 
-<h1>安装 - INSTALL指令</h1>
+<h1 id="安装-install指令">安装 - INSTALL指令</h1>
 
 <p>这里需要引入一个新的 cmake 指令 INSTALL 和一个非常有用的变量 CMAKE_INSTALL_PREFIX。CMAKE_INSTALL_PREFIX 变量类似于 configure 脚本的 –prefix，常见的使用方法看起来是这个样子：</p>
 
@@ -245,7 +258,7 @@ ${CMAKE_INSTALL_PREFIX}/</p>
 
 <p>将 icons 目录安装到 /share/myproj，将 scripts/中的内容安装到 /share/myproj 不包含目录名为 CVS 的目录，对于 scripts/*文件指定权限为 OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ.</p>
 
-<h1>常用命令</h1>
+<h1 id="常用命令">常用命令</h1>
 
 <table>
 <thead>
@@ -354,6 +367,7 @@ set(CMAKE_INSTALL_PREFIX /usr/local)
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

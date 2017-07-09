@@ -20,6 +20,17 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Python动态类型</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#变量-对象和引用">变量，对象和引用</a></li>
+<li><a href="#类型属于对象-而不是变量">类型属于对象，而不是变量</a></li>
+<li><a href="#共享引用">共享引用</a></li>
+<li><a href="#共享引用和在原处修改">共享引用和在原处修改</a></li>
+<li><a href="#共享对象和相等">共享对象和相等</a></li>
+</ul>
+</nav>
+
 <p><strong>静态类型与动态类型</strong></p>
 
 <blockquote>
@@ -32,7 +43,7 @@
 <p>强、弱类型是说变量的类型在运算上下文中是否可以自动转换。<code>Python</code>属于强类型。</p>
 </blockquote>
 
-<h1>变量，对象和引用</h1>
+<h1 id="变量-对象和引用">变量，对象和引用</h1>
 
 <p>在python中，类型是在运行过程中自动决定的，而不是通过代码声明。这意味着没有必要事先声明变量。</p>
 
@@ -70,7 +81,7 @@
 
 <p>事实上，python并不是对创建的所有对象都会重新申请新的一块内存空间。作为一种优化，python会缓存不变的对象（如数值较小的数字，字符串，元组等）并对其进行复用。</p>
 
-<h1>类型属于对象，而不是变量</h1>
+<h1 id="类型属于对象-而不是变量">类型属于对象，而不是变量</h1>
 
 <pre><code>&gt;&gt;&gt; a = 3
 &gt;&gt;&gt; a = 'viper'
@@ -79,7 +90,7 @@
 
 <p>变量a刚开始是整数，然后是字符串，最后是浮点数，但是这段代码可以运行。这是因为，在python中，情况很简单，变量名没有类型。上面的代码，我们只是把变量<code>a</code>修改为对不同对象的引用，从而让变量a引用了不同类型的对象而已。</p>
 
-<h1>共享引用</h1>
+<h1 id="共享引用">共享引用</h1>
 
 <pre><code>&gt;&gt;&gt; a=3
 &gt;&gt;&gt; b=a
@@ -98,7 +109,7 @@
 
 <p><code>a='viper'</code>创建了一个新的对象<code>'viper'</code>,并让变量<code>a</code>对这个新对象引用，而变量<code>b</code>仍然引用原来的对象<code>3</code>.所以这时变量<code>b</code>的值是<code>3</code>.</p>
 
-<h1>共享引用和在原处修改</h1>
+<h1 id="共享引用和在原处修改">共享引用和在原处修改</h1>
 
 <p>有一些对象和操作确实会在原处改变对象，例如，在一个列表中对一个偏移赋值就会改变这个列表对象，而不是生成一个新的列表对象。对于这种可以在原处修改的对象，共享引用的时候要小心，因为对一个变量名的修改会影响其他和它引用同一对象的变量。</p>
 
@@ -117,7 +128,7 @@
 
 <p>因为L2引用的是L1引用对象的一个拷贝，这里两个变量指向不同的内存区域。所以L1的改变不会影响L2.注意上面用到了分片，其他的有些可变的核心类型（如字典，集合）不能分片，这时就使用<code>copy()</code>方法。</p>
 
-<h1>共享对象和相等</h1>
+<h1 id="共享对象和相等">共享对象和相等</h1>
 
 <p>由于python的引用模型，在python程序中有两种不同的方法检查是否相等。<code>==</code> 和 <code>is</code></p>
 
@@ -170,6 +181,7 @@ True
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

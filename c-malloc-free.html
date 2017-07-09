@@ -20,7 +20,18 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">C语言之内存的申请malloc() 和释放free()</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>1、如何使用 malloc 函数</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#1-如何使用-malloc-函数">1、如何使用 malloc 函数</a></li>
+<li><a href="#2-用-malloc-函数申请-0-字节内存">2、 用 malloc 函数申请 0 字节内存</a></li>
+<li><a href="#3-内存释放">3、内存释放</a></li>
+<li><a href="#4-内存释放之后">4、内存释放之后</a></li>
+<li><a href="#5-内存已经被释放了-但是继续通过指针来使用">5、内存已经被释放了，但是继续通过指针来使用</a></li>
+</ul>
+</nav>
+
+<h1 id="1-如何使用-malloc-函数">1、如何使用 malloc 函数</h1>
 
 <p>malloc是一个函数，专门用来从堆上分配内存。使用malloc函数需要几个要求：</p>
 
@@ -52,12 +63,12 @@
 
 <p>函数同样要注意这点：如果所申请的内存块大于目前堆上剩余内存块（整块），则内存分配会失败，函数返回NULL。注意这里说的&rdquo;堆上剩余内存块&rdquo;不是所有剩余内存块之和，因为malloc函数申请的是连续的一块内存。既然malloc函数申请内存有不成功的可能，那我们在使用指向这块内存的指针时，必须用if（NULL！=p）语句来验证内存确实分配成功了。</p>
 
-<h1>2、 用 malloc 函数申请 0 字节内存</h1>
+<h1 id="2-用-malloc-函数申请-0-字节内存">2、 用 malloc 函数申请 0 字节内存</h1>
 
 <p>另外还有一个问题：用malloc函数申请0字节内存会返回NULL指针吗？
 可以测试一下，也可以去查找关于malloc函数的说明文档。申请0字节内存，函数并不返回NULL，而是返回一个正常的内存地址。但是你却无法使用这块大小为0的内存。这好尺子上的某个刻度，刻度本身并没有长度，只有某两个刻度一起才能量出长度。对于这一点一定要小心，因为这时候if（NULL！=p）语句校验将不起作用。</p>
 
-<h1>3、内存释放</h1>
+<h1 id="3-内存释放">3、内存释放</h1>
 
 <p>既然有分配，那就必须有释放。不然的话，有限的内存总会用光，而没有释放的内存却在空闲。与malloc对应的就是free函数了。free函数只有一个参数，就是所要释放的内存块的首地址。比如上例：<code>free(p);</code></p>
 
@@ -71,7 +82,7 @@
 
 <p>malloc两次只free一次会内存泄漏；malloc一次free两次肯定会出错。也就是说，在程序中malloc的使用次数一定要和free相等，否则必有错误。这种错误主要发生在循环使用malloc函数时，往往把malloc和free次数弄错了。</p>
 
-<h1>4、内存释放之后</h1>
+<h1 id="4-内存释放之后">4、内存释放之后</h1>
 
 <p>既然使用free函数之后指针变量p本身保存的地址并没有改变，那我们就需要重新把p的值变为NULL：<code>p = NULL;</code></p>
 
@@ -93,7 +104,7 @@ if (NULL != p)
 
 <p>释放完块内存之后，没有把指针置NULL，这个指针就成为了“野指针”，也有书叫“悬垂指针”。这是很危险的，而且也是经常出错的地方。所以一定要记住一条：free完之后，一定要给指针置NULL。</p>
 
-<h1>5、内存已经被释放了，但是继续通过指针来使用</h1>
+<h1 id="5-内存已经被释放了-但是继续通过指针来使用">5、内存已经被释放了，但是继续通过指针来使用</h1>
 
 <p>这里一般有三种情况：</p>
 
@@ -128,6 +139,7 @@ if (NULL != p)
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

@@ -20,7 +20,30 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Redis集群方案 - twemproxy</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>一、概述</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#一-概述">一、概述</a></li>
+<li><a href="#二-twemproxy安装">二、twemproxy安装</a>
+<ul>
+<li><a href="#2-1-安装autoconf">2.1 安装autoconf</a></li>
+<li><a href="#2-2-安装及启动">2.2 安装及启动</a>
+<ul>
+<li><a href="#2-2-1-安装">2.2.1 安装</a></li>
+<li><a href="#2-2-2-配置">2.2.2 配置</a></li>
+<li><a href="#2-2-3-启动twemproxy">2.2.3 启动twemproxy</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#三-twemproxy使用">三、twemproxy使用</a></li>
+<li><a href="#四-性能测试">四、性能测试</a>
+<ul>
+<li><a href="#4-1-twemproxy">4.1 twemproxy</a></li>
+</ul></li>
+<li><a href="#4-2-redis">4.2 redis</a></li>
+</ul>
+</nav>
+
+<h1 id="一-概述">一、概述</h1>
 
 <p>Twemproxy是Twitter的一个开源项目，用户实现reids、memcache的集群服务，可以有效的避免单点故障，不过twemproxy本身也是一个单点，需要其他服务来实现搞可用。使用twemproxy后后端缓存服务对用户透明，用户直连twemproxy即可。</p>
 
@@ -42,11 +65,11 @@
 <li>支持 linux, *bsd,os x 和 solaris</li>
 </ul>
 
-<h1>二、twemproxy安装</h1>
+<h1 id="二-twemproxy安装">二、twemproxy安装</h1>
 
 <p>twemproxy需要autoconf2.64以上版本，开发机版本偏低重新安装。</p>
 
-<h2>2.1 安装autoconf</h2>
+<h2 id="2-1-安装autoconf">2.1 安装autoconf</h2>
 
 <pre><code># wget http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
 # tar zxvf autoconf-2.69.tar.gz
@@ -64,9 +87,9 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 License GPLv3+/Autoconf: GNU GPL version 3 or later
 </code></pre>
 
-<h2>2.2 安装及启动</h2>
+<h2 id="2-2-安装及启动">2.2 安装及启动</h2>
 
-<h3>2.2.1 安装</h3>
+<h3 id="2-2-1-安装">2.2.1 安装</h3>
 
 <pre><code># wget https://codeload.github.com/twitter/twemproxy/zip/master
 # unzip master
@@ -91,7 +114,7 @@ autoreconf: /usr/bin/autoconf failed with exit status: 1
 # cd /usr/local/twemproxy
 </code></pre>
 
-<h3>2.2.2 配置</h3>
+<h3 id="2-2-2-配置">2.2.2 配置</h3>
 
 <p>创建运行时目录和配置目录</p>
 
@@ -155,12 +178,12 @@ alpha:
 nutcracker: configuration file 'conf/nutcracker.yml' syntax is ok
 </code></pre>
 
-<h3>2.2.3 启动twemproxy</h3>
+<h3 id="2-2-3-启动twemproxy">2.2.3 启动twemproxy</h3>
 
 <pre><code># ./sbin/nutcracker -d -c /usr/local/twemproxy/conf/nutcracker.yml -p /usr/local/twemproxy/run/redisproxy.pid -o /usr/local/twemproxy/run/redisproxy.log
 </code></pre>
 
-<h1>三、twemproxy使用</h1>
+<h1 id="三-twemproxy使用">三、twemproxy使用</h1>
 
 <p>使用方式同redis客户端一样，只是将端口改成了22121，但需要注意的是有一些命令不支持，支持的命令可查看：<a href="https://github.com/twitter/twemproxy/blob/master/notes/redis.md">https://github.com/twitter/twemproxy/blob/master/notes/redis.md</a></p>
 
@@ -187,11 +210,11 @@ OK
 
 <p>可以看到重启后我们原有的KEY在6379端口上还存在， 但是因为新增机器hash值已变化，直接查找时找到6380端口上去了。此时两个端口上都有该KEY，但最新的是在6380上。</p>
 
-<h1>四、性能测试</h1>
+<h1 id="四-性能测试">四、性能测试</h1>
 
 <p>经过一层代理后官方给出的极限情况性能下降20%，这里通过redis-benchmark进行一下简单的set、get压测，可以看到性能有一定下降。</p>
 
-<h2>4.1 twemproxy</h2>
+<h2 id="4-1-twemproxy">4.1 twemproxy</h2>
 
 <pre><code>[root@asm bin]# ./redis-benchmark -h 127.0.0.1 -p 22121 -c 100 -n 1000000 -r 1000000 -d 1024 -t get,set
 ====== SET ======
@@ -218,7 +241,7 @@ OK
 174947.52 requests per second
 </code></pre>
 
-<h1>4.2 redis</h1>
+<h1 id="4-2-redis">4.2 redis</h1>
 
 <pre><code>[root@asm bin]# ./redis-benchmark -h 127.0.0.1 -p 6380 -c 100 -n 1000000 -r 1000000 -d 1024 -t get,set
 ====== SET ======
@@ -269,6 +292,7 @@ OK
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

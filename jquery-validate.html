@@ -20,12 +20,23 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Jquery Validate使用及配置</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#导入js文件">导入JS文件</a></li>
+<li><a href="#使用方法">使用方法</a></li>
+<li><a href="#提示信息">提示信息</a></li>
+<li><a href="#常用设置">常用设置</a></li>
+<li><a href="#自定义验证方法">自定义验证方法</a></li>
+</ul>
+</nav>
+
 <ul>
 <li>当前版本：v1.11.1</li>
 <li>官网地址：<a href="http://jqueryvalidation.org/">http://jqueryvalidation.org/</a></li>
 </ul>
 
-<h1>导入JS文件</h1>
+<h1 id="导入js文件">导入JS文件</h1>
 
 <p>下载压缩包后validate文件位于dist目录，目录中包含jquery.validate.js 与 additional-methods.js以及各自的min文件。additional-methods.js为附加的验证方法，可根据情况导入。</p>
 
@@ -34,7 +45,7 @@
 &lt;script src=&quot;./js/additional-methods.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 </code></pre>
 
-<h1>使用方法</h1>
+<h1 id="使用方法">使用方法</h1>
 
 <p>以注册页为例，需要验证用户名、密码、重复密码、验证码。其中用户名需检测唯一性，验证码需检测是否正确。form-register为表单ID，验证代码如下：</p>
 
@@ -73,7 +84,7 @@
 });
 </code></pre>
 
-<h1>提示信息</h1>
+<h1 id="提示信息">提示信息</h1>
 
 <p>点击提交按钮后验证不通过的会自动在input后增加提示信息</p>
 
@@ -136,7 +147,7 @@
 }
 </code></pre>
 
-<h1>常用设置</h1>
+<h1 id="常用设置">常用设置</h1>
 
 <ul>
 <li>debug：开启调试，当设置true时只验证， 不会提交表单。</li>
@@ -150,7 +161,7 @@
 <li>ignore：对某些元素不进行验证</li>
 </ul>
 
-<h1>自定义验证方法</h1>
+<h1 id="自定义验证方法">自定义验证方法</h1>
 
 <p>addMethod(name,method,message)方法：</p>
 
@@ -199,6 +210,7 @@
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

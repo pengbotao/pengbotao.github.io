@@ -20,7 +20,19 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Linux下安装 Mysql</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>1、通过官网下载mysql源码包。</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#1-通过官网下载mysql源码包">1、通过官网下载mysql源码包。</a></li>
+<li><a href="#2-安装cmake">2、 安装cmake</a></li>
+<li><a href="#3-编译并安装">3、编译并安装</a></li>
+<li><a href="#4-配置my-cnf">4、配置my.cnf</a></li>
+<li><a href="#5-初始化mysql数据库">5、初始化Mysql数据库</a></li>
+<li><a href="#6-启动mysql">6、启动Mysql</a></li>
+</ul>
+</nav>
+
+<h1 id="1-通过官网下载mysql源码包">1、通过官网下载mysql源码包。</h1>
 
 <p>访问<a href="http://dev.mysql.com/downloads/">http://dev.mysql.com/downloads/</a> 点击MySQL Community Server，选择Source Code， 点击 Generic Linux (Architecture Independent), Compressed TAR Archive后的Download</p>
 
@@ -29,7 +41,7 @@
 # cd mysql-5.6.20
 </code></pre>
 
-<h1>2、 安装cmake</h1>
+<h1 id="2-安装cmake">2、 安装cmake</h1>
 
 <p>mysql5.5以后源码安装都得通过cmake编译，并安装了ncurses ncurses-devel</p>
 
@@ -38,7 +50,7 @@
 # useradd -g mysql mysql
 </code></pre>
 
-<h1>3、编译并安装</h1>
+<h1 id="3-编译并安装">3、编译并安装</h1>
 
 <pre><code># cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/webserver/mysql -DMYSQL_DATADIR=/usr/local/webserver/mysql -DSYSCONFDIR=/usr/local/webserver/mysql -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci  -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1
 # make &amp;&amp; make install
@@ -61,7 +73,7 @@
 <pre><code># rm CMakeCache.txt
 </code></pre>
 
-<h1>4、配置my.cnf</h1>
+<h1 id="4-配置my-cnf">4、配置my.cnf</h1>
 
 <p>拷贝mysql配置文件，并进行相应配置，这里是服务器是阿里云的最低配置，单核 512M内存。</p>
 
@@ -103,12 +115,12 @@ log_queries_not_using_indexes=1
 sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES 
 </code></pre>
 
-<h1>5、初始化Mysql数据库</h1>
+<h1 id="5-初始化mysql数据库">5、初始化Mysql数据库</h1>
 
 <pre><code>/usr/loca/webserver/mysql/scripts/mysql_install_db --user=mysql
 </code></pre>
 
-<h1>6、启动Mysql</h1>
+<h1 id="6-启动mysql">6、启动Mysql</h1>
 
 <pre><code># ./support-files/mysql.server start
 </code></pre>
@@ -183,6 +195,7 @@ Starting MySQL. SUCCESS!
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

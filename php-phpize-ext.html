@@ -20,7 +20,16 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">phpize添加PHPopenssl、mysql扩展</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>phpize</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#phpize">phpize</a></li>
+<li><a href="#添加openssl扩展">添加openssl扩展</a></li>
+<li><a href="#添加mysql扩展">添加mysql扩展</a></li>
+</ul>
+</nav>
+
+<h1 id="phpize">phpize</h1>
 
 <p>phpize 命令是用来准备 PHP 扩展库的编译环境的。下面例子中，扩展库的源程序位于 extname 目录中：</p>
 
@@ -39,7 +48,7 @@ $ make
 
 <p>原文：<a href="http://php.net/manual/zh/install.pecl.phpize.php">http://php.net/manual/zh/install.pecl.phpize.php</a></p>
 
-<h1>添加openssl扩展</h1>
+<h1 id="添加openssl扩展">添加openssl扩展</h1>
 
 <pre><code># cd /data/pkg/php-5.5.15/ext/openssl
 # /usr/local/webserver/php/bin/phpize
@@ -69,7 +78,7 @@ root     22464  0.0  0.1   4028   676 pts/0    R+   09:37   0:00 grep php
 <pre><code>print_r(RsaUtil::create());
 </code></pre>
 
-<h1>添加mysql扩展</h1>
+<h1 id="添加mysql扩展">添加mysql扩展</h1>
 
 <pre><code># cd /data/pkg/php-5.5.15/ext/mysql
 # /usr/local/webserver/php/bin/phpize 
@@ -127,6 +136,7 @@ root      4767  0.0  0.1   4028   680 pts/0    R+   11:39   0:00 grep php
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

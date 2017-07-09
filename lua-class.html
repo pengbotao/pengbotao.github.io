@@ -20,6 +20,14 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Lua实现类与继承</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#类的实例">类的实例</a></li>
+<li><a href="#类的继承">类的继承</a></li>
+</ul>
+</nav>
+
 <p>Lua中没有类的概念，但可以通过table、函数以及一些语言特性来模拟类。table的值可以为函数。看下面这段代码：</p>
 
 <pre><code>LogUtil = {msg_prefix = string.format(&quot;%s &quot;, os.date(&quot;%H:%M:%S&quot;, os.time())) }
@@ -73,7 +81,7 @@ LogA:write(&quot;This is a LogA Info&quot;)
 
 <p>到目前为止还只是一些属性和方法的集合，并没有实例化类，属性的改变会导致全局的变化。接下来看如何实现多个互不影响的类的实例。</p>
 
-<h1>类的实例</h1>
+<h1 id="类的实例">类的实例</h1>
 
 <p>在Lua中有一个神奇的东西叫做metatable(元表)。metatable也是键值对。当访问table中一个不存在的属性时就会触发一些事件。比如当设置了元方法__index时 表示当调用当前table中不存在的属性或方法时会到元方法对应的table中去找，从而实现继承的效果。</p>
 
@@ -120,7 +128,7 @@ Hello.This is a LogB Info
 
 <p>当执行LogA:write()时先在LogA中查找，LogA没有此方法，此时会到LogUtil中去找。基本上已经也有了继承的概念。</p>
 
-<h1>类的继承</h1>
+<h1 id="类的继承">类的继承</h1>
 
 <p>在前面基础上我们调整下调用，LogA为LogUtil的实例，找不到的方法都到LogUtil中去找。如果想要LogB继承自LogA呢？可以直接在new一下LogA。</p>
 
@@ -160,6 +168,7 @@ LogB:write(&quot;This is a LogB Info&quot;)
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

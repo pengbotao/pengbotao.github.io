@@ -20,7 +20,21 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">CodeIgniter框架核心</h1>
 <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
-<h1>一、执行流程</h1>
+<div class="main-topic-content">
+<nav>
+<ul>
+<li><a href="#一-执行流程">一、执行流程</a></li>
+<li><a href="#二-钩子">二、钩子</a></li>
+<li><a href="#三-多语言支持">三、多语言支持</a></li>
+<li><a href="#四-扩展核心类">四、扩展核心类</a>
+<ul>
+<li><a href="#1-扩展核心类">1、扩展核心类</a></li>
+<li><a href="#2-扩展ci类库">2、扩展CI类库</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="一-执行流程">一、执行流程</h1>
 
 <p>CI手册介绍一栏有关于应用程序流程图的介绍，从更宏观的层面来解读CI的执行流程。CI的整体流程都集中在核心目录中的CodeIgniter.php文件中，这里整理了一张CodeIgniter中的执行流程，其中突出了钩子，为后面整理钩子用。
 说明：</p>
@@ -29,7 +43,7 @@
 
 <p><img src="/static/uploads/Codeigniter-overflow.png" alt="" /></p>
 
-<h1>二、钩子</h1>
+<h1 id="二-钩子">二、钩子</h1>
 
 <p>CodeIgniter执行流程图中有7个椭圆的框，这表示在执行的过程中埋了7个钩子。那先来看看什么是钩子？
 网上找到的两段文字：</p>
@@ -80,7 +94,7 @@
 
 <p>过多的if判断会导致程序难以阅读和维护，而通过钩子的处理可以让程序更灵活。钩子有一定的触发条件，条件可以是配置、从数据库读取，或者通过一些技术来实现，比如反射等，使用钩子可以达到解耦的目的。</p>
 
-<h1>三、多语言支持</h1>
+<h1 id="三-多语言支持">三、多语言支持</h1>
 
 <p>CI应用目录下有一个language语言包目录，用来配置多种不同的语言。语言的配置位于config文件中，配置格式如下：</p>
 
@@ -150,11 +164,11 @@ echo lang('menu_system_title');
 
 <p>很多情况下多语言的实现都是通过数组的形式来实现，还有一些是.mo的格式,l18n多语言的实现方式，php中需要php_gettext扩展支持，详情可查阅相关资料。</p>
 
-<h1>四、扩展核心类</h1>
+<h1 id="四-扩展核心类">四、扩展核心类</h1>
 
 <p>CI中对核心类、辅助类和函数的扩展是相当方便的，配置文件中指定了subclass_prefix扩展前缀，默认为MY_，扩展时需要以该配置为前缀，下面整理下扩展方式。</p>
 
-<h2>1、扩展核心类</h2>
+<h2 id="1-扩展核心类">1、扩展核心类</h2>
 
 <p>核心类位于system/core下，其中大部分类会在初始化的时候自动加载。扩展核心类的方式有两种：替换核心类和继承核心类。</p>
 
@@ -196,7 +210,7 @@ class MY_Input extends CI_Input
 /* Location: ./application/core/MY_Input.php */
 </code></pre>
 
-<h2>2、扩展CI类库</h2>
+<h2 id="2-扩展ci类库">2、扩展CI类库</h2>
 
 <p>system/libraries下实现了一些辅助类，当有需要扩展这些类时，和核心类的处理方式是一样的，只不过目录变成了application/libraries</p>
 
@@ -260,6 +274,7 @@ function array_field_sort($data, $sort_field, $sort_type = SORT_ASC)
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>
