@@ -52,6 +52,7 @@
 <li><a href="#3-3-重发请求">3.3 重发请求</a></li>
 <li><a href="#3-4-映射请求到本地或者远程">3.4 映射请求到本地或者远程</a></li>
 <li><a href="#3-5-模拟弱网络">3.5 模拟弱网络</a></li>
+<li><a href="#3-6-https抓包">3.6 HTTPS抓包</a></li>
 </ul></li>
 <li><a href="#四-常见问题">四、常见问题</a>
 <ul>
@@ -59,6 +60,8 @@
 <li><a href="#4-2-为什么用着用着会自动关闭">4.2 为什么用着用着会自动关闭？</a></li>
 <li><a href="#4-3-为什么会突然卡死-无法关掉">4.3 为什么会突然卡死，无法关掉？</a></li>
 <li><a href="#4-4-charles异常关闭后无法访问网页">4.4 Charles异常关闭后无法访问网页。</a></li>
+<li><a href="#4-5-charles-https抓取机制">4.5 Charles HTTPS抓取机制</a></li>
+<li><a href="#4-6-部分https无法抓取">4.6 部分HTTPS无法抓取</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -318,13 +321,13 @@ Windows IP 配置
 
 <p>篡改请求可以通过断点的开始来设置，可以直接设置在Proxy -&gt; Settings设置，也可以选中要篡改的请求邮件点击Breakpoints。点击之后重新发请求，Charles收到请求后进入到这个页面</p>
 
-<p><img src="/static/uploads/chares-breakpoint.png" alt="" /></p>
+<p><img src="/static/uploads/charles-breakpoint.png" alt="" /></p>
 
 <p>我们可以在Edit Request里编辑请求的参数等信息， 编辑完成之后点击执行（Execute），然后收到返回后会同样进入一个这样子的返回页面，也可以对返回数据进行编辑，编辑完成之后再点击Execute。这样子发起请求者收到的将是经过篡改之后的数据。</p>
 
 <p>此时查看Proxy -&gt; Breakpoints里的设置信息将多处一条记录。</p>
 
-<p><img src="/static/uploads/chares-breakpoint-settings.png" alt="" /></p>
+<p><img src="/static/uploads/charles-breakpoint-settings.png" alt="" /></p>
 
 <p>可以看到断点是针对请求和返回， 如果只想修改请求数据或者只修改返回数据则编辑一下，去掉对应的勾即可。</p>
 
@@ -356,6 +359,23 @@ Windows IP 配置
 
 <p><img src="/static/uploads/charles-throttling-settings.png" alt="" /></p>
 
+<h2 id="3-6-https抓包">3.6 HTTPS抓包</h2>
+
+<p><img src="/static/uploads/charles-ssl-install.png" alt="" /></p>
+
+<ul>
+<li>1、电脑安装证书：Charles -&gt; Help -&gt; SSL Proxying -&gt; Install Charles Root Certificate</li>
+<li>2、手机HTTPS安装证书。
+<img src="/static/uploads/charles-ssl-install-tips.png" alt="" />
+
+<ul>
+<li>手机按3.1.2.2的方式指定代理</li>
+<li>通过手机浏览器访问提示窗口上的地址 <code>http://chls.pro/ssl</code>，下载证书<code>PEM</code>文件</li>
+</ul></li>
+<li>3、安卓手机：设置 -&gt; WLAN -&gt; 高级设置 -&gt; 安装证书，选中刚才下载的PEM文件</li>
+<li>4、Charles上<code>SSL Proxying Settings</code>勾选<code>Enable SSL Proxying</code>以及Host指定*，端口指定443。</li>
+</ul>
+
 <h1 id="四-常见问题">四、常见问题</h1>
 
 <h2 id="4-1-安装后无法启动">4.1 安装后无法启动</h2>
@@ -378,6 +398,29 @@ Windows IP 配置
 <h2 id="4-4-charles异常关闭后无法访问网页">4.4 Charles异常关闭后无法访问网页。</h2>
 
 <p>Charles异常关闭后浏览器的代理未取消，需要再次启动Charles即可访问网页。</p>
+
+<h2 id="4-5-charles-https抓取机制">4.5 Charles HTTPS抓取机制</h2>
+
+<pre><code>著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。 
+作者：连山归藏 
+来源：知乎 
+第一步， fiddler向服务器发送请求进行握手， 获取到服务器的CA证书， 用根证书公钥进行解密， 验证服务器数据签名，获取到服务器CA证书公钥。 
+第二步， fiddler伪造自己的CA证书， 冒充服务器证书传递给客户端浏览器，客户端浏览器做跟fiddler一样的事。 
+第三步， 客户端浏览器生成https通信用的对称密钥，用fiddler伪造的证书公钥加密后传递给服务器， 被fiddler截获。 
+第四步， fiddler将截获的密文用自己伪造证书的私钥解开，获得https通信用的对称密钥。 
+第五步， fiddler将对称密钥用服务器证书公钥加密传递给服务器， 服务器用私钥解开后建立信任，握手完成， 用对称密钥加密消息， 开始通信。 
+第六步， fiddler接收到服务器发送的密文， 用对称密钥解开，获得服务器发送的明文。再次加密， 发送给客户端浏览器。 
+第七步， 客户端向服务器发送消息， 用对称密钥加密， 被fidller截获后，解密获得明文。 
+由于fiddler一直拥有通信用对称密钥， 所以在整个https通信过程中信息对其透明。也就是说fiddler&amp;charles向服务器冒充是客户端，向客户端又谎称自己是服务器。
+</code></pre>
+
+<h2 id="4-6-部分https无法抓取">4.6 部分HTTPS无法抓取</h2>
+
+<p>有一些服务器会对客户端身份进行验证，即会进行双向验证导致验证不过无法抓取。</p>
+
+<ul>
+<li><a href="https://blog.csdn.net/u010731949/article/details/50538280">https://blog.csdn.net/u010731949/article/details/50538280</a></li>
+</ul>
 
 <div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
 <div style="float:right;">
