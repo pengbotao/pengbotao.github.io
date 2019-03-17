@@ -1,0 +1,1 @@
+由`https://github.com/pengbotao/itopic.go`生成静态页面。
