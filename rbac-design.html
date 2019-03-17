@@ -17,8 +17,8 @@
     </script>
 </head>
 <body>
-<h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">RBAC权限设计</h1>
-<a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
+<h1 class="title">RBAC权限设计</h1>
+<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
 <nav>
 </nav>
@@ -71,33 +71,35 @@
 
 <p>权限的设计可以弄的很麻烦，这里本着尽可能简单的方式，有一些非菜单访问的页面就直接忽略掉控制（permission_type），只是在入口页面控制权限分配，减少管理员的操作。当然敏感的操作还是要控制。</p>
 
-<div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
-<div style="float:right;">
-    <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+<div class="eof">-- EOF --</div>
+<div class="eof_arrow">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
 </div>
-<div style="padding: 0 10px;text-align:right;float:right;">
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2014-04.html">2014-04-12 11:25</a></code>
 </div>
-<div style="padding: 0 10px;text-align:right;float:right;">
+<div class="eof_tag">
     标签：
     <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
     <code style="border:0px;background:none;"><a href="/tag/rbac.html">RBAC</a></code>
 </div>
 
-<div id="disqus_thread" style="margin-bottom:20px;"></div>
+<div id="disqus_thread" style="margin-bottom:35px;"></div>
 <script>
+
 var disqus_config = function () {
     this.page.url = "http://itopic.org/rbac-design.html";
     this.page.identifier = "rbac-design";
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
+setTimeout(function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
     s.src = 'https://itopic.disqus.com/embed.js';
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
-})();
+}, 3000);
+
 </script>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>

@@ -17,8 +17,8 @@
     </script>
 </head>
 <body>
-<h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">Golang环境搭建</h1>
-<a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
+<h1 class="title">Golang环境搭建</h1>
+<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
 <nav>
 <ul>
@@ -32,6 +32,7 @@
 <ul>
 <li><a href="#2-1-vscode常用操作">2.1 VsCode常用操作</a></li>
 </ul></li>
+<li><a href="#三-go编译">三、Go编译</a></li>
 </ul>
 </nav>
 
@@ -60,7 +61,7 @@
 <li>GOPATH：go的工作目录，可以设置多个目录。<code>go get</code>会将包安装在第一个目录，自己的开发习惯是将第一个作为公用库目录，后面的目录才是自己的开发目录，方便区分公用目录和个人目录。<code>import</code>的时候会按照GOPATH配置的路径从前往后找。多个路径的分隔符mac下后<code>冒号</code>，win下为<code>分号</code>。</li>
 </ul>
 
-<p><strong>mac</strong></p>
+<p><strong>mac/linux</strong></p>
 
 <pre><code># vi ~/.bash_profile
 # export GOROOT=/usr/local/server/go1.8
@@ -174,34 +175,47 @@ go get -v github.com/cweill/gotests/...
 
 <p>到这里golang的基本环境就搭建好了。</p>
 
-<div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
-<div style="float:right;">
-    <a href="http://itopic.org/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+<h1 id="三-go编译">三、Go编译</h1>
+
+<pre><code>GOOS=linux GOARCH=amd64 go build -x -o bin/main main.go
+GOOS=windows GOARCH=amd64 go build -x -o bin/main main.go
+</code></pre>
+
+<ul>
+<li>GOOS: darwin、freebsd、linux、windows</li>
+<li>GOARCH: 386、amd64、arm</li>
+</ul>
+
+<div class="eof">-- EOF --</div>
+<div class="eof_arrow">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
 </div>
-<div style="padding: 0 10px;text-align:right;float:right;">
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2016-11.html">2016-11-10 19:00</a></code>
 </div>
-<div style="padding: 0 10px;text-align:right;float:right;">
+<div class="eof_tag">
     标签：
     <code style="border:0px;background:none;"><a href="/tag/golang.html">Golang</a></code>
     <code style="border:0px;background:none;"><a href="/tag/vscode.html">vscode</a></code>
     <code style="border:0px;background:none;"><a href="/tag/环境部署.html">环境部署</a></code>
 </div>
 
-<div id="disqus_thread" style="margin-bottom:20px;"></div>
+<div id="disqus_thread" style="margin-bottom:35px;"></div>
 <script>
+
 var disqus_config = function () {
     this.page.url = "http://itopic.org/go-start.html";
     this.page.identifier = "go-start";
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
+setTimeout(function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
     s.src = 'https://itopic.disqus.com/embed.js';
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
-})();
+}, 3000);
+
 </script>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
