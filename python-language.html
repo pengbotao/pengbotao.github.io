@@ -51,18 +51,21 @@
 <li><a href="#5-2-函数参数-可变参数与关键字参数">5.2 函数参数 - 可变参数与关键字参数</a></li>
 <li><a href="#5-3-函数返回">5.3 函数返回</a></li>
 <li><a href="#5-4-函数调用">5.4 函数调用</a></li>
-<li><a href="#5-5-函数装饰器">5.5 函数装饰器</a></li>
 </ul></li>
 <li><a href="#六-类-class">六、类 - Class</a>
 <ul>
 <li><a href="#6-1-类定义">6.1 类定义</a></li>
-<li><a href="#6-2-包与导入">6.2 包与导入</a></li>
+<li><a href="#6-2-访问限制">6.2 访问限制</a></li>
+<li><a href="#6-3-成员属性">6.3 成员属性</a></li>
+<li><a href="#6-4-成员方法">6.4 成员方法</a></li>
 </ul></li>
 <li><a href="#七-错误和异常">七、错误和异常</a></li>
 <li><a href="#八-高级用法">八、高级用法</a>
 <ul>
 <li><a href="#8-1-三元表达式">8.1 三元表达式</a></li>
 <li><a href="#8-2-推导式">8.2. 推导式</a></li>
+<li><a href="#8-3-map-fliter函数">8.3 map &amp;&amp; fliter函数</a></li>
+<li><a href="#8-4-sort-sorted">8.4 sort &amp;&amp; sorted</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -701,7 +704,9 @@ fruits.clear()
 </tbody>
 </table>
 
-<p>列表、元组和字符串都是序列。字符串是字符的序列，列表和元祖是任意类型的序列。序列的两个主要特点是索引操作符和切片操作符。索引操作符让我们可以从序列中抓取一个特定项目。切片操作符让我们能够获取序列的一个切片，即一部分序列。</p>
+<p>列表、元组和字符串都是序列。字符串是字符的序列，列表和元祖是任意类型的序列。</p>
+
+<p>序列的两个主要特点是索引操作符和切片操作符。索引操作符让我们可以从序列中抓取一个特定项目。切片操作符让我们能够获取序列的一个切片，即一部分序列。</p>
 
 <pre><code>fruits = &quot;apple&quot;
 
@@ -726,6 +731,11 @@ print(fruits[:])
 </thead>
 
 <tbody>
+<tr>
+<td>bool(x)</td>
+<td>将x转bool类型</td>
+</tr>
+
 <tr>
 <td>int(x)</td>
 <td>将x转换为一个整数</td>
@@ -871,10 +881,6 @@ print(p)
 # 打印[85, 86]，可见函数内部对p的修改直接影响了原有的值.
 </code></pre>
 
-<h2 id="5-5-函数装饰器">5.5 函数装饰器</h2>
-
-<p><code>pass</code></p>
-
 <h1 id="六-类-class">六、类 - Class</h1>
 
 <h2 id="6-1-类定义">6.1 类定义</h2>
@@ -893,7 +899,81 @@ t = Test(1, 2)
 print(t.sum())
 </code></pre>
 
-<h2 id="6-2-包与导入">6.2 包与导入</h2>
+<h2 id="6-2-访问限制">6.2 访问限制</h2>
+
+<p>Python只有公有和私有，默认公有，当属性或方法前面有两个下划线（<code>__</code>）时，就只有内部可以访问，外部就只能间接访问而无法直接访问了。</p>
+
+<h2 id="6-3-成员属性">6.3 成员属性</h2>
+
+<p>Python中并不需要在类中预定义属性，这样子会存在一个问题，并不太方便知道一个类有多少个成员属性。比如，在上面函数中增加一行：</p>
+
+<pre><code>    def sum(self):
+        self.z = self.x + self.y
+        return self.x + self.y
+</code></pre>
+
+<p>这样子在调用<code>sum</code>方法之后打印类对象：<code>print(vars(t))</code>，可以看到结果：<code>{'y': 2, 'x': 1, 'z': 3}</code>。这种不确定性在程序维护过程中会比较麻烦。所以对通用的属性可以考虑在构造函数<code>__init__</code>中做一个初始化，方便知道类中有哪些可使用的属性。</p>
+
+<p>对属性的设置除了常规的用法外，也可以通过<code>@property</code>装饰器做一些限制。比如设置只读，对设置的值做一些检测。</p>
+
+<pre><code>
+class Test(object):
+
+    def __init__(self):
+        self._age = 18
+
+    @property
+    def age(self):
+        return self._age
+
+    @age.setter
+    def age(self, value):
+        if not isinstance(value, int):
+            raise ValueError(&quot;age must be int.&quot;)
+        self._age = value
+
+
+t = Test()
+print(t.age)
+t.age = 20
+print(t.age)
+#设置非int会抛异常
+#t.age = &quot;123&quot;
+</code></pre>
+
+<ul>
+<li>可以直接通过<code>示例.属性名</code>来获取，不需要带函数的括号。</li>
+<li>不设置对应的<code>setter</code>方法时，该属性对外只读，修改会抛异常。</li>
+</ul>
+
+<h2 id="6-4-成员方法">6.4 成员方法</h2>
+
+<p>成员方法有3中形式：实例方法、类方法、静态方法。</p>
+
+<ul>
+<li>实例方法：需要显示的传入self对象参数，需要实例化类之后调用方法</li>
+<li>类方法(<code>@classmethod</code>)：不需要实例化类，方法属于类</li>
+<li>静态方法(<code>@staticmethod</code>): 相当于放在类里面的函数，从功能上看属于类，但不需要调用类里其他的成员属性和成员方法。</li>
+</ul>
+
+<p>定义方式如下：</p>
+
+<pre><code>class Test(object):
+
+    __n = 0
+
+    @classmethod
+    def show(cls):
+        print(&quot;Hello World {0}&quot;.format(cls.__n))
+
+    @staticmethod
+    def sum(x, y):
+        return x + y
+
+
+Test.sum(1, 2)
+Test.show()
+</code></pre>
 
 <h1 id="七-错误和异常">七、错误和异常</h1>
 
@@ -965,6 +1045,140 @@ $ L = {x * y for x in range(1, 5) for y in range(6, 10) if y &gt; 8}
 # set([9, 18, 27, 36])
 </code></pre>
 
+<h2 id="8-3-map-fliter函数">8.3 map &amp;&amp; fliter函数</h2>
+
+<p><strong>map函数</strong></p>
+
+<p><code>map</code>为内置函数，用于遍历序列，然后将函数用于遍历过程中的每一个元素。函数定义：</p>
+
+<pre><code>map(function, sequence[, sequence, ...]) -&gt; list
+</code></pre>
+
+<ul>
+<li>function: 处理函数</li>
+<li>sequence：一个或多个序列</li>
+<li>返回值： list</li>
+</ul>
+
+<p>示例一(字符串也是一种序列)：</p>
+
+<pre><code>&gt;&gt;&gt; map(ord, &quot;Hello World&quot;)
+[72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100]
+</code></pre>
+
+<p>利用上面的列表推导式也可以实现：</p>
+
+<pre><code>&gt;&gt;&gt; [ ord(x) for x in &quot;Hello World&quot;]
+[72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100]
+</code></pre>
+
+<p>如果是多个序列，会同时将每个序列的元素拿出一起传给函数。如果长度不一致会用None补齐。</p>
+
+<pre><code>&gt;&gt;&gt; map(lambda x, y :  (x, y) , &quot;Hello&quot;, &quot;Python&quot;)
+[('H', 'P'), ('e', 'y'), ('l', 't'), ('l', 'h'), ('o', 'o'), (None, 'n')]
+</code></pre>
+
+<p><strong>filter函数</strong></p>
+
+<p><code>filter</code>也为内置函数，将序列的每个元素传给<code>function</code>，然后将函数执行返回<code>True</code>的元素组成新的列表。</p>
+
+<pre><code>filter(function or None, sequence) -&gt; list, tuple, or string
+</code></pre>
+
+<p>如过滤掉字母<code>o</code></p>
+
+<pre><code>&gt;&gt;&gt; filter(lambda x: x != &quot;o&quot;, &quot;Hello World&quot;)
+'Hell Wrld'
+</code></pre>
+
+<h2 id="8-4-sort-sorted">8.4 sort &amp;&amp; sorted</h2>
+
+<p><code>sort</code> 与 <code>sorted</code> 区别：<code>sort</code> 是应用在 <code>list</code> 上的方法，<code>sorted</code> 可以对所有可迭代的对象进行排序操作。</p>
+
+<p><code>list</code> 的 <code>sort</code> 方法返回的是<strong>对已经存在的列表进行操作，无返回值</strong>，而内建函数 <code>sorted</code> 方法<strong>返回的是一个新的 list</strong>，而不是在原来的基础上进行的操作。</p>
+
+<p>关键点：</p>
+
+<ul>
+<li><code>sort</code>改变原列表，<code>sorted</code>不会改变原列表</li>
+<li><code>sort</code>只用于列表，<code>sorted</code>用于所有可迭代对象</li>
+</ul>
+
+<p><strong>sort</strong></p>
+
+<pre><code>&gt;&gt;&gt; print(list.sort.__doc__)
+L.sort(cmp=None, key=None, reverse=False) -- stable sort *IN PLACE*;
+cmp(x, y) -&gt; -1, 0,
+</code></pre>
+
+<p>示例(具体参数使用参考<code>sorted</code>)：</p>
+
+<pre><code>&gt;&gt;&gt; a = [1, 3, 2, 4]
+&gt;&gt;&gt; a.sort()
+&gt;&gt;&gt; a
+[1, 2, 3, 4]
+</code></pre>
+
+<p><strong>sorted</strong></p>
+
+<pre><code>&gt;&gt;&gt; print(sorted.__doc__)
+sorted(iterable, cmp=None, key=None, reverse=False) --&gt; new sorted list
+</code></pre>
+
+<p>参数说明：</p>
+
+<ul>
+<li>iterable &ndash; 可迭代对象。</li>
+<li>cmp &ndash; 比较的函数，这个具有两个参数，参数的值都是从可迭代对象中取出，此函数必须遵守的规则为，大于则返回1，小于则返回-1，等于则返回0。</li>
+<li>key &ndash; 也是指定一个函数，cmp用来指定比较方法， key用来指定该用哪个key做比较</li>
+<li>reverse &ndash; 排序规则，reverse = True 降序 ， reverse = False 升序（默认）。</li>
+</ul>
+
+<p>示例一，指定cmp函数：</p>
+
+<pre><code>def mycmp(x, y):
+    print(x,y)
+    if ord(x) &gt; ord(y):
+        return 1
+    elif ord(x) == ord(y):
+        return 0
+    else:
+        return -1
+
+a = &quot;b2a1c3&quot;
+
+b = sorted(a, cmp=mycmp)
+
+print(a, b)
+
+# Output
+# ('2', 'b')
+# ('a', '2')
+# ('a', 'b')
+# ('a', '2')
+# ('1', 'a')
+# ('1', '2')
+# ('c', 'a')
+# ('c', 'b')
+# ('3', 'a')
+# ('3', '2')
+# ('b2a1c3', ['1', '2', '3', 'a', 'b', 'c'])
+</code></pre>
+
+<p>示例二，指定key函数</p>
+
+<pre><code>a = [{&quot;name&quot;: &quot;Jack&quot;, &quot;age&quot;: 30}, {&quot;name&quot;: &quot;Peter&quot;, &quot;age&quot;: 18}, {&quot;name&quot;: &quot;Amy&quot;, &quot;age&quot;: 24}]
+
+b = sorted(a, key=lambda x: x[&quot;age&quot;])
+
+print(a)
+print(b)
+
+
+# [{'age': 30, 'name': 'Jack'}, {'age': 18, 'name': 'Peter'}, {'age': 24, 'name': 'Amy'}]
+# [{'age': 18, 'name': 'Peter'}, {'age': 24, 'name': 'Amy'}, {'age': 30, 'name': 'Jack'}]
+</code></pre>
+
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -979,6 +1193,14 @@ $ L = {x * y for x in range(1, 5) for y in range(6, 10) if y &gt; 8}
 </div>
 
 <div id="disqus_thread" style="margin-bottom:35px;"></div>
+
+<div id="footer">
+    <ul>
+        <li>
+        @2013-2019 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>] <b>Github地址</b>：http://github.com/pengbotao/itopic.go</li>
+    </ul>
+</div>
+
 <script>
 
 var disqus_config = function () {

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>2013的幸福 - 老彭的博客</title>
+    <title>Python爬虫库 - 数据解析 - 老彭的博客</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
     <script>
     var _hmt = _hmt || [];
@@ -17,31 +17,29 @@
     </script>
 </head>
 <body>
-<h1 class="title">2013的幸福</h1>
+<h1 class="title">Python爬虫库 - 数据解析</h1>
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
 <nav>
+<ul>
+<li><a href="#lxml">lxml</a></li>
+</ul>
 </nav>
 
-<p>伴随着2013的结束，博客到今天也恰好一年了！</p>
+<h1 id="lxml">lxml</h1>
 
-<p>曾经的suchshow毕业后就没怎么管了，后来一直想弄个博客，写点技术心得体会，也终于在年初弄起来了，一度也荒废过两个月，但整体上还算满意吧，也胡乱写了几篇乱七八糟的东西，还算踏实。</p>
+<p>通过<code>requests</code>获取内容，然后在用<code>lxml</code>库通过<code>xpath</code>来解析节点。下面为抓取本博客所有文章。</p>
 
-<p>常在想闲的时候可以学点什么东西，有更多的时间去整理、去思考，但当真正闲下来的时候却又什么都不想做了，反而是忙的时候可以挤出时间学一些东西，努力让自己忙起来吧。</p>
+<pre><code>import requests
+from lxml import html
 
-<p>年初从七天离职来到铁人，工作变得忙碌了，也算好事，一些编码习惯也慢慢形成，知识也更成熟了一点，不过广度有待扩展！</p>
+URL = &quot;http://itopic.org&quot;
 
-<p>一度让人窝心的驾照也在今年拿到了！生活上其他的事也都过去了，还算充实。。。</p>
+for topic in html.fromstring(requests.get(URL).text).xpath('//div[@id=&quot;left-sider&quot; or @id=&quot;right-sider&quot;]/ul/li'):
+    print(&quot;%s %s %s%s&quot; % (topic.text, topic.xpath('./a/text()')[0], URL, topic.xpath('./a/@href')[0]))
+</code></pre>
 
-<p>晒下1314的幸福，结婚照：</p>
-
-<p><img src="/static/uploads/2013-marry.jpg" alt="" /></p>
-
-<p>那些美食：</p>
-
-<p><img src="/static/uploads/2013-foods.jpg" alt="" /></p>
-
-<p>最后，道德经五千真言在2014能记住不？</p>
+<p>requests+lxml可参考：<code>http://x-wei.github.io/python_crawler_requests_lxml.html</code></p>
 
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
@@ -49,11 +47,13 @@
 </div>
 <div class="eof_tag">
     发表于：
-    <code style="border:0px;background:none;"><a href="/2014-01.html">2014-01-23 07:18</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-04.html">2016-04-12 13:14</a></code>
 </div>
 <div class="eof_tag">
     标签：
-    <code style="border:0px;background:none;"><a href="/tag/随笔.html">随笔</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/python.html">Python</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/python常用库.html">Python常用库</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/爬虫.html">爬虫</a></code>
 </div>
 
 <div id="disqus_thread" style="margin-bottom:35px;"></div>
@@ -68,8 +68,8 @@
 <script>
 
 var disqus_config = function () {
-    this.page.url = "http://itopic.org/2013-thinking.html";
-    this.page.identifier = "2013-thinking";
+    this.page.url = "http://itopic.org/python-html-xml-parse.html";
+    this.page.identifier = "python-html-xml-parse";
 };
 
 setTimeout(function() { // DON'T EDIT BELOW THIS LINE

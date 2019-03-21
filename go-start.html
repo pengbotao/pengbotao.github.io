@@ -150,6 +150,11 @@ go get -v github.com/cweill/gotests/...
 
 <p>有一点需要注意的是，有些包因为防火墙等原因无法下载，比如<code>golang.org/x/crypto</code>直接<code>go get</code>可能无法安装，则我们可以在gopath创建对应的目录，然后下载github上的包放到同样的目录即可，比如：<code>git clone git@github.com:golang/crypto.git</code>。上面有一些依赖包不翻墙可能无法下载， 则可以通过这种方式来下载。</p>
 
+<p>有代理的可以手动指定代理</p>
+
+<pre><code>$ export http_proxy=127.0.0.1:9090 https_proxy=127.0.0.1:9090
+</code></pre>
+
 <p>go的包管理非集中式的，当一个地方不通的时候，可以考虑换个仓库去试。</p>
 
 <h2 id="2-1-vscode常用操作">2.1 VsCode常用操作</h2>
@@ -202,6 +207,14 @@ GOOS=windows GOARCH=amd64 go build -x -o bin/main main.go
 </div>
 
 <div id="disqus_thread" style="margin-bottom:35px;"></div>
+
+<div id="footer">
+    <ul>
+        <li>
+        @2013-2019 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>] <b>Github地址</b>：http://github.com/pengbotao/itopic.go</li>
+    </ul>
+</div>
+
 <script>
 
 var disqus_config = function () {
