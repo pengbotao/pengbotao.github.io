@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Python工具 - Supervisor - 老彭的博客</title>
+    <title>Python Web项目部署 - 老彭的博客</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
     <script>
     var _hmt = _hmt || [];
@@ -17,64 +17,37 @@
     </script>
 </head>
 <body>
-<h1 class="title">Python工具 - Supervisor</h1>
+<h1 class="title">Python Web项目部署</h1>
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
 <nav>
+<ul>
+<li><a href="#web服务器-uwsgi">WEB服务器 - uWSGI</a></li>
+<li><a href="#gunicorn">gunicorn</a></li>
+<li><a href="#gevent">gevent</a></li>
+<li><a href="#nginx">Nginx</a></li>
+</ul>
 </nav>
 
-<p>&ndash; 安装supervisor
-$ pip install supervisor</p>
+<h1 id="web服务器-uwsgi">WEB服务器 - uWSGI</h1>
 
-<p>&ndash; 生成配置文件
-$ echo_supervisord_conf &gt; /etc/supervisord.conf
-$ vim /etc/supervisord.conf</p>
-
-<p>&ndash; 启动supervisor
-$ supervisord -c /etc/supervisord.conf</p>
-
-<p>&ndash; 查看supervisor是否运行
-$ ps aux | grep supervisord</p>
-
-<p><strong>program 配置</strong></p>
-
-<p>一份配置文件至少需要一个 <code>[program:x]</code> 部分的配置，来告诉<code>supervisord</code>需要管理那个进程。<code>[program:x]</code> 语法中的 x 表示 program name，会在客户端（supervisorctl 或 web 界面）显示，在 supervisorctl 中通过这个值来对程序进行 start、restart、stop 等操作。</p>
-
-<p>program可以直接修改<code>supervisord.conf</code>也可以通过 include 的方式把不同的程序（组）写到不同的配置文件里。这里参考后面这种。</p>
-
-<pre><code>[include]
-files = /etc/supervisor/*.conf
+<pre><code># uwsgi服务器
+$ pip install uwsgi
+# uwsgi服务器性能查看工具
+$ pip install uwsgitop
 </code></pre>
 
-<pre><code>#/etc/supervisor/mgr.conf
-[program:mgr]
-directory=/home/www/mgr
-command=/usr/bin/python /home/www/mgr/mgr_server.py --port=88%(process_num)02d --log-file-prefix=/home/www/mgr/log/tornado/88%(process_num)02d.log
-numprocs=3
-process_name=%(program_name)s_88%(process_num)02d;
-autostart=true
-autorestart=true
-redirect_stderr=true
-stdout_logfile = /home/www/mgr/log/supervisor.log
-</code></pre>
+<h1 id="gunicorn">gunicorn</h1>
 
-<p><strong>supervisorctl</strong></p>
+<p>pass</p>
 
-<p><code>Supervisorctl</code> 是 <code>supervisord</code> 的一个命令行客户端工具，启动时需要指定与 <code>supervisord</code> 使用同一份配置文件，否则与 <code>supervisord</code> 一样按照顺序查找配置文件。</p>
+<h1 id="gevent">gevent</h1>
 
-<pre><code>$ supervisorctl -c /etc/supervisord.conf
+<p>pass</p>
 
-&gt; status         # 查看程序状态
-&gt; stop mgr       # 关闭 usercenter 程序
-&gt; start mgr      # 启动 usercenter 程序
-&gt; restart mgr    # 重启 usercenter 程序
-&gt; reread         # 读取有更新（增加）的配置文件，不会启动新添加的程序
-&gt; update         # 重启配置文件修改过的程序
+<h1 id="nginx">Nginx</h1>
 
-&gt; reload         # 重启supervisor程序
-</code></pre>
-
-<p>参考文档：<a href="http://liyangliang.me/posts/2015/06/using-supervisor/">http://liyangliang.me/posts/2015/06/using-supervisor/</a></p>
+<p>pass</p>
 
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
@@ -82,7 +55,7 @@ stdout_logfile = /home/www/mgr/log/supervisor.log
 </div>
 <div class="eof_tag">
     发表于：
-    <code style="border:0px;background:none;"><a href="/2016-02.html">2016-02-15 07:14</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-06.html">2016-06-01 00:05</a></code>
 </div>
 <div class="eof_tag">
     标签：
@@ -101,8 +74,8 @@ stdout_logfile = /home/www/mgr/log/supervisor.log
 <script>
 
 var disqus_config = function () {
-    this.page.url = "http://itopic.org/supervisor.html";
-    this.page.identifier = "supervisor";
+    this.page.url = "http://itopic.org/python-project-deploy.html";
+    this.page.identifier = "python-project-deploy";
 };
 
 setTimeout(function() { // DON'T EDIT BELOW THIS LINE
