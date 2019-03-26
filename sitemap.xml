@@ -847,12 +847,6 @@
       <priority>0.2</priority>
    </url>
    <url>
-      <loc>/tag/%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2.html</loc>
-      <lastmod>2019-03-26</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.2</priority>
-   </url>
-   <url>
       <loc>/tag/memcache.html</loc>
       <lastmod>2019-03-26</lastmod>
       <changefreq>monthly</changefreq>
@@ -865,61 +859,7 @@
       <priority>0.2</priority>
    </url>
    <url>
-      <loc>/tag/svn.html</loc>
-      <lastmod>2019-03-26</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.2</priority>
-   </url>
-   <url>
-      <loc>/tag/samba.html</loc>
-      <lastmod>2019-03-26</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.2</priority>
-   </url>
-   <url>
-      <loc>/tag/vsftp.html</loc>
-      <lastmod>2019-03-26</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.2</priority>
-   </url>
-   <url>
-      <loc>/tag/convert.html</loc>
-      <lastmod>2019-03-26</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.2</priority>
-   </url>
-   <url>
-      <loc>/tag/rz.html</loc>
-      <lastmod>2019-03-26</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.2</priority>
-   </url>
-   <url>
-      <loc>/tag/sz.html</loc>
-      <lastmod>2019-03-26</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.2</priority>
-   </url>
-   <url>
-      <loc>/tag/scp.html</loc>
-      <lastmod>2019-03-26</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.2</priority>
-   </url>
-   <url>
-      <loc>/tag/split.html</loc>
-      <lastmod>2019-03-26</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.2</priority>
-   </url>
-   <url>
-      <loc>/tag/tar.html</loc>
-      <lastmod>2019-03-26</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.2</priority>
-   </url>
-   <url>
-      <loc>/tag/phpize.html</loc>
+      <loc>/tag/%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2.html</loc>
       <lastmod>2019-03-26</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
