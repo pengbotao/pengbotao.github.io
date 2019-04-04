@@ -18,20 +18,22 @@
 <ul>
 <li><a href="#mysqldb-mysqlclient-and-mysql-connector-python的区别">MySQLdb, mysqlclient and MySQL connector/Python的区别?</a></li>
 </ul></li>
-<li><a href="#二-pymysql">二、pymysql</a>
+<li><a href="#二-python-database-api">二、 Python Database API</a></li>
+<li><a href="#三-pymysql">三、pymysql</a>
 <ul>
-<li><a href="#2-1-执行查询">2.1 执行查询</a></li>
-<li><a href="#2-2-执行插入">2.2 执行插入</a></li>
-<li><a href="#2-3-更新-删除操作">2.3 更新/删除操作</a></li>
+<li><a href="#3-1-执行查询">3.1 执行查询</a></li>
+<li><a href="#3-2-执行插入">3.2 执行插入</a></li>
+<li><a href="#3-3-更新-删除操作">3.3 更新/删除操作</a></li>
 </ul></li>
-<li><a href="#三-mysqldb">三、MySQLdb</a></li>
-<li><a href="#四-mysql-connector-python">四、MySQL-Connector/Python</a></li>
+<li><a href="#四-mysqldb">四、MySQLdb</a></li>
+<li><a href="#五-mysql-connector-python">五、MySQL-Connector/Python</a></li>
+<li><a href="#六-sqlite3">六、Sqlite3</a></li>
 </ul>
 </nav>
 
 <h1 id="一-概述">一、概述</h1>
 
-<p>Python常用连接Mysql的库有三种：</p>
+<p>Python中连接数据库的包比较多，常用连接Mysql的库有三种，先对着3种有一个基本的认识：</p>
 
 <ul>
 <li>MySQLdb: MySQLdb is an thread-compatible interface to the popular MySQL database server that provides the Python database API.
@@ -65,13 +67,19 @@
 
 <p>From <a href="https://stackoverflow.com/questions/43102442/whats-the-difference-between-mysqldb-mysqlclient-and-mysql-connector-python"><code>stackoverflow</code></a>.</p>
 
-<h1 id="二-pymysql">二、pymysql</h1>
+<h1 id="二-python-database-api">二、 Python Database API</h1>
+
+<p>这个DB-API就是一套规范，要求数据库相关的包需要按此执行。所以可以看到各种数据库操作流程上大同小异。</p>
+
+<p>查看<a href="https://www.python.org/dev/peps/pep-0249/">官网V2.0说明</a></p>
+
+<h1 id="三-pymysql">三、pymysql</h1>
 
 <p>文档地址：<a href="https://pymysql.readthedocs.io/en/latest/">https://pymysql.readthedocs.io/en/latest/</a></p>
 
 <p>安装方法: <code>pip install PyMySQL</code></p>
 
-<h2 id="2-1-执行查询">2.1 执行查询</h2>
+<h2 id="3-1-执行查询">3.1 执行查询</h2>
 
 <pre><code>import pymysql
 
@@ -114,7 +122,7 @@ cur.close
         print(row)
 </code></pre>
 
-<h2 id="2-2-执行插入">2.2 执行插入</h2>
+<h2 id="3-2-执行插入">3.2 执行插入</h2>
 
 <pre><code>sql = &quot;insert into test (tag_name, tag_val) values (%s, %s)&quot;
 
@@ -141,7 +149,7 @@ cur.close
 db.close()
 </code></pre>
 
-<h2 id="2-3-更新-删除操作">2.3 更新/删除操作</h2>
+<h2 id="3-3-更新-删除操作">3.3 更新/删除操作</h2>
 
 <pre><code>sql = &quot;update test set tag_val = %s where tag_name = %s&quot;
 
@@ -152,13 +160,13 @@ cur.close
 db.close()
 </code></pre>
 
-<h1 id="三-mysqldb">三、MySQLdb</h1>
+<h1 id="四-mysqldb">四、MySQLdb</h1>
 
 <ul>
 <li><a href="https://mysqlclient.readthedocs.io/user_guide.html">MySQLdb User&rsquo;s Guide</a></li>
 </ul>
 
-<p>用法与<code>PyMySQL</code>一致，官网上最后一次发布还是在2014年1月，目前还不支持<code>Python3</code>，网上查询<code>Python3</code>中可用<code>PyMySQL</code>代理。兼容方法（未验证）：</p>
+<p>MySQL-python又叫MySQLdb。用法与<code>PyMySQL</code>一致，官网上最后一次发布还是在2014年1月，目前还不支持<code>Python3</code>，网上查询<code>Python3</code>中可用<code>PyMySQL</code>代理。兼容方法（未验证）：</p>
 
 <pre><code>import pymysql
 
@@ -167,7 +175,9 @@ pymysql.install_as_MySQLdb()
 
 <p>同时<code>MySQLdb</code>还Fork出来的一个分支：<code>mysqlclient</code>，增加了对<code>Python3</code>的支持。</p>
 
-<h1 id="四-mysql-connector-python">四、MySQL-Connector/Python</h1>
+<h1 id="五-mysql-connector-python">五、MySQL-Connector/Python</h1>
+
+<h1 id="六-sqlite3">六、Sqlite3</h1>
 
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
@@ -180,6 +190,8 @@ pymysql.install_as_MySQLdb()
 <div class="eof_tag">
     标签：
     <code style="border:0px;background:none;"><a href="/tag/python.html">Python</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/mysql.html">Mysql</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/sqlite.html">SQLite</a></code>
 </div>
 
 <div id="footer">
