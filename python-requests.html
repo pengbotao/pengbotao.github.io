@@ -19,7 +19,10 @@
 <li><a href="#get请求">GET请求</a></li>
 <li><a href="#post请求">POST请求</a></li>
 </ul></li>
-<li><a href="#http请求-urllib-urllib2">HTTP请求 - urllib/urllib2</a></li>
+<li><a href="#http请求-urllib-urllib2">HTTP请求 - urllib/urllib2</a>
+<ul>
+<li><a href="#url编码-解码">URL编码/解码</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -154,6 +157,25 @@ https://itopic.org/index.html?from=python
 </code></pre>
 
 <h1 id="http请求-urllib-urllib2">HTTP请求 - urllib/urllib2</h1>
+
+<h2 id="url编码-解码">URL编码/解码</h2>
+
+<pre><code>import urllib
+
+data = {
+    &quot;from&quot;: &quot;web&quot;,
+    &quot;remark&quot;: &quot;中文&quot;,
+}
+
+# 字典编码
+print(urllib.urlencode(data))
+# 解码
+print(urllib.unquote(urllib.urlencode(data)))
+
+# 字符串编码
+print(urllib.quote(&quot;:&quot;))
+print(urllib.unquote(&quot;%3A&quot;))
+</code></pre>
 
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
