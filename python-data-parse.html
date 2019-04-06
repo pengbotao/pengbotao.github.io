@@ -14,37 +14,62 @@
 
 <nav>
 <ul>
-<li><a href="#html解析-lxml">HTML解析 - lxml</a></li>
-<li><a href="#xml解析">XML解析</a></li>
-<li><a href="#csv数据">CSV数据</a>
+<li><a href="#一-xml解析">一、XML解析</a></li>
+<li><a href="#二-json编解码">二、JSON编解码</a>
 <ul>
-<li><a href="#csv写入">CSV写入</a></li>
-<li><a href="#csv读取">CSV读取</a></li>
+<li><a href="#2-1-对象编码-字符串解码">2.1 对象编码 - 字符串解码</a></li>
+<li><a href="#2-2-json与文件">2.2 JSON与文件</a></li>
 </ul></li>
-<li><a href="#json解析">JSON解析</a></li>
-<li><a href="#base64解析">BASE64解析</a></li>
-<li><a href="#md5编码">MD5编码</a></li>
+<li><a href="#三-csv读取与解析">三、CSV读取与解析</a>
+<ul>
+<li><a href="#3-1-csv写入">3.1 CSV写入</a></li>
+<li><a href="#3-2-csv读取">3.2 CSV读取</a></li>
+</ul></li>
+<li><a href="#四-html解析">四、HTML解析</a></li>
+<li><a href="#五-base64编解码">五、BASE64编解码</a></li>
+<li><a href="#六-md5编码">六、MD5编码</a></li>
 </ul>
 </nav>
 
-<h1 id="html解析-lxml">HTML解析 - lxml</h1>
+<h1 id="一-xml解析">一、XML解析</h1>
 
-<p>通过<code>requests</code>获取内容，然后在用<code>lxml</code>库通过<code>xpath</code>来解析节点。下面为抓取本博客所有文章。</p>
+<h1 id="二-json编解码">二、JSON编解码</h1>
 
-<pre><code>import requests
-from lxml import html
+<p>主要包含4个方法，没有<code>s</code>结尾的需要传入文件对象。</p>
 
-URL = &quot;http://itopic.org&quot;
+<ul>
+<li>json.load()</li>
+<li>json.dump()</li>
+<li>json.loads()</li>
+<li>json.dumps()</li>
+</ul>
 
-for topic in html.fromstring(requests.get(URL).text).xpath('//div[@id=&quot;left-sider&quot; or @id=&quot;right-sider&quot;]/ul/li'):
-    print(&quot;%s %s %s%s&quot; % (topic.text, topic.xpath('./a/text()')[0], URL, topic.xpath('./a/@href')[0]))
+<h2 id="2-1-对象编码-字符串解码">2.1 对象编码 - 字符串解码</h2>
+
+<pre><code>import json
+
+data = {
+    &quot;from&quot;: &quot;itopic&quot;,
+    &quot;name&quot;: &quot;JSON数据&quot;,
+}
+
+json_str = json.dumps(data)
+json_data = json.loads(json_str)
+
+print(json_str, json_data)
 </code></pre>
 
-<p>requests+lxml可参考：<code>http://x-wei.github.io/python_crawler_requests_lxml.html</code></p>
+<h2 id="2-2-json与文件">2.2 JSON与文件</h2>
 
-<h1 id="xml解析">XML解析</h1>
+<pre><code>with open('data.json', 'w') as f:
+    json.dump(data, f)
 
-<h1 id="csv数据">CSV数据</h1>
+with open('data.json', 'r') as f:
+    data_obj = json.load(f)
+    print(data_obj)
+</code></pre>
+
+<h1 id="三-csv读取与解析">三、CSV读取与解析</h1>
 
 <ul>
 <li>csv.reader()</li>
@@ -53,7 +78,7 @@ for topic in html.fromstring(requests.get(URL).text).xpath('//div[@id=&quot;left
 <li>csv.DictWriter()</li>
 </ul>
 
-<h2 id="csv写入">CSV写入</h2>
+<h2 id="3-1-csv写入">3.1 CSV写入</h2>
 
 <pre><code>import csv
 
@@ -79,7 +104,7 @@ with open(&quot;test.csv&quot;, &quot;w&quot;) as f:
     f_csv.writerows(rows)
 </code></pre>
 
-<h2 id="csv读取">CSV读取</h2>
+<h2 id="3-2-csv读取">3.2 CSV读取</h2>
 
 <pre><code>import csv
 from collections import namedtuple
@@ -107,43 +132,22 @@ with open(&quot;test.csv&quot;, &quot;r&quot;) as f:
         print(row.Time, row)
 </code></pre>
 
-<h1 id="json解析">JSON解析</h1>
+<h1 id="四-html解析">四、HTML解析</h1>
 
-<p>主要包含4个方法，没有<code>s</code>的需要传入文件对象。</p>
+<p>通过<code>requests</code>获取内容，然后在用<code>lxml</code>库通过<code>xpath</code>来解析节点。下面为抓取本博客所有文章。</p>
 
-<ul>
-<li>json.load()</li>
-<li>json.dump()</li>
-<li>json.loads()</li>
-<li>json.dumps()</li>
-</ul>
+<pre><code>import requests
+from lxml import html
 
-<p><strong>对象编码 - 字符串解码</strong></p>
+URL = &quot;http://itopic.org&quot;
 
-<pre><code>import json
-
-data = {
-    &quot;from&quot;: &quot;itopic&quot;,
-    &quot;name&quot;: &quot;JSON数据&quot;,
-}
-
-json_str = json.dumps(data)
-json_data = json.loads(json_str)
-
-print(json_str, json_data)
+for topic in html.fromstring(requests.get(URL).text).xpath('//div[@id=&quot;left-sider&quot; or @id=&quot;right-sider&quot;]/ul/li'):
+    print(&quot;%s %s %s%s&quot; % (topic.text, topic.xpath('./a/text()')[0], URL, topic.xpath('./a/@href')[0]))
 </code></pre>
 
-<p><strong>文件与JSON</strong></p>
+<p>requests+lxml可参考：<code>http://x-wei.github.io/python_crawler_requests_lxml.html</code></p>
 
-<pre><code>with open('data.json', 'w') as f:
-    json.dump(data, f)
-
-with open('data.json', 'r') as f:
-    data_obj = json.load(f)
-    print(data_obj)
-</code></pre>
-
-<h1 id="base64解析">BASE64解析</h1>
+<h1 id="五-base64编解码">五、BASE64编解码</h1>
 
 <ul>
 <li>base64.b64encode()</li>
@@ -157,7 +161,7 @@ print(s)
 print(base64.b64decode(s))
 </code></pre>
 
-<h1 id="md5编码">MD5编码</h1>
+<h1 id="六-md5编码">六、MD5编码</h1>
 
 <pre><code>import hashlib
 
@@ -172,6 +176,12 @@ print(m.hexdigest())
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
 </div>
+
+<div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2016-04.html">2019-04-06 19:23</a></code>
+</div>
+
 <div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2016-04.html">2016-04-12 13:14</a></code>
