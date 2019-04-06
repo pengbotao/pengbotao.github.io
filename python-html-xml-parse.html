@@ -4,21 +4,26 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Python爬虫库 - 数据解析 - 老彭的博客</title>
+    <title>Python常用库 - 数据解析(HTML、XML、CSV) - 老彭的博客</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<h1 class="title">Python爬虫库 - 数据解析</h1>
+<h1 class="title">Python常用库 - 数据解析(HTML、XML、CSV)</h1>
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
 <nav>
 <ul>
-<li><a href="#lxml">lxml</a></li>
+<li><a href="#html解析-lxml">HTML解析 - lxml</a></li>
+<li><a href="#html解析-beautifulsoup">HTML解析 - BeautifulSoup</a></li>
+<li><a href="#xml解析">XML解析</a></li>
+<li><a href="#csv数据">CSV数据</a></li>
+<li><a href="#json解析">JSON解析</a></li>
+<li><a href="#base64解析">BASE64解析</a></li>
 </ul>
 </nav>
 
-<h1 id="lxml">lxml</h1>
+<h1 id="html解析-lxml">HTML解析 - lxml</h1>
 
 <p>通过<code>requests</code>获取内容，然后在用<code>lxml</code>库通过<code>xpath</code>来解析节点。下面为抓取本博客所有文章。</p>
 
@@ -32,6 +37,57 @@ for topic in html.fromstring(requests.get(URL).text).xpath('//div[@id=&quot;left
 </code></pre>
 
 <p>requests+lxml可参考：<code>http://x-wei.github.io/python_crawler_requests_lxml.html</code></p>
+
+<h1 id="html解析-beautifulsoup">HTML解析 - BeautifulSoup</h1>
+
+<h1 id="xml解析">XML解析</h1>
+
+<h1 id="csv数据">CSV数据</h1>
+
+<h1 id="json解析">JSON解析</h1>
+
+<p>主要包含4个方法，没有<code>s</code>的需要传入文件对象。</p>
+
+<ul>
+<li>json.load()</li>
+<li>json.dump()</li>
+<li>json.loads()</li>
+<li>json.dumps()</li>
+</ul>
+
+<p><strong>对象编码 - 字符串解码</strong></p>
+
+<pre><code>import json
+
+data = {
+    &quot;from&quot;: &quot;itopic&quot;,
+    &quot;name&quot;: &quot;JSON数据&quot;,
+}
+
+json_str = json.dumps(data)
+json_data = json.loads(json_str)
+
+print(json_str, json_data)
+</code></pre>
+
+<p><strong>文件与JSON</strong></p>
+
+<pre><code>with open('data.json', 'w') as f:
+    json.dump(data, f)
+
+with open('data.json', 'r') as f:
+    data_obj = json.load(f)
+    print(data_obj)
+</code></pre>
+
+<h1 id="base64解析">BASE64解析</h1>
+
+<pre><code>import base64
+
+s = base64.b64encode(&quot;Base64数据&quot;)
+print(s)
+print(base64.b64decode(s))
+</code></pre>
 
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
@@ -50,7 +106,7 @@ for topic in html.fromstring(requests.get(URL).text).xpath('//div[@id=&quot;left
 <div id="footer">
     <ul>
         <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python爬虫库 - 数据解析.md">https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python爬虫库 - 数据解析.md</a>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python常用库 - 数据解析(HTML、XML、CSV).md">https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python常用库 - 数据解析(HTML、XML、CSV).md</a>
         <li>
         <li>
             @2013-2019 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
