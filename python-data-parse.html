@@ -4,22 +4,26 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Python常用库 - 数据解析(HTML、XML、CSV) - 老彭的博客</title>
+    <title>Python常用库 - 数据解析 - 老彭的博客</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<h1 class="title">Python常用库 - 数据解析(HTML、XML、CSV)</h1>
+<h1 class="title">Python常用库 - 数据解析</h1>
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
 <nav>
 <ul>
 <li><a href="#html解析-lxml">HTML解析 - lxml</a></li>
-<li><a href="#html解析-beautifulsoup">HTML解析 - BeautifulSoup</a></li>
 <li><a href="#xml解析">XML解析</a></li>
-<li><a href="#csv数据">CSV数据</a></li>
+<li><a href="#csv数据">CSV数据</a>
+<ul>
+<li><a href="#csv写入">CSV写入</a></li>
+<li><a href="#csv读取">CSV读取</a></li>
+</ul></li>
 <li><a href="#json解析">JSON解析</a></li>
 <li><a href="#base64解析">BASE64解析</a></li>
+<li><a href="#md5编码">MD5编码</a></li>
 </ul>
 </nav>
 
@@ -38,11 +42,70 @@ for topic in html.fromstring(requests.get(URL).text).xpath('//div[@id=&quot;left
 
 <p>requests+lxml可参考：<code>http://x-wei.github.io/python_crawler_requests_lxml.html</code></p>
 
-<h1 id="html解析-beautifulsoup">HTML解析 - BeautifulSoup</h1>
-
 <h1 id="xml解析">XML解析</h1>
 
 <h1 id="csv数据">CSV数据</h1>
+
+<ul>
+<li>csv.reader()</li>
+<li>csv.DictReader</li>
+<li>csv.writer()</li>
+<li>csv.DictWriter()</li>
+</ul>
+
+<h2 id="csv写入">CSV写入</h2>
+
+<pre><code>import csv
+
+headers = [&quot;Time&quot;, &quot;From&quot;, &quot;Title&quot;]
+rows = [
+    (&quot;2019-04-06&quot;, &quot;web&quot;, &quot;Title1&quot;),
+    (&quot;2019-04-07&quot;, &quot;android&quot;, &quot;Title2&quot;),
+]
+
+with open(&quot;test.csv&quot;, &quot;w&quot;) as f:
+    f_csv = csv.writer(f)
+    f_csv.writerow(headers)
+    f_csv.writerows(rows)
+
+# 按字典的方式进行写入
+rows = [
+    {&quot;Time&quot;: &quot;2019-04-08&quot;, &quot;From&quot;: &quot;web&quot;, &quot;Title&quot;: &quot;Title1&quot;},
+    {&quot;Time&quot;: &quot;2019-04-09&quot;, &quot;From&quot;: &quot;android&quot;, &quot;Title&quot;: &quot;Title2&quot;},
+]
+with open(&quot;test.csv&quot;, &quot;w&quot;) as f:
+    f_csv = csv.DictWriter(f, headers)
+    f_csv.writeheader()
+    f_csv.writerows(rows)
+</code></pre>
+
+<h2 id="csv读取">CSV读取</h2>
+
+<pre><code>import csv
+from collections import namedtuple
+
+# 读取CSV文件，并按索引方式读取
+with open(&quot;test.csv&quot;, &quot;r&quot;) as f:
+    f_csv = csv.reader(f)
+    headers = next(f_csv)
+    for row in f_csv:
+        print(row[0], row)
+
+# 读取CSV文件，并按字段方式读取
+with open(&quot;test.csv&quot;, &quot;r&quot;) as f:
+    f_csv = csv.DictReader(f)
+    for row in f_csv:
+        print(row[&quot;Time&quot;], row)
+
+# 读取CSV文件，按对方的方式读取
+with open(&quot;test.csv&quot;, &quot;r&quot;) as f:
+    f_csv = csv.reader(f)
+    headers = next(f_csv)
+    Row = namedtuple('Row', headers)
+    for r in f_csv:
+        row = Row(*r)
+        print(row.Time, row)
+</code></pre>
 
 <h1 id="json解析">JSON解析</h1>
 
@@ -82,11 +145,27 @@ with open('data.json', 'r') as f:
 
 <h1 id="base64解析">BASE64解析</h1>
 
+<ul>
+<li>base64.b64encode()</li>
+<li>base64.b64decode()</li>
+</ul>
+
 <pre><code>import base64
 
 s = base64.b64encode(&quot;Base64数据&quot;)
 print(s)
 print(base64.b64decode(s))
+</code></pre>
+
+<h1 id="md5编码">MD5编码</h1>
+
+<pre><code>import hashlib
+
+s = &quot;Hello Python.&quot;
+
+m = hashlib.md5()
+m.update(s)
+print(m.hexdigest())
 </code></pre>
 
 <div class="eof">-- EOF --</div>
@@ -106,7 +185,7 @@ print(base64.b64decode(s))
 <div id="footer">
     <ul>
         <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python常用库 - 数据解析(HTML、XML、CSV).md">https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python常用库 - 数据解析(HTML、XML、CSV).md</a>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python常用库 - 数据解析.md">https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python常用库 - 数据解析.md</a>
         <li>
         <li>
             @2013-2019 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
