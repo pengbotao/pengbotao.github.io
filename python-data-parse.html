@@ -33,7 +33,62 @@
 
 <h1 id="一-xml解析">一、XML解析</h1>
 
-<p>pass</p>
+<p>这里使用<code>ElementTree</code>方式解析XML</p>
+
+<pre><code>#! /usr/bin/env python
+# coding=utf-8
+
+import xml.etree.ElementTree as ET
+xml_str = '''&lt;SearchRequest from=&quot;tools&quot;&gt;
+    &lt;SearchDetails Nationality = &quot;CN&quot;&gt;
+        &lt;ArrivalDate&gt;2019-05-02&lt;/ArrivalDate&gt;
+        &lt;PropertyReferenceID&gt;135155&lt;/PropertyReferenceID&gt;
+        &lt;Duration&gt;1&lt;/Duration&gt;
+        &lt;RoomRequests&gt;
+            &lt;RoomRequest&gt;
+                &lt;Adults&gt;2&lt;/Adults&gt;
+                &lt;Children&gt;0&lt;/Children&gt;
+                &lt;Infants&gt;0&lt;/Infants&gt;
+            &lt;/RoomRequest&gt;
+            &lt;RoomRequest&gt;
+                &lt;Adults&gt;2&lt;/Adults&gt;
+                &lt;Children&gt;1&lt;/Children&gt;
+                &lt;Infants&gt;1&lt;/Infants&gt;
+            &lt;/RoomRequest&gt;
+        &lt;/RoomRequests&gt;
+    &lt;/SearchDetails&gt;tail
+&lt;/SearchRequest&gt;'''
+</code></pre>
+
+<p>加载数据的方式有两种，从XML文件获取:</p>
+
+<pre><code>#tree = ET.parse(&quot;filename.xml&quot;)
+#root = tree.getroot()
+</code></pre>
+
+<p>从XML字符串获取</p>
+
+<pre><code>root = ET.fromstring(xml_str)
+</code></pre>
+
+<p>第一种方式中tree为<code>ElementTree</code>对象，第二种方式中root为<code>Element</code>对象。每个Element有以下属性：</p>
+
+<ul>
+<li>root.tag 标签名称</li>
+<li>root.attrib 获取属性字典，也可以通过root.get(&lsquo;x&rsquo;)来获取指定的属性。</li>
+<li>root.text 获取xml文本内容</li>
+<li>root.tail 如上面xml中的<code>&lt;/SearchDetails&gt;tail</code>，相对用的比较少。</li>
+</ul>
+
+<p>示例如下：</p>
+
+<pre><code>print(&quot;Tag: {}, Attributes: {}, Text: {}, Tail: {}&quot;.format(root.tag, root.attrib, root.text.strip(), root.tail))
+
+for child in root:
+    print(&quot;Tag: {}, Attributes: {}, Text: {}, Tail: {}&quot;.format(child.tag, child.get(&quot;Nationality&quot;), child.text.strip(), child.tail))
+    print(child.find(&quot;ArrivalDate&quot;).text)
+    print(child.find(&quot;PropertyReferenceID&quot;).text)
+</code></pre>
 
 <h1 id="二-json编解码">二、JSON编解码</h1>
 
@@ -181,7 +236,7 @@ print(m.hexdigest())
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-04.html">2019-04-08 20:57</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-04.html">2019-04-11 23:14</a></code>
 </div>
 
 <div class="eof_tag">
