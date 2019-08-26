@@ -18,6 +18,10 @@
 <ul>
 <li><a href="#hello-python">Hello Python</a></li>
 </ul></li>
+<li><a href="#三-异步执行">三、异步执行</a>
+<ul>
+<li><a href="#猴子补丁">猴子补丁</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -27,7 +31,7 @@
 
 <h2 id="hello-python">Hello Python</h2>
 
-<pre><code># /usr/bin/env python
+<pre><code>#! /usr/bin/env python
 # encoding: utf-8
 
 from flask import Flask
@@ -44,6 +48,34 @@ if __name__ == &quot;__main__&quot;:
     app.run(host=&quot;127.0.0.1&quot;, port=5000, debug=True)
 </code></pre>
 
+<h1 id="三-异步执行">三、异步执行</h1>
+
+<h2 id="猴子补丁">猴子补丁</h2>
+
+<pre><code>#! /usr/local/env python
+# coding: utf-8
+
+from flask import Flask
+from gevent.pywsgi import WSGIServer
+from gevent import monkey
+import time
+
+# 打上猴子补丁
+monkey.patch_all()
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    time.sleep(3);
+    return &quot;Hello Python&quot;
+
+if __name__ == &quot;__main__&quot;:
+    app.debug = True
+    http_server = WSGIServer((&quot;127.0.0.1&quot;, 5000), app)
+    http_server.serve_forever()
+</code></pre>
+
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -51,7 +83,7 @@ if __name__ == &quot;__main__&quot;:
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-05.html">2019-03-27 13:07</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-05.html">2019-04-18 20:42</a></code>
 </div>
 
 <div class="eof_tag">

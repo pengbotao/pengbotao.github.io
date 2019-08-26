@@ -57,8 +57,9 @@
 <ul>
 <li><a href="#8-1-三元表达式">8.1 三元表达式</a></li>
 <li><a href="#8-2-推导式">8.2. 推导式</a></li>
-<li><a href="#8-3-map-fliter函数">8.3 map &amp;&amp; fliter函数</a></li>
+<li><a href="#8-3-map-fliter-reduce函数">8.3 map &amp;&amp; fliter &amp;&amp; reduce函数</a></li>
 <li><a href="#8-4-sort-sorted">8.4 sort &amp;&amp; sorted</a></li>
+<li><a href="#8-5-zip函数">8.5 zip函数</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -629,7 +630,17 @@ fruits.clear()
 
 <p><strong>2. 集合的交叉并补等操作</strong></p>
 
-<p>pass</p>
+<pre><code>&gt;&gt;&gt; x = set([1, 2, 3])
+&gt;&gt;&gt; y = set([3, 4, 5])
+&gt;&gt;&gt; x &amp; y   # 交集
+set([3])
+&gt;&gt;&gt;
+&gt;&gt;&gt; x | y   # 并集
+set([1, 2, 3, 4, 5])
+&gt;&gt;&gt;
+&gt;&gt;&gt; x - y   # 差集
+set([1, 2])
+</code></pre>
 
 <h1 id="四-类型总结">四、类型总结</h1>
 
@@ -1045,7 +1056,7 @@ $ L = {x * y for x in range(1, 5) for y in range(6, 10) if y &gt; 8}
 # set([9, 18, 27, 36])
 </code></pre>
 
-<h2 id="8-3-map-fliter函数">8.3 map &amp;&amp; fliter函数</h2>
+<h2 id="8-3-map-fliter-reduce函数">8.3 map &amp;&amp; fliter &amp;&amp; reduce函数</h2>
 
 <p><strong>map函数</strong></p>
 
@@ -1080,7 +1091,7 @@ $ L = {x * y for x in range(1, 5) for y in range(6, 10) if y &gt; 8}
 
 <p><strong>filter函数</strong></p>
 
-<p><code>filter</code>也为内置函数，将序列的每个元素传给<code>function</code>，然后将函数执行返回<code>True</code>的元素组成新的列表。</p>
+<p><code>filter</code>也为内置函数，将序列的每个元素传给<code>function</code>，然后将函数执行返回<code>True</code>的元素组成新的列表，<code>False</code>的元素则过滤掉。</p>
 
 <pre><code>filter(function or None, sequence) -&gt; list, tuple, or string
 </code></pre>
@@ -1089,6 +1100,19 @@ $ L = {x * y for x in range(1, 5) for y in range(6, 10) if y &gt; 8}
 
 <pre><code>&gt;&gt;&gt; filter(lambda x: x != &quot;o&quot;, &quot;Hello World&quot;)
 'Hell Wrld'
+</code></pre>
+
+<p><strong>reduce函数</strong></p>
+
+<p>reduce函数功能是将 sequence 中数据，按照 function 函数操作，如将列表第一个数与第二个数进行 function 操作，得到的结果和列表中下一个数据进行 function 操作，一直循环下去&hellip; py3以后使用，必须导入<code>from functools import reduce</code>.</p>
+
+<pre><code>reduce(function, sequence[, initial]) -&gt; value
+</code></pre>
+
+<p>求4!</p>
+
+<pre><code>&gt;&gt;&gt; reduce(lambda x,y : x*y, range(1,5))
+24
 </code></pre>
 
 <h2 id="8-4-sort-sorted">8.4 sort &amp;&amp; sorted</h2>
@@ -1179,6 +1203,26 @@ print(b)
 # [{'age': 18, 'name': 'Peter'}, {'age': 24, 'name': 'Amy'}, {'age': 30, 'name': 'Jack'}]
 </code></pre>
 
+<h2 id="8-5-zip函数">8.5 zip函数</h2>
+
+<pre><code>zip(seq1 [, seq2 [...]]) -&gt; [(seq1[0], seq2[0] ...), (...)]
+</code></pre>
+
+<p>zip()是 Python 的一个内建函数，它接受一系列可迭代的对象作为参数，将对象中对应的元素打包成一个个tuple（元组），然后返回由这些tuples组成的list（列表）。若传入参数的长度不等，则返回 list 的长度和参数中长度最短的对象相同。利用*号操作符，可以将list unzip（解压）。</p>
+
+<pre><code>&gt;&gt;&gt; x = [&quot;a&quot;, &quot;b&quot;]
+&gt;&gt;&gt; y = [1, 2]
+&gt;&gt;&gt; t = zip(x, y)
+&gt;&gt;&gt; t
+[('a', 1), ('b', 2)]
+&gt;&gt;&gt; zip(*t)
+[('a', 'b'), (1, 2)]
+
+-- 构建字典
+&gt;&gt;&gt; dict(zip(x, y))
+{'a': 1, 'b': 2}
+</code></pre>
+
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -1186,7 +1230,7 @@ print(b)
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2015-12.html">2019-03-26 23:25</a></code>
+    <code style="border:0px;background:none;"><a href="/2015-12.html">2019-08-26 16:48</a></code>
 </div>
 
 <div class="eof_tag">
