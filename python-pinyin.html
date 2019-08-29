@@ -49,6 +49,17 @@ print(lazy_pinyin(sentence))
 # ['ni', 'hao', '，', 'shi', 'jie', '。']
 </code></pre>
 
+<p><strong>style说明：</strong></p>
+
+<ul>
+<li><strong>Style.NORMAL</strong>: 普通风格，即不带声调。如：<code>pin yin</code></li>
+<li><strong>Style.TONE</strong>: 声调风格，拼音声调在韵母第一个字母上(默认的风格)。如：<code>pīn yīn</code></li>
+<li><strong>Style.TONE2</strong>: 声调风格 2，即拼音声调以数字形式在各个拼音之后，用数字 [0-4] 进行表示。如：<code>pin1 yin1</code></li>
+<li><strong>Style.TONE3</strong>: 声调风格 3，即拼音声调以数字形式在注音字符之后，用数字 [0-4] 进行表示。如：<code>pi1n yi1n</code></li>
+<li><strong>Style.INITIALS</strong>: 声母风格，只返回各个拼音的声母部分。对于没有声母的汉字，返回空白字符串。如：<code>中国</code> 的拼音 <code>zh</code> <code>g</code></li>
+<li><strong>Style.FIRST_LETTER</strong>: 首字母风格，只返回拼音的首字母部分。如：<code>p y</code></li>
+</ul>
+
 <h1 id="翻译示例">翻译示例</h1>
 
 <blockquote>
@@ -66,7 +77,7 @@ print(lazy_pinyin(sentence))
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2017-03.html">2019-08-28 17:12</a></code>
+    <code style="border:0px;background:none;"><a href="/2017-03.html">2019-08-29 09:21</a></code>
 </div>
 
 <div class="eof_tag">
