@@ -148,29 +148,34 @@ $ pip3 install uwsgitop
 <pre><code># uwsgi.ini
 
 [uwsgi]
-# 配置socket则需要在上层挂在Nginx，否则会报：invalid request block size: 21573 (max 4096)...skip
-# socket = 127.0.0.1:5000
-
+#socket = 127.0.0.1:5000
 http = 127.0.0.1:5000
-
-chdir = /Users/peng/workspace/python/demo
 wsgi-file = test.py
 callable = app
 master = true
-# 当服务器退出时自动删除unix socket文件和pid文件
-vacuum = true
 processes = 4
 threads = 2
+
+chdir = /Users/peng/workspace/python/demo
+#daemonize = %(chdir)/log/uwsgi.log
 pidfile = %(chdir)/log/uwsgi.pid
-# daemonize = %(chdir)/log/uwsgi.log
+stats = %(chdir)/log/uwsgi.status
 max-requests = 100000
+# 当服务器退出时自动删除unix socket文件和pid文件
+vacuum = false
 </code></pre>
 
 <p><strong>启动：</strong></p>
 
-<p><code>uwsgi --ini uwsgi.ini</code></p>
+<p>启动：<code>uwsgi --ini uwsgi.ini</code></p>
 
-<p>和<code>gunicorn</code>一样，也可以通过<code>Nginx</code>将请求转到后端5000端口。</p>
+<p>重启：<code>uwsgi --reload log/uwsgi.pid</code></p>
+
+<p>停止：<code>uwsgi --stop log/uwsgi.pid</code></p>
+
+<p>查看状态：<code>uwsgi --connect-and-read log/uwsgi.status</code></p>
+
+<p>和<code>gunicorn</code>一样，也可以通过<code>Nginx</code>将请求转到后端5000端口(若配置Nginx，配置文件中请使用socket)。</p>
 
 <pre><code>server {
     listen  80;
@@ -190,7 +195,7 @@ max-requests = 100000
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-06.html">2019-08-29 22:48</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-06.html">2019-08-30 22:22</a></code>
 </div>
 
 <div class="eof_tag">

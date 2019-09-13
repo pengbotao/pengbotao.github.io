@@ -60,6 +60,9 @@ $ pip install numpy==x.xx.x
 $ pip freeze &gt; requirements.txt
 # 从文件安装
 $ pip install -r requirements.txt
+
+# 批量卸载
+$ pip uninstall -r requirements.txt
 </code></pre>
 
 <h1 id="多版本管理-pyenv">多版本管理 - pyenv</h1>
@@ -86,6 +89,10 @@ python-build: use openssl from homebrew
 python-build: use readline from homebrew
 Downloading Python-3.7.2.tar.xz...
 -&gt; https://www.python.org/ftp/python/3.7.2/Python-3.7.2.tar.xz
+
+
+# 安装2.7.15版本
+$ CFLAGS=&quot;-I$(xcrun --show-sdk-path)/usr/include&quot; pyenv install -v 2.7.15
 
 
 # 卸载版本
@@ -247,7 +254,7 @@ pyenv-virtualenv: remove /Users/peng/.pyenv/versions/3.7.2/envs/my372? y
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2015-12.html">2019-03-09 19:35</a></code>
+    <code style="border:0px;background:none;"><a href="/2015-12.html">2019-08-30 23:39</a></code>
 </div>
 
 <div class="eof_tag">
