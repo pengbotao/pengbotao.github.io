@@ -32,7 +32,13 @@
 <li><a href="#2-3-beautifulsoup">2.3 BeautifulSoup</a></li>
 <li><a href="#2-4-comment">2.4 Comment</a></li>
 </ul></li>
-<li><a href="#三-查找">三、查找</a></li>
+<li><a href="#三-查找">三、查找</a>
+<ul>
+<li><a href="#3-1-find-all">3.1 find_all()</a></li>
+<li><a href="#3-2-find">3.2 find()</a></li>
+<li><a href="#3-3-其他find">3.3 其他find</a></li>
+<li><a href="#3-4-css选择器">3.4 CSS选择器</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -366,6 +372,89 @@ print(soup.b.prettify())
 
 <h1 id="三-查找">三、查找</h1>
 
+<p><code>Beautiful Soup</code>定义了很多搜索方法,这里着重介绍2个: <code>find()</code> 和 <code>find_all()</code> .其它方法的参数和用法类似,请读者举一反三.</p>
+
+<h2 id="3-1-find-all">3.1 find_all()</h2>
+
+<pre><code>find_all(name , attrs , recursive , string , **kwargs )
+</code></pre>
+
+<ul>
+<li><code>name</code>: 参数可以查找所有名字为<code>name</code>的<code>tag</code></li>
+<li><code>attrs</code>:
+
+<ul>
+<li><code>id</code>: 查找包含指定<code>id</code>的<code>tag</code></li>
+<li><code>href</code>:  <code>href</code>参数, <code>Beautiful Soup</code>会搜索每个<code>tag</code>的<code>href</code>属性:</li>
+<li><code>class_</code>: 按照<code>CSS</code>类名搜索tag的功能非常实用,但标识<code>CSS</code>类名的关键字<code>class</code>在Python中是保留字,使用<code>class</code>做参数会导致语法错误.从<code>Beautiful Soup</code>的<code>4.1.1</code>版本开始,可以通过<code>class_</code>参数搜索有指定<code>CSS</code>类名的<code>tag</code>:</li>
+<li><code>limit</code>:  limit 参数限制返回结果的数量.效果与SQL中的limit关键字类似,当搜索到的结果数量达到<code>limit</code>的限制时,就停止搜索返回结果.如：<code>soup.find_all(&quot;a&quot;, limit=2)</code></li>
+</ul></li>
+<li><code>recursive</code>: 调用<code>tag</code>的<code>find_all()</code>方法时,<code>Beautiful Soup</code>会检索当前<code>tag</code>的所有子孙节点,如果只想搜索<code>tag</code>的直接子节点,可以使用参数<code>recursive=False</code>.</li>
+<li><code>string</code>: 通过<code>string</code>参数可以搜搜文档中的字符串内容<code>.</code>与<code>name</code>参数的可选值一样, <code>string</code> 参数接受 <code>字符串</code> , <code>正则表达式</code> , <code>列表</code>, <code>True</code> . 下面代码用来搜索内容里面包含<code>Elsie</code>的<code>&lt;a&gt;</code>标签:<code>soup.find_all(&quot;a&quot;, string=&quot;Elsie&quot;)</code></li>
+</ul>
+
+<p><strong>示例</strong></p>
+
+<pre><code>soup = BeautifulSoup(html_doc, 'html.parser')
+
+# 查找所有的图片标签
+print(soup.find_all('img'))
+
+# 查找A标签class=logo
+print(soup.find_all('a', &quot;logo&quot;))
+print(soup.find_all('a', class_=&quot;logo&quot;))
+
+# 查找DIV下A标签标题为@githubstatus的a标签
+print(soup.find_all(&quot;div&quot;, id=&quot;suggestions&quot;, limit=1)[0].find_all('a', string=&quot;@githubstatus&quot;))
+
+# 查找p标签和img标签
+print(soup.find_all([&quot;p&quot;, &quot;img&quot;]))
+</code></pre>
+
+<h2 id="3-2-find">3.2 find()</h2>
+
+<pre><code>find(name , attrs , recursive , string , **kwargs )
+</code></pre>
+
+<p><code>find_all()</code>方法将返回文档中符合条件的所有<code>tag</code>,尽管有时候我们只想得到一个结果.比如文档中只有一个<body>标签,那么使用 <code>find_all()</code>方法来查找<body>标签就不太合适, 使用<code>find_all</code>方法并设置<code>limit=1</code>参数不如直接使用<code>find()</code>方法.下面两行代码是等价的:</p>
+
+<pre><code>soup.find_all('title', limit=1)
+# [&lt;title&gt;Page not found · GitHub Pages&lt;/title&gt;]
+
+soup.find('title')
+# &lt;title&gt;Page not found · GitHub Pages&lt;/title&gt;
+</code></pre>
+
+<p>唯一的区别是<code>find_all()</code>方法的返回结果是值包含一个元素的列表,而<code>find()</code>方法直接返回结果.<code>find_all()</code>方法没有找到目标是返回空列表, <code>find()</code>方法找不到目标时,返回<code>None</code>.</p>
+
+<p><code>soup.head.title</code>是<code>tag</code>的名字方法的简写.这个简写的原理就是多次调用当前<code>tag</code>的<code>find()</code>方法:</p>
+
+<pre><code>soup.head.title
+# &lt;title&gt;Page not found · GitHub Pages&lt;/title&gt;
+
+soup.find(&quot;head&quot;).find(&quot;title&quot;)
+# &lt;title&gt;Page not found · GitHub Pages&lt;/title&gt;
+</code></pre>
+
+<h2 id="3-3-其他find">3.3 其他find</h2>
+
+<ul>
+<li>find_parents() 和 find_parent()</li>
+<li>find_next_siblings() 和 find_next_sibling()</li>
+<li>find_previous_siblings() 和 find_previous_sibling()</li>
+<li>find_all_next() 和 find_next()</li>
+<li>find_all_previous() 和 find_previous()</li>
+</ul>
+
+<h2 id="3-4-css选择器">3.4 CSS选择器</h2>
+
+<p><code>Beautiful Soup</code>支持大部分的<code>CSS</code>选择器 <code>http://www.w3.org/TR/CSS2/selector.html</code>, 在<code>Tag</code>或<code>BeautifulSoup</code>对象的<code>.select()</code>方法中传入字符串参数, 即可使用<code>CSS</code>选择器的语法找到<code>tag</code>:</p>
+
+<pre><code>print(soup.select(&quot;.container&quot;))
+print(soup.select(&quot;#suggestions&quot;))
+print(soup.select(&quot;div#suggestions&quot;))
+</code></pre>
+
 <p>文档地址：<a href="https://beautifulsoup.readthedocs.io/zh_CN/latest/">https://beautifulsoup.readthedocs.io/zh_CN/latest/</a></p>
 
 <div class="eof">-- EOF --</div>
@@ -375,7 +464,7 @@ print(soup.b.prettify())
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2017-08.html">2019-09-21 21:54</a></code>
+    <code style="border:0px;background:none;"><a href="/2017-08.html">2019-09-23 15:42</a></code>
 </div>
 
 <div class="eof_tag">
