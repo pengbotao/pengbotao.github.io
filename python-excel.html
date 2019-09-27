@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Python常用库 - Excel - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+</head>
+<body>
+<h1 class="title">Python常用库 - Excel</h1>
+
+<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+
+<nav>
+<ul>
+<li><a href="#一-openpyxl">一、OpenPyXL</a>
+<ul>
+<li><a href="#1-1-安装及示例">1.1 安装及示例</a></li>
+<li><a href="#1-2-创建工作表">1.2 创建工作表</a></li>
+<li><a href="#1-3-写入工作表">1.3 写入工作表</a></li>
+<li><a href="#1-4-读取工作表">1.4 读取工作表</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<p>常用的操作<code>Excel</code>的库有：<code>openpyxl</code>、<code>xlsxwriter</code>、<code>xlrd/xlwt</code>、<code>xlutils</code>，从<code>python-excel.org</code>上可以看到一些区别，主流应该还是<code>openpyxl</code>：</p>
+
+<table>
+<thead>
+<tr>
+<th>Packages</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>openpyxl</code></td>
+<td>The <code>recommended package</code> for reading and writing Excel 2010 files (ie: .xlsx)</td>
+</tr>
+
+<tr>
+<td><code>xlsxwriter</code></td>
+<td>XlsxWriter is a Python module for writing files in the Excel 2007+ XLSX file format.</td>
+</tr>
+
+<tr>
+<td><code>xlrd</code></td>
+<td>This library currently has no active maintainers. You are advised to use <code>OpenPyXL</code> instead.</td>
+</tr>
+
+<tr>
+<td><code>xlwt</code></td>
+<td>This package is for writing data and formatting information to <code>older Excel files</code> (ie: .xls)</td>
+</tr>
+
+<tr>
+<td><code>xlutils</code></td>
+<td>对<code>xlrd/xlwt</code>的封装，NB: In general, these use cases are now covered by openpyxl!</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Excel <code>xls</code>和<code>xlsx</code>的区别在于：</strong></p>
+
+<blockquote>
+<p>1、核心结构上：xls 是一个特有的二进制格式，其核心结构是复合文档类型的结构，而 xlsx 的核心结构是 XML 类型的结构，采用的是基于 XML 的压缩方式，使其占用的空间更小。xlsx 中最后一个 x 的意义就在于此。</p>
+
+<p>2、版本上：xls是2003版本下的文件 ，不管有没有宏程序的话都是xls文件 ，从2007开始做了区分，XLSM文件和XLSX文件都是excel2007及其以后的文件，但前者是含有宏启用，Excel中默认情况下不自动启用宏，默认是XLSX。VBA中，如果不想保存代码，可以保存为xlsx，即可自动删除其中VBA代码，反之则保存为XLSM文件。</p>
+</blockquote>
+
+<h1 id="一-openpyxl">一、OpenPyXL</h1>
+
+<ul>
+<li>项目地址：<code>https://bitbucket.org/openpyxl/openpyxl</code></li>
+<li>文档地址：<code>https://openpyxl.readthedocs.io/en/stable</code></li>
+</ul>
+
+<h2 id="1-1-安装及示例">1.1 安装及示例</h2>
+
+<pre><code>$ pip install openpyxl
+</code></pre>
+
+<p>To be able to include images (jpeg, png, bmp,…) into an openpyxl file, you will also need the <code>pillow</code> library that can be installed with:</p>
+
+<pre><code>$ pip install pillow
+</code></pre>
+
+<h2 id="1-2-创建工作表">1.2 创建工作表</h2>
+
+<pre><code>from openpyxl import Workbook
+
+wb = Workbook()
+
+# 默认工作表
+ws1 = wb.active
+ws1.title = &quot;工作表-1&quot;
+# A1 即表示A1单元格
+ws1[&quot;A1&quot;] = &quot;A1 Hello World&quot;
+
+ws2 = wb.create_sheet(&quot;工作表-2&quot;)
+ws2[&quot;A1&quot;] = &quot;A2 Hello World&quot;
+
+# 创建工作表3并排列在工作表的第一位
+ws3 = wb.create_sheet(&quot;工作表-3&quot;, 0)
+ws3[&quot;A1&quot;] = &quot;A3 Hello World&quot;
+wb.save(&quot;sample.xlsx&quot;)
+</code></pre>
+
+<h2 id="1-3-写入工作表">1.3 写入工作表</h2>
+
+<pre><code>from openpyxl import Workbook
+
+wb = Workbook()
+
+# 默认工作表
+ws1 = wb.active
+ws1.title = &quot;工作表-1&quot;
+ws2 = wb.create_sheet(&quot;工作表-2&quot;)
+ws3 = wb.create_sheet(&quot;工作表-3&quot;, 0)
+
+
+row = [&quot;ID&quot;, &quot;Name&quot;, &quot;Birth&quot;]
+ws1.append(row)
+
+for r in [
+    [1, &quot;Judy&quot;, &quot;2020-01-01&quot;],
+    [2, &quot;Jason&quot;, &quot;2022-01-01&quot;]
+]:
+    ws1.append(r)
+
+wb.save(&quot;sample.xlsx&quot;)
+</code></pre>
+
+<h2 id="1-4-读取工作表">1.4 读取工作表</h2>
+
+<pre><code>from openpyxl import load_workbook
+
+wb = load_workbook(&quot;sample.xlsx&quot;)
+
+sheets = wb.get_sheet_names()
+print(sheets) # ['工作表-3', '工作表-1', '工作表-2']
+
+sheet1 = wb['工作表-1']
+print(sheet1.title) # 工作表-1
+
+# 获取工作表-1的A1单元格的数据
+print(sheet1[&quot;A2&quot;].value)
+
+# 通过cell(row, column)方式获取A1的数据
+print(sheet1.cell(2, 1).value)
+</code></pre>
+
+<div class="eof">-- EOF --</div>
+<div class="eof_arrow">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+
+<div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2017-03.html">2019-09-27 10:08</a></code>
+</div>
+
+<div class="eof_tag">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2017-03.html">2017-03-18 23:32</a></code>
+</div>
+<div class="eof_tag">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/python.html">Python</a></code>
+</div>
+
+<div id="footer">
+    <ul>
+        <li>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python常用库 - Excel.md">https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python常用库 - Excel.md</a>
+        <li>
+        <li>
+            @2013-2019 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
+        </li>
+    </ul>
+</div>
+
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+<script>
+ready(fn);
+function ready(fn){  
+    if(document.addEventListener){
+        document.addEventListener('DOMContentLoaded',function(){
+            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
+            fn();
+        },false);
+    } else if(document.attachEvent) {
+        document.attachEvent('onreadystatechange',function(){
+            if(document.readyState=='complete'){
+                document.detachEvent('onreadystatechange',arguments.callee);  
+                fn();
+            }
+        });
+    }  
+}  
+function fn(){
+    if(document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    }
+}
+</script>
+</body>
+</html>
