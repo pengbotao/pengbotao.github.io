@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Python爬虫库 - Scrapy - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+</head>
+<body>
+<h1 class="title">Python爬虫库 - Scrapy</h1>
+
+<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+
+<nav>
+<ul>
+<li><a href="#一-关于scrapy">一、关于Scrapy</a>
+<ul>
+<li><a href="#1-1-文档地址">1.1 文档地址</a></li>
+<li><a href="#1-2-安装方式">1.2 安装方式</a></li>
+</ul></li>
+<li><a href="#二-抓取示例">二、抓取示例</a>
+<ul>
+<li><a href="#2-1-初始化">2.1 初始化</a></li>
+<li><a href="#2-2-启动抓取">2.2 启动抓取</a></li>
+<li><a href="#2-3-解析列表">2.3 解析列表</a></li>
+<li><a href="#2-4-解析详情">2.4 解析详情</a></li>
+<li><a href="#2-5-保存结果">2.5 保存结果</a>
+<ul>
+<li><a href="#2-5-1-编写item">2.5.1 编写Item</a></li>
+<li><a href="#2-5-2-提取数据到item">2.5.2 提取数据到Item</a></li>
+<li><a href="#2-5-3-保存结果">2.5.3 保存结果</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="一-关于scrapy">一、关于Scrapy</h1>
+
+<h2 id="1-1-文档地址">1.1 文档地址</h2>
+
+<pre><code>https://doc.scrapy.org/en/latest/
+</code></pre>
+
+<h2 id="1-2-安装方式">1.2 安装方式</h2>
+
+<pre><code>pip install scrapy
+</code></pre>
+
+<h1 id="二-抓取示例">二、抓取示例</h1>
+
+<h2 id="2-1-初始化">2.1 初始化</h2>
+
+<pre><code>$ scrapy startproject demo
+New Scrapy project 'demo', using template directory '/Users/peng/.pyenv/versions/3.7.2/lib/python3.7/site-packages/scrapy/templates/project', created in:
+    /Users/peng/workspace/demo
+
+You can start your first spider with:
+    cd demo
+    scrapy genspider example example.com
+$ cd demo/
+$ scrapy genspider itopic itopic.org
+Created spider 'itopic' using template 'basic' in module:
+  demo.spiders.itopic
+</code></pre>
+
+<p><img src="/static/uploads/scrapy-project-init.png" alt="" /></p>
+
+<h2 id="2-2-启动抓取">2.2 启动抓取</h2>
+
+<pre><code>scrapy crawl itopic
+</code></pre>
+
+<p>当然在这一步执行抓取除了可以看到一些日志之外，并不会得到其他的东西。目前抓取的需求还没有明确，还需要对<code>itopic.org</code>页面返回的数据进行解析。</p>
+
+<h2 id="2-3-解析列表">2.3 解析列表</h2>
+
+<p>保存首页内容，并解析文章和超链地址。在这一步之后若在次执行抓取，顺利的话就可以看到应有的内容了。</p>
+
+<pre><code># -*- coding: utf-8 -*-
+import scrapy
+from lxml import html
+
+
+class ItopicSpider(scrapy.Spider):
+    name = 'itopic'
+    allowed_domains = ['itopic.org']
+    start_urls = ['https://itopic.org/']
+
+    def parse(self, response):
+        with open(&quot;index.html&quot;, &quot;wb&quot;) as f:
+            f.write(response.body)
+        for x in html.fromstring(response.body).xpath('//div[@id=&quot;left-sider&quot; or @id=&quot;right-sider&quot;]/ul/li/a'):
+            print(x.text, x.attrib.get('href'))
+</code></pre>
+
+<h2 id="2-4-解析详情">2.4 解析详情</h2>
+
+<pre><code># -*- coding: utf-8 -*-
+import scrapy
+from lxml import html
+
+
+class ItopicSpider(scrapy.Spider):
+    name = 'itopic'
+    allowed_domains = ['itopic.org']
+    start_urls = ['https://itopic.org/']
+
+    def parse(self, response):
+        for x in html.fromstring(response.body).xpath('//div[@id=&quot;left-sider&quot; or @id=&quot;right-sider&quot;]/ul/li/a'):
+            url = &quot;https://itopic.org&quot; + x.attrib.get('href')
+            yield scrapy.Request(url=url, callback=self.parse_itopic_detail)
+
+    def parse_itopic_detail(self, response):
+        filename = response.url.split(&quot;/&quot;)[-1]
+        with open(filename, &quot;wb&quot;) as f:
+            f.write(response.body)
+        print(response.css(&quot;.title::text&quot;).extract()[0])
+</code></pre>
+
+<h2 id="2-5-保存结果">2.5 保存结果</h2>
+
+<h3 id="2-5-1-编写item">2.5.1 编写Item</h3>
+
+<pre><code># -*- coding: utf-8 -*-
+
+# Define here the models for your scraped items
+#
+# See documentation in:
+# https://docs.scrapy.org/en/latest/topics/items.html
+
+import scrapy
+
+
+class ItopicDetailItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    title = scrapy.Field()
+    url = scrapy.Field()
+    pass
+</code></pre>
+
+<h3 id="2-5-2-提取数据到item">2.5.2 提取数据到Item</h3>
+
+<pre><code># -*- coding: utf-8 -*-
+import scrapy
+from demo.items import ItopicDetailItem
+from lxml import html
+
+
+class ItopicSpider(scrapy.Spider):
+    name = 'itopic'
+    allowed_domains = ['itopic.org']
+    start_urls = ['https://itopic.org/']
+
+    def parse(self, response):
+        for x in html.fromstring(response.body).xpath('//div[@id=&quot;left-sider&quot; or @id=&quot;right-sider&quot;]/ul/li/a'):
+            url = &quot;https://itopic.org&quot; + x.attrib.get('href')
+            yield scrapy.Request(url=url, callback=self.parse_itopic_detail)
+
+    def parse_itopic_detail(self, response):
+        filename = response.url.split(&quot;/&quot;)[-1]
+        with open(filename, &quot;wb&quot;) as f:
+            f.write(response.body)
+        item = ItopicDetailItem()
+        item['title'] = response.css(&quot;.title::text&quot;).extract()[0]
+        item['url'] = response.url
+        yield item
+</code></pre>
+
+<h3 id="2-5-3-保存结果">2.5.3 保存结果</h3>
+
+<p>执行抓取并保存结果到<code>itopic.json</code>文件。执行完成后查看<code>itopic.json</code>就可以看到抓取到的数据了。</p>
+
+<pre><code>$ scrapy crawl itopic -o itopic.json
+
+[
+    {
+        &quot;title&quot;: &quot;Python常用库 - HTTP请求&quot;,
+        &quot;url&quot;: &quot;https://itopic.org/python-requests.html&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Python常用库 - 数据库&quot;,
+        &quot;url&quot;: &quot;https://itopic.org/python-database.html&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Python常用库 - 数据解析&quot;,
+        &quot;url&quot;: &quot;https://itopic.org/python-data-parse.html&quot;
+    }
+    ...
+]
+</code></pre>
+
+<div class="eof">-- EOF --</div>
+<div class="eof_arrow">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+
+<div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2017-08.html">2019-09-28 20:17</a></code>
+</div>
+
+<div class="eof_tag">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2017-08.html">2017-08-24 23:12</a></code>
+</div>
+<div class="eof_tag">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/python.html">Python</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/爬虫.html">爬虫</a></code>
+</div>
+
+<div id="footer">
+    <ul>
+        <li>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python爬虫库 - Scrapy.md">https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python爬虫库 - Scrapy.md</a>
+        <li>
+        <li>
+            @2013-2019 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
+        </li>
+    </ul>
+</div>
+
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+<script>
+ready(fn);
+function ready(fn){  
+    if(document.addEventListener){
+        document.addEventListener('DOMContentLoaded',function(){
+            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
+            fn();
+        },false);
+    } else if(document.attachEvent) {
+        document.attachEvent('onreadystatechange',function(){
+            if(document.readyState=='complete'){
+                document.detachEvent('onreadystatechange',arguments.callee);  
+                fn();
+            }
+        });
+    }  
+}  
+function fn(){
+    if(document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    }
+}
+</script>
+</body>
+</html>
