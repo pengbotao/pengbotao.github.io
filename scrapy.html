@@ -96,6 +96,8 @@ class ItopicSpider(scrapy.Spider):
 
 <h2 id="2-4-解析详情">2.4 解析详情</h2>
 
+<p>拿到首页的超链接之后通过<code>yield scrapy.Request(url=url, callback=self.parse_itopic_detail)</code>即可将详情页的请求发到调度器，同时使用<code>self.parse_itopic_detail</code>进行解析。所以对于新的页面只需要通过<code>yield scrapy.Request</code>添加地址，并定义对应的解析器就可。</p>
+
 <pre><code># -*- coding: utf-8 -*-
 import scrapy
 from lxml import html
@@ -198,7 +200,7 @@ class ItopicSpider(scrapy.Spider):
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2017-08.html">2019-09-28 20:17</a></code>
+    <code style="border:0px;background:none;"><a href="/2017-08.html">2019-09-29 09:26</a></code>
 </div>
 
 <div class="eof_tag">
