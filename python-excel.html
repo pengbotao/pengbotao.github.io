@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Python常用库 - Excel - 老彭的博客</title>
+    <title>Python实用库 - Excel - 老彭的博客</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<h1 class="title">Python常用库 - Excel</h1>
+<h1 class="title">Python实用库 - Excel</h1>
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
@@ -141,15 +141,21 @@ wb = load_workbook(&quot;sample.xlsx&quot;)
 
 sheets = wb.get_sheet_names()
 print(sheets) # ['工作表-3', '工作表-1', '工作表-2']
-
 sheet1 = wb['工作表-1']
 print(sheet1.title) # 工作表-1
 
 # 获取工作表-1的A1单元格的数据
 print(sheet1[&quot;A2&quot;].value)
-
 # 通过cell(row, column)方式获取A1的数据
 print(sheet1.cell(2, 1).value)
+
+
+
+# 获取第一个Sheet并遍历
+# sheet1 = wb[wb.sheetnames[0]]
+for row in sheet:
+    for idx in range(0, 10):
+        print(row[idx].value)
 </code></pre>
 
 <div class="eof">-- EOF --</div>
@@ -159,7 +165,7 @@ print(sheet1.cell(2, 1).value)
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2017-03.html">2019-09-27 10:08</a></code>
+    <code style="border:0px;background:none;"><a href="/2017-03.html">2019-11-08 23:54</a></code>
 </div>
 
 <div class="eof_tag">
@@ -174,7 +180,7 @@ print(sheet1.cell(2, 1).value)
 <div id="footer">
     <ul>
         <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python常用库 - Excel.md">https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python常用库 - Excel.md</a>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python实用库 - Excel.md">https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python实用库 - Excel.md</a>
         <li>
         <li>
             @2013-2019 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
