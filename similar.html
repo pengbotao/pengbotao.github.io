@@ -4,51 +4,49 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Python实用库 - Distance - 老彭的博客</title>
+    <title>相似度计算方法 - 老彭的博客</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<h1 class="title">Python实用库 - Distance</h1>
+<h1 class="title">相似度计算方法</h1>
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
 <nav>
 <ul>
-<li><a href="#一-简介">一、简介</a></li>
-<li><a href="#二-安装">二、安装</a></li>
-<li><a href="#三-示例">三、示例</a>
-<ul>
-<li><a href="#3-1-编辑距离">3.1 编辑距离</a></li>
-<li><a href="#3-2-汉明距离">3.2 汉明距离</a></li>
-<li><a href="#3-3-杰卡德相似系数">3.3 杰卡德相似系数</a></li>
-</ul></li>
+<li><a href="#一-编辑距离">一、编辑距离</a></li>
+<li><a href="#二-汉明距离">二、汉明距离</a></li>
+<li><a href="#三-杰卡德相似系数">三、杰卡德相似系数</a></li>
 </ul>
 </nav>
 
-<h1 id="一-简介">一、简介</h1>
+<h1 id="一-编辑距离">一、编辑距离</h1>
+
+<p>字符串的编辑距离，又称为Levenshtein距离，由俄罗斯的数学家Vladimir Levenshtein在1965年提出。是指利用字符操作，把字符串A转换成字符串B所需要的最少操作数。其中，字符操作包括：</p>
 
 <ul>
-<li><a href="https://github.com/doukremt/distance">https://github.com/doukremt/distance</a></li>
+<li>删除一个字符     a) Insert a character</li>
+<li>插入一个字符     b) Delete a character</li>
+<li>修改一个字符     c) Replace a character</li>
 </ul>
 
-<h1 id="二-安装">二、安装</h1>
+<pre><code># https://github.com/doukremt/distance
+# pip install distance -i  https://pypi.douban.com/simple
 
-<pre><code>pip install distance -i  https://pypi.douban.com/simple
+import distance
+distance.levenshtein(&quot;lenvestein&quot;, &quot;levenshtein&quot;)
 </code></pre>
 
-<h1 id="三-示例">三、示例</h1>
+<h1 id="二-汉明距离">二、汉明距离</h1>
 
-<h2 id="3-1-编辑距离">3.1 编辑距离</h2>
-
-<pre><code>distance.levenshtein(&quot;lenvestein&quot;, &quot;levenshtein&quot;)
-</code></pre>
-
-<h2 id="3-2-汉明距离">3.2 汉明距离</h2>
+<p>汉明距离是使用在数据传输差错控制编码里面的，汉明距离是一个概念，它表示两个（<strong>相同长度</strong>）字对应位不同的数量，我们以d（x,y）表示两个字x,y之间的汉明距离。对两个字符串进行异或运算，并统计结果为1的个数，那么这个数就是汉明距离</p>
 
 <pre><code>distance.hamming(&quot;hamming&quot;, &quot;hamning&quot;)
 </code></pre>
 
-<h2 id="3-3-杰卡德相似系数">3.3 杰卡德相似系数</h2>
+<h1 id="三-杰卡德相似系数">三、杰卡德相似系数</h1>
+
+<p>杰卡德系数，英文叫做 Jaccard index, 又称为 Jaccard 相似系数，用于比较有限样本集之间的相似性与差异性。Jaccard 系数值越大，样本相似度越高。实际上它的计算方式非常简单，就是两个样本的交集除以并集得到的数值，当两个样本完全一致时，结果为 1，当两个样本完全不同时，结果为 0</p>
 
 <pre><code>distance.jaccard(&quot;decide&quot;, &quot;resize&quot;)
 </code></pre>
@@ -60,7 +58,7 @@
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2018-03.html">2019-11-04 22:49</a></code>
+    <code style="border:0px;background:none;"><a href="/2018-03.html">2019-11-14 23:14</a></code>
 </div>
 
 <div class="eof_tag">
@@ -75,7 +73,7 @@
 <div id="footer">
     <ul>
         <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python实用库 - Distance.md">https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python实用库 - Distance.md</a>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/python/相似度计算方法.md">https://github.com/pengbotao/itopic.go/blob/master/posts/python/相似度计算方法.md</a>
         <li>
         <li>
             @2013-2019 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
