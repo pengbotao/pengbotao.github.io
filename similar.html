@@ -41,6 +41,8 @@ distance.levenshtein(&quot;lenvestein&quot;, &quot;levenshtein&quot;)
 
 <p>汉明距离是使用在数据传输差错控制编码里面的，汉明距离是一个概念，它表示两个（<strong>相同长度</strong>）字对应位不同的数量，我们以d（x,y）表示两个字x,y之间的汉明距离。对两个字符串进行异或运算，并统计结果为1的个数，那么这个数就是汉明距离</p>
 
+<p>汉明距离是编辑距离中的一个特殊情况，仅用来计算两个等长字符串中不一致的字符个数。因此汉明距离不用考虑添加及删除，只需要对比不同即可。</p>
+
 <pre><code>distance.hamming(&quot;hamming&quot;, &quot;hamning&quot;)
 </code></pre>
 
@@ -58,7 +60,7 @@ distance.levenshtein(&quot;lenvestein&quot;, &quot;levenshtein&quot;)
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2018-03.html">2019-11-14 23:14</a></code>
+    <code style="border:0px;background:none;"><a href="/2018-03.html">2019-11-15 09:21</a></code>
 </div>
 
 <div class="eof_tag">
