@@ -937,12 +937,6 @@
       <priority>0.2</priority>
    </url>
    <url>
-      <loc>/tag/%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6.html</loc>
-      <lastmod>2019-12-05</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.2</priority>
-   </url>
-   <url>
       <loc>/tag/%E7%88%AC%E8%99%AB.html</loc>
       <lastmod>2019-12-05</lastmod>
       <changefreq>monthly</changefreq>
@@ -962,6 +956,12 @@
    </url>
    <url>
       <loc>/tag/jquery.html</loc>
+      <lastmod>2019-12-05</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.2</priority>
+   </url>
+   <url>
+      <loc>/tag/%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6.html</loc>
       <lastmod>2019-12-05</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
