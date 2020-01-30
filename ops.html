@@ -16,6 +16,7 @@
 <ul>
 <li><a href="#mysql批量杀进程">Mysql批量杀进程</a></li>
 <li><a href="#文件批量合并">文件批量合并</a></li>
+<li><a href="#统计文本中某一列的和">统计文本中某一列的和</a></li>
 </ul>
 </nav>
 
@@ -43,6 +44,12 @@ Query OK, 0 rows affected (0.00 sec)
 cat a.csv b.csv c.csv &gt; abc.csv
 </code></pre>
 
+<h1 id="统计文本中某一列的和">统计文本中某一列的和</h1>
+
+<pre><code>$ cat test.log | awk -F '\t' '{sum+=$2}END{print sum}'
+$ cat test.log | awk -F '\t' '{sum1+=$2;sum2+=$3}END{print sum2*100/sum1}'
+</code></pre>
+
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -50,7 +57,7 @@ cat a.csv b.csv c.csv &gt; abc.csv
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2017-01.html">2019-12-05 21:51</a></code>
+    <code style="border:0px;background:none;"><a href="/2017-01.html">2020-01-10 09:24</a></code>
 </div>
 
 <div class="eof_tag">
@@ -68,7 +75,7 @@ cat a.csv b.csv c.csv &gt; abc.csv
             <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/服务器/常用运维操作.md">https://github.com/pengbotao/itopic.go/blob/master/posts/服务器/常用运维操作.md</a>
         <li>
         <li>
-            @2013-2019 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
+            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
         </li>
     </ul>
 </div>
