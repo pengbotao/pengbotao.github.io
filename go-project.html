@@ -310,14 +310,36 @@ replace golang.org/x/crypto =&gt; github.com/golang/crypto latest
 
 <p>国内下载GO的包可能会碰到被墙的问题，可以通过设置代理解决。</p>
 
-<p><strong>goproxy</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>地址</th>
+</tr>
+</thead>
 
-<pre><code>export GOPROXY=https://goproxy.cn
-</code></pre>
+<tbody>
+<tr>
+<td>Goproxy China</td>
+<td><code>https://goproxy.cn</code></td>
+</tr>
 
-<p><strong>阿里云：</strong></p>
+<tr>
+<td>官方</td>
+<td><code>https://goproxy.io</code></td>
+</tr>
 
-<pre><code>export GOPROXY=https://mirrors.aliyun.com/goproxy/
+<tr>
+<td>阿里</td>
+<td><code>https://mirrors.aliyun.com/goproxy/</code></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>设置方式</strong></p>
+
+<pre><code>$ go env -w GO111MODULE=on
+$ go env -w GOPROXY=https://goproxy.cn,direct
 </code></pre>
 
 <h1 id="reference">Reference</h1>
