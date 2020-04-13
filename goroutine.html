@@ -18,6 +18,7 @@
 <li><a href="#二-通道">二、 通道</a>
 <ul>
 <li><a href="#2-1-通道定义">2.1 通道定义</a></li>
+<li><a href="#2-2-select语句">2.2 select语句</a></li>
 </ul></li>
 <li><a href="#三-协程同步与通信示例">三、协程同步与通信示例</a>
 <ul>
@@ -63,6 +64,74 @@ v := &lt;-ch  // 从Channel ch中接收数据，并将数据赋值给v
 
 <pre><code>ch := make(chan int)
 </code></pre>
+
+<h2 id="2-2-select语句">2.2 select语句</h2>
+
+<p>select 是<code>Go</code>中的一个控制结构，类似于用于通信的<code>switch</code>语句。每个<code>case</code>必须是一个通信操作，要么是发送要么是接收。<code>select</code>随机执行一个可运行的<code>case</code>。如果没有<code>case</code>可运行，它将阻塞，直到有 <code>case</code>可运行。一个默认的子句应该总是可运行的。</p>
+
+<p><strong>基本用法</strong></p>
+
+<pre><code>select {
+case &lt;- chan1:
+// 如果chan1成功读到数据，则进行该case处理语句
+case chan2 &lt;- 1:
+// 如果成功向chan2写入数据，则进行该case处理语句
+default:
+// 如果上面都没有成功，则进入default处理流程
+}
+</code></pre>
+
+<p>以下描述了 select 语句的语法：</p>
+
+<ul>
+<li>每个<code>case</code>都必须是一个通信</li>
+<li>所有<code>channel</code>表达式都会被求值</li>
+<li>所有被发送的表达式都会被求值</li>
+<li>如果任意某个通信可以进行，它就执行，其他被忽略。</li>
+<li>如果有多个<code>case</code>都可以运行，<code>Select</code>会随机公平地选出一个执行。其他不会执行。</li>
+<li>否则：
+
+<ul>
+<li>如果有<code>default</code>子句，则执行该语句。</li>
+<li>如果没有<code>default</code>子句，<code>select</code>将阻塞，直到某个通信可以运行；<code>Go</code>不会重新对<code>channel</code>或值进行求值。</li>
+</ul></li>
+</ul>
+
+<p><strong>示例</strong></p>
+
+<pre><code>func main() {
+	ch1 := make(chan int)
+	ch2 := make(chan string)
+
+	go func() {
+		time.Sleep(1 * time.Second)
+		ch1 &lt;- 1
+	}()
+
+	go func() {
+		time.Sleep(2 * time.Second)
+		ch2 &lt;- &quot;Hello&quot;
+	}()
+
+	fmt.Println(&quot;Start&quot;)
+	select {
+	case &lt;-ch1:
+		fmt.Println(&quot;Read From ch1&quot;)
+	case &lt;-ch2:
+		fmt.Println(&quot;Read From ch2&quot;)
+	default:
+		fmt.Println(&quot;Read From Default&quot;)
+	}
+	fmt.Println(&quot;END&quot;)
+}
+</code></pre>
+
+<ul>
+<li>因为两个通道都要等1秒，存在default则直接执行了default语句，打印<code>Read From Default</code>，退出<code>swith</code></li>
+<li>如果去掉default，则阻塞等待打印出<code>Read From ch1</code></li>
+</ul>
+
+<p>如果<code>select</code>里啥都没有 <code>select{}</code>，则会等待，达到阻塞的目的。</p>
 
 <h1 id="三-协程同步与通信示例">三、协程同步与通信示例</h1>
 
@@ -140,10 +209,7 @@ v := &lt;-ch  // 从Channel ch中接收数据，并将数据赋值给v
 
 	go func() {
 		for {
-			t, ok := &lt;-ch
-			if ok {
-				fmt.Println(t)
-			}
+			fmt.Println(&lt;-ch)
 		}
 	}()
 
