@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Golang并发编程 - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+</head>
+<body>
+<h1 class="title">Golang并发编程</h1>
+
+<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+
+<nav>
+<ul>
+<li><a href="#一-go协程">一、Go协程</a></li>
+<li><a href="#二-通道">二、 通道</a>
+<ul>
+<li><a href="#2-1-通道定义">2.1 通道定义</a></li>
+</ul></li>
+<li><a href="#三-协程同步与通信示例">三、协程同步与通信示例</a>
+<ul>
+<li><a href="#3-1-通过channel同步">3.1 通过Channel同步</a></li>
+<li><a href="#3-2-通过sync-waitgroup同步">3.2 通过sync.WaitGroup同步</a></li>
+<li><a href="#3-3-模拟生产者与消费者">3.3 模拟生产者与消费者</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="一-go协程">一、Go协程</h1>
+
+<p>只需要在方法前加一个<code>go</code>关键字就可以让一个普通方法协程化。以下面的代码为例，一般同步阻塞的编码方式下会按顺序打印012然后再输出Finish. 示例中启动了3个协程之后主进程会继续往下执行，不会等待函数返回，大概率会先看到Finish输出，然后看到012或者210。</p>
+
+<p>即加上<code>go</code>关键字之后程序不会同步阻塞主进程，协程的执行速度跟程序复杂性关系，无法保证先启动的协程先执行完毕。</p>
+
+<pre><code>func main() {
+	for i := 0; i &lt; 3; i++ {
+		go func(v int) {
+			fmt.Println(v)
+		}(i)
+	}
+	fmt.Println(&quot;Finish.&quot;)
+	time.Sleep(time.Second)
+}
+</code></pre>
+
+<p>通常情况下同步的逻辑方式书写是最方便的，无须考虑程序逻辑的先后关系，上面示例最后一行休眠1秒，确保协程可以执行完毕，但正常逻辑下无法确保1秒内协程能执行完毕，也不会只执行一个打印这么简单，通常还需要能获取到函数的返回。所以需要有一种通信方式能解决此类问题，而通道正是为协程间通信而产生。</p>
+
+<h1 id="二-通道">二、 通道</h1>
+
+<p>通道（channel）提供了协程之间的<code>通信方式</code>以及<code>运行同步机制</code>。</p>
+
+<h2 id="2-1-通道定义">2.1 通道定义</h2>
+
+<p>Channel是Go中的一个核心类型，你可以把它看成一个管道，通过它并发核心单元就可以发送或者接收数据进行通讯，它的操作符是箭头 <code>&lt;-</code>(箭头的指向就是数据的流向)。</p>
+
+<pre><code>ch &lt;- v    // 发送值v到Channel ch中
+v := &lt;-ch  // 从Channel ch中接收数据，并将数据赋值给v
+</code></pre>
+
+<p>就像<code>map</code>和<code>slice</code>数据类型一样,<code>channel</code>必须先创建再使用:</p>
+
+<pre><code>ch := make(chan int)
+</code></pre>
+
+<h1 id="三-协程同步与通信示例">三、协程同步与通信示例</h1>
+
+<h2 id="3-1-通过channel同步">3.1 通过Channel同步</h2>
+
+<p>创建了一个存储10个bool类型的通道，函数执行成功向通道里写入true，执行失败向通道里写入false。启动一个循环从通道读取数据，读取10次之后程序在打印最后的结果：</p>
+
+<p><code>true true true true false true false false false false [0 1 2 3 4]</code></p>
+
+<pre><code>func main() {
+	ch := make(chan bool, 10)
+
+	data := make([]int, 5)
+	for i := 0; i &lt; 10; i++ {
+		go func(idx int) {
+			defer func() {
+				if err := recover(); err != nil {
+					ch &lt;- false
+				}
+			}()
+			data[idx] = idx
+			ch &lt;- true
+		}(i)
+	}
+	for j := 0; j &lt; 10; j++ {
+		fmt.Print(&lt;-ch, &quot; &quot;)
+	}
+	fmt.Println(data)
+}
+</code></pre>
+
+<h2 id="3-2-通过sync-waitgroup同步">3.2 通过sync.WaitGroup同步</h2>
+
+<p>控制流程同步等待也可以通过<code>sync.WaitGroup</code>来实现，<code>WaitGroup</code>对象内部有一个计数器，最初从0开始，它有三个方法：</p>
+
+<ul>
+<li><code>Add()</code>: 计数器增加N</li>
+<li><code>Done()</code>: 完成一个任务，计数器减少1</li>
+<li><code>Wait()</code>: 同步阻塞，计数器为0之后才继续向下执行</li>
+</ul>
+
+<pre><code>func main() {
+	var wg sync.WaitGroup
+
+	data := make([]int, 5)
+	for i := 0; i &lt; 10; i++ {
+		wg.Add(1)
+		go func(idx int) {
+			defer func() {
+				if err := recover(); err != nil {
+					fmt.Println(err)
+				}
+				wg.Done()
+			}()
+			data[idx] = idx
+		}(i)
+	}
+	wg.Wait()
+	fmt.Println(data)
+}
+</code></pre>
+
+<h2 id="3-3-模拟生产者与消费者">3.3 模拟生产者与消费者</h2>
+
+<pre><code>func main() {
+	ch := make(chan string)
+
+	ticker := time.NewTicker(time.Second)
+	go func() {
+		for {
+			&lt;-ticker.C
+			ch &lt;- time.Now().Format(&quot;2006-01-02 15:04:05&quot;)
+		}
+	}()
+
+	go func() {
+		for {
+			t, ok := &lt;-ch
+			if ok {
+				fmt.Println(t)
+			}
+		}
+	}()
+
+	select {}
+}
+</code></pre>
+
+<p>这个示例启动了2个协程，一个用来每一秒往通道里写一个时间，另一个用来从通道里读取，模拟生产者和消费者的情况。当然就示例本身实现起来只需要上面生产者并打印即可。</p>
+
+<pre><code>func main() {
+	ticker := time.NewTicker(time.Second)
+	for {
+		select {
+		case &lt;-ticker.C:
+			fmt.Println(time.Now().Format(&quot;2006-01-02 15:04:05&quot;))
+		}
+	}
+}
+</code></pre>
+
+<ul>
+<li>[1] <a href="https://learnku.com/articles/41668">go 语言之行&ndash;golang 核武器 goroutine 调度原理、channel 详解</a></li>
+<li>[2] <a href="https://www.jianshu.com/p/80bde972196d">一文读懂什么是进程、线程、协程</a></li>
+<li>[3] <a href="http://yuedu.163.com/source/a4b77ff9abaf4109acd11c38e5c8babc_4">七周七并发模型</a></li>
+<li>[4] <a href="http://c.biancheng.net/view/97.html">Go语言通道（chan）——goroutine之间通信的管道</a></li>
+</ul>
+
+<div class="eof">-- EOF --</div>
+<div class="eof_arrow">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+
+<div class="eof_tag">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2020-04.html">2020-04-20 11:00</a></code>
+</div>
+<div class="eof_tag">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/golang.html">Golang</a></code>
+</div>
+
+<div id="footer">
+    <ul>
+        <li>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang并发编程.md">https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang并发编程.md</a>
+        <li>
+        <li>
+            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
+        </li>
+    </ul>
+</div>
+
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+<script>
+ready(fn);
+function ready(fn){  
+    if(document.addEventListener){
+        document.addEventListener('DOMContentLoaded',function(){
+            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
+            fn();
+        },false);
+    } else if(document.attachEvent) {
+        document.attachEvent('onreadystatechange',function(){
+            if(document.readyState=='complete'){
+                document.detachEvent('onreadystatechange',arguments.callee);  
+                fn();
+            }
+        });
+    }  
+}  
+function fn(){
+    if(document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    }
+}
+</script>
+</body>
+</html>
