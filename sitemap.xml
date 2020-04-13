@@ -19,6 +19,18 @@
       <priority>0.9</priority>
    </url>
    <url>
+      <loc>/golang.html</loc>
+      <lastmod>2020-03-01</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.9</priority>
+   </url>
+   <url>
+      <loc>/python-language.html</loc>
+      <lastmod>2019-12-01</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.9</priority>
+   </url>
+   <url>
       <loc>/math-thinking.html</loc>
       <lastmod>2019-09-25</lastmod>
       <changefreq>monthly</changefreq>
@@ -291,12 +303,6 @@
    <url>
       <loc>/lua-start.html</loc>
       <lastmod>2016-01-01</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>/python-language.html</loc>
-      <lastmod>2015-12-25</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.9</priority>
    </url>
@@ -656,6 +662,18 @@
    </url>
    <url>
       <loc>/2020-04.html</loc>
+      <lastmod>2020-04-13</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.2</priority>
+   </url>
+   <url>
+      <loc>/2020-03.html</loc>
+      <lastmod>2020-04-13</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.2</priority>
+   </url>
+   <url>
+      <loc>/2019-12.html</loc>
       <lastmod>2020-04-13</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.2</priority>
