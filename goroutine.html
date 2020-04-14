@@ -25,6 +25,7 @@
 <li><a href="#3-1-通过channel同步">3.1 通过Channel同步</a></li>
 <li><a href="#3-2-通过sync-waitgroup同步">3.2 通过sync.WaitGroup同步</a></li>
 <li><a href="#3-3-模拟生产者与消费者">3.3 模拟生产者与消费者</a></li>
+<li><a href="#3-4-读取channel超时">3.4 读取channel超时</a></li>
 </ul></li>
 <li><a href="#四-协程通信">四、协程通信</a>
 <ul>
@@ -231,6 +232,26 @@ default:
 		case &lt;-ticker.C:
 			fmt.Println(time.Now().Format(&quot;2006-01-02 15:04:05&quot;))
 		}
+	}
+}
+</code></pre>
+
+<h2 id="3-4-读取channel超时">3.4 读取channel超时</h2>
+
+<p>通过<code>select + time.After</code>实现超时控制。</p>
+
+<pre><code>func main() {
+	ch := make(chan bool)
+	go func() {
+		time.Sleep(3 * time.Second)
+		ch &lt;- true
+	}()
+
+	select {
+	case &lt;-ch:
+		fmt.Println(&quot;Read From CH&quot;)
+	case &lt;-time.After(time.Second):
+		fmt.Println(&quot;timeout&quot;)
 	}
 }
 </code></pre>

@@ -21,6 +21,10 @@
 <li><a href="#1-3-写入工作表">1.3 写入工作表</a></li>
 <li><a href="#1-4-读取工作表">1.4 读取工作表</a></li>
 </ul></li>
+<li><a href="#二-xlrd-xlwt">二、xlrd/xlwt</a>
+<ul>
+<li><a href="#2-1-xlrd">2.1 xlrd</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -158,6 +162,152 @@ for row in sheet:
         print(row[idx].value)
 </code></pre>
 
+<h1 id="二-xlrd-xlwt">二、xlrd/xlwt</h1>
+
+<h2 id="2-1-xlrd">2.1 xlrd</h2>
+
+<pre><code>import xlrd
+x1 = xlrd.open_workbook(&quot;data.xlsx&quot;)
+</code></pre>
+
+<p><strong>获取Sheet</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>说明</th>
+<th>操作</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>获取所有sheet名字</td>
+<td>x1.sheet_names()</td>
+</tr>
+
+<tr>
+<td>获取sheet数量</td>
+<td>x1.nsheets</td>
+</tr>
+
+<tr>
+<td>获取所有sheet对象</td>
+<td>x1.sheets()</td>
+</tr>
+
+<tr>
+<td>通过sheet名查找</td>
+<td>x1.sheet_by_name(&ldquo;test&rdquo;)</td>
+</tr>
+
+<tr>
+<td>通过索引查找</td>
+<td>x1.sheet_by_index(3)</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>获取sheet的汇总数据</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>说明</th>
+<th>操作</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>获取sheet名</td>
+<td><code>sheet1.name</code></td>
+</tr>
+
+<tr>
+<td>获取总行数</td>
+<td>sheet1.nrows</td>
+</tr>
+
+<tr>
+<td>获取总列数</td>
+<td>sheet1.ncols</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>行操作</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>sheet1.row_values(0)</td>
+<td>获取第一行所有内容，合并单元格，首行显示值，其它为空。</td>
+</tr>
+
+<tr>
+<td>sheet1.row(0)</td>
+<td>获取单元格值类型和内容</td>
+</tr>
+
+<tr>
+<td>sheet1.row_types(0)</td>
+<td>获取单元格数据类型</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>表操作</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>sheet1.row_values(0, 6, 10)</td>
+<td>取第1行，第6~10列（不含第10表）</td>
+</tr>
+
+<tr>
+<td>sheet1.col_values(0, 0, 5)</td>
+<td>取第1列，第0~5行（不含第5行）</td>
+</tr>
+
+<tr>
+<td>sheet1.row_slice(2, 0, 2)</td>
+<td>获取单元格值类型和内容</td>
+</tr>
+
+<tr>
+<td>sheet1.row_types(1, 0, 2)</td>
+<td>获取单元格数据类型</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>遍历</strong></p>
+
+<pre><code>rs = []
+for idx in range(0, sheet1.nrows):
+    rs.append(table.row_values(idx))
+</code></pre>
+
+<ul>
+<li><a href="https://www.cnblogs.com/zhang-jun-jie/p/9273721.html">python读取excel(xlrd)</a></li>
+</ul>
+
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -165,7 +315,7 @@ for row in sheet:
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2017-03.html">2019-11-08 23:54</a></code>
+    <code style="border:0px;background:none;"><a href="/2017-03.html">2020-04-14 11:56</a></code>
 </div>
 
 <div class="eof_tag">
