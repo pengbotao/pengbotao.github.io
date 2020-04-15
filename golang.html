@@ -44,6 +44,7 @@
 <li><a href="#4-2-切片">4.2 切片</a>
 <ul>
 <li><a href="#4-2-1-切片定义">4.2.1 切片定义</a></li>
+<li><a href="#4-2-2-访问切片">4.2.2 访问切片</a></li>
 </ul></li>
 <li><a href="#4-3-字典">4.3 字典</a>
 <ul>
@@ -133,14 +134,12 @@
 
 <h3 id="1-1-2-浮点型">1.1.2 浮点型</h3>
 
-<p>Go的浮点数类型有两种：</p>
+<p>Go的浮点数类型有两种，<code>float32</code>大约可以提供小数点后6位的精度，而<code>float64</code>可以提供小数点后15位的精度。</p>
 
 <ul>
-<li><code>float32</code>：又叫单精度浮点型</li>
-<li><code>float64</code>：又叫做双精度浮点型</li>
+<li><code>float32</code>：单精度浮点型</li>
+<li><code>float64</code>：做双精度浮点型</li>
 </ul>
-
-<p>其最主要的区别就是小数点后面能跟的小数位数不同。</p>
 
 <h3 id="1-1-3-虚数类型">1.1.3 虚数类型</h3>
 
@@ -226,7 +225,7 @@ func main() {
 
 <h2 id="2-1-变量">2.1 变量</h2>
 
-<p>所谓的变量就是一个拥有指定<code>名称</code>和<code>类型</code>的数据存储位置。变量之所以称为变量，就是因为它们的值在程序运行过程中可以发生变化，但是它们的变量类型是无法改变的。因为Go语言是静态语言，并不支持程序运行过程中变量类型发生变化。比如如果你强行将一个字符串值赋值给定义为<code>int</code>的变量，那么会发生编译错误。即使是强制类型转换也是不可以的。强制类型转换只支持同类的变量类型。比如数值类型之间强制转换。</p>
+<p>所谓的变量就是一个拥有指定<code>名称</code>和<code>类型</code>的数据存储位置。变量之所以称为变量，就是因为它们的值在程序运行过程中可以发生变化，但是它们的变量类型是无法改变的。Go语言是静态语言，并不支持程序运行过程中变量类型发生变化。如果强行将一个字符串值赋值给定义为<code>int</code>的变量，那么会发生编译错误。</p>
 
 <pre><code>package main
 
@@ -371,7 +370,7 @@ var z = [...]int{1, 2, 3, 4, 5}
 <ul>
 <li>1. 定义数组<code>x</code>，指定长度为5，没有赋初值，默认为零值。比如对于整数，零值就是0，浮点数，零值就是0.0，字符串，零值就是&rdquo;&ldquo;，对象零值就是nil，所以x的5个元素都是0.</li>
 <li>2. 定义数组<code>x</code>，同时初始化前4个元素。也可以通过<code>x[4] = 5</code>来赋值。</li>
-<li>3. 长度用<code>...</code>代替，Go会自动计算出数组的长度。这种方式定义的数组需要有初始化的值的。</li>
+<li>3. 长度用<code>...</code>代替，Go会自动计算出数组的长度。这种方式定义的数组需要赋初值。</li>
 </ul>
 
 <h2 id="4-2-切片">4.2 切片</h2>
@@ -385,7 +384,7 @@ var z = [...]int{1, 2, 3, 4, 5}
 
 <h3 id="4-2-1-切片定义">4.2.1 切片定义</h3>
 
-<p><strong>方法一</strong></p>
+<p><strong>方法一：通过make初始化</strong></p>
 
 <pre><code>func main() {
 	//定义并初始化切片
@@ -415,12 +414,13 @@ Length: 11 Capcity: 20
 </code></pre>
 
 <ul>
-<li>切片的初始化需要通过make函数。切片有长度(length)和容量(capacity)两个属性。第三个参数容量为可选参数，当不指定时长度和容量相同。</li>
+<li>切片通过make函数初始化，可以指定长度(<code>length</code>)和容量(<code>capacity</code>)两个属性，当不指定容量时，与长度相同。</li>
 <li>如果追加的元素超过了<code>容量</code>大小，Go会自动地重新为切片分配容量，容量大小为原来的两倍。</li>
 <li>虽然切片的<code>容量</code>可以大于<code>长度</code>，但是赋值的时候要注意最大的索引仍然是<code>len(x)－1</code>。否则会报索引超出边界错误。</li>
+<li>虽然切片会自动扩容，但设置合理的容量大小可以减少内存的重新分配。</li>
 </ul>
 
-<p><strong>方法二</strong></p>
+<p><strong>方法二：通过数组切片</strong></p>
 
 <pre><code>func main() {
 	var x = [5]int{1, 2, 3, 4, 5}
@@ -439,13 +439,27 @@ Length: 2 Capcity: 4
 Length: 5 Capcity: 8
 </code></pre>
 
+<h3 id="4-2-2-访问切片">4.2.2 访问切片</h3>
+
+<pre><code>func main() {
+	var x = make([]int, 5, 10)
+	for k := range x {
+		fmt.Println(k)
+	}
+
+	for k, v := range x {
+		fmt.Println(k, v)
+	}
+}
+</code></pre>
+
 <h2 id="4-3-字典">4.3 字典</h2>
 
 <p>字典是一组<code>无序</code>的，<code>键值对</code>的集合。数组通过<code>索引</code>来查找元素，而字典通过<code>键</code>来查找元素。</p>
 
 <h3 id="4-3-1-字典定义">4.3.1 字典定义</h3>
 
-<p><strong>直接赋值</strong></p>
+<p><strong>方法一：直接赋值</strong></p>
 
 <pre><code>func main() {
 	var x = map[string]string{
@@ -461,7 +475,7 @@ Length: 5 Capcity: 8
 }
 </code></pre>
 
-<p><strong>通过make函数初始化</strong></p>
+<p><strong>方法二：通过make函数初始化</strong></p>
 
 <pre><code>func main() {
 	var x = make(map[string]string)
@@ -528,7 +542,7 @@ Length: 5 Capcity: 8
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-03.html">2020-04-15 14:49</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-03.html">2020-04-15 15:15</a></code>
 </div>
 
 <div class="eof_tag">
