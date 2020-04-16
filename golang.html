@@ -52,15 +52,10 @@
 <li><a href="#4-3-2-访问字典">4.3.2 访问字典</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#五-类型总结">五、类型总结</a>
+<li><a href="#五-函数">五、函数</a>
 <ul>
-<li><a href="#5-1-类型转换">5.1 类型转换</a></li>
-<li><a href="#5-2-传值与传引用">5.2 传值与传引用</a></li>
+<li><a href="#5-1-函数定义">5.1 函数定义</a></li>
 </ul></li>
-<li><a href="#六-函数">六、函数</a></li>
-<li><a href="#七-结构体">七、结构体</a></li>
-<li><a href="#八-并行计算">八、并行计算</a></li>
-<li><a href="#九-错误处理">九、错误处理</a></li>
 </ul>
 </nav>
 
@@ -522,21 +517,67 @@ Length: 5 Capcity: 8
 }
 </code></pre>
 
-<h1 id="五-类型总结">五、类型总结</h1>
+<h1 id="五-函数">五、函数</h1>
 
-<h2 id="5-1-类型转换">5.1 类型转换</h2>
+<p>函数，简单来讲就是一段将<code>输入数据</code>转换为<code>输出数据</code>的公用代码块。</p>
 
-<p>Go 对于值之间的比较有非常严格的限制，只有两个类型相同的值才可以进行比较，如果值的类型是接口（interface），它们也必须都实现了相同的接口。如果其中一个值是常量，那么另外一个值的类型必须和该常量类型相兼容的。</p>
+<h2 id="5-1-函数定义">5.1 函数定义</h2>
 
-<h2 id="5-2-传值与传引用">5.2 传值与传引用</h2>
+<p><strong>方法一：基本定义</strong></p>
 
-<h1 id="六-函数">六、函数</h1>
+<pre><code>func func1(x int, y int) int {
+	return x + y
+}
+</code></pre>
 
-<h1 id="七-结构体">七、结构体</h1>
+<p><strong>方法2：可变长参数</strong></p>
 
-<h1 id="八-并行计算">八、并行计算</h1>
+<pre><code>func func2(nums ...int) int {
+	sum := 0
+	for _, v := range nums {
+		sum += v
+	}
+	return sum
+}
+</code></pre>
 
-<h1 id="九-错误处理">九、错误处理</h1>
+<p><strong>方法3：多返回值</strong></p>
+
+<pre><code>func func3(x, y int, z string) (int, string) {
+	return x + y, z + &quot; World&quot;
+}
+</code></pre>
+
+<p><strong>方法4：命名返回值</strong></p>
+
+<ul>
+<li>可以为返回值预先定义一个名称，在函数结束的时候，直接return就可以返回所有的预定义返回值</li>
+<li>如果定义了命名返回值，那么在函数内部将不能再重复定义一个同样名称的变量。</li>
+</ul>
+
+<pre><code>func func4(x int, y int) (sum int, m, n int) {
+	m = x
+	n = y
+	sum = x + y
+	return
+}
+</code></pre>
+
+<p><strong>方法5：闭包函数</strong></p>
+
+<p>所谓闭包函数就是将整个函数的定义一气呵成写好并赋值给一个变量。然后用这个变量名作为函数名去调用函数体。</p>
+
+<pre><code>func main() {
+	sum := func(nums ...int) int {
+		s := 0
+		for _, v := range nums {
+			s += v
+		}
+		return s
+	}
+	fmt.Println(sum(1, 2, 3))
+}
+</code></pre>
 
 <ul>
 <li>[1] <a href="https://www.kancloud.cn/itfanr/go-quick-learn">Go轻松学</a></li>
@@ -550,7 +591,7 @@ Length: 5 Capcity: 8
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-03.html">2020-04-16 09:39</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-03.html">2020-04-16 10:38</a></code>
 </div>
 
 <div class="eof_tag">
