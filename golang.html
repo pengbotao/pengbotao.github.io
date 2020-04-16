@@ -51,10 +51,20 @@
 <li><a href="#4-3-1-字典定义">4.3.1 字典定义</a></li>
 <li><a href="#4-3-2-访问字典">4.3.2 访问字典</a></li>
 </ul></li>
+<li><a href="#4-4-类型转换">4.4 类型转换</a></li>
 </ul></li>
 <li><a href="#五-函数">五、函数</a>
 <ul>
 <li><a href="#5-1-函数定义">5.1 函数定义</a></li>
+<li><a href="#5-2-闭包函数">5.2 闭包函数</a></li>
+<li><a href="#5-3-递归函数">5.3 递归函数</a></li>
+<li><a href="#5-4-传值与传引用">5.4 传值与传引用</a></li>
+</ul></li>
+<li><a href="#六-错误和异常处理">六、错误和异常处理</a>
+<ul>
+<li><a href="#6-1-defer关键字">6.1 defer关键字</a></li>
+<li><a href="#6-2-panic-recover">6.2 panic &amp; recover</a></li>
+<li><a href="#6-3-错误判断">6.3 错误判断</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -517,6 +527,8 @@ Length: 5 Capcity: 8
 }
 </code></pre>
 
+<h2 id="4-4-类型转换">4.4 类型转换</h2>
+
 <h1 id="五-函数">五、函数</h1>
 
 <p>函数，简单来讲就是一段将<code>输入数据</code>转换为<code>输出数据</code>的公用代码块。</p>
@@ -563,7 +575,7 @@ Length: 5 Capcity: 8
 }
 </code></pre>
 
-<p><strong>方法5：闭包函数</strong></p>
+<h2 id="5-2-闭包函数">5.2 闭包函数</h2>
 
 <p>所谓闭包函数就是将整个函数的定义一气呵成写好并赋值给一个变量。然后用这个变量名作为函数名去调用函数体。</p>
 
@@ -579,6 +591,100 @@ Length: 5 Capcity: 8
 }
 </code></pre>
 
+<h2 id="5-3-递归函数">5.3 递归函数</h2>
+
+<p>所谓递归，就是在函数的内部重复调用一个函数的过程。需要注意的是这个函数必须能够一层一层分解，并且有出口。</p>
+
+<pre><code>func fibonacci(n int) int {
+	if n == 0 {
+		return 0
+	}
+	if n == 1 {
+		return 1
+	}
+	return fibonacci(n-1) + fibonacci(n-2)
+}
+
+func main() {
+	for i := 1; i &lt; 10; i++ {
+		fmt.Println(fibonacci(i))
+	}
+}
+</code></pre>
+
+<h2 id="5-4-传值与传引用">5.4 传值与传引用</h2>
+
+<h1 id="六-错误和异常处理">六、错误和异常处理</h1>
+
+<h2 id="6-1-defer关键字">6.1 defer关键字</h2>
+
+<p>Go语言提供了关键字<code>defer</code>来在函数运行结束的时候运行一段代码或调用一个清理函数。</p>
+
+<pre><code>func main() {
+	defer func() {
+		fmt.Println(&quot;Print From Defer.&quot;)
+	}()
+	fmt.Println(&quot;Hello World.&quot;)
+}
+</code></pre>
+
+<p>上面示例虽然defer操作写在打印的前面，但实际会在main函数结束前调用，运行示例就可以看到Defer的打印在Hello之后。所以常用<code>defer</code>来处理一些清理和释放资源的操作，比如常见的：</p>
+
+<pre><code>mu.Lock()
+defer mu.Unlock()
+</code></pre>
+
+<p><code>defer</code>有一些特性：</p>
+
+<ul>
+<li>如果有多个<code>defer</code>操作，按照<code>FILO</code>（先进后出）的方式执行。</li>
+<li><code>defer</code>还可以修改函数中的命名返回值。</li>
+</ul>
+
+<h2 id="6-2-panic-recover">6.2 panic &amp; recover</h2>
+
+<ul>
+<li><code>panic</code>: 抛出一条异常信息。程序执行中调用了panic则正常执行流程终止，但是该函数中panic之前定义的defer语句将被依次执行。</li>
+<li><code>recover</code>: 用于将panic的信息捕捉。recover必须定义在panic之前的defer语句中。</li>
+</ul>
+
+<pre><code>func main() {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Printf(&quot;%s&quot;, r)
+		}
+	}()
+	panic(&quot;panic info.&quot;)
+}
+</code></pre>
+
+<h2 id="6-3-错误判断">6.3 错误判断</h2>
+
+<pre><code>func division(x, y int) (int, error) {
+	if y == 0 {
+		return 0, errors.New(&quot;integer divide by zero&quot;)
+	}
+	return x / y, nil
+}
+
+func main() {
+	x, err := division(1, 0)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(x)
+	}
+}
+</code></pre>
+
+<p>也可以通过下划线<code>_</code>忽略掉error信息，但潜在的错误就被忽略掉了，所以经常看到一堆的<code>if err != nil</code>的判断。</p>
+
+<pre><code>func main() {
+	x, _ := division(1, 0)
+	fmt.Println(x)
+}
+</code></pre>
+
 <ul>
 <li>[1] <a href="https://www.kancloud.cn/itfanr/go-quick-learn">Go轻松学</a></li>
 <li>[2] <a href="https://studygolang.com/articles/16011">golang&ndash;数据类型</a></li>
@@ -591,7 +697,7 @@ Length: 5 Capcity: 8
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-03.html">2020-04-16 10:38</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-03.html">2020-04-16 13:57</a></code>
 </div>
 
 <div class="eof_tag">
