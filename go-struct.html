@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Golang结构体和接口 - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+</head>
+<body>
+<h1 class="title">Golang结构体和接口</h1>
+
+<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+
+<nav>
+<ul>
+<li><a href="#一-关于结构体">一、关于结构体</a>
+<ul>
+<li><a href="#1-1-基本定义">1.1 基本定义</a></li>
+<li><a href="#1-2-定义方法">1.2 定义方法</a></li>
+<li><a href="#1-2-初始化及调用">1.2 初始化及调用</a></li>
+</ul></li>
+<li><a href="#二-结构体传参">二、结构体传参</a>
+<ul>
+<li><a href="#2-1-指针">2.1 指针</a></li>
+<li><a href="#2-2-结构体指针与传参">2.2 结构体指针与传参</a></li>
+</ul></li>
+<li><a href="#三-结构体内嵌">三、结构体内嵌</a>
+<ul>
+<li><a href="#3-1-基本嵌套">3.1 基本嵌套</a></li>
+<li><a href="#3-2-内嵌匿名字段">3.2 内嵌匿名字段</a></li>
+<li><a href="#3-2-结构体锁">3.2 结构体锁</a></li>
+</ul></li>
+<li><a href="#四-关于接口">四、关于接口</a>
+<ul>
+<li><a href="#4-1-接口定义">4.1 接口定义</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="一-关于结构体">一、关于结构体</h1>
+
+<h2 id="1-1-基本定义">1.1 基本定义</h2>
+
+<p>Go提供的<code>结构体</code>就是把使用<code>各种数据类型定义</code>的<code>不同变量组合起来</code>的<code>高级数据类型</code>。示例：</p>
+
+<pre><code>type Person struct {
+	Name string
+	Age  int
+}
+</code></pre>
+
+<p>通过<code>type</code>关键字指定<code>Person</code>为一个结构体<code>struct</code>，并且包含2个属性<code>Name</code>和<code>Age</code>，类型分别是<code>string</code>和<code>int</code>。所以说结构体可以把多种数据类型组合起来形成新的数据类型。 可以将<code>Person</code>结构体可以理解成定义了一个<code>Person</code>类，有两个成员属性<code>Name</code>和<code>Age</code>，只是暂时还没有成员方法，接下来我们给结构体定义一个方法。</p>
+
+<h2 id="1-2-定义方法">1.2 定义方法</h2>
+
+<p>给结构体定义了一个<code>Info</code>方法，返回一个<code>string</code>。</p>
+
+<pre><code>type Person struct {
+	Name string
+	Age  int
+}
+
+func (p Person) Info() string {
+	return fmt.Sprintf(&quot;Name: %s, Age: %d&quot;, p.Name, p.Age)
+}
+</code></pre>
+
+<ul>
+<li>首先可以看到<code>Info</code>方法并非定义在结构体对应的花括号内部，而是独立于结构体之外，这和一些语言不同，倒和Lua的table有点相似。</li>
+<li>结构的方法和普通定义唯一的区别是在<code>func</code>关键字和函数名<code>Info</code>中间增加了一个结构体类型限定：<code>(p Person)</code>，表示这是一个<code>Person</code>结构体的方法。</li>
+<li>结构体类型限定<code>(p Person)</code>，<code>p</code>表示形参名可以用任意变量名;<code>Person</code>是<code>p</code>的数据类型。</li>
+<li>可通过<code>.</code>形式来获取到结构体的成员属性，如<code>p.Name</code></li>
+</ul>
+
+<h2 id="1-2-初始化及调用">1.2 初始化及调用</h2>
+
+<pre><code>func main() {
+	//方式一：先定义然后进行赋值
+	var p Person
+	p.Name = &quot;iTopic&quot;
+	p.Age = 18
+
+	//方式二：定义并初始化
+	var q = Person{Name: &quot;iTopic&quot;, Age: 18}
+
+	//方法三：方法二相同，只不过这种写法最后一行需要保留分号
+	m := Person{
+		Name: &quot;iTopic&quot;,
+		Age:  18,
+	}
+
+	//方式四：按字段顺序进行赋值就无需指定字段了,需要按顺序对每一个字段进行初始化
+	n := Person{&quot;iTopic&quot;, 18}
+
+	fmt.Println(p, q, m, n)
+
+	//调用结构体的Info方法
+	fmt.Println(p.Info())
+}
+</code></pre>
+
+<ul>
+<li>属性和方法都通过<code>.</code>来访问。</li>
+<li>调用过程就像是初始化了一个类，并调用了类的方法。<code>Info()</code>方法可以访问当前结构体示例<code>p</code>的成员属性。</li>
+</ul>
+
+<h1 id="二-结构体传参">二、结构体传参</h1>
+
+<h2 id="2-1-指针">2.1 指针</h2>
+
+<p>可以用<code>new</code>函数来创建一个结构体指针，如：<code>p := new(Person)</code>，此时实际返回的数据类型是<code>*Person</code>，通过<code>var p Person</code>定义返回的数据类型为<code>Person</code>。</p>
+
+<ul>
+<li>结构体也是值类型，函数内部不会改变，而结构体指针作为参数传递时是可以改变实参的值。所以是否使用指针可以看是否需要在函数内部改变实参的值。</li>
+<li>虽然是<code>*Person</code>类型，但使用时并不需要<code>*</code>来访问结构体成员，直接使用<code>.</code>就可以。</li>
+<li>另外，相比值类型的拷贝，指针类型只是传递一个地址拷贝，效率上好一些。</li>
+<li>除了<code>new</code>之后还有一种方式 <code>&amp;Person{}</code>，表达式<code>new(Type)</code>和<code>&amp;Type{}</code>是等价的。</li>
+</ul>
+
+<h2 id="2-2-结构体指针与传参">2.2 结构体指针与传参</h2>
+
+<p>结构体也是传值的类型，有了指针，前面结构体方法定义与参数传递上则有一些变化的情况，如:</p>
+
+<pre><code>type Person struct {
+	Name string
+	Age  int
+}
+
+func (p *Person) Info() string {
+	p.Age = p.Age + 1
+	return fmt.Sprintf(&quot;Name: %s, Age: %d&quot;, p.Name, p.Age)
+}
+
+func main() {
+	p := new(Person)
+	p.Name = &quot;iTopic&quot;
+	p.Age = 18
+	fmt.Println(p)
+	fmt.Println(p.Info())
+	fmt.Println(p)
+}
+
+//output:
+
+&amp;{iTopic 18}
+Name: iTopic, Age: 19
+&amp;{iTopic 19}
+</code></pre>
+
+<p>和前面的区别可以看到</p>
+
+<ul>
+<li><code>Info</code>方法的结构体类型改为了<code>(p *Person)</code>，多了一个星号（<code>*</code>）。</li>
+<li><code>Info</code>方法内部使用去区别，还是用<code>p.Age</code>访问，并且可以成功修改<code>Age</code>属性。</li>
+<li>如果把<code>Info</code>方法的<code>(p *Person)</code>定义改回<code>(p Person)</code>，重新执行可以看到执行完成之后<code>p.Age</code>还会是18，即值拷贝。</li>
+</ul>
+
+<p>但这里有一个潜在的类型问题，既然p的类型为<code>*Person</code>，改为<code>(p Person)</code>为何方法不会报类型错误。同样，不使用new来创建<code>*Person</code>类型，也可以调用成功。</p>
+
+<pre><code>func main() {
+	p := Person{&quot;iTopic&quot;, 18}
+	fmt.Println(p)
+	fmt.Println(p.Info())
+	fmt.Println(p)
+}
+</code></pre>
+
+<p>如果定义一个函数形参为<code>p *Person</code>，此时若传入非引用则会报类型错误：<code>cannot use p (type Person) as type *Person in argument to test</code>，可见正常情况下会认定为不同的类型。</p>
+
+<pre><code>func test(p *Person) {
+	fmt.Println(p.Name)
+}
+</code></pre>
+
+<p>但从实际情况上看，请求的两种方式：<code>Person{&quot;iTopic&quot;, 18}</code> 和 <code>new(Person)</code> 与 方法定义的两种方式<code>(p Person)</code> 和 <code>(p *Person)</code>，这四种情况组合起来都可以执行成功，唯一的区别点在于如果方法上是<code>(p *Person)</code>则实参会被改写，否则不会（传值与传址区别这里不表）。</p>
+
+<h1 id="三-结构体内嵌">三、结构体内嵌</h1>
+
+<h2 id="3-1-基本嵌套">3.1 基本嵌套</h2>
+
+<p>结构体是由多种数据类型组合起来的高级类型，自然结构体也可以嵌套结构体。按理所当然的去设置和访问就好了，比如：<code>p.Job.CompanyName</code></p>
+
+<pre><code>type Person struct {
+	Name string
+	Age  int
+	Job  Job
+}
+
+type Job struct {
+	CompanyName string
+}
+</code></pre>
+
+<h2 id="3-2-内嵌匿名字段">3.2 内嵌匿名字段</h2>
+
+<p>我们去掉了<code>Person</code>中前面的<code>Job</code>变量名，同时给<code>Job</code>结构体增加了<code>Show</code>方法，可以看到：</p>
+
+<ul>
+<li>可以通过<code>p.CompanyName</code>直接访问<code>Job</code>结构体中的字段</li>
+<li>通过通过<code>p.Show()</code>直接访问方法</li>
+</ul>
+
+<p><code>Person</code>获得了<code>Job</code>的属性和方法，这就像从<code>Person</code>类继承了<code>Job</code>类的成员属性和成员方法。</p>
+
+<pre><code>type Person struct {
+	Name string
+	Age  int
+	Job
+}
+
+type Job struct {
+	CompanyName string
+}
+
+func (p *Person) Info() string {
+	p.Age = p.Age + 1
+	return fmt.Sprintf(&quot;Name: %s, Age: %d&quot;, p.Name, p.Age)
+}
+
+func (j *Job) Show() string {
+	return fmt.Sprintf(&quot;Job: %s&quot;, j.CompanyName)
+}
+
+func main() {
+	var p Person
+	p.Name = &quot;iTopic&quot;
+	p.Age = 18
+	p.CompanyName = &quot;iTopic.org&quot;
+	fmt.Println(p, p.Info(), p.Show())
+}
+
+//output:
+{iTopic 18 {iTopic.org}} Name: iTopic, Age: 19 Job: iTopic.org
+</code></pre>
+
+<p>如果存在同名的字段和方法则会优先获取到当前结构体的属性和方法，不存在才会去父结构体找。比如将<code>Job.CompanyName</code>改成<code>Name</code>，方法改成<code>Info()</code>，则可以这样子访问：</p>
+
+<pre><code>func main() {
+	var p Person
+	p.Name = &quot;iTopic&quot;
+	p.Age = 18
+	p.Job.Name = &quot;iTopic.org&quot;
+	fmt.Println(p, p.Info(), p.Job.Info())
+}
+</code></pre>
+
+<p>如果有多个这种继承字段也存在同名的方法，则就需要上面这种显示的指定了，否则会报：<code>ambiguous selector p.Info</code></p>
+
+<h2 id="3-2-结构体锁">3.2 结构体锁</h2>
+
+<p>这里为前一章节的一个示例，比如对<code>Age</code>进行一千次调用累加操作，如果要确保数据准确就需要上锁，而<code>sync.Mutex</code>也是一个结构体，所以可以直接用内嵌的方式，<code>Person</code>就继承了<code>Lock()</code>和<code>Unlock()</code>方法了。</p>
+
+<pre><code>type Person struct {
+	Name string
+	Age  int
+	C    chan bool
+	sync.Mutex
+}
+
+func (p *Person) Add() {
+	p.Lock()
+	defer p.Unlock()
+	p.Age++
+}
+
+func main() {
+	p := new(Person)
+	p.Age = 18
+	p.C = make(chan bool)
+	for i := 0; i &lt; 1000; i++ {
+		go func(i int) {
+			p.Add()
+			p.C &lt;- true
+		}(i)
+	}
+	for i := 0; i &lt; 1000; i++ {
+		&lt;-p.C
+	}
+	fmt.Println(p.Age)
+}
+</code></pre>
+
+<h1 id="四-关于接口">四、关于接口</h1>
+
+<h2 id="4-1-接口定义">4.1 接口定义</h2>
+
+<p>接口是一组方法的集合。接口的定义，首先是关键字<code>type</code>，然后是接口名称，最后是关键字<code>interface</code>表示这个类型是接口类型。示例，</p>
+
+<ul>
+<li>定义了一个接口<code>ExportHandler</code>，包含一个方法：<code>Export()</code></li>
+<li><code>CsvExporter</code> 和 <code>ExcelExporter</code> 都实现了该方法，但仅仅是实现了改方法，代码层面并无显示关联</li>
+<li>任何类型，只要实现了该接口中方法集，那么就属于这个类型。</li>
+</ul>
+
+<pre><code>type ExportHandler interface {
+	Export()
+}
+
+type CsvExporter struct {
+}
+
+func (e CsvExporter) Export() {
+	fmt.Println(&quot;Export CVS File.&quot;)
+}
+
+type ExcelExporter struct {
+}
+
+func (e ExcelExporter) Export() {
+	fmt.Println(&quot;Export Excel File.&quot;)
+}
+
+func main() {
+	var handlerList = []ExportHandler{CsvExporter{}, ExcelExporter{}}
+
+	for _, handle := range handlerList {
+		handle.Export()
+	}
+}
+</code></pre>
+
+<ul>
+<li>[1] <a href="https://www.cnblogs.com/sparkdev/p/10761825.html">Golang 入门 : 结构体(struct)</a></li>
+<li>[2] <a href="https://www.kancloud.cn/itfanr/go-quick-learn/81641">Go结构体和接口</a></li>
+<li>[3] <a href="https://www.jianshu.com/p/a02cf41c0520">Golang关键字&ndash;type 类型定义</a></li>
+<li>[4] <a href="https://www.cnblogs.com/echojson/p/10746807.html">Golang 之 interface接口全面理解</a></li>
+</ul>
+
+<div class="eof">-- EOF --</div>
+<div class="eof_arrow">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+
+<div class="eof_tag">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2020-05.html">2020-05-12 20:00</a></code>
+</div>
+<div class="eof_tag">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/golang.html">Golang</a></code>
+</div>
+
+<div id="footer">
+    <ul>
+        <li>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang结构体和接口.md">https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang结构体和接口.md</a>
+        <li>
+        <li>
+            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
+        </li>
+    </ul>
+</div>
+
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+<script>
+ready(fn);
+function ready(fn){  
+    if(document.addEventListener){
+        document.addEventListener('DOMContentLoaded',function(){
+            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
+            fn();
+        },false);
+    } else if(document.attachEvent) {
+        document.attachEvent('onreadystatechange',function(){
+            if(document.readyState=='complete'){
+                document.detachEvent('onreadystatechange',arguments.callee);  
+                fn();
+            }
+        });
+    }  
+}  
+function fn(){
+    if(document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    }
+}
+</script>
+</body>
+</html>
