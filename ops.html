@@ -20,6 +20,8 @@
 <li><a href="#文件切分与合并">文件切分与合并</a></li>
 <li><a href="#统计文本中某一列的和">统计文本中某一列的和</a></li>
 <li><a href="#查询外网ip">查询外网IP</a></li>
+<li><a href="#文件查找">文件查找</a></li>
+<li><a href="#清除超过30天的日志">清除超过30天的日志</a></li>
 </ul>
 </nav>
 
@@ -35,7 +37,8 @@ $ ls -lh /proc/12586/cwd
 
 <h1 id="centos查找大文件">Centos查找大文件</h1>
 
-<pre><code>du -h / --max-depth=1
+<pre><code>df -h
+du -h / --max-depth=1
 </code></pre>
 
 <h1 id="mysql批量杀进程">Mysql批量杀进程</h1>
@@ -89,6 +92,20 @@ $ curl cip.cc
 $ curl myip.ipip.net
 </code></pre>
 
+<h1 id="文件查找">文件查找</h1>
+
+<pre><code># 文件内容包含rds.aliyuncs.com，会列出所有包含的行
+$ grep -rn &quot;rds.aliyuncs.com&quot; ./
+
+-r      递归查找
+-n      显示行号
+</code></pre>
+
+<h1 id="清除超过30天的日志">清除超过30天的日志</h1>
+
+<pre><code>find /data/logs/haoqiao_ota -type f -name &quot;*.log.*&quot; -ctime +30 -exec rm -rf {} \; &gt; /dev/null 2&gt;&amp;1
+</code></pre>
+
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -96,7 +113,7 @@ $ curl myip.ipip.net
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2017-01.html">2020-07-29 15:28</a></code>
+    <code style="border:0px;background:none;"><a href="/2017-01.html">2020-07-30 06:38</a></code>
 </div>
 
 <div class="eof_tag">
