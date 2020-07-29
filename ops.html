@@ -14,11 +14,29 @@
 
 <nav>
 <ul>
+<li><a href="#通过端口找程序路径">通过端口找程序路径</a></li>
+<li><a href="#centos查找大文件">Centos查找大文件</a></li>
 <li><a href="#mysql批量杀进程">Mysql批量杀进程</a></li>
 <li><a href="#文件切分与合并">文件切分与合并</a></li>
 <li><a href="#统计文本中某一列的和">统计文本中某一列的和</a></li>
+<li><a href="#查询外网ip">查询外网IP</a></li>
 </ul>
 </nav>
+
+<h1 id="通过端口找程序路径">通过端口找程序路径</h1>
+
+<pre><code># 找到进程 或者TOP找到，但可能看不到完整的文件路径
+$ lsof -i :5600
+# 查看执行程序
+$ ls -l /proc/4643/exe 
+# 查看执行的文件路径
+$ ls -lh /proc/12586/cwd
+</code></pre>
+
+<h1 id="centos查找大文件">Centos查找大文件</h1>
+
+<pre><code>du -h / --max-depth=1
+</code></pre>
 
 <h1 id="mysql批量杀进程">Mysql批量杀进程</h1>
 
@@ -64,6 +82,13 @@ cat a.csv b.csv c.csv &gt; abc.csv
 $ cat test.log | awk -F '\t' '{sum1+=$2;sum2+=$3}END{print sum2*100/sum1}'
 </code></pre>
 
+<h1 id="查询外网ip">查询外网IP</h1>
+
+<pre><code>$ curl ifconfig.me
+$ curl cip.cc
+$ curl myip.ipip.net
+</code></pre>
+
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -71,7 +96,7 @@ $ cat test.log | awk -F '\t' '{sum1+=$2;sum2+=$3}END{print sum2*100/sum1}'
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2017-01.html">2020-03-01 11:27</a></code>
+    <code style="border:0px;background:none;"><a href="/2017-01.html">2020-07-29 15:28</a></code>
 </div>
 
 <div class="eof_tag">
