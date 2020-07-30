@@ -103,7 +103,8 @@ $ grep -rn &quot;rds.aliyuncs.com&quot; ./
 
 <h1 id="清除超过30天的日志">清除超过30天的日志</h1>
 
-<pre><code>find /data/logs/haoqiao_ota -type f -name &quot;*.log.*&quot; -ctime +30 -exec rm -rf {} \; &gt; /dev/null 2&gt;&amp;1
+<pre><code>find /data/logs -type f -name &quot;*.log.*&quot; -ctime +30 -exec rm -rf {} \; 
+find /data/logs -type f -name &quot;*.log.*&quot; -ctime +30 -print0| xargs -0 rm
 </code></pre>
 
 <div class="eof">-- EOF --</div>
@@ -113,7 +114,7 @@ $ grep -rn &quot;rds.aliyuncs.com&quot; ./
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2017-01.html">2020-07-30 06:38</a></code>
+    <code style="border:0px;background:none;"><a href="/2017-01.html">2020-07-31 05:40</a></code>
 </div>
 
 <div class="eof_tag">
