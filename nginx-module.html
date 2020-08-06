@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Nginx不常用小模块 - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+</head>
+<body>
+<h1 class="title">Nginx不常用小模块</h1>
+
+<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+
+<nav>
+<ul>
+<li><a href="#一-增加http验证">一、增加HTTP验证</a></li>
+<li><a href="#二-限流">二、限流</a></li>
+<li><a href="#三-geoip2进行地域转发">三、GeoIP2进行地域转发</a></li>
+</ul>
+</nav>
+
+<h1 id="一-增加http验证">一、增加HTTP验证</h1>
+
+<p>1、 配置<code>auth_basic</code>和<code>auth_basic_user_file</code>，文件可以先指定，下一步会用<code>htpasswd</code>生成。</p>
+
+<pre><code>server {
+    listen       80;
+    server_name  localhost;
+
+    auth_basic &quot;Welcome to Localhost&quot;;
+    auth_basic_user_file /usr/local/server/nginx1.10.3/conf/vhost/auth_user_list;
+
+    #charset koi8-r;
+
+    #access_log  logs/host.access.log  main;
+
+    location / {
+        root   html;
+        index  index.html index.htm;
+    }
+</code></pre>
+
+<p>2、 配置密码文件，多个账号换行分隔。</p>
+
+<pre><code>pengbotao:conf peng$ sudo htpasswd -c /usr/local/server/nginx1.10.3/conf/vhost/auth_user_list peng
+New password:
+Re-type new password:
+Adding password for user peng
+
+pengbotao:conf peng$ more /usr/local/server/nginx1.10.3/conf/vhost/auth_user_list
+peng:$apr1$ySsxdCSf$W5YxzVzSQ2rbNiipwYpT5/
+</code></pre>
+
+<p>3、 重启Nginx即可看到效果。</p>
+
+<p><img src="/static/uploads/nginx-basic-auth.png" alt="" /></p>
+
+<h1 id="二-限流">二、限流</h1>
+
+<ul>
+<li>limit_req_zone 用来限制单位时间内的请求数，即速率限制,采用的漏桶算法 &ldquo;leaky bucket&rdquo;。
+
+<ul>
+<li>如：limit_conn_zone $clientRealIp zone=perip:10m;</li>
+</ul></li>
+<li>limit_conn_zone 用来限制同一时间连接数，即并发限制。
+
+<ul>
+<li>如：limit_req_zone $clientRealIp zone=one:10m rate=8r/s;</li>
+</ul></li>
+</ul>
+
+<p>server模块配置示例：</p>
+
+<pre><code>server {
+    limit_conn perip 20;
+    limit_req zone=one burst=25;
+</code></pre>
+
+<p>还是以localhost为例，配置后刷新就会出现503了。</p>
+
+<pre><code>    limit_conn_zone $binary_remote_addr zone=perip:10m;
+    limit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        limit_conn perip 1;
+        limit_req zone=one;
+</code></pre>
+
+<p>参考：<a href="https://www.cnblogs.com/biglittleant/p/8979915.html">https://www.cnblogs.com/biglittleant/p/8979915.html</a></p>
+
+<h1 id="三-geoip2进行地域转发">三、GeoIP2进行地域转发</h1>
+
+<p>参考：<a href="https://www.cnblogs.com/itusye/p/11926980.html">https://www.cnblogs.com/itusye/p/11926980.html</a></p>
+
+<div class="eof">-- EOF --</div>
+<div class="eof_arrow">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+
+<div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2018-05.html">2020-08-07 07:27</a></code>
+</div>
+
+<div class="eof_tag">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2018-05.html">2018-05-06 17:54</a></code>
+</div>
+<div class="eof_tag">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/linux.html">Linux</a></code>
+</div>
+
+<div id="footer">
+    <ul>
+        <li>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/服务器/Nginx不常用小模块.md">https://github.com/pengbotao/itopic.go/blob/master/posts/服务器/Nginx不常用小模块.md</a>
+        <li>
+        <li>
+            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
+        </li>
+    </ul>
+</div>
+
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+<script>
+ready(fn);
+function ready(fn){  
+    if(document.addEventListener){
+        document.addEventListener('DOMContentLoaded',function(){
+            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
+            fn();
+        },false);
+    } else if(document.attachEvent) {
+        document.attachEvent('onreadystatechange',function(){
+            if(document.readyState=='complete'){
+                document.detachEvent('onreadystatechange',arguments.callee);  
+                fn();
+            }
+        });
+    }  
+}  
+function fn(){
+    if(document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    }
+}
+</script>
+</body>
+</html>
