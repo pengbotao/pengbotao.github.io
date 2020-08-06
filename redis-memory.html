@@ -4,18 +4,29 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Redis查找较大的KEY - 老彭的博客</title>
+    <title>Redis内存占用异常排查 - 老彭的博客</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<h1 class="title">Redis查找较大的KEY</h1>
+<h1 class="title">Redis内存占用异常排查</h1>
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
 <nav>
+<ul>
+<li><a href="#存在大key">存在大KEY</a></li>
+<li><a href="#存在碎片">存在碎片</a></li>
+</ul>
 </nav>
 
-<p>背景说明：发现线上REDIS存储占用异常，某些机器内存资源异常。怀疑是某些较大的KEY占用了内存而没有释放。需要找出REDIS中占用内存资源较大的KEY。</p>
+<h1 id="存在大key">存在大KEY</h1>
+
+<p>背景说明：
+发现线上Redis存储占用异常，某些机器内存资源异常，查看内存信息<code>mem_fragmentation_ratio</code>为1.03</p>
+
+<p><img src="/static/uploads/codis-memory.jpg" alt="" /></p>
+
+<p>根据经验怀疑是某些较大的KEY占用了内存而没有释放。需要找出REDIS中占用内存资源较大的KEY。</p>
 
 <ul>
 <li>工具：rdb</li>
@@ -80,6 +91,107 @@
 </tbody>
 </table>
 
+<h1 id="存在碎片">存在碎片</h1>
+
+<p>背景说明：Zabbix报警Codis内存不足，查看机器内存基本是Codis使用，而Dashboard上只有6G的存储，查看内存信息发现<code>mem_fragmentation_ratio=3.79</code></p>
+
+<pre><code># Memory
+used_memory:7502225896
+used_memory_human:6.99G
+used_memory_rss:28436201472
+used_memory_rss_human:26.48G
+used_memory_peak:22335272544
+used_memory_peak_human:20.80G
+total_system_memory:33807069184
+total_system_memory_human:31.49G
+used_memory_lua:37888
+used_memory_lua_human:37.00K
+maxmemory:0
+maxmemory_human:0B
+maxmemory_policy:noeviction
+mem_fragmentation_ratio:3.79
+mem_allocator:jemalloc-4.0.3
+</code></pre>
+
+<p><strong>字段说明：</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><strong>used_memory_human</strong></td>
+<td>Redis分配的内存总量，即存储的所有数据占用的内存</td>
+<td>6.99G</td>
+</tr>
+
+<tr>
+<td><strong>used_memory_rss_human</strong></td>
+<td>从系统角度,显示Redis进程占用的物理内存总量</td>
+<td>26.48G</td>
+</tr>
+
+<tr>
+<td>used_memory_peak_human</td>
+<td>内存使用的最大值，表示used_memory峰值</td>
+<td>20.80G</td>
+</tr>
+
+<tr>
+<td>total_system_memory_human</td>
+<td>系统总内存</td>
+<td>31.49G</td>
+</tr>
+
+<tr>
+<td>used_memory_lua_human</td>
+<td>Lua进程使用内存</td>
+<td>37.00K</td>
+</tr>
+
+<tr>
+<td><strong>mem_fragmentation_ratio</strong></td>
+<td>内存碎片率，等价于(used_memory_rss /used_memory)</td>
+<td>3.79，表示有19.49G的碎片空间</td>
+</tr>
+
+<tr>
+<td>mem_allocator</td>
+<td>使用的内存分配器</td>
+<td>jemalloc-4.0.3</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>解决方法：</strong></p>
+
+<p>Redis 4之前的方式就是重启， Redis 4支持了碎片清理功能：</p>
+
+<p>1、自动清理：默认情况下自动清理碎片的参数是关闭的，可以按如下命令查看</p>
+
+<pre><code>127.0.0.1:6379&gt; config get activedefrag 
+1) &quot;activedefrag&quot;
+2) &quot;no&quot;
+</code></pre>
+
+<p>启动自动清理内存碎片</p>
+
+<pre><code>127.0.0.1:6379&gt; config set  activedefrag yes
+OK
+</code></pre>
+
+<p>2、手动清理</p>
+
+<pre><code>127.0.0.1:6379&gt; memory purge
+OK
+</code></pre>
+
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -87,7 +199,7 @@
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2019-08.html">2020-07-29 15:41</a></code>
+    <code style="border:0px;background:none;"><a href="/2019-08.html">2020-08-06 08:11</a></code>
 </div>
 
 <div class="eof_tag">
@@ -102,7 +214,7 @@
 <div id="footer">
     <ul>
         <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/数据库/Redis查找较大的KEY.md">https://github.com/pengbotao/itopic.go/blob/master/posts/数据库/Redis查找较大的KEY.md</a>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/数据库/Redis内存占用异常排查.md">https://github.com/pengbotao/itopic.go/blob/master/posts/数据库/Redis内存占用异常排查.md</a>
         <li>
         <li>
             @2013-2020 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
