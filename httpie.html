@@ -28,6 +28,7 @@
 <li><a href="#2-4-4-设置json数组">2.4.4 设置JSON数组</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#三-curl请求">三、Curl请求</a></li>
 </ul>
 </nav>
 
@@ -215,6 +216,22 @@ User-Agent: HTTPie/1.0.2
 }
 </code></pre>
 
+<h1 id="三-curl请求">三、Curl请求</h1>
+
+<pre><code>$ curl -w &quot;@curl-format.txt&quot; -o /dev/null -s http://www.baidu.com
+              http: 200
+     time_namelookup: 0.001757s
+       time_redirect: 0.000000s
+        time_connect: 0.024540s
+     time_appconnect: 0.000000s
+    time_pretransfer: 0.024580s
+  time_starttransfer: 0.044848s
+          time_total: 0.045182s
+
+     size_download: 2381bytes
+      speed_download: 52911.000B/s
+</code></pre>
+
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -222,7 +239,7 @@ User-Agent: HTTPie/1.0.2
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-02.html">2019-12-05 21:57</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-02.html">2020-08-14 09:01</a></code>
 </div>
 
 <div class="eof_tag">
@@ -231,7 +248,6 @@ User-Agent: HTTPie/1.0.2
 </div>
 <div class="eof_tag">
     标签：
-    <code style="border:0px;background:none;"><a href="/tag/python.html">Python</a></code>
     <code style="border:0px;background:none;"><a href="/tag/常用软件.html">常用软件</a></code>
 </div>
 
