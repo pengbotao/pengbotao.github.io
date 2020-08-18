@@ -32,7 +32,7 @@
 
 <p>1、只有在实例化控制器之后的操作才可以调用 get_instance 获取实例，因为未实例化之前没有CI_Controller对象。所有发现有写程序中用的global的方式获取，有些是通过CI实例来获取的。</p>
 
-<p><img src="/static/uploads/Codeigniter-overflow.png" alt="" /></p>
+<p><img src="../../static/uploads/Codeigniter-overflow.png" alt="" /></p>
 
 <h1 id="二-钩子">二、钩子</h1>
 
@@ -77,7 +77,7 @@
 
 <p>很多时候碰到问题我们都可以放到日常生活中来看。以注册处理逻辑为例，可以看看其中有个流程是不变的。接受参数-&gt;注册资料之前处理-&gt;注册-&gt;注册资料之后处理。变化的是什么？每一步都可能变化，但流程不变化。所以可以对前、后、处理等相关地方设置钩子，把处理的逻辑分发到特定的情况下去，下面有个参考图，具体的如何设置钩子还需要根据项目来：</p>
 
-<p><img src="/static/uploads/CodeIgniter-hook.png" alt="" /></p>
+<p><img src="../../static/uploads/CodeIgniter-hook.png" alt="" /></p>
 
 <p>事实也证明这种方式是可行的，合作方虽然很多，但是也可以分组，上百个注册页面很容易就实现了。所以利用钩子处理这种流程不变，而中间的某个步骤变化多端的需求是很方便的。</p>
 
@@ -242,6 +242,11 @@ function array_field_sort($data, $sort_field, $sort_type = SORT_ASC)
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+
+<div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2013-11.html">2020-08-18 15:14</a></code>
 </div>
 
 <div class="eof_tag">

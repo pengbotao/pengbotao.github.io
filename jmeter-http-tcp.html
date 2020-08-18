@@ -37,7 +37,7 @@
 
 <p>JMeter基于Java开发，需要系统有安装JDK环境。解压后进入bin目录，点击<code>jmeter.bat</code>。若运行正常则会进入JMeter控制面板。界面如下：</p>
 
-<p><img src="/static/uploads/jmeter-start.png" alt="" /></p>
+<p><img src="../../static/uploads/jmeter-start.png" alt="" /></p>
 
 <h1 id="三-常规测试-http">三、常规测试 - HTTP</h1>
 
@@ -45,7 +45,7 @@
 
 <p>测试计划 -&gt; 添加 -&gt; <code>Threads(User)</code> -&gt; 线程组，添加后进入如下界面：</p>
 
-<p><img src="/static/uploads/jmeter-threads.png" alt="" /></p>
+<p><img src="../../static/uploads/jmeter-threads.png" alt="" /></p>
 
 <ul>
 <li><strong>线程数：</strong>表示将模拟多少个用户进行测试。</li>
@@ -61,7 +61,7 @@
 
 <p>线程组 -&gt; 添加 -&gt; <code>Sampler</code> -&gt; <code>HTTP请求</code>，添加后进入如下界面：</p>
 
-<p><img src="/static/uploads/jmeter-HTTP-Sampler.png" alt="" /></p>
+<p><img src="../../static/uploads/jmeter-HTTP-Sampler.png" alt="" /></p>
 
 <p>从界面上可以看到，分别可以对GET和POST进行压测。同时需要设置请求的域名或IP，端口，请求路径等等参数。同时可以上传文件、设置代理等。</p>
 
@@ -73,11 +73,11 @@
 
 <p>切换到察看结果树页面，点击工具栏上的绿色执行按钮。如果请求没错会看到HTTP请求的绿色图标。</p>
 
-<p><img src="/static/uploads/jmeter-result.png" alt="" /></p>
+<p><img src="../../static/uploads/jmeter-result.png" alt="" /></p>
 
 <p>查看请求和响应是否正确。确保无误后可以清空全部（工具栏扫帚按钮）并删掉该页面（留着后面清空比较慢），然后设置线程组中的线程属性。重新执行，在聚合报告页看压测结果，如下图：</p>
 
-<p><img src="/static/uploads/jmeter-report.png" alt="" /></p>
+<p><img src="../../static/uploads/jmeter-report.png" alt="" /></p>
 
 <p>聚合报告各指标：</p>
 
@@ -148,7 +148,7 @@
 
 <p>同HTTP请求流程，建立线程组后添加TCP取样器，然后根据实际情况配置TCP取样器。</p>
 
-<p><img src="/static/uploads/jmeter-TCP-Sampler.png" alt="" /></p>
+<p><img src="../../static/uploads/jmeter-TCP-Sampler.png" alt="" /></p>
 
 <p>TCPClient classname有三种设置：</p>
 
@@ -173,6 +173,11 @@
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+
+<div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2016-07.html">2020-08-18 15:14</a></code>
 </div>
 
 <div class="eof_tag">
