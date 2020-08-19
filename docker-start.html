@@ -390,7 +390,63 @@ Deleted: sha256:7d6334b5e82cbe2eed96dae6429c989053c445be20068f64ba58948fdb8b2e21
 
 <h3 id="4-1-2-基于dockfile创建">4.1.2 基于Dockfile创建</h3>
 
-<p>最常见的镜像创建方式是通过Dockfile来创建，通过文本的方式来描述镜像的创建过程，后续通过独立篇章来介绍。</p>
+<p>最常见的镜像创建方式是通过Dockfile来创建，通过文本的方式来描述镜像的创建过程，以本博客为例，找系统内任意空目录，创建<code>Dockerfile</code>文件并写入下面内容：</p>
+
+<pre><code>FROM golang:1.14
+
+EXPOSE 8001
+
+RUN go env -w GOPROXY=https://goproxy.io,direct \
+&amp;&amp; go get -v github.com/pengbotao/itopic.go \
+&amp;&amp; mv /go/bin/itopic.go /go/src/github.com/pengbotao/itopic.go/ 
+
+VOLUME [ &quot;/go/src/github.com/pengbotao/itopic.go/&quot; ]
+
+WORKDIR /go/src/github.com/pengbotao/itopic.go/
+
+CMD [ &quot;/go/src/github.com/pengbotao/itopic.go/itopic.go&quot;, &quot;-host&quot;, &quot;0.0.0.0:8001&quot;]
+</code></pre>
+
+<p>切换到该目录执行创建镜像</p>
+
+<pre><code>$ docker build -t pengbotao/itopic.go .
+Sending build context to Docker daemon  2.048kB
+Step 1/6 : FROM golang:1.14
+ ---&gt; baaca3151cdb
+Step 2/6 : EXPOSE 8001
+ ---&gt; Running in 801cf0f4023e
+Removing intermediate container 801cf0f4023e
+ ---&gt; 283da70700dc
+Step 3/6 : RUN go env -w GOPROXY=https://goproxy.io,direct &amp;&amp; go get -v github.com/pengbotao/itopic.go &amp;&amp; mv /go/bin/itopic.go /go/src/github.com/pengbotao/itopic.go/
+ ---&gt; Running in bb86d3308fde
+github.com/pengbotao/itopic.go (download)
+github.com/pengbotao/itopic.go/vendor/github.com/russross/blackfriday
+github.com/pengbotao/itopic.go/models
+github.com/pengbotao/itopic.go
+Removing intermediate container bb86d3308fde
+ ---&gt; af70d34ad3f4
+Step 4/6 : VOLUME [ &quot;/go/src/github.com/pengbotao/itopic.go/&quot; ]
+ ---&gt; Running in a9329d31d558
+Removing intermediate container a9329d31d558
+ ---&gt; f9cbffdff0f1
+Step 5/6 : WORKDIR /go/src/github.com/pengbotao/itopic.go/
+ ---&gt; Running in ab89245f47d2
+Removing intermediate container ab89245f47d2
+ ---&gt; d6a675b4cf39
+Step 6/6 : CMD [ &quot;/go/src/github.com/pengbotao/itopic.go/itopic.go&quot;, &quot;-host&quot;, &quot;0.0.0.0:8001&quot;]
+ ---&gt; Running in 6b601add4806
+Removing intermediate container 6b601add4806
+ ---&gt; 36e405364fd8
+Successfully built 36e405364fd8
+Successfully tagged pengbotao/itopic.go:latest
+</code></pre>
+
+<p>通过镜像创建容器：</p>
+
+<pre><code>docker run -d -p 8001:8001 --name itopic pengbotao/itopic.go
+</code></pre>
+
+<p>(后续在单独起篇章介绍Dockerfile)</p>
 
 <h2 id="4-2-镜像导入导出">4.2 镜像导入导出</h2>
 
@@ -459,7 +515,7 @@ latest: digest: sha256:f4050e7c3a2b0ea2051d103edcccde42326524a6dfe5f483dc1d84ca3
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-06.html">2020-08-18 15:14</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-06.html">2020-08-19 14:58</a></code>
 </div>
 
 <div class="eof_tag">
