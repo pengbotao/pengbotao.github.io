@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>通过Dockerfile创建镜像 - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+</head>
+<body>
+<h1 class="title">通过Dockerfile创建镜像</h1>
+
+<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+
+<nav>
+<ul>
+<li><a href="#一-dockerfile">一、Dockerfile</a>
+<ul>
+<li><a href="#1-1-概述">1.1 概述</a></li>
+<li><a href="#1-2-文件格式">1.2 文件格式</a></li>
+<li><a href="#1-3-指令集合">1.3 指令集合</a></li>
+</ul></li>
+<li><a href="#二-指令详解">二、指令详解</a></li>
+<li><a href="#三-dockerfiles最佳实践">三、Dockerfiles最佳实践</a>
+<ul>
+<li><a href="#3-1-多阶段构建">3.1 多阶段构建</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="一-dockerfile">一、Dockerfile</h1>
+
+<h2 id="1-1-概述">1.1 概述</h2>
+
+<p><code>Docker</code>通过读取<code>Dockerfile</code>中的指令来自动构建镜像，<code>Dockerfile</code>是一个文本文件，它包含了构建镜像的所有命令。可以通过<code>docker build</code>读取<code>Dockerfile</code>文件来构建镜像。<code>docker build</code>提交构建镜像请求给<code>Docker daemon</code>，同时会将当前目录递归传过去。所以最好是将<code>Dockerfile</code>和需要文件放到一个空目录，再在这个目录构建。</p>
+
+<ul>
+<li>常规构建: <code>$ docker build -t pengbotao/itopic.go .</code></li>
+<li>指定<code>Dockerfile</code>: <code>$ docker build -f /path/to/a/Dockerfile .</code></li>
+<li>标记为多个镜像：<code>$ docker build -t shykes/myapp:1.0.2 -t shykes/myapp:latest .</code></li>
+</ul>
+
+<h2 id="1-2-文件格式">1.2 文件格式</h2>
+
+<p>可以通过<code>Dockerfile</code>文件来定义构建过程，通过<code>.dockerignore</code>用来忽略文件，构建时不会讲ignore的文件传给<code>Docker</code>服务端。</p>
+
+<p>1、 <strong><code>Dockerfile</code></strong>：</p>
+
+<pre><code># Comment
+INSTRUCTION arguments
+</code></pre>
+
+<p><code>INSTRUCTION</code>不区分大小写，建议大写。<code>Dockerfile</code>中的指令第一个指令必需是<code>FROM</code>用来指定基础镜像。<code>#</code>用来注释。</p>
+
+<p>2、 <strong><code>.dockerignore</code></strong>:</p>
+
+<pre><code># comment
+*/temp*
+*/*/temp*
+temp?
+</code></pre>
+
+<p>此文件导致以下构建行为：</p>
+
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>行为</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>#</code> comment</td>
+<td>忽略</td>
+</tr>
+
+<tr>
+<td><code>*/temp*</code></td>
+<td>不包含子目录中<code>temp</code>打头的文件和目录。如：文件 <code>/somedir/temporary.txt</code>，目录 <code>/somedir/temp</code></td>
+</tr>
+
+<tr>
+<td><code>*/*/temp*</code></td>
+<td>不包含子目录下的子目录中<code>temp</code>打头的文件和目录。 如：<code>/somedir/subdir/temporary.txt</code></td>
+</tr>
+
+<tr>
+<td><code>temp?</code></td>
+<td>不包含根目录中<code>temp</code>打头的文件和目录。 如：<code>/tempa</code> 和 <code>/tempb</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="1-3-指令集合">1.3 指令集合</h2>
+
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>指令</th>
+<th>参数</th>
+<th>必须</th>
+<th>示例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>FROM</td>
+<td><code>FROM [--platform=&lt;platform&gt;] &lt;image&gt; [AS &lt;name&gt;]</code> <BR> <code>FROM [--platform=&lt;platform&gt;] &lt;image&gt;[:&lt;tag&gt;] [AS &lt;name&gt;]</code> <BR> <code>FROM [--platform=&lt;platform&gt;] &lt;image&gt;[@&lt;digest&gt;] [AS &lt;name&gt;]</code></td>
+<td>是</td>
+<td><code>FROM nginx</code></td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>RUN</td>
+<td><code>RUN &lt;command&gt;</code> <BR> <code>RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code></td>
+<td>否</td>
+<td><code>RUN [&quot;/bin/bash&quot;, &quot;-c&quot;, &quot;echo hello&quot;]</code></td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>CMD</td>
+<td><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</code> <BR> <code>CMD [&quot;param1&quot;,&quot;param2&quot;]</code> <BR> <code>CMD command param1 param2</code></td>
+<td>否</td>
+<td><code>CMD [&quot;/usr/bin/wc&quot;,&quot;--help&quot;]</code></td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>LABEL</td>
+<td><code>LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...</code></td>
+<td>否</td>
+<td><code>LABEL version=&quot;1.0&quot;</code></td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>EXPOSE</td>
+<td><code>EXPOSE &lt;port&gt; [&lt;port&gt;/&lt;protocol&gt;...]</code></td>
+<td>否</td>
+<td><code>EXPOSE 80/tcp</code></td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>ENV</td>
+<td><code>ENV &lt;key&gt; &lt;value&gt;</code> <BR> <code>ENV &lt;key&gt;=&lt;value&gt; ...</code></td>
+<td>否</td>
+<td><code>ENV myCat fluffy</code></td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>ADD</td>
+<td><code>ADD [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</code> <BR> <code>ADD [--chown=&lt;user&gt;:&lt;group&gt;] [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</code></td>
+<td>否</td>
+<td><code>ADD hom?.txt /mydir/</code></td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>COPY</td>
+<td><code>COPY [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</code> <BR> <code>COPY [--chown=&lt;user&gt;:&lt;group&gt;] [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</code></td>
+<td>否</td>
+<td><code>COPY hom?.txt /mydir/</code></td>
+</tr>
+
+<tr>
+<td>9</td>
+<td>ENTRYPOINT</td>
+<td><code>ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code> <BR> <code>ENTRYPOINT command param1 param2</code></td>
+<td>否</td>
+<td><code>ENTRYPOINT [&quot;top&quot;, &quot;-b&quot;]</code></td>
+</tr>
+
+<tr>
+<td>10</td>
+<td>VOLUME</td>
+<td><code>VOLUME [&quot;/data&quot;]</code></td>
+<td>否</td>
+<td><code>VOLUME /var/log</code> <BR> <code>VOLUME [&quot;/var/log&quot;]</code></td>
+</tr>
+
+<tr>
+<td>11</td>
+<td>USER</td>
+<td><code>USER &lt;user&gt;[:&lt;group&gt;]</code> <BR> <code>USER &lt;UID&gt;[:&lt;GID&gt;]</code></td>
+<td>否</td>
+<td><code>USER patrick</code></td>
+</tr>
+
+<tr>
+<td>12</td>
+<td>WORKDIR</td>
+<td><code>WORKDIR /path/to/workdir</code></td>
+<td>否</td>
+<td><code>WORKDIR /data</code></td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>ARG</td>
+<td><code>ARG &lt;name&gt;[=&lt;default value&gt;]</code></td>
+<td>否</td>
+<td><code>ARG user1=someuser</code></td>
+</tr>
+
+<tr>
+<td>14</td>
+<td>ONBUILD</td>
+<td><code>ONBUILD &lt;INSTRUCTION&gt;</code></td>
+<td>否</td>
+<td><code>ONBUILD ADD . /app/src</code></td>
+</tr>
+
+<tr>
+<td>15</td>
+<td>STOPSIGNAL</td>
+<td><code>STOPSIGNAL signal</code></td>
+<td>否</td>
+<td></td>
+</tr>
+
+<tr>
+<td>16</td>
+<td>HEALTHCHECK</td>
+<td><code>HEALTHCHECK [OPTIONS] CMD command</code> <BR> <code>HEALTHCHECK NONE</code></td>
+<td>否</td>
+<td></td>
+</tr>
+
+<tr>
+<td>17</td>
+<td>SHELL</td>
+<td><code>SHELL [&quot;executable&quot;, &quot;parameters&quot;]</code></td>
+<td>否</td>
+<td><code>SHELL [&quot;powershell&quot;, &quot;-command&quot;]</code></td>
+</tr>
+</tbody>
+</table>
+
+<h1 id="二-指令详解">二、指令详解</h1>
+
+<p>@todo</p>
+
+<h1 id="三-dockerfiles最佳实践">三、Dockerfiles最佳实践</h1>
+
+<h2 id="3-1-多阶段构建">3.1 多阶段构建</h2>
+
+<p>前一篇文章中构建的镜像大小有901M，Go的基础镜像就比较大。可以尝试将编译后的二进制放在新的容器中执行，解除对golang环境的依赖。</p>
+
+<pre><code>REPOSITORY            TAG        IMAGE ID       CREATED             SIZE
+pengbotao/itopic.go   latest     36e405364fd8   25 hours ago        901MB
+</code></pre>
+
+<p>如，将编译后的<code>itopic</code>拷贝到<code>alpine</code>系统中，在看大小就只有<code>27M</code>了。</p>
+
+<pre><code>FROM golang:1.14 AS build
+
+COPY . /go/src/github.com/pengbotao/itopic.go/
+RUN cd /go/src/github.com/pengbotao/itopic.go/ \
+&amp;&amp; CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o itopic
+
+
+FROM alpine
+COPY --from=build /go/src/github.com/pengbotao/itopic.go/ /www/itopic.go/
+EXPOSE 8001
+WORKDIR /www/itopic.go
+CMD [ &quot;-host&quot;, &quot;0.0.0.0:8001&quot; ]
+ENTRYPOINT [ &quot;/www/itopic.go/itopic&quot; ]
+</code></pre>
+
+<ul>
+<li>[1] <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile reference</a></li>
+<li>[2] <a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/">Best practices for writing Dockerfiles</a></li>
+<li>[3] <a href="http://www.dockerone.com/article/9551">Dockerfile 最佳实践及示例</a></li>
+</ul>
+
+<div class="eof">-- EOF --</div>
+<div class="eof_arrow">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+
+<div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-08-20 16:09</a></code>
+</div>
+
+<div class="eof_tag">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-07-09 14:08</a></code>
+</div>
+<div class="eof_tag">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/docker.html">Docker</a></code>
+</div>
+
+<div id="footer">
+    <ul>
+        <li>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/docker/通过Dockerfile创建镜像.md">https://github.com/pengbotao/itopic.go/blob/master/posts/docker/通过Dockerfile创建镜像.md</a>
+        <li>
+        <li>
+            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
+        </li>
+    </ul>
+</div>
+
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+<script>
+ready(fn);
+function ready(fn){  
+    if(document.addEventListener){
+        document.addEventListener('DOMContentLoaded',function(){
+            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
+            fn();
+        },false);
+    } else if(document.attachEvent) {
+        document.attachEvent('onreadystatechange',function(){
+            if(document.readyState=='complete'){
+                document.detachEvent('onreadystatechange',arguments.callee);  
+                fn();
+            }
+        });
+    }  
+}  
+function fn(){
+    if(document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    }
+}
+</script>
+</body>
+</html>
