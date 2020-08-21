@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>通过Docker Compose编排服务 - 老彭的博客</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+</head>
+<body>
+<h1 class="title">通过Docker Compose编排服务</h1>
+
+<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+
+<nav>
+<ul>
+<li><a href="#一-docker-compose">一、Docker Compose</a>
+<ul>
+<li><a href="#1-1-概述">1.1 概述</a></li>
+<li><a href="#1-2-参数说明">1.2 参数说明</a></li>
+</ul></li>
+<li><a href="#二-参数详解">二、参数详解</a></li>
+<li><a href="#三-容器编排">三、容器编排</a></li>
+<li><a href="#四-示例">四、示例</a></li>
+<li><a href="#五-小结">五、小结</a></li>
+</ul>
+</nav>
+
+<h1 id="一-docker-compose">一、Docker Compose</h1>
+
+<h2 id="1-1-概述">1.1 概述</h2>
+
+<h2 id="1-2-参数说明">1.2 参数说明</h2>
+
+<h1 id="二-参数详解">二、参数详解</h1>
+
+<h1 id="三-容器编排">三、容器编排</h1>
+
+<p>容器如何编排？</p>
+
+<p>一个机器多个环境
+多个环境组合</p>
+
+<h1 id="四-示例">四、示例</h1>
+
+<pre><code>version: &quot;3.0&quot;
+
+services:
+
+    nginx:
+      image: nginx:1.19.2-alpine
+      container_name: nginx
+      restart: always
+      ports:
+        - 80:80
+      working_dir: /data/www
+      volumes:
+        - ~/workspace:/data/www
+        - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+        - ./nginx/conf.d:/etc/nginx/conf.d
+        - ./nginx/logs:/var/log/nginx
+      networks:
+        - server
+
+    php5.6:
+      #build: ./php/dockerfile/5.6
+      image: pengbotao/php:5.6-fpm-alpine
+      container_name: 5.6-fpm
+      restart: always
+      working_dir: /data/www
+      volumes:
+        - ~/workspace:/data/www
+        - ./php/5.6:/usr/local/etc
+      networks:
+        - server
+
+    php7.4.8:
+      #build: ./php/dockerfile/7.4.8
+      image: pengbotao/php:7.4.8-fpm-alpine
+      container_name: 7.4.8-fpm
+      restart: always
+      working_dir: /data/www
+      volumes:
+        - ~/workspace:/data/www
+        - ./php/7.4.8:/usr/local/etc
+      networks:
+        - server
+
+    mysql:
+      image: mysql:5.7
+      container_name: mysql5.7
+      restart: always
+      ports:
+        - 3406:3306
+      volumes:
+        - ./mysql/conf:/etc/mysql
+        - ./mysql/data:/var/lib/mysql
+        - ./mysql/logs:/var/log/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: 123456
+      networks:
+        - server
+    
+    redis:
+      image: redis:6.0.6-alpine
+      container_name: redis
+      restart: always
+      ports:
+        - 6479:6379
+      volumes:
+        - ./redis/conf:/usr/local/etc/redis
+        - ./redis/data:/data
+      command:
+        redis-server /usr/local/etc/redis/redis.conf
+      networks:
+        - server
+
+networks:
+  server:
+     driver: bridge
+</code></pre>
+
+<p>启动后效果如下：</p>
+
+<p><img src="../../static/uploads/docker-compose-server-php.png" alt="" /></p>
+
+<h1 id="五-小结">五、小结</h1>
+
+<p>本章侧重点在容器编排问题。</p>
+
+<hr />
+
+<ul>
+<li>[1] <a href="https://docs.docker.com/compose/compose-file/">Compose file version 3 reference</a></li>
+<li>[2] <a href="https://www.cnblogs.com/wutao666/p/11332186.html">docker-compose编排参数详解</a></li>
+</ul>
+
+<div class="eof">-- EOF --</div>
+<div class="eof_arrow">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+
+<div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-08-21 21:25</a></code>
+</div>
+
+<div class="eof_tag">
+    发表于：
+    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-07-21 15:19</a></code>
+</div>
+<div class="eof_tag">
+    标签：
+    <code style="border:0px;background:none;"><a href="/tag/docker.html">Docker</a></code>
+</div>
+
+<div id="footer">
+    <ul>
+        <li>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/docker/通过Docker Compose编排服务.md">https://github.com/pengbotao/itopic.go/blob/master/posts/docker/通过Docker Compose编排服务.md</a>
+        <li>
+        <li>
+            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
+        </li>
+    </ul>
+</div>
+
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+<script>
+ready(fn);
+function ready(fn){  
+    if(document.addEventListener){
+        document.addEventListener('DOMContentLoaded',function(){
+            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
+            fn();
+        },false);
+    } else if(document.attachEvent) {
+        document.attachEvent('onreadystatechange',function(){
+            if(document.readyState=='complete'){
+                document.detachEvent('onreadystatechange',arguments.callee);  
+                fn();
+            }
+        });
+    }  
+}  
+function fn(){
+    if(document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    }
+}
+</script>
+</body>
+</html>

@@ -25,6 +25,12 @@
 <ul>
 <li><a href="#3-1-多阶段构建">3.1 多阶段构建</a></li>
 </ul></li>
+<li><a href="#四-示例">四、示例</a>
+<ul>
+<li><a href="#4-1-php5-6">4.1 php5.6</a></li>
+<li><a href="#4-2-php7-4-8">4.2 php7.4.8</a></li>
+</ul></li>
+<li><a href="#五-小结">五、小结</a></li>
 </ul>
 </nav>
 
@@ -35,9 +41,20 @@
 <p><code>Docker</code>通过读取<code>Dockerfile</code>中的指令来自动构建镜像，<code>Dockerfile</code>是一个文本文件，它包含了构建镜像的所有命令。可以通过<code>docker build</code>读取<code>Dockerfile</code>文件来构建镜像。<code>docker build</code>提交构建镜像请求给<code>Docker daemon</code>，同时会将当前目录递归传过去。所以最好是将<code>Dockerfile</code>和需要文件放到一个空目录，再在这个目录构建。</p>
 
 <ul>
-<li>常规构建: <code>$ docker build -t pengbotao/itopic.go .</code></li>
-<li>指定<code>Dockerfile</code>: <code>$ docker build -f /path/to/a/Dockerfile .</code></li>
-<li>标记为多个镜像：<code>$ docker build -t shykes/myapp:1.0.2 -t shykes/myapp:latest .</code></li>
+<li><p>常规构建:</p>
+
+<pre><code>$ docker build -t pengbotao/itopic.go .
+</code></pre></li>
+
+<li><p>指定<code>Dockerfile</code>:</p>
+
+<pre><code>$ docker build -f /path/to/a/Dockerfile .
+</code></pre></li>
+
+<li><p>标记为多个镜像：</p>
+
+<pre><code>$ docker build -t shykes/myapp:1.0.2 -t shykes/myapp:latest .
+</code></pre></li>
 </ul>
 
 <h2 id="1-2-文件格式">1.2 文件格式</h2>
@@ -276,6 +293,77 @@ CMD [ &quot;-host&quot;, &quot;0.0.0.0:8001&quot; ]
 ENTRYPOINT [ &quot;/www/itopic.go/itopic&quot; ]
 </code></pre>
 
+<h1 id="四-示例">四、示例</h1>
+
+<h2 id="4-1-php5-6">4.1 php5.6</h2>
+
+<pre><code>docker build -t pengbotao/php:5.6-fpm-alpine .
+</code></pre>
+
+<p>安装了常用PHP扩展：redis gd bcmath bz2 pdo_mysql mysqli opcache sockets pcntl xsl soap dom shmop zip mcrypt</p>
+
+<pre><code>FROM php:5.6-fpm-alpine
+
+WORKDIR &quot;/data/www&quot;
+
+RUN  sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+&amp;&amp; apk update \
+&amp;&amp; apk add autoconf libmcrypt-dev bzip2-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev zlib-dev libzip-dev\
+&amp;&amp; docker-php-ext-install bcmath bz2 pdo_mysql mysqli opcache sockets pcntl xsl soap dom shmop zip mcrypt\
+&amp;&amp; docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+&amp;&amp; docker-php-ext-install gd \
+&amp;&amp; mkdir -p /usr/src/php/ext/redis \
+&amp;&amp; curl -L https://github.com/phpredis/phpredis/archive/3.1.6.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
+&amp;&amp; docker-php-ext-install redis \
+&amp;&amp; docker-php-ext-enable redis 
+
+CMD [ &quot;php-fpm&quot; ]
+</code></pre>
+
+<p>推送到Docker Hub</p>
+
+<pre><code>docker push pengbotao/php:5.6-fpm-alpine
+</code></pre>
+
+<h2 id="4-2-php7-4-8">4.2 php7.4.8</h2>
+
+<pre><code>docker build -t pengbotao/php:7.4.8-fpm-alpine .
+</code></pre>
+
+<p>和上面类似，通过<code>PECL</code>安装了<code>Redis</code>扩展（<a href="http://pecl.php.net/package/redis）">http://pecl.php.net/package/redis）</a></p>
+
+<pre><code>FROM php:7.4.8-fpm-alpine
+
+WORKDIR &quot;/data/www&quot;
+
+RUN  sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+&amp;&amp; apk update \
+&amp;&amp; apk add build-base autoconf libmcrypt-dev bzip2-dev libxslt-dev freetype-dev libjpeg-turbo-dev libpng-dev zlib-dev libzip-dev\
+&amp;&amp; docker-php-ext-install bcmath bz2 pdo_mysql mysqli opcache sockets pcntl xsl soap dom shmop zip \
+&amp;&amp; docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
+&amp;&amp; docker-php-ext-install gd \
+&amp;&amp; pecl install redis-5.3.1 \
+&amp;&amp; docker-php-ext-enable redis \
+&amp;&amp; apk del build-base 
+
+CMD [ &quot;php-fpm&quot; ]
+</code></pre>
+
+<p>推送到Docker Hub</p>
+
+<pre><code>docker push pengbotao/php:7.4.8-fpm-alpine
+</code></pre>
+
+<h1 id="五-小结">五、小结</h1>
+
+<p>借助<code>Dockerfile</code>和官方的基础镜像，基本可以编译出需要的环境，<code>Dockerfile</code>里的RUN命令和往常没有太大区别，但对比虚拟机或者<code>ECS</code>，好处是配置一次之后便可以以文本的方式存储起来或者将镜像推送到镜像仓库，轻量很多，后续配起来比较方便。</p>
+
+<p>这一篇主要介绍了Dockerfile创建镜像，到这里我们就基本掌握了<code>Docker</code>的基本使用以及镜像的构建、推送。但像<code>PHP</code>的运行环境需要服务同时协作，按目前的理解就需要一个服务一个服务进行启动，启停上比较麻烦。而<code>docker-compose</code>基本可以解决开发环境下的这个问题，将各个容器打包启动。</p>
+
+<p>下篇来看看<code>docker-compose</code>的用法。</p>
+
+<hr />
+
 <ul>
 <li>[1] <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile reference</a></li>
 <li>[2] <a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/">Best practices for writing Dockerfiles</a></li>
@@ -289,7 +377,7 @@ ENTRYPOINT [ &quot;/www/itopic.go/itopic&quot; ]
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-08-20 16:09</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-08-21 21:19</a></code>
 </div>
 
 <div class="eof_tag">
