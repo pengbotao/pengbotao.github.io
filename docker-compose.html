@@ -17,12 +17,12 @@
 <li><a href="#一-docker-compose">一、Docker Compose</a>
 <ul>
 <li><a href="#1-1-概述">1.1 概述</a></li>
-<li><a href="#1-2-参数说明">1.2 参数说明</a></li>
+<li><a href="#1-2-docker-compose">1.2 <code>docker-compose</code></a></li>
+<li><a href="#1-3-docker-compose-yml">1.3 <code>docker-compose.yml</code></a></li>
 </ul></li>
 <li><a href="#二-参数详解">二、参数详解</a></li>
-<li><a href="#三-容器编排">三、容器编排</a></li>
-<li><a href="#四-示例">四、示例</a></li>
-<li><a href="#五-小结">五、小结</a></li>
+<li><a href="#三-示例">三、示例</a></li>
+<li><a href="#四-小结">四、小结</a></li>
 </ul>
 </nav>
 
@@ -30,18 +30,113 @@
 
 <h2 id="1-1-概述">1.1 概述</h2>
 
-<h2 id="1-2-参数说明">1.2 参数说明</h2>
+<p><code>compose</code>是<code>docker</code>提供的一个工具，用来定义和运行多个<code>Docker</code>容器。类似通过<code>dockerfile</code>来表示镜像的构建过程，<code>docker-compose</code>通过解析一个<code>YAML</code>配置文件实现对容器的构建以及启动。使用<code>compose</code>基本上有3个步骤：</p>
+
+<ul>
+<li>1、通过<code>Dockerfile</code>定义镜像创建过程</li>
+<li>2、在<code>docker-compose.yml</code>中定义服务，定义的服务可以在一个独立的环境中运行</li>
+<li>3、通过<code>docker-compose</code>命令进行启停所有的服务</li>
+</ul>
+
+<p><code>docker-compose.yml</code>示例：</p>
+
+<pre><code>version: '2.0'
+services:
+  web:
+    build: .
+    ports:
+    - &quot;5000:5000&quot;
+    volumes:
+    - .:/code
+    - logvolume01:/var/log
+    links:
+    - redis
+  redis:
+    image: redis
+volumes:
+  logvolume01: {}
+</code></pre>
+
+<h2 id="1-2-docker-compose">1.2 <code>docker-compose</code></h2>
+
+<p>通过<code>docker-compose -h</code>可以看到用法，常用的几个：</p>
+
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>config</td>
+<td>Validate and view the Compose file</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>build</td>
+<td>Build or rebuild services</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>up</td>
+<td>Create and start containers</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>down</td>
+<td>Stop and remove containers, networks, images, and volumes</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>start</td>
+<td>Start services</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>stop</td>
+<td>Stop services</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>top</td>
+<td>Display the running processes</td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>version</td>
+<td>Show the Docker-Compose version information</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="1-3-docker-compose-yml">1.3 <code>docker-compose.yml</code></h2>
+
+<p><code>docker-compose</code>通过对YAML配置文件的解析实现对容器的整体控制，配置文件常用参数如下：</p>
 
 <h1 id="二-参数详解">二、参数详解</h1>
 
-<h1 id="三-容器编排">三、容器编排</h1>
+<p>@todo</p>
 
-<p>容器如何编排？</p>
+<h1 id="三-示例">三、示例</h1>
 
-<p>一个机器多个环境
-多个环境组合</p>
+<p>前一章中我们用<code>Dockerfile</code>构建了PHP镜像，主要是增加一些常用扩展，接下来看看整个PHP环境如何定义：</p>
 
-<h1 id="四-示例">四、示例</h1>
+<ul>
+<li>nginx、mysql直接使用官方镜像，所以直接指定了image参数</li>
+<li>php需要增加扩展，可以通过build指定dockerfile文件，前一章编译好了，所以这里直接使用已有镜像</li>
+</ul>
 
 <pre><code>version: &quot;3.0&quot;
 
@@ -120,13 +215,13 @@ networks:
      driver: bridge
 </code></pre>
 
-<p>启动后效果如下：</p>
+<p>通过<code>docker-compose up</code>一行命令，里面的容器就都创建好并启动了，效果图如下：</p>
 
 <p><img src="../../static/uploads/docker-compose-server-php.png" alt="" /></p>
 
-<h1 id="五-小结">五、小结</h1>
+<h1 id="四-小结">四、小结</h1>
 
-<p>本章侧重点在容器编排问题。</p>
+<p>通过Dockerfile可以创建镜像，通过Docker可以管理各个容器，而Compose相当于对容器进行打包，将一组服务集中进行基本管理。</p>
 
 <hr />
 
@@ -142,7 +237,7 @@ networks:
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-08-21 21:44</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-08-22 20:46</a></code>
 </div>
 
 <div class="eof_tag">
