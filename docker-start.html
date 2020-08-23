@@ -351,7 +351,7 @@ $ docker run -p 3406:3306 --name mysql \
 
 <h3 id="4-1-1-基于容器创建">4.1.1 基于容器创建</h3>
 
-<p>我们以PHP为例，需要先运行一个容器，然后进入容器后可以做一些修改，这里增加了pdo_mysql扩展。</p>
+<p>我们以PHP为例，需要先运行一个容器，然后进入容器后可以做一些修改，这里增加了pdo_mysql扩展，接下来可以根据容器创建一个新镜像。</p>
 
 <pre><code>$ docker run -it php:7.4.8-fpm bash
 root@5b98ecfd12e6:/var/www/html# docker-php-ext-install pdo_mysql
@@ -391,7 +391,7 @@ Deleted: sha256:7d6334b5e82cbe2eed96dae6429c989053c445be20068f64ba58948fdb8b2e21
 
 <h3 id="4-1-2-基于dockfile创建">4.1.2 基于Dockfile创建</h3>
 
-<p>最常见的镜像创建方式是通过Dockfile来创建，通过文本的方式来描述镜像的创建过程，以本博客为例，找系统内任意空目录，创建<code>Dockerfile</code>文件并写入下面内容：</p>
+<p>一般不推荐使用<code>docker commit</code>来创建镜像，常见的镜像创建方式是通过Dockfile来创建，通过文本的方式来描述镜像的创建过程，以本博客为例，找系统内任意空目录，创建<code>Dockerfile</code>文件并写入下面内容：</p>
 
 <pre><code>FROM golang:1.14
 
@@ -447,7 +447,7 @@ Successfully tagged pengbotao/itopic.go:latest
 <pre><code>docker run -d -p 8001:8001 --name itopic pengbotao/itopic.go
 </code></pre>
 
-<p>(下一篇单独介绍Dockerfile)</p>
+<p>第一种方式在容器中的更改来对更隐蔽，使用者可能并不知道容器里做了什么操作，后者则更清晰，通常情况下更推荐用<code>Dockerfile</code>来构建镜像。下一篇将单独介绍<code>Dockerfile</code>。</p>
 
 <h2 id="4-2-镜像导入导出">4.2 镜像导入导出</h2>
 
@@ -526,7 +526,7 @@ latest: digest: sha256:f4050e7c3a2b0ea2051d103edcccde42326524a6dfe5f483dc1d84ca3
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-06.html">2020-08-22 19:48</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-06.html">2020-08-23 21:38</a></code>
 </div>
 
 <div class="eof_tag">
