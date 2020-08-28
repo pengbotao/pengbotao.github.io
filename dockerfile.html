@@ -35,7 +35,11 @@
 <li><a href="#4-2-php7-4-8">4.2 php7.4.8</a></li>
 </ul></li>
 <li><a href="#五-构建调试">五、构建调试</a></li>
-<li><a href="#六-私有镜像仓库">六、私有镜像仓库</a></li>
+<li><a href="#六-私有镜像仓库">六、私有镜像仓库</a>
+<ul>
+<li><a href="#6-1-通过registry镜像搭建">6.1 通过registry镜像搭建</a></li>
+<li><a href="#6-2-通过harbor搭建">6.2 通过harbor搭建</a></li>
+</ul></li>
 <li><a href="#七-小结">七、小结</a></li>
 </ul>
 </nav>
@@ -433,6 +437,8 @@ http://mirrors.aliyun.com/alpine/v3.12/community
 
 <h1 id="六-私有镜像仓库">六、私有镜像仓库</h1>
 
+<h2 id="6-1-通过registry镜像搭建">6.1 通过registry镜像搭建</h2>
+
 <p>通过Docker的镜像很容易创建自己的镜像仓库。</p>
 
 <p>1、安装。这里直接用官方的<code>registry</code>镜像来构建仓库，安装和启动方式和前面类似：</p>
@@ -494,6 +500,10 @@ Status: Downloaded newer image for 127.0.0.1:5000/php:7.4.8-fpm-alpine
 127.0.0.1:5000/php:7.4.8-fpm-alpine
 </code></pre>
 
+<h2 id="6-2-通过harbor搭建">6.2 通过harbor搭建</h2>
+
+<p>下载地址：<code>https://github.com/goharbor/harbor/releases</code></p>
+
 <h1 id="七-小结">七、小结</h1>
 
 <p>借助<code>Dockerfile</code>和官方的基础镜像，基本可以编译出需要的环境，<code>Dockerfile</code>里的RUN命令和往常没有太大区别，但对比虚拟机或者<code>ECS</code>，好处是配置一次之后便可以以文本的方式存储起来或者将镜像推送到镜像仓库，轻量很多，后续配起来比较方便。</p>
@@ -518,7 +528,7 @@ Status: Downloaded newer image for 127.0.0.1:5000/php:7.4.8-fpm-alpine
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-08-24 21:42</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-08-24 22:00</a></code>
 </div>
 
 <div class="eof_tag">
