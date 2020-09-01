@@ -15,18 +15,34 @@
 <nav>
 </nav>
 
-<p>&ndash; 安装supervisor
-$ pip install supervisor</p>
+<ul>
+<li>安装supervisor</li>
+</ul>
 
-<p>&ndash; 生成配置文件
-$ echo_supervisord_conf &gt; /etc/supervisord.conf
-$ vim /etc/supervisord.conf</p>
+<pre><code>$ pip install supervisor
+</code></pre>
 
-<p>&ndash; 启动supervisor
-$ supervisord -c /etc/supervisord.conf</p>
+<ul>
+<li>生成配置文件</li>
+</ul>
 
-<p>&ndash; 查看supervisor是否运行
-$ ps aux | grep supervisord</p>
+<pre><code>$ echo_supervisord_conf &gt; /etc/supervisord.conf
+$ vim /etc/supervisord.conf
+</code></pre>
+
+<ul>
+<li>启动supervisor</li>
+</ul>
+
+<pre><code>$ supervisord -c /etc/supervisord.conf
+</code></pre>
+
+<ul>
+<li>查看supervisor是否运行</li>
+</ul>
+
+<pre><code>$ ps aux | grep supervisord
+</code></pre>
 
 <p><strong>program 配置</strong></p>
 
@@ -66,7 +82,11 @@ stdout_logfile = /home/www/mgr/log/supervisor.log
 &gt; reload         # 重启supervisor程序
 </code></pre>
 
-<p>参考文档：<a href="http://liyangliang.me/posts/2015/06/using-supervisor/">http://liyangliang.me/posts/2015/06/using-supervisor/</a></p>
+<hr />
+
+<ul>
+<li>[1] <a href="http://liyangliang.me/posts/2015/06/using-supervisor/">使用 supervisor 管理进程</a></li>
+</ul>
 
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
@@ -75,7 +95,7 @@ stdout_logfile = /home/www/mgr/log/supervisor.log
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-02.html">2020-08-14 09:01</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-02.html">2020-08-31 12:50</a></code>
 </div>
 
 <div class="eof_tag">

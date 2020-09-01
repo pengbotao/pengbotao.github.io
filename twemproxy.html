@@ -29,8 +29,8 @@
 <li><a href="#四-性能测试">四、性能测试</a>
 <ul>
 <li><a href="#4-1-twemproxy">4.1 twemproxy</a></li>
-</ul></li>
 <li><a href="#4-2-redis">4.2 redis</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -232,7 +232,7 @@ OK
 174947.52 requests per second
 </code></pre>
 
-<h1 id="4-2-redis">4.2 redis</h1>
+<h2 id="4-2-redis">4.2 redis</h2>
 
 <pre><code>[root@asm bin]# ./redis-benchmark -h 127.0.0.1 -p 6380 -c 100 -n 1000000 -r 1000000 -d 1024 -t get,set
 ====== SET ======
@@ -259,6 +259,11 @@ OK
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+
+<div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2016-07.html">2020-08-28 21:50</a></code>
 </div>
 
 <div class="eof_tag">
