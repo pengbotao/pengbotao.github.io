@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>k8s资源清单 - 老彭的博客</title>
+    <title>k8s - 资源清单 - 老彭的博客</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<h1 class="title">k8s资源清单</h1>
+<h1 class="title">k8s - 资源清单</h1>
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
@@ -40,8 +40,8 @@
 <li><a href="#五-日常操作">五、日常操作</a>
 <ul>
 <li><a href="#5-1-创建资源">5.1 创建资源</a></li>
-<li><a href="#5-2-打标签">5.2 打标签</a></li>
-<li><a href="#5-3-修改资源">5.3 修改资源</a></li>
+<li><a href="#5-2-修改资源">5.2 修改资源</a></li>
+<li><a href="#5-3-打标签">5.3 打标签</a></li>
 <li><a href="#5-4-删除资源">5.4 删除资源</a></li>
 <li><a href="#5-5-扩展资源">5.5 扩展资源</a></li>
 <li><a href="#5-6-容器调试">5.6 容器调试</a></li>
@@ -527,7 +527,7 @@ $ kubectl delete ns test
 
 <h2 id="4-3-label-selector">4.3 Label / Selector</h2>
 
-<p><code>Label</code>（标签）是<code>Kubernetes</code>系统中一个核心概念。一个<code>Label</code>是一个<code>key=value</code>的键值对，其中key与value由用户自己指定。Label可以被附加到各种资源对象上，例如<code>Node</code>、<code>Pod</code>、<code>Service</code>、<code>RS</code>等，一个资源对象可以定义任意数量的<code>Label</code>，同一个<code>Label</code>也可以被添加到任意数量的资源对象上。<code>Label</code>通常在资源对象定义时确定，也可以在对象创建后动态添加或者删除。<a href="#refer"><sup>[2]</sup></a></p>
+<p><code>Label</code>（标签）是<code>Kubernetes</code>系统中一个核心概念。一个<code>Label</code>是一个<code>key=value</code>的键值对，其中<code>key</code>与<code>value</code>由用户自己指定。<code>Label</code>可以被附加到各种资源对象上，例如<code>Node</code>、<code>Pod</code>、<code>Service</code>、<code>RS</code>等，一个资源对象可以定义任意数量的<code>Label</code>，同一个<code>Label</code>也可以被添加到任意数量的资源对象上。<code>Label</code>通常在资源对象定义时确定，也可以在对象创建后动态添加或者删除。<a href="#refer"><sup>[2]</sup></a></p>
 
 <p>打好标签之后就可以通过<code>Label Selector</code>（标签选择器）查询和筛选某些<code>Label</code>的资源对象。</p>
 
@@ -628,9 +628,32 @@ spec:
 
 <p>区别：都可以创建资源，如果存在则<code>create</code>报错，<code>apply</code>会根据新的文件进行更新。</p>
 
-<h2 id="5-2-打标签">5.2 打标签</h2>
+<h2 id="5-2-修改资源">5.2 修改资源</h2>
 
-<p>修改Yaml中的labels字段，各种资源对象都可以操作标签，以deploy为例。</p>
+<p>日常修改操作有以下三种：</p>
+
+<p><strong>5.2.1 修改资源清单文件</strong></p>
+
+<p>操作都可以通过修改资源文件并重新应用生效，前提是资源清单文件还存在。</p>
+
+<pre><code>kubectl apply -f x.yaml
+</code></pre>
+
+<p><strong>5.2.2 通过kubectl edit命令修改</strong></p>
+
+<pre><code>$ kubectl edit deploy nginx-deploy
+deployment.apps/nginx-deploy edited
+</code></pre>
+
+<p>找不到文件时这么修改，但需要注意这里面存储的比较完整的信息，同一个字段可能有多处，修改起来别改漏了字段。</p>
+
+<p><strong>5.3.3 通过kubect命令修改</strong></p>
+
+<p>后续的章节都是直接通过命令的方式进行修改。使用上保持一致性，以免出现通过命令改了，资源清单文件没有更新，后续又使用资源清单文件做更新。建议统一通过资源清单文件进行修改。</p>
+
+<h2 id="5-3-打标签">5.3 打标签</h2>
+
+<p>修改资源清单中的<code>labels</code>字段，也可以通过<code>kubectl</code>操作。各种资源对象都可以操作标签，以<code>deploy</code>为例。</p>
 
 <pre><code>$ kubectl get deploy --show-labels
 NAME            READY   UP-TO-DATE   AVAILABLE   AGE     LABELS
@@ -650,13 +673,6 @@ $ kubectl label deploy itopic-deploy env=qa --overwrite
 # 删除env标签
 $ kubectl label deploy itopic-deploy env-
 </code></pre>
-
-<h2 id="5-3-修改资源">5.3 修改资源</h2>
-
-<pre><code>kubectl apply -f x.yaml
-</code></pre>
-
-<p>日常操作都可以通过修改资源文件并重新应用生效。</p>
 
 <h2 id="5-4-删除资源">5.4 删除资源</h2>
 
@@ -679,6 +695,15 @@ service &quot;itopic-svc&quot; deleted
 <p><strong>修改副本数量</strong>，调整Yaml中的replicas或者：</p>
 
 <pre><code>kubectl scale -n default deployment itopic-deploy --replicas=5
+</code></pre>
+
+<p>也可以设置自动扩容：</p>
+
+<pre><code>$ kubectl autoscale deployment  nginx-deploy --min=2 --max=5 --cpu-percent=80
+
+$ kubectl get hpa
+NAME           REFERENCE                 TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+nginx-deploy   Deployment/nginx-deploy   &lt;unknown&gt;/80%   2         5         4          2m
 </code></pre>
 
 <h2 id="5-6-容器调试">5.6 容器调试</h2>
@@ -728,7 +753,7 @@ Events:                   &lt;none&gt;
 
 <h2 id="5-7-查看完整yaml">5.7 查看完整Yaml</h2>
 
-<p>不同资源的完整的yaml信息可以这么看：</p>
+<p>不同资源的完整的yaml信息可以这么看（也可以指定格式为json）：</p>
 
 <pre><code>$ kubectl get svc itopic-svc -o yaml
 apiVersion: v1
@@ -781,12 +806,13 @@ status:
 <div class="eof_tag">
     标签：
     <code style="border:0px;background:none;"><a href="/tag/kubernetes.html">Kubernetes</a></code>
+    <code style="border:0px;background:none;"><a href="/tag/容器化.html">容器化</a></code>
 </div>
 
 <div id="footer">
     <ul>
         <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/k8s资源清单.md">https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/k8s资源清单.md</a>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/k8s - 资源清单.md">https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/k8s - 资源清单.md</a>
         <li>
         <li>
             @2013-2020 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
