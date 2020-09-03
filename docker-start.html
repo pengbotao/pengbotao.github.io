@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>小试Docker容器环境 - 老彭的博客</title>
+    <title>Docker ( 1 ) - 小试Docker容器环境 - 老彭的博客</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<h1 class="title">小试Docker容器环境</h1>
+<h1 class="title">Docker ( 1 ) - 小试Docker容器环境</h1>
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
@@ -239,7 +239,7 @@ Debian GNU/Linux 10 \n \l
 
 <p><code>Linux</code>也有不同的版本，比如<code>Alpine Linux</code>就只有5MB，对比起来就更轻量级了。<code>nginx</code>也有对应的镜像：<code>docker pull nginx:alpine</code>。</p>
 
-<p>所以系统层级像<code>Ubuntu</code>，<code>Centos</code>也都有相应的镜像，通过<code>https://hub.docker.com/search?q=&amp;type=image</code>可以看看常见的一些镜像。</p>
+<p>所以像<code>Ubuntu</code>，<code>Centos</code>也都有相应的镜像，通过<code>https://hub.docker.com/search?q=&amp;type=image</code>可以看看常见的一些镜像。</p>
 
 <h2 id="2-2-nginx-docker-test">2.2 nginx-docker-test</h2>
 
@@ -351,7 +351,7 @@ $ docker run -p 3406:3306 --name mysql \
 
 <h3 id="4-1-1-基于容器创建">4.1.1 基于容器创建</h3>
 
-<p>我们以PHP为例，需要先运行一个容器，然后进入容器后可以做一些修改，这里增加了pdo_mysql扩展，接下来可以根据容器创建一个新镜像。</p>
+<p>我们以PHP为例，需要先运行一个容器，然后进入容器后可以做一些修改，这里增加了<code>pdo_mysql</code>扩展，接下来可以根据容器创建一个新镜像。</p>
 
 <pre><code>$ docker run -it php:7.4.8-fpm bash
 root@5b98ecfd12e6:/var/www/html# docker-php-ext-install pdo_mysql
@@ -391,7 +391,7 @@ Deleted: sha256:7d6334b5e82cbe2eed96dae6429c989053c445be20068f64ba58948fdb8b2e21
 
 <h3 id="4-1-2-基于dockfile创建">4.1.2 基于Dockfile创建</h3>
 
-<p>一般不推荐使用<code>docker commit</code>来创建镜像，常见的镜像创建方式是通过Dockfile来创建，通过文本的方式来描述镜像的创建过程，以本博客为例，找系统内任意空目录，创建<code>Dockerfile</code>文件并写入下面内容：</p>
+<p>一般不推荐使用<code>docker commit</code>来创建镜像，常见的镜像创建方式是通过<code>Dockfile</code>来创建，通过文本的方式来描述镜像的创建过程，以本博客为例，找系统内任意空目录，创建<code>Dockerfile</code>文件并写入下面内容：</p>
 
 <pre><code>FROM golang:1.14
 
@@ -526,7 +526,7 @@ latest: digest: sha256:f4050e7c3a2b0ea2051d103edcccde42326524a6dfe5f483dc1d84ca3
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-06.html">2020-09-02 10:44</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-06.html">2020-09-03 09:53</a></code>
 </div>
 
 <div class="eof_tag">
@@ -542,7 +542,7 @@ latest: digest: sha256:f4050e7c3a2b0ea2051d103edcccde42326524a6dfe5f483dc1d84ca3
 <div id="footer">
     <ul>
         <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/docker/小试Docker容器环境.md">https://github.com/pengbotao/itopic.go/blob/master/posts/docker/小试Docker容器环境.md</a>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/docker/Docker ( 1 ) - 小试Docker容器环境.md">https://github.com/pengbotao/itopic.go/blob/master/posts/docker/Docker ( 1 ) - 小试Docker容器环境.md</a>
         <li>
         <li>
             @2013-2020 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>]
