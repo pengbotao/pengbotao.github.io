@@ -86,30 +86,30 @@
 
 <p><img src="../../static/uploads/k8s-cluster.png" alt="" /></p>
 
-<p>在这张系统架构图中，我们把服务分为运行在工作节点上的服务和组成集群级别控制板的服务。<code>Kubernetes</code>节点有运行应用容器必备的服务，而这些都是受<code>Master</code>的控制。每个节点上当然都要运行<code>Docker</code>。<code>Docker</code>来负责所有具体的映像下载和容器运行。</p>
+<p>来看这张图，左侧是<code>Master</code>节点，右边是<code>Node</code>节点。</p>
 
-<p><code>Kubernetes</code>主要由以下几个核心组件组成：</p>
+<p><strong><code>Master</code>节点上有：</strong></p>
 
 <ul>
-<li><code>etcd</code>：保存了整个集群的状态；</li>
-<li><code>apiserver</code>：提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</li>
-<li><code>controller manager</code>：负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</li>
+<li><code>API Server</code>：提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</li>
+<li><code>controller-manager</code>：负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</li>
 <li><code>scheduler</code>：负责资源的调度，按照预定的调度策略将<code>Pod</code>调度到相应的机器上；</li>
-<li><code>kubelet</code>：负责维护容器的生命周期，同时也负责<code>Volume（CVI）</code>和网络（<code>CNI</code>）的管理；</li>
-<li><code>Container runtime</code>：负责镜像管理以及Pod和容器的真正运行（<code>CRI</code>）；</li>
-<li><code>kube-proxy</code>：负责为<code>Service</code>提供<code>cluster</code>内部的服务发现和负载均衡；</li>
+<li><code>Etcd</code>：保存了整个集群的状态；</li>
 </ul>
 
-<p>除了核心组件，还有一些推荐的<code>Add-ons</code>：</p>
+<p><strong><code>Node</code>节点上有：</strong></p>
 
 <ul>
-<li><code>kube-dns</code>：负责为整个集群提供DNS服务</li>
-<li><code>Ingress Controller</code>：为服务提供外网入口</li>
-<li><code>Heapster</code>：提供资源监控</li>
-<li><code>Dashboard</code>：提供GUI</li>
-<li><code>Federation</code>：提供跨可用区的集群</li>
-<li><code>Fluentd-elasticsearch</code>：提供集群日志采集、存储与查询</li>
+<li><code>kubelet</code>：负责维护容器的生命周期，同时也负责<code>Volume（CVI）</code>和网络（<code>CNI</code>）的管理；</li>
+<li><code>kube-proxy</code>：负责为<code>Service</code>提供<code>cluster</code>内部的服务发现和负载均衡；</li>
+<li><code>Pod</code>：<code>Kubernetes</code>中操作的基本单元，一个<code>Pod</code>下可以有多个容器
+
+<ul>
+<li><code>Container</code>：<code>Pod</code>下的容器，可以由<code>Dokcer</code>镜像启动。</li>
+</ul></li>
 </ul>
+
+<p><code>kubectl</code>命令操作主节点，主节点要操作<code>Node</code>节点则通过和<code>Node</code>节点上的<code>kubelet</code>交互实现，<code>Client</code>访问则通过防火墙规则访问到<code>Node</code>节点里的特定<code>Pod</code>。</p>
 
 <p>了解到这里后可能就开始懵圈了，好多文章里还会看到<code>Deployment</code>、<code>Service</code>、<code>ReplicaSets/Replication Controller</code>等，一堆概念容易混淆。所以接下来我们先忽略概念，看怎么在Mac电脑上部署个k8s环境，操作一遍之后再来梳理概念和交互。</p>
 
@@ -323,7 +323,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 
 <h2 id="4-1-master">4.1 Master</h2>
 
-<p>集群的控制节点，负责整个集群的管理和控制，<code>kubernetes</code>的所有的命令基本都是发给<code>Master</code>，由它来负责具体的执行过程。</p>
+<p>集群的控制节点，负责整个集群的管理和控制，<code>kubernetes</code>的所有的命令基本都是发给<code>Master</code>，由它来负责具体的执行过程，平常执行的操作命令基本都是在<code>Master</code>上执行。</p>
 
 <p><strong>Master</strong>的组件：</p>
 
@@ -350,7 +350,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 
 <h2 id="4-3-pod">4.3 Pod</h2>
 
-<p><code>Pod</code>是<code>Kubernetes</code>中操作的基本单元。每个<code>Pod</code>中有个根容器(<code>Pause容器</code>)，<code>Pause</code>容器的状态代表整个容器组的状态，其他业务容器共享<code>Pause</code>的<code>IP</code>，即<code>Pod IP</code>，共享<code>Pause</code>挂载的<code>Volume</code>，这样简化了同个Pod中不同容器之间的网络问题和文件共享问题。</p>
+<p><code>Pod</code>是<code>Kubernetes</code>中操作的基本单元，一个<code>Pod</code>下可以有多个容器。每个<code>Pod</code>中都有个根容器(<code>Pause容器</code>)，<code>Pause</code>容器的状态代表整个容器组的状态，其他业务容器共享<code>Pause</code>的<code>IP</code>，即<code>Pod IP</code>，共享<code>Pause</code>挂载的<code>Volume</code>，这样简化了同个<code>Pod中</code>不同容器之间的网络问题和文件共享问题。</p>
 
 <ol>
 <li><code>Kubernetes</code>集群中，同宿主机的或不同宿主机的<code>Pod</code>之间要求能够TCP/IP直接通信，因此采用虚拟二层网络技术来实现，例如<code>Flannel</code>，<code>Openvswitch(OVS)</code>等，这样在同个集群中，不同的宿主机的Pod IP为不同IP段的IP，集群中的所有Pod IP都是唯一的，<strong>不同Pod之间可以直接通信</strong>。</li>
@@ -610,12 +610,17 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 <li>[7] <a href="https://blog.csdn.net/bbwangj/article/details/82866927">Etcd在kubernetes集群中的作用</a></li>
 <li>[8] <a href="https://www.jianshu.com/p/77d1b06ce798">K8s核心原理（四）kubelet</a></li>
 <li>[9] <a href="https://www.cnblogs.com/fuyuteng/p/11598768.html">kubernetes核心组件kube-proxy</a></li>
-<li>[10] <a href="https://zhuanlan.zhihu.com/p/79774851">深度解读：输入 kubectl run 后，到底发生了什么？</a></li>
+<li>[10] <a href="https://github.com/jamiehannaford/what-happens-when-k8s/tree/master/zh-cn">What happens when I type kubectl run?</a></li>
 </ul>
 
 <div class="eof">-- EOF --</div>
 <div class="eof_arrow">
     <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
+
+<div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2020-08.html">2020-09-05 14:48</a></code>
 </div>
 
 <div class="eof_tag">
