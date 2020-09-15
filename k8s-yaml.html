@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>k8s ( 2 ) - 资源清单 - 老彭的博客</title>
+    <title>Kubernetes基础 ( 2 ) - 资源清单 - 老彭的博客</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<h1 class="title">k8s ( 2 ) - 资源清单</h1>
+<h1 class="title">Kubernetes基础 ( 2 ) - 资源清单</h1>
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
@@ -31,29 +31,22 @@
 <li><a href="#3-3-metadata">3.3 metadata</a></li>
 <li><a href="#3-4-spec">3.4 spec</a></li>
 </ul></li>
-<li><a href="#四-yaml详细解读">四、Yaml详细解读</a>
+<li><a href="#四-yaml解读">四、Yaml解读</a>
 <ul>
 <li><a href="#4-1-名称空间">4.1 名称空间</a></li>
 <li><a href="#4-2-label-selector">4.2 Label / Selector</a></li>
 </ul></li>
-<li><a href="#五-常见资源">五、常见资源</a>
+<li><a href="#五-日常操作">五、日常操作</a>
 <ul>
-<li><a href="#5-1-container">5.1 Container</a></li>
-<li><a href="#5-2-pod">5.2 Pod</a></li>
-<li><a href="#5-3-deployment">5.3 Deployment</a></li>
-<li><a href="#5-4-service">5.4 Service</a></li>
+<li><a href="#5-1-创建资源">5.1 创建资源</a></li>
+<li><a href="#5-2-修改资源">5.2 修改资源</a></li>
+<li><a href="#5-3-打标签">5.3 打标签</a></li>
+<li><a href="#5-4-删除资源">5.4 删除资源</a></li>
+<li><a href="#5-5-扩展资源">5.5 扩展资源</a></li>
+<li><a href="#5-6-容器调试">5.6 容器调试</a></li>
+<li><a href="#5-7-查看yaml">5.7 查看Yaml</a></li>
 </ul></li>
-<li><a href="#六-日常操作">六、日常操作</a>
-<ul>
-<li><a href="#6-1-创建资源">6.1 创建资源</a></li>
-<li><a href="#6-2-修改资源">6.2 修改资源</a></li>
-<li><a href="#6-3-打标签">6.3 打标签</a></li>
-<li><a href="#6-4-删除资源">6.4 删除资源</a></li>
-<li><a href="#6-5-扩展资源">6.5 扩展资源</a></li>
-<li><a href="#6-6-容器调试">6.6 容器调试</a></li>
-<li><a href="#6-7-查看完整yaml">6.7 查看完整Yaml</a></li>
-</ul></li>
-<li><a href="#七-小结">七、小结</a></li>
+<li><a href="#六-小结">六、小结</a></li>
 </ul>
 </nav>
 
@@ -73,7 +66,7 @@
 
 <h2 id="1-2-资源清单">1.2 资源清单</h2>
 
-<p>类似通过<code>Dockerfile</code>来表示容器的创建过程，<code>k8s</code>里的各种资源也可以通过文本的方式来创建，通常是通过<code>Yaml</code>方式来定义，也支持<code>Json</code>。本文档主要介绍资源清单的基本使用以及常用资源的字段说明。</p>
+<p>类似通过<code>Dockerfile</code>来表示容器的创建过程，<code>k8s</code>里的各种资源也可以通过文本的方式来创建，通常是通过<code>Yaml</code>方式来定义，也支持<code>Json</code>。不同类型资源的资源清单字段会有部分差异，本文档主要介绍资源清单的通用用法，对具体资源的资源清单在后续使用到的地方在进行介绍。</p>
 
 <h1 id="二-yaml示例">二、Yaml示例</h1>
 
@@ -85,12 +78,7 @@
 
 <p><code>$ kubectl run itopic --image=pengbotao/itopic.go:alpine --replicas=3 --port=8001</code></p>
 
-<p>对应编写<code>itopic.yaml</code>（镜像为本博客镜像，可直接替换为<code>Nginx</code>镜像），然后执行：</p>
-
-<pre><code>$ kubectl apply -f itopic.yaml
-</code></pre>
-
-<p>表示，通过yaml文件内容来创建资源。</p>
+<p>对应编写<code>itopic.yaml</code>（镜像为本博客镜像，可直接替换为<code>Nginx</code>镜像），文件内容如下：</p>
 
 <pre><code>apiVersion: apps/v1
 kind: Deployment
@@ -120,6 +108,13 @@ spec:
         - containerPort: 8001
 </code></pre>
 
+<p>然后执行：</p>
+
+<pre><code>$ kubectl apply -f itopic.yaml
+</code></pre>
+
+<p>这样<code>Deployment</code>、<code>ReplicaSet</code>、<code>Pod</code>就创建好了。</p>
+
 <h2 id="2-2-创建service">2.2 创建service</h2>
 
 <p>第二条命令，创建<code>service</code>：</p>
@@ -143,11 +138,11 @@ spec:
     targetPort: 8001
 </code></pre>
 
-<p>然后访问<code>http://localhost:38002</code>就可以访问到了。</p>
+<p>这两个步骤完成后，就可以访问<code>http://localhost:38002</code>了。上面就是资源清单的基本写法，接下来对资源清单的用法做一些介绍。</p>
 
 <h1 id="三-yaml基础字段">三、Yaml基础字段</h1>
 
-<p>通过<code>kubectl explain pod</code>的方式可以查看对应资源的说明文档，要看子节点可以用：<code>kubectl explain pod.spec</code>，所有Yaml中的定义的字段都可以通过该方法查看文档。</p>
+<p>配置清单的写法如上面示例，不同的资源对象大同小异，通过<code>kubectl explain pod</code>的方式可以查看对应资源的说明文档，要看子节点可以用：<code>kubectl explain pod.spec</code>，所有Yaml中的定义的字段都可以通过该方法查看文档，后面会经常用到。</p>
 
 <pre><code>$ kubectl explain pod
 KIND:     Pod
@@ -243,6 +238,8 @@ error: unable to recognize &quot;itopic.yaml&quot;: no matches for kind &quot;de
 
 <h2 id="3-3-metadata">3.3 metadata</h2>
 
+<p>用来定义资源自身的信息，包括资源的名称、所在的名称空间，打上什么标签。</p>
+
 <table>
 <thead>
 <tr>
@@ -337,7 +334,7 @@ error: unable to recognize &quot;itopic.yaml&quot;: no matches for kind &quot;de
 </tbody>
 </table>
 
-<h1 id="四-yaml详细解读">四、Yaml详细解读</h1>
+<h1 id="四-yaml解读">四、Yaml解读</h1>
 
 <h2 id="4-1-名称空间">4.1 名称空间</h2>
 
@@ -479,200 +476,28 @@ spec:
 
 <p>前一篇中说的<code>RS</code>支持集合式<code>selector</code>，<code>RC</code>不支持，就是说的这里。</p>
 
-<h1 id="五-常见资源">五、常见资源</h1>
+<h1 id="五-日常操作">五、日常操作</h1>
 
-<p>不同的资源对象配置方式大同小异，来看看常用资源对象的配置方式及文档解释。</p>
+<p>日常操作上除了可以通过资源清单的方式操作，也可以通过<code>kubectl</code>命令来进行操作。</p>
 
-<h2 id="5-1-container">5.1 Container</h2>
-
-<table>
-<thead>
-<tr>
-<th>参数名</th>
-<th>字段类型</th>
-<th>说明</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>spec.containers[]</td>
-<td>List</td>
-<td>定义容器列表</td>
-</tr>
-
-<tr>
-<td>spec.containers[].name</td>
-<td>String</td>
-<td>定义容器名称</td>
-</tr>
-
-<tr>
-<td>spec.containers[].image</td>
-<td>String</td>
-<td>定义镜像来源</td>
-</tr>
-
-<tr>
-<td>spec.containers[].imagePullPolicy</td>
-<td>String</td>
-<td>定义镜像拉取策略，有Always、Never、IfNotPresent三个值。默认Always。<br />- Always: 每次都尝试重新拉取镜像<br />- Never：仅使用本地镜像<br />- IfNotPresent：本地有就使用，没有就拉取</td>
-</tr>
-
-<tr>
-<td>spec.containers[].command[]</td>
-<td>List</td>
-<td>指定容器启动命令</td>
-</tr>
-
-<tr>
-<td>spec.containers[].workingDir</td>
-<td>String</td>
-<td>指定容器工作目录</td>
-</tr>
-
-<tr>
-<td>spec.containers[].volumeMounts[]</td>
-<td>List</td>
-<td>指定容器内部存储券配置</td>
-</tr>
-
-<tr>
-<td>spec.containers[].volumeMounts[].name</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].volumeMounts[].mountPath</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].volumeMounts[].readOnly</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].ports[]</td>
-<td>List</td>
-<td>指定容器需要用到的端口列表</td>
-</tr>
-
-<tr>
-<td>spec.containers[].ports[].name</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].ports[].containerPort</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].ports[].hostPort</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].ports[].protocol</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].env[]</td>
-<td>List</td>
-<td>指定容器运行前需要设置的环境变量列表</td>
-</tr>
-
-<tr>
-<td>spec.containers[].env[].name</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].env[].value</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].resources</td>
-<td>Object</td>
-<td>指定资源限制和资源请求的值</td>
-</tr>
-
-<tr>
-<td>spec.containers[].resources.limits</td>
-<td>Object</td>
-<td>指定容器运行的资源上限</td>
-</tr>
-
-<tr>
-<td>spec.containers[].resources.limits.cpu</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].resources.limits.memory</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].resources.limits.requests</td>
-<td>Object</td>
-<td>指定容器启动和调度时的限制设置</td>
-</tr>
-
-<tr>
-<td>spec.containers[].resources.limits.requests.cpu</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td>spec.containers[].resources.limits.requests.memory</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
-<h2 id="5-2-pod">5.2 Pod</h2>
-
-<h2 id="5-3-deployment">5.3 Deployment</h2>
-
-<h2 id="5-4-service">5.4 Service</h2>
-
-<h1 id="六-日常操作">六、日常操作</h1>
-
-<h2 id="6-1-创建资源">6.1 创建资源</h2>
+<h2 id="5-1-创建资源">5.1 创建资源</h2>
 
 <p><code>kubectl apply -f x.yaml</code> 或 <code>kubectl create -f x.yaml</code></p>
 
 <p>区别：都可以创建资源，如果存在则<code>create</code>报错，<code>apply</code>会根据新的文件进行更新。</p>
 
-<h2 id="6-2-修改资源">6.2 修改资源</h2>
+<h2 id="5-2-修改资源">5.2 修改资源</h2>
 
 <p>日常修改操作有以下三种：</p>
 
-<p><strong>6.2.1 修改资源清单文件</strong></p>
+<p><strong>5.2.1 修改资源清单文件</strong></p>
 
 <p>操作都可以通过修改资源文件并重新应用生效，前提是资源清单文件还存在。</p>
 
 <pre><code>kubectl apply -f x.yaml
 </code></pre>
 
-<p><strong>6.2.2 通过kubectl edit命令修改</strong></p>
+<p><strong>5.2.2 通过kubectl edit命令修改</strong></p>
 
 <pre><code>$ kubectl edit deploy nginx-deploy
 deployment.apps/nginx-deploy edited
@@ -680,11 +505,11 @@ deployment.apps/nginx-deploy edited
 
 <p>找不到文件时这么修改，但需要注意这里面存储的比较完整的信息，同一个字段可能有多处，修改起来别改漏了字段。</p>
 
-<p><strong>6.2.3 通过kubect命令修改</strong></p>
+<p><strong>5.2.3 通过kubect命令修改</strong></p>
 
 <p>后续的章节都是直接通过命令的方式进行修改。使用上保持一致性，以免出现通过命令改了，资源清单文件没有更新，后续又使用资源清单文件做更新。建议统一通过资源清单文件进行修改。</p>
 
-<h2 id="6-3-打标签">6.3 打标签</h2>
+<h2 id="5-3-打标签">5.3 打标签</h2>
 
 <p>修改资源清单中的<code>labels</code>字段，也可以通过<code>kubectl</code>操作。各种资源对象都可以操作标签，以<code>deploy</code>为例。</p>
 
@@ -707,7 +532,7 @@ $ kubectl label deploy itopic-deploy env=qa --overwrite
 $ kubectl label deploy itopic-deploy env-
 </code></pre>
 
-<h2 id="6-4-删除资源">6.4 删除资源</h2>
+<h2 id="5-4-删除资源">5.4 删除资源</h2>
 
 <p>可以通过<code>kubectl delete deploy itopic-deploy</code>的方式删除<code>deploy</code>，同修改类似，也可以直接指定<code>yaml</code>文件的方式来删除。</p>
 
@@ -723,7 +548,7 @@ service &quot;itopic-svc&quot; deleted
 <pre><code>$ kubectl delete pod -l app=itopic
 </code></pre>
 
-<h2 id="6-5-扩展资源">6.5 扩展资源</h2>
+<h2 id="5-5-扩展资源">5.5 扩展资源</h2>
 
 <p><strong>修改副本数量</strong>，调整Yaml中的replicas或者：</p>
 
@@ -739,15 +564,15 @@ NAME           REFERENCE                 TARGETS         MINPODS   MAXPODS   REP
 nginx-deploy   Deployment/nginx-deploy   &lt;unknown&gt;/80%   2         5         4          2m
 </code></pre>
 
-<h2 id="6-6-容器调试">6.6 容器调试</h2>
+<h2 id="5-6-容器调试">5.6 容器调试</h2>
 
 <p>创建过程中可能会出现一些问题，提供一些调试方法：</p>
 
-<p><strong>6.6.1 describe</strong></p>
+<p><strong>5.6.1 describe</strong></p>
 
 <p>通过<code>describe</code>命令查看资源信息，各个资源都可以通过<code>describe</code>查看。可以看到状态以及<code>Events</code>。</p>
 
-<p><strong>6.6.2 查看容器日志</strong></p>
+<p><strong>5.6.2 查看容器日志</strong></p>
 
 <pre><code>$ kubectl logs itopic-6f9dd4f4cd-6n6lp -c itopic
 The topic server is running at http://0.0.0.0:8001
@@ -756,7 +581,7 @@ Quit the server with Control-C
 
 <p>如果Pod里只有一个容器可以省略<code>-c</code>参数，创建资源的时候可以通过日志看容器是否成功。也可以指定<code>-f</code>，类似<code>tail -f</code></p>
 
-<p><strong>6.6.3 service</strong></p>
+<p><strong>5.6.3 service</strong></p>
 
 <p>如果创建的service对外无法提供访问，可以通过<code>describe</code>查看<code>svc</code>信息</p>
 
@@ -784,7 +609,7 @@ Events:                   &lt;none&gt;
 <li><code>Endpoints：10.1.0.93:8001,10.1.0.94:8001,10.1.0.95:8001</code> 确保是正确的，如果Selector有错，则可能找不到后端Pod，就无法访问了</li>
 </ul>
 
-<h2 id="6-7-查看完整yaml">6.7 查看完整Yaml</h2>
+<h2 id="5-7-查看yaml">5.7 查看Yaml</h2>
 
 <p>不同资源的完整的yaml信息可以这么看（也可以指定格式为json）：</p>
 
@@ -818,9 +643,9 @@ status:
     - hostname: localhost
 </code></pre>
 
-<h1 id="七-小结">七、小结</h1>
+<h1 id="六-小结">六、小结</h1>
 
-<p>本章节主要讲解配置清单的基础使用，对其中的部分字段做一些解释。至于配置清单在不同资源对象下的使用则需要根据实际场景去看，但书写方式大同小异，下一篇将具体聊一聊控制器的使用。</p>
+<p>本章节主要讲解配置清单的基础使用，了解资源清单的基本写法。至于配置清单在不同资源对象下的使用则需要根据实际场景去看，但书写方式大同小异，下一篇将聊一聊<code>k8s</code>下最小粒度的资源<code>Pod</code>。</p>
 
 <hr />
 
@@ -837,6 +662,11 @@ status:
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2020-09.html">2020-09-15 16:08</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2020-09.html">2020-09-01 22:06</a></code>
 </div>
@@ -849,11 +679,14 @@ status:
 <div id="footer">
     <ul>
         <li>
-        <b>上一篇</b>：<a href="/k8s-start.html">k8s ( 1 ) - 环境搭建及概念说明</a>
+        <b>上一篇</b>：<a href="/k8s-start.html">Kubernetes基础 ( 1 ) - 环境搭建及概念说明</a>
         </li>
         
         <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/k8s ( 2 ) - 资源清单.md">https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/k8s ( 2 ) - 资源清单.md</a>
+        <b>下一篇</b>：<a href="/k8s-pod.html">Kubernetes基础 ( 3 ) - Pod</a>
+        </li>
+        <li>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/Kubernetes基础 ( 2 ) - 资源清单.md">https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/Kubernetes基础 ( 2 ) - 资源清单.md</a>
         <li>
         <li>
             @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]

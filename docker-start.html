@@ -69,11 +69,13 @@
 
 <h2 id="1-1-安装">1.1 安装</h2>
 
-<p>通过<code>docker.com</code>即可下载Docker Desktop，这里本机为Mac，安装好之后如下图：</p>
+<p>通过<code>docker.com</code>即可下载<code>Docker Desktop</code>，这里本机为Mac，安装好之后如下图（Win也类似），<code>Docker</code>环境就配置好了。</p>
 
 <p><img src="../../static/uploads/docker-desktop.png" alt="" /></p>
 
 <h2 id="1-2-概念说明">1.2 概念说明</h2>
+
+<p>Docker中有几个基本概念，仓库、镜像、容器，看看下面的理解。</p>
 
 <h3 id="1-2-1-仓库">1.2.1 仓库</h3>
 
@@ -87,15 +89,22 @@
 
 <h3 id="1-2-2-镜像">1.2.2 镜像</h3>
 
-<p>镜像就跟以前的ISO系统镜像文件类似，打包好的一套程序。</p>
+<p>镜像就跟以前的ISO系统镜像文件类似，打包好的一套程序。有一些基础镜像，比如</p>
+
+<ul>
+<li>系统层级：<code>CentOS</code>、<code>Ubuntu</code>、<code>debian</code></li>
+<li>应用层级：<code>Nginx</code>、<code>Python</code>、<code>Mysql</code></li>
+</ul>
+
+<p>简单理解，如果要安装个Nginx，把镜像下载到本地，执行下启动命令就可以了。</p>
 
 <h3 id="1-2-3-容器">1.2.3 容器</h3>
 
-<p>镜像实例化之后运行起来就是容器了，容器才有生命力。</p>
+<p>镜像实例化之后运行起来就是容器了，容器才有生命力。按以往理解类似运行起来的虚拟机，容器里有一套系统，应用程序能在这里面执行。但容器里的这套系统对比虚拟机要轻量很多。我们可以运行<code>CentOS</code>容器，也可以在<code>CentOS</code>里安装好<code>Nginx</code>后打包为镜像，下次就可以直接复用了。</p>
 
 <h2 id="1-3-配置示例">1.3 配置示例</h2>
 
-<p>这里以Nginx为例来看看Docker的操作流程。</p>
+<p>这里以<code>Nginx</code>为例来看看<code>Docker</code>的操作流程。</p>
 
 <h3 id="1-3-1-搜索仓库镜像">1.3.1 搜索仓库镜像</h3>
 
@@ -121,7 +130,7 @@ Status: Downloaded newer image for nginx:latest
 docker.io/library/nginx:latest
 </code></pre>
 
-<p>就像从<code>Github</code>上拉代码仓库一样，将<code>nginx</code>镜像拉取到本地。</p>
+<p>就像从<code>Github</code>上拉代码仓库一样，将<code>nginx</code>镜像拉取到本地。可以看到<code>Using default tag: latest</code>，获取的默认标签为<code>latest</code>标签的镜像，标签的含义就类似<code>v1</code>、<code>v2</code>版本，不指定就拉的最新版。如果要指定标签可以这么拉：<code>docker pull nginx:1.19.2</code>，冒号后面跟标签，一般指定标签比较好。</p>
 
 <h3 id="1-3-3-查看镜像">1.3.3 查看镜像</h3>
 
@@ -161,7 +170,7 @@ $ docker run -d -p 6001:80 --name nginx-docker-test nginx
 
 <h3 id="1-3-6-日常管理">1.3.6 日常管理</h3>
 
-<p>已经创建的容器，通过Docker-Desktop可以方便的进行管理，本章节的功能上面都可以看到。</p>
+<p>已经创建的容器，通过<code>Docker-Desktop</code>可以方便的进行管理，本章节的功能上面都可以看到。</p>
 
 <p><strong>1. 查看容器</strong></p>
 
@@ -272,7 +281,7 @@ $ docker cp 4bb46517cac3:/etc/nginx/conf.d/default.conf ~/docker/nginx/conf.d/
 
 <h2 id="2-3-修改容器配置">2.3 修改容器配置</h2>
 
-<p>容器创建之后是否可以修改启动配置？比如Nginx新增一个站点，想增加一个端口映射。</p>
+<p>容器创建之后是否可以修改启动配置？比如<code>Nginx</code>新增一个站点，想增加一个端口映射。</p>
 
 <ul>
 <li>Linux: /var/lib/docker/containers/容器/{config.v2.json, hostconfig.json}</li>
@@ -507,7 +516,7 @@ latest: digest: sha256:f4050e7c3a2b0ea2051d103edcccde42326524a6dfe5f483dc1d84ca3
 
 <h1 id="五-小结">五、小结</h1>
 
-<p>本篇主要介绍了Docker的基本用法、容器的启停、镜像的基本制作与分享，接下来我们着重看看通过Dockerfile构建镜像。</p>
+<p>本篇主要介绍了<code>Docker</code>的基本用法、容器的启停、镜像的基本制作与分享，接下来我们着重看看通过<code>Dockerfile</code>构建自己的镜像。</p>
 
 <hr />
 
@@ -526,7 +535,7 @@ latest: digest: sha256:f4050e7c3a2b0ea2051d103edcccde42326524a6dfe5f483dc1d84ca3
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-06.html">2020-09-03 09:53</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-06.html">2020-09-05 20:26</a></code>
 </div>
 
 <div class="eof_tag">

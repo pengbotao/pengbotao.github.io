@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>k8s ( 1 ) - 环境搭建及概念说明 - 老彭的博客</title>
+    <title>Kubernetes基础 ( 1 ) - 环境搭建及概念说明 - 老彭的博客</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<h1 class="title">k8s ( 1 ) - 环境搭建及概念说明</h1>
+<h1 class="title">Kubernetes基础 ( 1 ) - 环境搭建及概念说明</h1>
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
@@ -171,7 +171,7 @@ $ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashbo
 
 <h1 id="三-尝试部署镜像">三、尝试部署镜像</h1>
 
-<p>一般可以通过<code>YAML</code>进行部署，这里先尝试走通流程，类似<code>docker run</code>的用法让容器先跑起来。整个过程只需要执行2条命令即可。</p>
+<p>一般可以通过<code>YAML</code>文件进行部署，这里先尝试走通流程，类似<code>docker run</code>的用法让容器先跑起来。整个过程只需要执行2条命令即可。</p>
 
 <h2 id="3-1-创建deployment">3.1 创建deployment</h2>
 
@@ -295,6 +295,10 @@ Events:                   &lt;none&gt;
 
 <p>这个时候就可以通过<code>http://localhost:38001</code>访问了。</p>
 
+<blockquote>
+<p>注：Mac DockerDesktop环境下type指定其他没有走通，如果存在走不通的情况可以尝试切换type</p>
+</blockquote>
+
 <h2 id="3-3-扩容-缩容">3.3 扩容 / 缩容</h2>
 
 <p>通过调整副本数量可以进行扩容与缩容。</p>
@@ -318,6 +322,8 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 <p>到这里一个简单的镜像通过2条<code>k8s</code>命令就部署好了，来看看<code>Dashboard</code>的展示情况：</p>
 
 <p><img src="../../static/uploads/Kubernetes-Dashboard.png" alt="" /></p>
+
+<p>从演示上使用到了Deployment、ReplicaSet、Pod、Service，从Dashboard左侧可以看到更多的名词，接写来对K8s的基础架构做一些描述。</p>
 
 <h1 id="四-节点说明">四、节点说明</h1>
 
@@ -562,6 +568,8 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 
 <h1 id="七-小结">七、小结</h1>
 
+<p><img src="../../static/uploads/pod-lifecycle-create.png" alt="" /></p>
+
 <p>回过头来看一下我们之前的操作 <a href="#refer"><sup>[10]</sup></a></p>
 
 <pre><code>$ kubectl run itopic --image=pengbotao/itopic.go:alpine --replicas=3 --port=8001
@@ -594,7 +602,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 <li>为<code>Pod</code>创建代理服务，从<code>apiserver</code>获取所有<code>server</code>信息，并根据<code>server</code>信息创建代理服务，实现<code>server</code>到<code>Pod</code>的请求路由和转发，从而实现<code>K8s</code>层级的虚拟转发网络，实现外部访问的访问。</li>
 </ul>
 
-<p>最后，本文档是一个边学习边整理的过程，也并未直接就上多台机器，先通过比较简单的一个环境熟悉起来，了解其中的概念、模块及交互，所以仅当一个入门知识介绍。</p>
+<p>最后，本文档是一个边学习边整理的过程，也并未直接就上多台机器，先通过比较简单的一个环境熟悉起来，了解其中的概念、模块及交互，所以仅当一个入门知识介绍。本章引用的文档也比较多，可以先熟悉下在进入下一篇。</p>
 
 <hr />
 
@@ -620,7 +628,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-08.html">2020-09-05 14:48</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-08.html">2020-09-15 16:08</a></code>
 </div>
 
 <div class="eof_tag">
@@ -640,10 +648,10 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
         </li>
         
         <li>
-        <b>下一篇</b>：<a href="/k8s-yaml.html">k8s ( 2 ) - 资源清单</a>
+        <b>下一篇</b>：<a href="/k8s-yaml.html">Kubernetes基础 ( 2 ) - 资源清单</a>
         </li>
         <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/k8s ( 1 ) - 环境搭建及概念说明.md">https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/k8s ( 1 ) - 环境搭建及概念说明.md</a>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/Kubernetes基础 ( 1 ) - 环境搭建及概念说明.md">https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/Kubernetes基础 ( 1 ) - 环境搭建及概念说明.md</a>
         <li>
         <li>
             @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
