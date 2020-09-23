@@ -12,15 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#安装memcached服务端">安装Memcached服务端</a></li>
-<li><a href="#启动memcached">启动memcached</a></li>
-<li><a href="#php安装memcache扩展">PHP安装memcache扩展</a></li>
-<li><a href="#php安装memcached扩展">PHP安装memcached扩展</a></li>
-</ul>
-</nav>
-
 <h1 id="安装memcached服务端">安装Memcached服务端</h1>
 
 <p>memcached依赖于libevent，需要先安装libevent。</p>
@@ -124,6 +115,11 @@ configure: error: no, sasl.h is not available. Run configure with --disable-memc
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2014-09.html">2020-09-23 13:39</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2014-09.html">2014-09-01 16:33</a></code>
 </div>
@@ -170,8 +166,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

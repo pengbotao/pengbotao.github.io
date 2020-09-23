@@ -12,18 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#函数">函数</a></li>
-<li><a href="#函数和数组">函数和数组</a></li>
-<li><a href="#指针和const">指针和const</a></li>
-<li><a href="#函数和c-风格字符串">函数和C-风格字符串</a></li>
-<li><a href="#函数和string对象">函数和string对象</a></li>
-<li><a href="#函数和结构体">函数和结构体</a></li>
-<li><a href="#函数指针">函数指针</a></li>
-</ul>
-</nav>
-
 <h1 id="函数">函数</h1>
 
 <p>创建自己的函数必须自行处理这3方面 - 定义、提供原型和调用。</p>
@@ -142,6 +130,11 @@ char * str = &quot;galumphing&quot;;
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2015-03.html">2020-09-23 13:38</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2015-03.html">2015-03-29 23:25</a></code>
 </div>
@@ -187,8 +180,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

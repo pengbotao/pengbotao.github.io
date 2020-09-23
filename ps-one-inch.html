@@ -290,7 +290,7 @@
 <div id="footer">
     <ul>
         <li>
-        <b>上一篇</b>：<a href="/python.html">Python入门知识点整理</a>
+        <b>上一篇</b>：<a href="/will-kubernetes-kill-devops.html">Kubernetes 会不会“杀死” DevOps？</a>
         </li>
         
         <li>
@@ -324,8 +324,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

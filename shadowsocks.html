@@ -12,17 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#服务端安装">服务端安装</a>
-<ul>
-<li><a href="#golang服务端安装">Golang服务端安装</a></li>
-<li><a href="#启动">启动</a></li>
-</ul></li>
-<li><a href="#客户端安装">客户端安装</a></li>
-</ul>
-</nav>
-
 <ul>
 <li>客户端：<a href="https://shadowsocks.org/en/download/clients.html">https://shadowsocks.org/en/download/clients.html</a></li>
 <li>服务端：<a href="https://shadowsocks.org/en/download/servers.html">https://shadowsocks.org/en/download/servers.html</a></li>
@@ -70,7 +59,7 @@
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-11.html">2020-03-01 11:27</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-11.html">2020-09-23 13:34</a></code>
 </div>
 
 <div class="eof_tag">
@@ -119,8 +108,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

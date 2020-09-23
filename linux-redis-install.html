@@ -12,14 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#安装reids">安装Reids</a></li>
-<li><a href="#php中安装redis扩展">PHP中安装Redis扩展</a></li>
-<li><a href="#配置文件参数说明">配置文件参数说明</a></li>
-</ul>
-</nav>
-
 <h1 id="安装reids">安装Reids</h1>
 
 <p>Redis下载地址：<a href="http://www.redis.io/download">http://www.redis.io/download</a></p>
@@ -232,6 +224,11 @@ hash-max-zipmap-value 512
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2014-08.html">2020-09-23 13:40</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2014-08.html">2014-08-15 15:18</a></code>
 </div>
@@ -278,8 +275,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

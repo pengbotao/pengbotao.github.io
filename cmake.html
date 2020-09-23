@@ -12,18 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#cmake简介">CMake简介</a></li>
-<li><a href="#安装cmake">安装CMAKE</a></li>
-<li><a href="#hello-world">Hello World</a></li>
-<li><a href="#cmake基本语法规则">cmake基本语法规则</a></li>
-<li><a href="#内部构建与外部构建">内部构建与外部构建</a></li>
-<li><a href="#安装-install指令">安装 - INSTALL指令</a></li>
-<li><a href="#常用命令">常用命令</a></li>
-</ul>
-</nav>
-
 <h1 id="cmake简介">CMake简介</h1>
 
 <p>CMake 是一个跨平台的自动化建构系统,它使用一个名为 CMakeLists.txt 的文件来描述构建过程,可以产生标准的构建文件,如 Unix 的 Makefile 或Windows Visual C++ 的 projects/workspaces 。文件 CMakeLists.txt 需要手工编写,也可以通过编写脚本进行半自动的生成。CMake 提供了比 autoconfig 更简洁的语法。在 linux 平台下使用 CMake 生成 Makefile 并编译的流程如下:</p>
@@ -338,6 +326,11 @@ set(CMAKE_INSTALL_PREFIX /usr/local)
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2015-04.html">2020-09-23 13:38</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2015-04.html">2015-04-30 18:24</a></code>
 </div>
@@ -383,8 +376,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

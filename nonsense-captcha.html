@@ -12,9 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-</nav>
-
 <p>我们常常在提交页面设置验证码防止重复提交，但有些时候设置了验证码不一定有用，看看下面的例子：</p>
 
 <p>实现用户注册的功能，需要提交以下字段：username,password,regCode，注册成功后跳转到登录页面，接受页面进行如下处理：</p>
@@ -78,6 +75,11 @@ var_dump($rs);
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2014-03.html">2020-09-23 13:32</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2014-03.html">2014-03-11 13:45</a></code>
 </div>
@@ -124,8 +126,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

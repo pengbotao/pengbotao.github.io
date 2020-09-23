@@ -12,21 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-挂载数据盘">一、挂载数据盘</a></li>
-<li><a href="#二-格式化数据盘">二、格式化数据盘</a>
-<ul>
-<li><a href="#2-1-查看磁盘情况">2.1 查看磁盘情况</a></li>
-<li><a href="#2-2-对分区操作">2.2 对分区操作</a></li>
-<li><a href="#2-3-格式化分区">2.3 格式化分区</a></li>
-<li><a href="#2-4添加分区信息">2.4添加分区信息：</a></li>
-<li><a href="#2-5-执行挂载">2.5 执行挂载</a></li>
-<li><a href="#2-6-修改硬盘挂载目录">2.6 修改硬盘挂载目录</a></li>
-</ul></li>
-</ul>
-</nav>
-
 <h1 id="一-挂载数据盘">一、挂载数据盘</h1>
 
 <p>在云盘管理中心挂载好云盘在哪个服务器</p>
@@ -114,7 +99,7 @@ $ echo &quot;/dev/vdb1 /data ext4 defaults 0 0&quot; &gt;&gt; /etc/fstab
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2017-12.html">2020-07-30 07:16</a></code>
+    <code style="border:0px;background:none;"><a href="/2017-12.html">2020-09-23 13:41</a></code>
 </div>
 
 <div class="eof_tag">
@@ -163,8 +148,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

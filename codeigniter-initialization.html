@@ -243,7 +243,7 @@ RewriteRule . index.php
 <div id="footer">
     <ul>
         <li>
-        <b>上一篇</b>：<a href="/twig-template-language.html">Twig模版语言入门</a>
+        <b>上一篇</b>：<a href="/What-kind-of-math-education-do-we-need.html">随记：我们需要怎样的数学教育？</a>
         </li>
         
         <li>
@@ -277,8 +277,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

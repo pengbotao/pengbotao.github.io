@@ -12,58 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#php5-2以前">PHP5.2以前</a>
-<ul>
-<li><a href="#autoload">autoload</a></li>
-<li><a href="#pdo-和-mysqli">PDO 和 MySQLi</a></li>
-<li><a href="#类型约束">类型约束</a></li>
-</ul></li>
-<li><a href="#php5-2">PHP5.2</a>
-<ul>
-<li><a href="#json-支持">JSON 支持</a></li>
-</ul></li>
-<li><a href="#php5-3">PHP5.3</a>
-<ul>
-<li><a href="#弃用的功能">弃用的功能</a>
-<ul>
-<li><a href="#register-globals">Register Globals</a></li>
-<li><a href="#magic-quotes">Magic Quotes</a></li>
-<li><a href="#safe-mode">Safe Mode</a></li>
-</ul></li>
-<li><a href="#匿名函数">匿名函数</a></li>
-<li><a href="#魔术方法-invoke-callstatic">魔术方法：__invoke(), __callStatic()</a></li>
-<li><a href="#命名空间">命名空间</a></li>
-<li><a href="#后期静态绑定">后期静态绑定</a></li>
-<li><a href="#heredoc-和-nowdoc">Heredoc 和 Nowdoc</a></li>
-<li><a href="#用-const-定义常量">用 const 定义常量</a></li>
-<li><a href="#三元运算符简写形式">三元运算符简写形式</a></li>
-<li><a href="#phar">Phar</a></li>
-</ul></li>
-<li><a href="#php5-4">PHP5.4</a>
-<ul>
-<li><a href="#short-open-tag">Short Open Tag</a></li>
-<li><a href="#数组简写形式">数组简写形式</a></li>
-<li><a href="#traits">Traits</a></li>
-<li><a href="#内置-web-服务器">内置 Web 服务器</a></li>
-<li><a href="#细节修改">细节修改</a></li>
-</ul></li>
-<li><a href="#php5-5">PHP5.5</a>
-<ul>
-<li><a href="#yield">yield</a></li>
-<li><a href="#list-用于-foreach">list() 用于 foreach</a></li>
-<li><a href="#细节修改-1">细节修改</a></li>
-</ul></li>
-<li><a href="#php5-6">PHP5.6</a>
-<ul>
-<li><a href="#更好的常量">更好的常量</a></li>
-<li><a href="#更好的可变函数参数">更好的可变函数参数</a></li>
-</ul></li>
-<li><a href="#命名空间-1">命名空间</a></li>
-</ul>
-</nav>
-
 <p>截至目前(2014.2), PHP 的最新稳定版本是 PHP5.5, 但有差不多一半的用户仍在使用已经不在维护[注]的 PHP5.2, 其余的一半用户在使用 PHP5.3[注]
 因为 PHP 那“集百家之长”的蛋疼语法，加上社区氛围不好，很多人对新版本，新特征并无兴趣。</p>
 
@@ -711,6 +659,11 @@ namespace {
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2014-03.html">2020-09-23 13:44</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2014-03.html">2014-03-12 16:05</a></code>
 </div>
@@ -756,8 +709,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

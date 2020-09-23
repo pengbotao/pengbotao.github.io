@@ -12,9 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-</nav>
-
 <p>拷贝远程文件到本地</p>
 
 <pre><code>scp root@192.168.0.1:/home/database.php /var/www/database.php
@@ -49,7 +46,7 @@ scp -P 2133 /var/www/ root@192.168.0.1:/home/wwwroot/
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2013-11.html">2020-09-23 09:17</a></code>
+    <code style="border:0px;background:none;"><a href="/2013-11.html">2020-09-23 13:39</a></code>
 </div>
 
 <div class="eof_tag">
@@ -98,8 +95,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

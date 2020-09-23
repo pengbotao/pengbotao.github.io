@@ -12,27 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-概述">一、概述</a></li>
-<li><a href="#二-基础类型">二、基础类型</a>
-<ul>
-<li><a href="#2-1-字符串">2.1 字符串</a></li>
-<li><a href="#2-2-布尔值">2.2 布尔值</a></li>
-<li><a href="#2-3-整数">2.3 整数</a></li>
-<li><a href="#2-4-浮点数">2.4 浮点数</a></li>
-<li><a href="#2-5-空">2.5 空</a></li>
-<li><a href="#2-6-日期">2.6 日期</a></li>
-</ul></li>
-<li><a href="#三-数据结构">三、数据结构</a>
-<ul>
-<li><a href="#3-1-对象">3.1 对象</a></li>
-<li><a href="#3-2-数组">3.2 数组</a></li>
-<li><a href="#3-3-复合结构">3.3 复合结构</a></li>
-</ul></li>
-</ul>
-</nav>
-
 <pre><code>%YAML 1.2
 ---
 YAML: YAML Ain't Markup Language
@@ -232,7 +211,7 @@ data:
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2019-02.html">2020-09-23 09:33</a></code>
+    <code style="border:0px;background:none;"><a href="/2019-02.html">2020-09-23 13:36</a></code>
 </div>
 
 <div class="eof_tag">
@@ -282,8 +261,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

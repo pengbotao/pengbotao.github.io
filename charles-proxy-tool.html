@@ -12,52 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-概述">一、概述</a>
-<ul>
-<li><a href="#1-1-关于charles">1.1 关于Charles</a></li>
-<li><a href="#1-2-win下安装charles">1.2 Win下安装Charles</a>
-<ul>
-<li><a href="#1-2-1-java虚拟机">1.2.1 Java虚拟机</a></li>
-<li><a href="#1-2-2-安装charles">1.2.2 安装Charles</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#二-charles简介">二、Charles简介</a>
-<ul>
-<li><a href="#2-1-界面说明">2.1 界面说明</a></li>
-<li><a href="#2-2-常用配置">2.2 常用配置</a></li>
-</ul></li>
-<li><a href="#三-高级功能">三、高级功能</a>
-<ul>
-<li><a href="#3-1-移动端抓包">3.1 移动端抓包</a>
-<ul>
-<li><a href="#3-1-1-charles设置">3.1.1 Charles设置</a></li>
-<li><a href="#3-1-2-手机端设置">3.1.2 手机端设置</a>
-<ul>
-<li><a href="#3-1-2-1-查看电脑ip">3.1.2.1 查看电脑IP</a></li>
-<li><a href="#3-1-2-2-设置手机代理">3.1.2.2 设置手机代理</a></li>
-<li><a href="#3-1-2-3-开始抓包">3.1.2.3 开始抓包</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#3-2-篡改请求">3.2 篡改请求</a></li>
-<li><a href="#3-3-重发请求">3.3 重发请求</a></li>
-<li><a href="#3-4-映射请求到本地或者远程">3.4 映射请求到本地或者远程</a></li>
-<li><a href="#3-5-模拟弱网络">3.5 模拟弱网络</a></li>
-<li><a href="#3-6-https抓包">3.6 HTTPS抓包</a></li>
-</ul></li>
-<li><a href="#四-常见问题">四、常见问题</a>
-<ul>
-<li><a href="#4-1-安装后无法启动">4.1 安装后无法启动</a></li>
-<li><a href="#4-2-为什么用着用着会自动关闭">4.2 为什么用着用着会自动关闭？</a></li>
-<li><a href="#4-3-为什么会突然卡死-无法关掉">4.3 为什么会突然卡死，无法关掉？</a></li>
-<li><a href="#4-4-charles异常关闭后无法访问网页">4.4 Charles异常关闭后无法访问网页。</a></li>
-<li><a href="#4-5-charles-https抓取机制">4.5 Charles HTTPS抓取机制</a></li>
-<li><a href="#4-6-部分https无法抓取">4.6 部分HTTPS无法抓取</a></li>
-</ul></li>
-</ul>
-</nav>
-
 <h1 id="一-概述">一、概述</h1>
 
 <h2 id="1-1-关于charles">1.1 关于Charles</h2>
@@ -423,7 +377,7 @@ Windows IP 配置
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-07.html">2020-08-28 21:56</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-07.html">2020-09-23 13:34</a></code>
 </div>
 
 <div class="eof_tag">
@@ -472,8 +426,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

@@ -12,16 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#指针变量">指针变量</a></li>
-<li><a href="#引用变量">引用变量</a></li>
-<li><a href="#指针和引用的区别">指针和引用的区别</a></li>
-<li><a href="#指针传递和引用传递">指针传递和引用传递</a></li>
-<li><a href="#示例">示例</a></li>
-</ul>
-</nav>
-
 <h1 id="指针变量">指针变量</h1>
 
 <p>存放地址的变量称为指针变量。指针变量是一种特殊的变量，它不同于一般的变量，一般变量存放的是数据本身，而指针变量存放的是数据的地址。</p>
@@ -135,6 +125,11 @@ int main(int argc, char **argv)
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2015-05.html">2020-09-23 13:38</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2015-05.html">2015-05-30 11:22</a></code>
 </div>
@@ -180,8 +175,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

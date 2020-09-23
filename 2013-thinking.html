@@ -12,9 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-</nav>
-
 <p>伴随着2013的结束，博客到今天也恰好一年了！</p>
 
 <p>曾经的suchshow毕业后就没怎么管了，后来一直想弄个博客，写点技术心得体会，也终于在年初弄起来了，一度也荒废过两个月，但整体上还算满意吧，也胡乱写了几篇乱七八糟的东西，还算踏实。</p>
@@ -42,7 +39,7 @@
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2014-01.html">2020-08-18 15:14</a></code>
+    <code style="border:0px;background:none;"><a href="/2014-01.html">2020-09-23 13:32</a></code>
 </div>
 
 <div class="eof_tag">
@@ -91,8 +88,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

@@ -12,16 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#内联函数">内联函数</a></li>
-<li><a href="#引用变量">引用变量</a></li>
-<li><a href="#默认参数">默认参数</a></li>
-<li><a href="#函数重载">函数重载</a></li>
-<li><a href="#函数模版">函数模版</a></li>
-</ul>
-</nav>
-
 <h1 id="内联函数">内联函数</h1>
 
 <p>内联函数的编译代码与其他程序代码“内联”起来，也就是说，编译器将使用相应的函数代码替换函数调用。对于内联代码，程序无需跳到另一个位置处执行代码，再跳回来。因此，内联函数的运行速度比常规函数稍快，但代价是需要占用更多内存。</p>
@@ -194,6 +184,11 @@ void Swap(T &amp;a, T &amp;b)
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2015-03.html">2020-09-23 13:38</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2015-03.html">2015-03-30 22:45</a></code>
 </div>
@@ -239,8 +234,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

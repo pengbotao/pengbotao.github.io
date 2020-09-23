@@ -12,17 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-创建一个空间">一、创建一个空间</a></li>
-<li><a href="#二-创建一个文档">二、创建一个文档</a></li>
-<li><a href="#三-页面编辑">三、页面编辑</a></li>
-<li><a href="#四-页面操作">四、页面操作</a></li>
-<li><a href="#五-空间管理">五、空间管理</a></li>
-<li><a href="#六-总结">六、总结</a></li>
-</ul>
-</nav>
-
 <p>Confluence是一个专业的企业知识管理与协同软件，也可以用于构建企业wiki。通过它可以实现团队成员之间的协作和知识共享。在这里，团队成员齐心协力，各擅其能，协同地编写文档和管理项目。从此打破不同团队、不同部门以及个人之间信息孤岛的僵局，Confluence真正实现了组织资源共享。Confluence使用简单，但它强大的编辑和站点管理特征能够帮助团队成员之间共享信息、文档协作、集体讨论。</p>
 
 <h1 id="一-创建一个空间">一、创建一个空间</h1>
@@ -117,7 +106,7 @@
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-07.html">2020-08-18 15:14</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-07.html">2020-09-23 13:35</a></code>
 </div>
 
 <div class="eof_tag">
@@ -166,8 +155,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

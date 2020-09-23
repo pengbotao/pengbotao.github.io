@@ -12,18 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#hello-lua">Hello Lua</a>
-<ul>
-<li><a href="#content-by-lua">content_by_lua</a></li>
-<li><a href="#content-by-lua-file">content_by_lua_file</a></li>
-</ul></li>
-<li><a href="#nginx常用参数获取">Nginx常用参数获取</a></li>
-<li><a href="#获取md5示例">获取MD5示例</a></li>
-</ul>
-</nav>
-
 <blockquote>
 <p>OpenResty （也称为 ngx_openresty）是一个全功能的 Web 应用服务器。它打包了标准的 Nginx核心，很多的常用的第三方模块，以及它们的大多数依赖项。</p>
 
@@ -145,6 +133,11 @@ ngx.say(ngx.md5(s))
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2016-01.html">2020-09-23 13:42</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2016-01.html">2016-01-01 16:15</a></code>
 </div>
@@ -190,8 +183,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

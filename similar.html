@@ -12,14 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-编辑距离">一、编辑距离</a></li>
-<li><a href="#二-汉明距离">二、汉明距离</a></li>
-<li><a href="#三-杰卡德相似系数">三、杰卡德相似系数</a></li>
-</ul>
-</nav>
-
 <h1 id="一-编辑距离">一、编辑距离</h1>
 
 <p>字符串的编辑距离，又称为Levenshtein距离，由俄罗斯的数学家Vladimir Levenshtein在1965年提出。是指利用字符操作，把字符串A转换成字符串B所需要的最少操作数。其中，字符操作包括：</p>
@@ -60,7 +52,7 @@ distance.levenshtein(&quot;lenvestein&quot;, &quot;levenshtein&quot;)
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2018-03.html">2020-03-01 11:26</a></code>
+    <code style="border:0px;background:none;"><a href="/2018-03.html">2020-09-23 13:37</a></code>
 </div>
 
 <div class="eof_tag">
@@ -109,8 +101,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

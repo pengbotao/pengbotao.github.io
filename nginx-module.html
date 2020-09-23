@@ -12,14 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-增加http验证">一、增加HTTP验证</a></li>
-<li><a href="#二-限流">二、限流</a></li>
-<li><a href="#三-geoip2进行地域转发">三、GeoIP2进行地域转发</a></li>
-</ul>
-</nav>
-
 <h1 id="一-增加http验证">一、增加HTTP验证</h1>
 
 <p>1、 配置<code>auth_basic</code>和<code>auth_basic_user_file</code>，文件可以先指定，下一步会用<code>htpasswd</code>生成。</p>
@@ -104,7 +96,7 @@ peng:$apr1$ySsxdCSf$W5YxzVzSQ2rbNiipwYpT5/
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2018-06.html">2020-09-03 21:46</a></code>
+    <code style="border:0px;background:none;"><a href="/2018-06.html">2020-09-23 13:41</a></code>
 </div>
 
 <div class="eof_tag">
@@ -154,8 +146,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

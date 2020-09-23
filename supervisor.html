@@ -12,9 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-</nav>
-
 <ul>
 <li>安装supervisor</li>
 </ul>
@@ -95,7 +92,7 @@ stdout_logfile = /home/www/mgr/log/supervisor.log
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-02.html">2020-08-31 12:50</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-02.html">2020-09-23 13:35</a></code>
 </div>
 
 <div class="eof_tag">
@@ -145,8 +142,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

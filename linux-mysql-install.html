@@ -12,17 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#1-通过官网下载mysql源码包">1、通过官网下载mysql源码包。</a></li>
-<li><a href="#2-安装cmake">2、 安装cmake</a></li>
-<li><a href="#3-编译并安装">3、编译并安装</a></li>
-<li><a href="#4-配置my-cnf">4、配置my.cnf</a></li>
-<li><a href="#5-初始化mysql数据库">5、初始化Mysql数据库</a></li>
-<li><a href="#6-启动mysql">6、启动Mysql</a></li>
-</ul>
-</nav>
-
 <h1 id="1-通过官网下载mysql源码包">1、通过官网下载mysql源码包。</h1>
 
 <p>访问<a href="http://dev.mysql.com/downloads/">http://dev.mysql.com/downloads/</a> 点击MySQL Community Server，选择Source Code， 点击 Generic Linux (Architecture Independent), Compressed TAR Archive后的Download</p>
@@ -166,6 +155,11 @@ Starting MySQL. SUCCESS!
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2014-08.html">2020-09-23 13:39</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2014-08.html">2014-08-14 23:55</a></code>
 </div>
@@ -212,8 +206,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

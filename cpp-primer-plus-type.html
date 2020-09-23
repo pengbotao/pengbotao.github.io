@@ -12,29 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#基本类型">基本类型</a>
-<ul>
-<li><a href="#整型">整型</a></li>
-<li><a href="#bool类型">bool类型</a></li>
-<li><a href="#char类型">char类型</a></li>
-<li><a href="#const限定符">const限定符</a></li>
-<li><a href="#浮点数">浮点数</a></li>
-</ul></li>
-<li><a href="#复合类型">复合类型</a>
-<ul>
-<li><a href="#数组">数组</a></li>
-<li><a href="#字符串">字符串</a></li>
-<li><a href="#结构和结构数组">结构和结构数组</a></li>
-<li><a href="#共用体">共用体</a></li>
-<li><a href="#枚举">枚举</a></li>
-<li><a href="#指针-变量的地址">指针 - 变量的地址</a></li>
-<li><a href="#数组的替代品">数组的替代品</a></li>
-</ul></li>
-</ul>
-</nav>
-
 <h1 id="基本类型">基本类型</h1>
 
 <p><code>C++</code>的基本类型分为两种：一组由存储为整数的值组成，另一组由存储为浮点格式的值组成。</p>
@@ -306,6 +283,11 @@ cout &lt;&lt; &amp;tell &lt;&lt; endl;
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2015-03.html">2020-09-23 13:38</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2015-03.html">2015-03-26 21:05</a></code>
 </div>
@@ -351,8 +333,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

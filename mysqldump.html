@@ -12,16 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#导出数据库">导出数据库</a></li>
-<li><a href="#导出数据库中指定表">导出数据库中指定表</a></li>
-<li><a href="#还原">还原</a></li>
-<li><a href="#select-into-outfile导出">SELECT INTO OUTFILE导出</a></li>
-<li><a href="#load-data-导入">LOAD DATA 导入</a></li>
-</ul>
-</nav>
-
 <h1 id="导出数据库">导出数据库</h1>
 
 <pre><code>-- 导出dbname表结构
@@ -93,7 +83,7 @@ FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '&quot;' LINES TERMINATED BY '\n
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2013-05.html">2020-09-23 09:25</a></code>
+    <code style="border:0px;background:none;"><a href="/2013-05.html">2020-09-23 13:43</a></code>
 </div>
 
 <div class="eof_tag">
@@ -142,8 +132,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

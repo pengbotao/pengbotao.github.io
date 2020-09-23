@@ -12,19 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-let-s-encrypt介绍">一、Let&rsquo;s Encrypt介绍</a></li>
-<li><a href="#二-let-s-encrypt安装">二、Let&rsquo;s Encrypt安装</a>
-<ul>
-<li><a href="#2-1-下载certbot-auto">2.1 下载certbot-auto</a></li>
-<li><a href="#2-2-申请证书">2.2 申请证书</a></li>
-<li><a href="#2-3-nginx使用证书">2.3 Nginx使用证书</a></li>
-</ul></li>
-<li><a href="#三-刷新证书">三、刷新证书</a></li>
-</ul>
-</nav>
-
 <h1 id="一-let-s-encrypt介绍">一、Let&rsquo;s Encrypt介绍</h1>
 
 <p>Let&rsquo;s Encrypt是一个于2015年三季度推出的数字证书认证机构，旨在以自动化流程消除手动创建和安装证书的复杂流程，并推广使万维网服务器的加密连接无所不在，为安全网站提供免费的SSL/TLS证书。</p>
@@ -139,7 +126,7 @@ to enable EPEL.
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2018-01.html">2020-08-28 21:59</a></code>
+    <code style="border:0px;background:none;"><a href="/2018-01.html">2020-09-23 13:36</a></code>
 </div>
 
 <div class="eof_tag">
@@ -188,8 +175,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

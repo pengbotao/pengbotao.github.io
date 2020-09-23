@@ -12,26 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-简介">一、简介</a></li>
-<li><a href="#二-http命令">二、http命令</a>
-<ul>
-<li><a href="#2-1-常用flags定义">2.1 常用flags定义</a></li>
-<li><a href="#2-2-method定义">2.2 METHOD定义</a></li>
-<li><a href="#2-3-url定义">2.3 URL定义</a></li>
-<li><a href="#2-4-request-item-定义">2.4 REQUEST_ITEM 定义</a>
-<ul>
-<li><a href="#2-4-1-指定头部示例">2.4.1 指定头部示例</a></li>
-<li><a href="#2-4-2-设置query参数">2.4.2 设置Query参数</a></li>
-<li><a href="#2-4-3-设置请求数据">2.4.3 设置请求数据</a></li>
-<li><a href="#2-4-4-设置json数组">2.4.4 设置JSON数组</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#三-curl请求">三、Curl请求</a></li>
-</ul>
-</nav>
-
 <h1 id="一-简介">一、简介</h1>
 
 <p>HTTPie是一个命令行下的类似CURL的HTTP请求工具，使用Python开发，相比CURL而言参数更精简、人性化，通过http命令很容易发送一些日常的http请求。</p>
@@ -239,7 +219,7 @@ User-Agent: HTTPie/1.0.2
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-02.html">2020-08-14 09:01</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-02.html">2020-09-23 13:35</a></code>
 </div>
 
 <div class="eof_tag">
@@ -288,8 +268,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

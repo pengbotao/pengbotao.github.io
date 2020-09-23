@@ -12,20 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#工作方面">工作方面</a>
-<ul>
-<li><a href="#web开发入门">Web开发入门</a></li>
-<li><a href="#开启职场生涯">开启职场生涯</a></li>
-<li><a href="#南下广州">南下广州</a></li>
-<li><a href="#综合能力提升">综合能力提升</a></li>
-<li><a href="#关注点的变化">关注点的变化</a></li>
-</ul></li>
-<li><a href="#生活方面">生活方面</a></li>
-</ul>
-</nav>
-
 <p>终于闲下来，算算已经工作七年半了，来广州也有七个年头了，带着老婆孩子漂泊在外始终没有归属感，想尝试下回武汉看看，等一些手续办完就可以了，时间定在本月中。这段时间可以回头看看走过的路，做一个七年小结。</p>
 
 <h1 id="工作方面">工作方面</h1>
@@ -100,7 +86,7 @@
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-12.html">2020-08-18 15:14</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-12.html">2020-09-23 13:33</a></code>
 </div>
 
 <div class="eof_tag">
@@ -149,8 +135,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

@@ -12,16 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#1-如何使用-malloc-函数">1、如何使用 malloc 函数</a></li>
-<li><a href="#2-用-malloc-函数申请-0-字节内存">2、 用 malloc 函数申请 0 字节内存</a></li>
-<li><a href="#3-内存释放">3、内存释放</a></li>
-<li><a href="#4-内存释放之后">4、内存释放之后</a></li>
-<li><a href="#5-内存已经被释放了-但是继续通过指针来使用">5、内存已经被释放了，但是继续通过指针来使用</a></li>
-</ul>
-</nav>
-
 <h1 id="1-如何使用-malloc-函数">1、如何使用 malloc 函数</h1>
 
 <p>malloc是一个函数，专门用来从堆上分配内存。使用malloc函数需要几个要求：</p>
@@ -111,6 +101,11 @@ if (NULL != p)
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2015-04.html">2020-09-23 13:39</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2015-04.html">2015-04-23 10:30</a></code>
 </div>
@@ -156,8 +151,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

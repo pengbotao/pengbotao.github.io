@@ -12,27 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#安装vsftpd">安装vsftpd</a>
-<ul>
-<li><a href="#卸载vsftpd">卸载vsftpd</a></li>
-<li><a href="#vsftpd相关文件">vsftpd相关文件</a></li>
-<li><a href="#vsftp配置">vsftp配置</a></li>
-</ul></li>
-<li><a href="#vsftp虚拟用户配置">Vsftp虚拟用户配置</a>
-<ul>
-<li><a href="#1-添加虚拟用户列表">1、添加虚拟用户列表</a></li>
-<li><a href="#2-生成虚拟用户口令认证文件">2、生成虚拟用户口令认证文件</a></li>
-<li><a href="#3-设置虚拟用户所需的pam配置文件">3、设置虚拟用户所需的PAM配置文件</a></li>
-<li><a href="#4-创建vsftpd宿主帐号">4、创建vsftpd宿主帐号</a></li>
-<li><a href="#5-编辑vsftpd-conf配置文件">5、编辑vsftpd.conf配置文件</a></li>
-<li><a href="#6-根据虚拟用户设置不同的权限">6、根据虚拟用户设置不同的权限</a></li>
-<li><a href="#7-重启服务">7、重启服务</a></li>
-</ul></li>
-</ul>
-</nav>
-
 <h1 id="安装vsftpd">安装vsftpd</h1>
 
 <p>查看是否已安装vsftpd</p>
@@ -460,6 +439,11 @@ user_config_dir=/etc/vsftpd/vconf
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2014-09.html">2020-09-23 13:40</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2014-09.html">2014-09-01 22:52</a></code>
 </div>
@@ -505,8 +489,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

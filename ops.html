@@ -136,7 +136,7 @@ find /data/logs -type f -name &quot;*.log.*&quot; -ctime +30 -print0| xargs -0 r
         <b>下一篇</b>：<a href="/coordinate.html">地图坐标系</a>
         </li>
         <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/运维工具/常用运维操作.md">https://github.com/pengbotao/itopic.go/blob/master/posts/运维工具/常用运维操作.md</a>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/运维/常用运维操作.md">https://github.com/pengbotao/itopic.go/blob/master/posts/运维/常用运维操作.md</a>
         <li>
         <li>
             @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
@@ -163,8 +163,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

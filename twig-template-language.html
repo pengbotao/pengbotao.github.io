@@ -299,7 +299,7 @@ a = 1 or b = 2
         </li>
         
         <li>
-        <b>下一篇</b>：<a href="/codeigniter-initialization.html">CodeIgniter ( 1 ) - 项目初始化</a>
+        <b>下一篇</b>：<a href="/What-kind-of-math-education-do-we-need.html">随记：我们需要怎样的数学教育？</a>
         </li>
         <li>
             <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/Twig模版语言入门.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/Twig模版语言入门.md</a>
@@ -329,8 +329,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

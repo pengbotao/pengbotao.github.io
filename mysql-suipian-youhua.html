@@ -12,14 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#myisam清理碎片">Myisam清理碎片</a></li>
-<li><a href="#innodb碎片优化">InnoDB碎片优化</a></li>
-<li><a href="#什么是mysql碎片-怎样知道表的碎片有多大呢">什么是mysql碎片?怎样知道表的碎片有多大呢?</a></li>
-</ul>
-</nav>
-
 <p>起因：查看线上数据库中Table Information时发现有一个日志表数据大小和索引大小有915M，但实际行数只有92行。该表需要频繁插入并且会定时去删掉旧的记录。表类型为Myisam，已建立一个索引，所以应该是产生了大量碎片，使用 Optimize table 表名 优化后大小变为2.19M，少了很多， 同时可以看出该表上的索引建的多余，因为插入操作比查询操作要多很多，而且查询不多，查询的数据量也一般比较小。</p>
 
 <p>借此延伸下MYSQL中Myisam、InnoDB碎片优化方式：</p>
@@ -63,7 +55,7 @@
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2013-03.html">2020-09-23 09:25</a></code>
+    <code style="border:0px;background:none;"><a href="/2013-03.html">2020-09-23 13:31</a></code>
 </div>
 
 <div class="eof_tag">
@@ -112,8 +104,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

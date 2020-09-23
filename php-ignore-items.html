@@ -12,20 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#1-页面过长">1、页面过长</a></li>
-<li><a href="#2-排版混乱">2、排版混乱</a></li>
-<li><a href="#3-注释杂乱无章">3、注释杂乱无章</a></li>
-<li><a href="#4-奇特的命名">4、奇特的命名</a></li>
-<li><a href="#5-循环嵌套">5、循环嵌套</a></li>
-<li><a href="#6-多环境问题-配置问题">6、多环境问题，配置问题</a></li>
-<li><a href="#7-生产环境上的测试方法-空方法-没用的方法-大规模注释的代码">7、生产环境上的测试方法、空方法、没用的方法、大规模注释的代码</a></li>
-<li><a href="#8-日志记录问题">8、日志记录问题</a></li>
-<li><a href="#9-不做任何判断">9、不做任何判断</a></li>
-</ul>
-</nav>
-
 <p>说编程是一门艺术一点都不过分，无论从代码中体现的思维还是给人的视觉感受都无可挑剔。当我们看别人的代码时，第一眼感受到的就是作者的编码风格，根据编码风格大致可以感受到程序的好坏。良好的编码风格看起来很有艺术的感觉，读起来容易，易维护，出问题的几率也小。而不良的编码习惯导致代码很难读，思维不够清晰，维护成本高，可能潜藏着更多的BUG。</p>
 
 <p>艺术是用来欣赏的，但实际项目中需求的随意不间断无规则变动导致项目不可能成为艺术。虽然成不了艺术，但也不该让人一眼就看到肮脏错乱无规则的代码，下面都是从实际项目中看到的一些问题，这些问题不是需要有多好的基础、多好的技巧才能做到，只要留心注意下，每个人都可以做到，这里提出来一起探讨。</p>
@@ -103,7 +89,7 @@
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2014-01.html">2020-08-18 15:14</a></code>
+    <code style="border:0px;background:none;"><a href="/2014-01.html">2020-09-23 13:32</a></code>
 </div>
 
 <div class="eof_tag">
@@ -154,8 +140,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

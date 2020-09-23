@@ -12,13 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#安装imagemagick">安装ImageMagick</a></li>
-<li><a href="#convert命令">convert命令</a></li>
-</ul>
-</nav>
-
 <h1 id="安装imagemagick">安装ImageMagick</h1>
 
 <pre><code># yum install ImageMagick ImageMagick-devel
@@ -92,7 +85,7 @@ Copyright: Copyright (C) 1999-2006 ImageMagick Studio LLC
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2015-03.html">2020-09-23 09:18</a></code>
+    <code style="border:0px;background:none;"><a href="/2015-03.html">2020-09-23 13:39</a></code>
 </div>
 
 <div class="eof_tag">
@@ -141,8 +134,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

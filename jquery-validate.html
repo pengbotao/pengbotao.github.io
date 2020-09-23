@@ -12,16 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#导入js文件">导入JS文件</a></li>
-<li><a href="#使用方法">使用方法</a></li>
-<li><a href="#提示信息">提示信息</a></li>
-<li><a href="#常用设置">常用设置</a></li>
-<li><a href="#自定义验证方法">自定义验证方法</a></li>
-</ul>
-</nav>
-
 <ul>
 <li>当前版本：v1.11.1</li>
 <li>官网地址：<a href="http://jqueryvalidation.org/">http://jqueryvalidation.org/</a></li>
@@ -180,6 +170,11 @@
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2013-06.html">2020-09-23 13:37</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2013-06.html">2013-06-01 20:52</a></code>
 </div>
@@ -225,8 +220,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

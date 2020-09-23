@@ -12,30 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#h1标题">H1标题</a>
-<ul>
-<li><a href="#h2粗体-斜体-删除线">H2粗体、斜体、删除线</a>
-<ul>
-<li><a href="#h3引用">H3引用</a>
-<ul>
-<li><a href="#h4列表">H4列表</a>
-<ul>
-<li><a href="#h5超链接和图片">H5超链接和图片</a>
-<ul>
-<li><a href="#h6分割线">H6分割线</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul></li>
-<li><a href="#代码块">代码块</a></li>
-<li><a href="#表格">表格</a></li>
-<li><a href="#markdown源文件">Markdown源文件</a></li>
-</ul>
-</nav>
-
 <h1 id="h1标题">H1标题</h1>
 
 <p>Markdown 是一种轻量级标记语言，创始人为约翰·格鲁伯（<code>John Gruber</code>）。它允许人们“使用易读易写的纯文本格式编写文档，然后转换成有效的<code>XHTML</code>(或者<code>HTML</code>)文档”。这种语言吸收了很多在电子邮件中已有的纯文本标记的特性。</p>
@@ -161,7 +137,7 @@ func main() {
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-11.html">2020-08-27 23:22</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-11.html">2020-09-23 13:44</a></code>
 </div>
 
 <div class="eof_tag">
@@ -210,8 +186,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

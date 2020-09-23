@@ -12,26 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#单独编译">单独编译</a></li>
-<li><a href="#存储持续性-作用域和链接性">存储持续性、作用域和链接性</a>
-<ul>
-<li><a href="#1-自动存储持续性">1、自动存储持续性</a></li>
-<li><a href="#2-静态存储持续性">2、静态存储持续性</a>
-<ul>
-<li><a href="#静态持续性-外部链接性">静态持续性、外部链接性</a></li>
-<li><a href="#静态持续性-内部链接性">静态持续性、内部链接性</a></li>
-<li><a href="#静态持续性-无链接性">静态持续性、无链接性</a></li>
-<li><a href="#const限定符">const限定符</a></li>
-<li><a href="#函数和链接性">函数和链接性</a></li>
-</ul></li>
-<li><a href="#3-线程存储持续性-c-11">3、线程存储持续性（C++11）</a></li>
-<li><a href="#4-动态存储持续性">4、动态存储持续性</a></li>
-</ul></li>
-</ul>
-</nav>
-
 <h1 id="单独编译">单独编译</h1>
 
 <p>将程序可以分成三部分：</p>
@@ -189,6 +169,11 @@ extern char gr = 'z';//definition because initialized
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2015-04.html">2020-09-23 13:38</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2015-04.html">2015-04-20 08:15</a></code>
 </div>
@@ -234,8 +219,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

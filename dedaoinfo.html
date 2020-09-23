@@ -12,9 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-</nav>
-
 <p>前几天申请新浪开发者认证被驳回，驳回原因是需要上传原创应用，并建议通过cloudbbs等级申请。作为一名开发者通过泡论坛的方式来申请认证这无疑是一种讽刺。于是在想做点什么好呢？</p>
 
 <p>去年看到鬼脚七的老子智慧文章，后来又看到曾仕强教授的道德经的奥秘，觉得道德经是一门伟大的哲学，想从中领悟一些做人做事的道理。最近也在微博上发道德经，坚持了一个月。本着兴趣看能不能做个关于道德经的网站呢？</p>
@@ -42,7 +39,7 @@
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2014-04.html">2020-08-18 15:14</a></code>
+    <code style="border:0px;background:none;"><a href="/2014-04.html">2020-09-23 13:32</a></code>
 </div>
 
 <div class="eof_tag">
@@ -91,8 +88,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

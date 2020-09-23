@@ -12,13 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#类的实例">类的实例</a></li>
-<li><a href="#类的继承">类的继承</a></li>
-</ul>
-</nav>
-
 <p>Lua中没有类的概念，但可以通过table、函数以及一些语言特性来模拟类。table的值可以为函数。看下面这段代码：</p>
 
 <pre><code>LogUtil = {msg_prefix = string.format(&quot;%s &quot;, os.date(&quot;%H:%M:%S&quot;, os.time())) }
@@ -140,6 +133,11 @@ LogB:write(&quot;This is a LogB Info&quot;)
 </div>
 
 <div class="eof_tag">
+    最后更新于：
+    <code style="border:0px;background:none;"><a href="/2016-01.html">2020-09-23 13:42</a></code>
+</div>
+
+<div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/2016-01.html">2016-01-17 20:22</a></code>
 </div>
@@ -185,8 +183,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

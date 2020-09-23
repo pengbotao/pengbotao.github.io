@@ -12,67 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-概述">一、概述</a>
-<ul>
-<li><a href="#1-1-git的诞生">1.1 Git的诞生</a></li>
-<li><a href="#1-2-git和svn对比">1.2 Git和SVN对比</a></li>
-<li><a href="#1-3-git安装及图形化管理工具">1.3 Git安装及图形化管理工具</a></li>
-</ul></li>
-<li><a href="#二-git基本用法">二、Git基本用法</a>
-<ul>
-<li><a href="#2-1-配置公钥">2.1 配置公钥</a></li>
-<li><a href="#2-2-仓库初始化">2.2 仓库初始化</a>
-<ul>
-<li><a href="#2-2-1-从远程仓库克隆">2.2.1 从远程仓库克隆</a></li>
-<li><a href="#2-2-2-初始化本地仓库">2.2.2 初始化本地仓库</a></li>
-</ul></li>
-<li><a href="#2-3-git常用配置">2.3 GIT常用配置</a>
-<ul>
-<li><a href="#2-3-1-配置用户名和邮箱">2.3.1 配置用户名和邮箱</a></li>
-<li><a href="#2-3-2-关闭crlf自动转换">2.3.2 关闭crlf自动转换</a></li>
-</ul></li>
-<li><a href="#2-4-git-基本流程">2.4 Git 基本流程</a>
-<ul>
-<li><a href="#2-4-1-克隆远程仓库">2.4.1 克隆远程仓库</a></li>
-<li><a href="#2-4-2-本地开发">2.4.2 本地开发</a></li>
-<li><a href="#2-4-3-提交到暂存区">2.4.3 提交到暂存区</a></li>
-<li><a href="#2-4-4-提交到本地仓库">2.4.4 提交到本地仓库</a></li>
-<li><a href="#2-4-5-推送到远程仓库">2.4.5 推送到远程仓库</a></li>
-<li><a href="#2-4-6-从远程仓库拉取">2.4.6 从远程仓库拉取</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#三-git分支用法">三、Git分支用法</a>
-<ul>
-<li><a href="#3-1-分支基本操作">3.1 分支基本操作</a></li>
-<li><a href="#3-2-分支合并">3.2 分支合并</a></li>
-<li><a href="#3-3-git工作流">3.3 Git工作流</a>
-<ul>
-<li><a href="#3-3-1-中心化工作流">3.3.1 中心化工作流</a></li>
-<li><a href="#3-3-2-基于功能分支的工作流">3.3.2  基于功能分支的工作流</a></li>
-<li><a href="#3-3-3-gitflow工作流">3.3.3 Gitflow工作流</a></li>
-<li><a href="#3-3-4-fork工作流">3.3.4 Fork工作流</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#四-其他用法">四、其他用法</a>
-<ul>
-<li>
-<ul>
-<li><a href="#4-1-工作区状态">4.1 工作区状态</a></li>
-<li><a href="#4-2-远程仓库相关操作">4.2 远程仓库相关操作</a></li>
-<li><a href="#4-3-查看日志">4.3 查看日志</a></li>
-</ul></li>
-<li><a href="#4-4-版本回滚">4.4 版本回滚</a>
-<ul>
-<li><a href="#4-4-1-文件添加到暂存区">4.4.1 文件添加到暂存区</a></li>
-<li><a href="#4-4-2-还原本地修改的文件">4.4.2 还原本地修改的文件</a></li>
-<li><a href="#4-4-3-还原已提交到本地的文件">4.4.3 还原已提交到本地的文件</a></li>
-</ul></li>
-</ul></li>
-</ul>
-</nav>
-
 <h1 id="一-概述">一、概述</h1>
 
 <h2 id="1-1-git的诞生">1.1 Git的诞生</h2>
@@ -503,7 +442,7 @@ Changes to be committed:
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-10.html">2020-09-03 21:43</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-10.html">2020-09-23 13:34</a></code>
 </div>
 
 <div class="eof_tag">
@@ -552,8 +491,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

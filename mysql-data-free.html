@@ -12,13 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-获取库-表占用存储大小">一、获取库/表占用存储大小</a></li>
-<li><a href="#二-释放空间">二、释放空间</a></li>
-</ul>
-</nav>
-
 <p>源于线上阿里云RDS数据库报磁盘空间不足，1000G的空间，占用到800多G，需要查看是否存在较大的库或表，以及是否可以做清理操作。</p>
 
 <h1 id="一-获取库-表占用存储大小">一、获取库/表占用存储大小</h1>
@@ -134,7 +127,7 @@ Query OK, 0 rows affected (4.03 sec)
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2019-04.html">2020-09-23 09:25</a></code>
+    <code style="border:0px;background:none;"><a href="/2019-04.html">2020-09-23 13:43</a></code>
 </div>
 
 <div class="eof_tag">
@@ -183,8 +176,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

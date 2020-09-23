@@ -1256,7 +1256,7 @@ print(b)
         </li>
         
         <li>
-        <b>下一篇</b>：<a href="/ps-one-inch.html">用Ps制作一寸证件照</a>
+        <b>下一篇</b>：<a href="/will-kubernetes-kill-devops.html">Kubernetes 会不会“杀死” DevOps？</a>
         </li>
         <li>
             <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python入门知识点整理.md">https://github.com/pengbotao/itopic.go/blob/master/posts/python/Python入门知识点整理.md</a>
@@ -1286,8 +1286,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>

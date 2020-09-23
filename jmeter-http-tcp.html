@@ -12,21 +12,6 @@
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-概述">一、概述</a></li>
-<li><a href="#二-安装与启动">二、安装与启动</a></li>
-<li><a href="#三-常规测试-http">三、常规测试 - HTTP</a>
-<ul>
-<li><a href="#3-1-添加线程组">3.1 添加线程组</a></li>
-<li><a href="#3-2-添加采样器">3.2 添加采样器</a></li>
-<li><a href="#3-3-添加监视器">3.3 添加监视器</a></li>
-<li><a href="#3-4-运行">3.4 运行</a></li>
-</ul></li>
-<li><a href="#四-tcp压测">四、TCP压测</a></li>
-</ul>
-</nav>
-
 <h1 id="一-概述">一、概述</h1>
 
 <p>Apache JMeter是Apache组织开发的基于Java的压力测试工具。用于对软件做压力测试，它最初被设计用于Web应用测试但后来扩展到其他测试领域。 它可以用于测试静态和动态资源例如静态文件、Java 小服务程序、CGI 脚本、Java 对象、数据库， FTP 服务器， 等等。JMeter 可以用于对服务器、网络或对象模拟巨大的负载，来自不同压力类别下测试它们的强度和分析整体性能。另外，JMeter能够对应用程序做功能/回归测试，通过创建带有断言的脚本来验证你的程序返回了你期望的结果。为了最大限度的灵活性，JMeter允许使用正则表达式创建断言。</p>
@@ -177,7 +162,7 @@
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-07.html">2020-08-18 15:14</a></code>
+    <code style="border:0px;background:none;"><a href="/2016-07.html">2020-09-23 13:35</a></code>
 </div>
 
 <div class="eof_tag">
@@ -226,8 +211,8 @@ function ready(fn){
     }  
 }  
 function fn(){
-    if(document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
     }
 }
 </script>
