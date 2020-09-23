@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Docker ( 4 ) - 关于Docker Api</title>
+    <title>Docker ( 4 ) - Docker Api</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<h1 class="title">Docker ( 4 ) - 关于Docker Api</h1>
+<h1 class="title">Docker ( 4 ) - Docker Api</h1>
 
 <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
@@ -20,6 +20,7 @@
 <li><a href="#1-2-docker引擎">1.2 Docker引擎</a></li>
 </ul></li>
 <li><a href="#二-docker-api">二、Docker API</a></li>
+<li><a href="#三-docker原理">三、Docker原理</a></li>
 </ul>
 </nav>
 
@@ -69,12 +70,18 @@
 
 <p>@todo</p>
 
+<h1 id="三-docker原理">三、Docker原理</h1>
+
+<p>通过namespace 来做资源隔离，cgroup 来做资源限制。</p>
+
 <hr />
 
 <ul>
 <li>[1] <a href="https://docs.docker.com/get-started/overview/">Docker overview</a></li>
 <li>[2] <a href="https://docs.docker.com/engine/api/">Develop with Docker Engine API</a></li>
 <li>[3] <a href="https://docs.docker.com/engine/api/latest/">Docker Engine API reference.</a></li>
+<li>[4] <a href="https://www.cnblogs.com/sammyliu/p/5878973.html">理解Docker（3）：Docker 使用 Linux namespace 隔离容器的运行环境</a></li>
+<li>[5] <a href="https://www.cnblogs.com/sammyliu/p/5886833.html">理解Docker（4）：Docker 容器使用 cgroups 限制资源使用</a></li>
 </ul>
 
 <div class="eof">-- EOF --</div>
@@ -84,7 +91,7 @@
 
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-09-03 09:53</a></code>
+    <code style="border:0px;background:none;"><a href="/2020-07.html">2020-09-22 18:14</a></code>
 </div>
 
 <div class="eof_tag">
@@ -100,14 +107,14 @@
 <div id="footer">
     <ul>
         <li>
-        <b>上一篇</b>：<a href="/docker-compose.html">Docker ( 3 ) - 通过Docker Compose组合容器</a>
+        <b>上一篇</b>：<a href="/docker-compose.html">Docker ( 3 ) - Docker Compose</a>
         </li>
         
         <li>
-        <b>下一篇</b>：<a href="/k8s-start.html">Kubernetes基础 ( 1 ) - 环境搭建及概念说明</a>
+        <b>下一篇</b>：<a href="/docker-summary.html">Docker ( 5 ) - Docker小结</a>
         </li>
         <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/docker/Docker ( 4 ) - 关于Docker Api.md">https://github.com/pengbotao/itopic.go/blob/master/posts/docker/Docker ( 4 ) - 关于Docker Api.md</a>
+            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/docker/Docker ( 4 ) - Docker Api.md">https://github.com/pengbotao/itopic.go/blob/master/posts/docker/Docker ( 4 ) - Docker Api.md</a>
         <li>
         <li>
             @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]

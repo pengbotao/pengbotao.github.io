@@ -23,30 +23,40 @@
 <li><a href="#三-deployment">三、Deployment</a>
 <ul>
 <li><a href="#3-1-deployment-与-rs">3.1 Deployment 与 RS</a></li>
-<li><a href="#3-2-deployment示例">3.2 Deployment示例</a></li>
-<li><a href="#3-3-滚动更新">3.3 滚动更新</a></li>
-<li><a href="#3-4-资源清单">3.4 资源清单</a></li>
+<li><a href="#3-2-资源清单">3.2 资源清单</a></li>
+<li><a href="#3-3-deployment示例">3.3 Deployment示例</a></li>
+<li><a href="#3-4-滚动更新">3.4 滚动更新</a></li>
 </ul></li>
 <li><a href="#四-daemonset">四、DaemonSet</a>
 <ul>
-<li><a href="#4-1-daemonset示例">4.1 DaemonSet示例</a></li>
+<li><a href="#4-1-关于daemonset">4.1 关于DaemonSet</a></li>
+<li><a href="#4-2-资源清单">4.2 资源清单</a></li>
+<li><a href="#4-3-daemonset示例">4.3 DaemonSet示例</a></li>
 </ul></li>
 <li><a href="#五-job">五、Job</a>
 <ul>
-<li><a href="#5-1-job示例">5.1 Job示例</a></li>
+<li><a href="#5-1-关于job">5.1 关于Job</a></li>
 <li><a href="#5-2-资源清单">5.2 资源清单</a></li>
+<li><a href="#5-3-job示例">5.3 Job示例</a></li>
 </ul></li>
 <li><a href="#六-cronjob">六、 CronJob</a>
 <ul>
-<li><a href="#6-1-cronjob示例">6.1 CronJob示例</a></li>
+<li><a href="#6-1-关于cronjob">6.1 关于CronJob</a></li>
 <li><a href="#6-2-资源清单">6.2 资源清单</a></li>
+<li><a href="#6-3-cronjob示例">6.3 CronJob示例</a></li>
 </ul></li>
 <li><a href="#七-statefulset">七、StatefulSet</a>
 <ul>
-<li><a href="#7-1-简述">7.1 简述</a></li>
-<li><a href="#7-2-示例">7.2 示例</a></li>
+<li><a href="#7-1-关于statefulset">7.1 关于StatefulSet</a></li>
+<li><a href="#7-2-资源清单">7.2 资源清单</a></li>
+<li><a href="#7-3-statefulset示例">7.3 StatefulSet示例</a></li>
 </ul></li>
-<li><a href="#八-horizontal-pod-autoscaling">八、Horizontal Pod Autoscaling</a></li>
+<li><a href="#八-horizontal-pod-autoscaling">八、Horizontal Pod Autoscaling</a>
+<ul>
+<li><a href="#8-1-关于hpa">8.1 关于HPA</a></li>
+<li><a href="#8-2-资源清单">8.2 资源清单</a></li>
+<li><a href="#8-3-hpa示例">8.3 HPA示例</a></li>
+</ul></li>
 <li><a href="#九-小结">九、小结</a></li>
 </ul>
 </nav>
@@ -105,7 +115,7 @@
 <td>6</td>
 <td>Horizontal Pod Autoscaling</td>
 <td>Pod水平自动缩放</td>
-<td></td>
+<td>弹性收缩</td>
 </tr>
 </tbody>
 </table>
@@ -224,7 +234,135 @@ $ kubectl scale rs rsname --replicas=2
 
 <p><code>Deployment</code>不直接管理<code>Pod</code>，而是通过<code>ReplicaSet</code>来进行管理，他们的功能差不多，都支持自动扩容、缩容，但<code>Deployment</code>支持滚动更新和回滚，这个是<code>ReplicaSet</code>不支持的，所以一般建议是通过<code>Deployment</code>来管理<code>Pod</code>。</p>
 
-<h2 id="3-2-deployment示例">3.2 Deployment示例</h2>
+<h2 id="3-2-资源清单">3.2 资源清单</h2>
+
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>字段类型</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>spec.minReadySeconds</td>
+<td>Integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.paused</td>
+<td>boolean</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.progressDeadlineSeconds</td>
+<td>integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.replicas</td>
+<td>integer</td>
+<td>控制Pod的副本数量</td>
+</tr>
+
+<tr>
+<td>spec.revisionHistoryLimit</td>
+<td>integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td><strong>spec.selector</strong></td>
+<td><strong>Object[required]</strong></td>
+<td>Pod筛选</td>
+</tr>
+
+<tr>
+<td>spec.selector.matchExpressions</td>
+<td>[]Object</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.selector.matchExpressions[].key</td>
+<td>string[required]</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.selector.matchExpressions[].operator</td>
+<td>string[required]</td>
+<td>可选值有：<code>In</code>, <code>NotIn</code>, <code>Exists</code> and <code>DoesNotExist</code></td>
+</tr>
+
+<tr>
+<td>spec.selector.matchExpressions.values</td>
+<td>[]string</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.selector.matchLabels</td>
+<td>map[string]string</td>
+<td></td>
+</tr>
+
+<tr>
+<td><strong>spec.strategy</strong></td>
+<td><strong>Object</strong></td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.strategy.rollingUpdate</td>
+<td>Object</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.strategy.rollingUpdate.maxSurge</td>
+<td>string</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.strategy.rollingUpdate.maxUnavailable</td>
+<td>string</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.strategy.type</td>
+<td>string</td>
+<td></td>
+</tr>
+
+<tr>
+<td><strong>spec.template</strong></td>
+<td><strong>Object[required]</strong></td>
+<td>Pod模板</td>
+</tr>
+
+<tr>
+<td>spec.template.metadata</td>
+<td>Object</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.template.spec</td>
+<td>Object</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="3-3-deployment示例">3.3 Deployment示例</h2>
 
 <p>我们先来创建<code>Nginx</code>的<code>Deployment</code>，可能是本地的网络原因，需要创建<code>service</code>且指定<code>type</code>为<code>LoadBalancer</code>本机端口才能访问到，先忽略，后续在探究这个问题。多个资源清单可以写在一个文件，通过<code>---</code>进行分割即可。</p>
 
@@ -302,7 +440,7 @@ nginx-deploy-9bdb559b9-hlrjq   1/1     Running   0          28s
 nginx-deploy-9bdb559b9-rw2gh   1/1     Running   0          28s
 </code></pre>
 
-<h2 id="3-3-滚动更新">3.3 滚动更新</h2>
+<h2 id="3-4-滚动更新">3.4 滚动更新</h2>
 
 <p>既然<code>Deployment</code>和<code>RS</code>的主要差别在于滚动更新，我们来看看滚动更新操作。</p>
 
@@ -450,48 +588,9 @@ $ kubectl scale deployment nginx-deploy --replicas 3
 $ kubectl delete service,deploy -l project=nginx
 </code></pre>
 
-<h2 id="3-4-资源清单">3.4 资源清单</h2>
-
-<p>看看资源清单中比较重要的节点：</p>
-
-<pre><code>spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: nginx-pod
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  minReadySeconds: 5
-  template:
-</code></pre>
-
-<p>文档说明：</p>
-
-<pre><code>$ kubectl explain deploy.spec.strategy
-KIND:     Deployment
-VERSION:  apps/v1
-
-RESOURCE: strategy &lt;Object&gt;
-
-DESCRIPTION:
-     The deployment strategy to use to replace existing pods with new ones.
-
-     DeploymentStrategy describes how to replace existing pods with new ones.
-
-FIELDS:
-   rollingUpdate	&lt;Object&gt;
-     Rolling update config params. Present only if DeploymentStrategyType =
-     RollingUpdate.
-
-   type	&lt;string&gt;
-     Type of deployment. Can be &quot;Recreate&quot; or &quot;RollingUpdate&quot;. Default is
-     RollingUpdate.
-</code></pre>
-
 <h1 id="四-daemonset">四、DaemonSet</h1>
+
+<h2 id="4-1-关于daemonset">4.1 关于DaemonSet</h2>
 
 <p><code>DaemonSet</code>控制有下面特征：</p>
 
@@ -508,13 +607,139 @@ NAME         DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR 
 kube-proxy   1         1         1       1            1           beta.kubernetes.io/os=linux   6d22h
 </code></pre>
 
-<h2 id="4-1-daemonset示例">4.1 DaemonSet示例</h2>
+<h2 id="4-2-资源清单">4.2 资源清单</h2>
+
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>字段类型</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>spec.minReadySeconds</td>
+<td>Integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.revisionHistoryLimit</td>
+<td>integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td><strong>spec.selector</strong></td>
+<td><strong>Object[required]</strong></td>
+<td>Pod筛选</td>
+</tr>
+
+<tr>
+<td><strong>spec.template</strong></td>
+<td><strong>Object[required]</strong></td>
+<td>Pod模板</td>
+</tr>
+
+<tr>
+<td><strong>spec.updateStrategy</strong></td>
+<td><strong>Object</strong></td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.updateStrategy.rollingUpdate</td>
+<td>Object</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.updateStrategy.rollingUpdate.maxUnavailable</td>
+<td>string</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.updateStrategy.type</td>
+<td>string</td>
+<td>更新方式，可选值：RollingUpdate、OnDelete，默认RollingUpdate.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="4-3-daemonset示例">4.3 DaemonSet示例</h2>
 
 <h1 id="五-job">五、Job</h1>
 
+<h2 id="5-1-关于job">5.1 关于Job</h2>
+
 <p>负责处理一次性任务。</p>
 
-<h2 id="5-1-job示例">5.1 Job示例</h2>
+<h2 id="5-2-资源清单">5.2 资源清单</h2>
+
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>字段类型</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>spec.activeDeadlineSeconds</td>
+<td>integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.backoffLimit</td>
+<td>integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.completions</td>
+<td>integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.manualSelector</td>
+<td>boolean</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.parallelism</td>
+<td>integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td><strong>spec.selector</strong></td>
+<td><strong>Object</strong></td>
+<td></td>
+</tr>
+
+<tr>
+<td><strong>spec.template</strong></td>
+<td><strong>Object</strong></td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.ttlSecondsAfterFinished</td>
+<td>integer</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="5-3-job示例">5.3 Job示例</h2>
 
 <pre><code>apiVersion: batch/v1
 kind: Job
@@ -550,17 +775,69 @@ $ kubectl logs job-demo-8rl4c
 Thu Sep  3 07:19:11 UTC 2020
 </code></pre>
 
-<h2 id="5-2-资源清单">5.2 资源清单</h2>
-
-<ul>
-<li><code>spec.template</code>格式同<code>Pod</code></li>
-</ul>
-
 <h1 id="六-cronjob">六、 CronJob</h1>
+
+<h2 id="6-1-关于cronjob">6.1 关于CronJob</h2>
 
 <p><code>CronJob</code>就是在<code>Job</code>的基础上变成周期性的任务，可以周期性执行。周期设置的<code>schedule</code>和<code>crontab</code>一样。在后续可以看到，执行<code>CronJob</code>会产生<code>Job</code>。</p>
 
-<h2 id="6-1-cronjob示例">6.1 CronJob示例</h2>
+<h2 id="6-2-资源清单">6.2 资源清单</h2>
+
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>字段类型</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>spec.concurrencyPolicy</td>
+<td>string</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.failedJobsHistoryLimit</td>
+<td>integer</td>
+<td>保留是失败的Job记录，默认为1</td>
+</tr>
+
+<tr>
+<td><strong>spec.jobTemplate</strong></td>
+<td><strong>Object</strong></td>
+<td>Job模板，格式同Job</td>
+</tr>
+
+<tr>
+<td>spec.schedule</td>
+<td>string[required]</td>
+<td>Job运行周期，格式同<code>Crontab</code></td>
+</tr>
+
+<tr>
+<td>spec.startingDeadlineSeconds</td>
+<td>integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.successfulJobsHistoryLimit</td>
+<td>integer</td>
+<td>保留完成的Job记录，默认为3</td>
+</tr>
+
+<tr>
+<td>spec.suspend</td>
+<td>boolean</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="6-3-cronjob示例">6.3 CronJob示例</h2>
 
 <pre><code>apiVersion: batch/v1beta1
 kind: CronJob
@@ -629,40 +906,114 @@ Events:
   Normal  SuccessfulDelete  2m24s  cronjob-controller  Deleted job cronjob-demo-1599117780
 </code></pre>
 
-<h2 id="6-2-资源清单">6.2 资源清单</h2>
-
-<ul>
-<li><code>.spec.schedule</code>：调度，必需字段，指定任务运行周期，格式同Crontab。</li>
-<li><code>.spec.jobTemplate</code>：Job模板，必需字段，指定需要运行的任务，格式同Job</li>
-<li><code>.spec.successfulJobHistoryLimit</code>和<code>.spec.failedJobHistoryLimit</code>：历史限制，可选字段，指定可以保留多少完成或失败的Job。默认情况下，他们分别设置为3和1。设置为0相当于完成后不被保留。所以可以看到上面执行了多次，但实际Pod最多只有3个。</li>
-</ul>
-
 <h1 id="七-statefulset">七、StatefulSet</h1>
 
-<h2 id="7-1-简述">7.1 简述</h2>
+<h2 id="7-1-关于statefulset">7.1 关于StatefulSet</h2>
 
-<p>StatefulSet主要解决的是有状态服务的部署问题，前面使用Deployment+Service创建的是无状态的Pod。就好比Nginx的，通过SLB后面可以挂多个节点，每个节点都是平等的，更换机器只需要调整反向代理的服务即可。但有些服务不行，比如Redis，他涉及到数据的存储，数据之间是有状态的，如果切换机器需要将对应的数据存储同步迁移关联上才行，所以一般有状态的服务会配合PVC使用。</p>
+<p><code>StatefulSet</code>主要解决的是有状态服务的部署问题，前面使用<code>Deployment+Service</code>创建的是无状态的<code>Pod</code>。就好比<code>Nginx</code>的，通过反向代理后面可以挂多个节点，每个节点都是平等的，更换机器只需要调整反向代理的服务即可。但有些服务不行，比如<code>Redis</code>，他涉及到数据的存储，数据之间是有状态的，如果切换机器需要将对应的数据存储同步迁移关联上才行，所以一般有状态的服务会配合<code>PVC</code>使用。</p>
 
-<p>StatefulSet的应用特点：</p>
+<p><code>StatefulSet</code>应用特点：</p>
 
 <ul>
-<li>稳定且唯一的网络标识符，当节点挂掉后，Pod重新调度后PodName和HostName不变，基于Headless Service实现。</li>
-<li>稳定且持久的存储，当节点挂掉后，Pod重新调度后访问相同的持久化存储，基于PVC实现。</li>
-<li>有序、平滑的扩展、部署。Pod是有序的，部署或者扩展的时候根据定义的顺序依次进行，从0到N-1，下一个Pod运行之前所有的Pod必须是Running和Ready状态，基于init containers实现</li>
+<li>稳定且唯一的网络标识符，当节点挂掉后，<code>Pod</code>重新调度后<code>PodName</code>和<code>HostName</code>不变，基于<code>Headless Service</code>实现。</li>
+<li>稳定且持久的存储，当节点挂掉后，<code>Pod</code>重新调度后访问相同的持久化存储，基于<code>PVC</code>实现。</li>
+<li>有序、平滑的扩展、部署。<code>Pod</code>是有序的，部署或者扩展的时候根据定义的顺序依次进行，从0到N-1，下一个<code>Pod</code>运行之前所有的<code>Pod</code>必须是<code>Running</code>和<code>Ready</code>状态，基于<code>init containers</code>实现</li>
 <li>有序、平滑的收缩、删除。根据定义的顺序倒序收缩，及从N-1到0</li>
 </ul>
 
-<p>所以StatefulSet的核心功能在于解决稳定的网络表示和持久的存储、服务启停顺序也是确定的，通常包含以下几部分：</p>
+<p>所以<code>StatefulSet</code>的核心功能在于解决稳定的网络表示和持久的存储、服务启停顺序也是确定的，通常包含以下几部分：</p>
 
 <ul>
-<li>Headless Service 解决网络表示问题</li>
-<li>volumeClaimTemplates 创建pvc，关联pv解决存储问题</li>
-<li>StatefulSet 用于定义具体应用</li>
+<li><code>Headless Service</code>解决网络表示问题</li>
+<li><code>volumeClaimTemplates</code>创建pvc，关联<code>pv</code>解决存储问题</li>
+<li><code>StatefulSet</code>用于定义具体应用</li>
 </ul>
 
-<h2 id="7-2-示例">7.2 示例</h2>
+<h2 id="7-2-资源清单">7.2 资源清单</h2>
 
-<p>创建Headless Service。和Deployment中的Service类似，只是将clusterIP指定为None，不会分配VIP。</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>字段类型</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>spec.podManagementPolicy</td>
+<td>string</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.replicas</td>
+<td>integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.revisionHistoryLimit</td>
+<td>integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td><strong>spec.selector</strong></td>
+<td><strong>Object[required]</strong></td>
+<td>Pod筛选</td>
+</tr>
+
+<tr>
+<td>spec.serviceName</td>
+<td>string[required]</td>
+<td>Service 名称</td>
+</tr>
+
+<tr>
+<td><strong>spec.template</strong></td>
+<td><strong>Object[required]</strong></td>
+<td>Pod模板</td>
+</tr>
+
+<tr>
+<td><strong>spec.updateStrategy</strong></td>
+<td><strong>Object</strong></td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.updateStrategy.rollingUpdate</td>
+<td>Object</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.updateStrategy.rollingUpdate.partition</td>
+<td>integer</td>
+<td></td>
+</tr>
+
+<tr>
+<td>spec.updateStrategy.type</td>
+<td>string</td>
+<td>默认值RollingUpdate.</td>
+</tr>
+
+<tr>
+<td><strong>spec.volumeClaimTemplates</strong></td>
+<td><strong>[]Object</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="7-3-statefulset示例">7.3 StatefulSet示例</h2>
+
+<p><strong>1. 创建Headless Service</strong></p>
+
+<p>只是将<code>Service</code>中的<code>clusterIP</code>指定为<code>None</code>，不会分配<code>VIP</code>。</p>
 
 <pre><code>apiVersion: v1
 kind: Service
@@ -677,7 +1028,9 @@ spec:
     app: ss-nginx-pod
 </code></pre>
 
-<p>创建了3个pv</p>
+<p><strong>2. 创建pv</strong></p>
+
+<p>这里是存储在本机，也可以通过<code>nfs</code>挂载，用来持久化存储数据。</p>
 
 <pre><code>apiVersion: v1
 kind: PersistentVolume
@@ -722,7 +1075,9 @@ spec:
     path: /Users/peng/k8s/pv-data/pv003
 </code></pre>
 
-<p>创建StatefulSet应用，这里为尽量简单，先以Nginx做测试。其中serviceName关联Headless Service。其他的配置同Deployment一样。</p>
+<p><strong>3. 创建StatefulSet应用</strong></p>
+
+<p>这里为尽量简单，先以<code>Nginx</code>做测试。其中<code>serviceName</code>关联<code>Headless Service</code>。其他的配置同<code>Deployment</code>一样。</p>
 
 <pre><code>apiVersion: apps/v1
 kind: StatefulSet
@@ -760,7 +1115,7 @@ spec:
 
 </code></pre>
 
-<p>查看statefulset、pv、pvc、pod、svc的状态</p>
+<p>查看<code>statefulset</code>、<code>pv</code>、<code>pvc</code>、<code>pod</code>、<code>svc</code>的状态</p>
 
 <pre><code>$ kubectl get statefulset -o wide
 NAME       READY   AGE    CONTAINERS   IMAGES
@@ -802,12 +1157,12 @@ Session Affinity:  None
 Events:            &lt;none&gt;
 </code></pre>
 
-<p>3个Pod都创建成功了，每个Pod都可以通过以下域名进行访问，通信方式都是通过此域名来访问而非IP。</p>
+<p>3个<code>Pod</code>都创建成功了，每个<code>Pod</code>都可以通过以下域名进行访问，通信方式都是通过此域名来访问而非<code>IP</code>。</p>
 
 <pre><code>&lt;PodName&gt;.&lt;ServiceName&gt;.&lt;NamespaceName&gt;.svc.cluster.local
 </code></pre>
 
-<p>Pod故障后可能飘逸到其他节点上，PodIP可能会变，但<code>StatefulSet</code>会确保<code>PodName</code>以及这个域名不变。进入容器之后可以访问及查看。</p>
+<p><code>Pod</code>故障后可能飘逸到其他节点上，<code>PodIP</code>可能会变，但<code>StatefulSet</code>会确保<code>PodName</code>以及这个域名不变。进入容器之后可以访问及查看。</p>
 
 <pre><code># more /etc/hosts
 # Kubernetes-managed hosts file.
@@ -836,7 +1191,7 @@ pv003
 pv001
 </code></pre>
 
-<p>当我们删掉ss-nginx-0后，pod会重建，此时名称会和之前一样，pvc会关联同一个。实现原Pod相同的功能，达到有状态服务重启后保持相同状态的目的。</p>
+<p>当我们删掉<code>ss-nginx-0</code>后，<code>pod</code>会重建，此时名称会和之前一样，<code>pvc</code>会关联同一个。实现原<code>Pod</code>相同的功能，达到有状态服务重启后保持相同状态的目的。</p>
 
 <pre><code>$ kubectl get pod
 ss-nginx-0                      1/1     Running   0          3s
@@ -846,9 +1201,69 @@ ss-nginx-2                      1/1     Running   0          24m
 
 <h1 id="八-horizontal-pod-autoscaling">八、Horizontal Pod Autoscaling</h1>
 
-<p>应用在日常运行过程中会有高峰也会有低估的情况，如果做到削峰填谷，提高集群资源的可利用率？HPA就是为了解决此问题。类似阿里云的弹性收缩功能。</p>
+<h2 id="8-1-关于hpa">8.1 关于HPA</h2>
 
-<p>对上面StatefulSet应用增加一个HPA控制</p>
+<p>应用在日常运行过程中会有高峰也会有低谷的情况，如何做到削峰填谷，提高集群资源的可利用率？HPA就是为了解决此问题。类似阿里云的弹性收缩功能。</p>
+
+<h2 id="8-2-资源清单">8.2 资源清单</h2>
+
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>字段类型</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>spec.maxReplicas</td>
+<td>integer[required]</td>
+<td>最大副本数量，不能小于最小副本数量</td>
+</tr>
+
+<tr>
+<td>spec.minReplicas</td>
+<td>integer</td>
+<td>最小副本数量，默认值为1.</td>
+</tr>
+
+<tr>
+<td>spec.targetCPUUtilizationPercentage</td>
+<td>integer</td>
+<td>平均CPU使用率，百分比</td>
+</tr>
+
+<tr>
+<td><strong>spec.scaleTargetRef</strong></td>
+<td><strong>Object[required]</strong></td>
+<td>关联的资源对象</td>
+</tr>
+
+<tr>
+<td>spec.scaleTargetRef.apiVersion</td>
+<td>string</td>
+<td>关联资源的api版本</td>
+</tr>
+
+<tr>
+<td>spec.scaleTargetRef.kind</td>
+<td>string[required]</td>
+<td>关联资源的类型</td>
+</tr>
+
+<tr>
+<td>spec.scaleTargetRef.name</td>
+<td>string[required]</td>
+<td>关联资源的名称</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="8-3-hpa示例">8.3 HPA示例</h2>
+
+<p>对前一节的StatefulSet应用增加一个HPA控制</p>
 
 <pre><code>apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -864,7 +1279,7 @@ spec:
   targetCPUUtilizationPercentage: 80
 </code></pre>
 
-<p>设定副本数量最小3个，最大10个，定义CPU指标达到80%触发。</p>
+<p>设定副本数量最小3个，最大10个，定义<code>CPU</code>指标达到<code>80%</code>触发。</p>
 
 <pre><code>$ kubectl apply -f hpa.yaml
 horizontalpodautoscaler.autoscaling/hpa-demo created
@@ -873,7 +1288,7 @@ NAME           REFERENCE                 TARGETS         MINPODS   MAXPODS   REP
 hpa-demo       StatefulSet/ss-nginx      &lt;unknown&gt;/80%   3         10        0          4s
 </code></pre>
 
-<p>创建起来不复杂，可以从多个维度进行监控，需要配合监控收集数据。这个留待后面在做整体测试。</p>
+<p>当前从文档上看到只定义了<code>CPU</code>字段，但很显然后续还有会内存、请求数等等指标。创建起来不复杂，但需要配合监控收集数据。这个留待后面在做整体测试。</p>
 
 <h1 id="九-小结">九、小结</h1>
 
