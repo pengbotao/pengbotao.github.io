@@ -6,16 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>PHP浅复制与深复制</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">PHP浅复制与深复制</h1>
+<div class="content">
+    <h1 class="title">PHP浅复制与深复制</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-</nav>
-
-<p>周末闲来无事看到了原型模式，其中谈到了浅复制和深复制，想到PHP中的对应赋值、克隆以及克隆是浅复制还是深复制。</p>
+    <p>周末闲来无事看到了原型模式，其中谈到了浅复制和深复制，想到PHP中的对应赋值、克隆以及克隆是浅复制还是深复制。</p>
 
 <p>先来看看赋值，例如有一个简历类，有身高和体重两个属性：</p>
 
@@ -61,61 +60,38 @@ $ResumeB = $ResumeA;
 
 <p>clone还算常用的拷贝方式，整理的目的只是为了记录一下clone是浅复制，需要注意一下对象的引用。</p>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2014-03.html">2014-03-03 21:23</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
+    </div>
 
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2014-03.html">2014-03-03 21:23</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/redis-delete-keys.html">Redis中批量删除KEY</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/liucunlv-shixian.html">位运算实现用户留存率</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/PHP浅复制与深复制.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/PHP浅复制与深复制.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/redis-delete-keys.html">Redis中批量删除KEY</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/liucunlv-shixian.html">位运算实现用户留存率</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/PHP浅复制与深复制.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/PHP浅复制与深复制.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

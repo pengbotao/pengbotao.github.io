@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>Mysql主从同步出错</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">Mysql主从同步出错</h1>
+<div class="content">
+    <h1 class="title">Mysql主从同步出错</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<p>Mysql主从运行有一段时间了，没有出过什么问题。但最近接着出了两次问题，记录下方便后面排查！</p>
+    <p>Mysql主从运行有一段时间了，没有出过什么问题。但最近接着出了两次问题，记录下方便后面排查！</p>
 
 <h1 id="slave-io-running和slave-sql-running均为yes-主从同步出错">Slave_IO_Running和Slave_SQL_Running均为YES，主从同步出错</h1>
 
@@ -98,66 +100,43 @@ set global max_allowed_packet=1035543552;
 start slave;
 </code></pre>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2014-08.html">2020-09-24 09:14</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2014-08.html">2014-08-07 20:13</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/mysql.html">Mysql</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2014-08.html">2020-09-23 13:43</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/http-get-length.html">HTTP中GET长度问题</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/rsa-usage.html">RSA常见用法整理</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/mysql/Mysql主从同步出错.md">https://github.com/pengbotao/itopic.go/blob/master/posts/mysql/Mysql主从同步出错.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2014-08.html">2014-08-07 20:13</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/mysql.html">Mysql</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/http-get-length.html">HTTP中GET长度问题</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/rsa-usage.html">RSA常见用法整理</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/mysql/Mysql主从同步出错.md">https://github.com/pengbotao/itopic.go/blob/master/posts/mysql/Mysql主从同步出错.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

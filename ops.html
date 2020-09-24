@@ -6,26 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>常用运维操作</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">常用运维操作</h1>
+<div class="content">
+    <h1 class="title">常用运维操作</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#通过端口找程序路径">通过端口找程序路径</a></li>
-<li><a href="#centos查找大文件">Centos查找大文件</a></li>
-<li><a href="#mysql批量杀进程">Mysql批量杀进程</a></li>
-<li><a href="#文件切分与合并">文件切分与合并</a></li>
-<li><a href="#统计文本中某一列的和">统计文本中某一列的和</a></li>
-<li><a href="#查询外网ip">查询外网IP</a></li>
-<li><a href="#文件查找">文件查找</a></li>
-<li><a href="#清除超过30天的日志">清除超过30天的日志</a></li>
-</ul>
-</nav>
-
-<h1 id="通过端口找程序路径">通过端口找程序路径</h1>
+    <h1 id="通过端口找程序路径">通过端口找程序路径</h1>
 
 <pre><code># 找到进程 或者TOP找到，但可能看不到完整的文件路径
 $ lsof -i :5600
@@ -107,66 +96,43 @@ $ grep -rn &quot;rds.aliyuncs.com&quot; ./
 find /data/logs -type f -name &quot;*.log.*&quot; -ctime +30 -print0| xargs -0 rm
 </code></pre>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2018-09.html">2020-09-23 09:19</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2018-09.html">2018-09-22 22:22</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/运维.html">运维</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2018-09.html">2020-09-23 09:19</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/nginx-module.html">Nginx不常用小模块</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/coordinate.html">地图坐标系</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/运维/常用运维操作.md">https://github.com/pengbotao/itopic.go/blob/master/posts/运维/常用运维操作.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2018-09.html">2018-09-22 22:22</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/运维.html">运维</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/nginx-module.html">Nginx不常用小模块</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/coordinate.html">地图坐标系</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/运维/常用运维操作.md">https://github.com/pengbotao/itopic.go/blob/master/posts/运维/常用运维操作.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

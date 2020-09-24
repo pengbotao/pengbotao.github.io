@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>相似度计算方法</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">相似度计算方法</h1>
+<div class="content">
+    <h1 class="title">相似度计算方法</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<h1 id="一-编辑距离">一、编辑距离</h1>
+    <h1 id="一-编辑距离">一、编辑距离</h1>
 
 <p>字符串的编辑距离，又称为Levenshtein距离，由俄罗斯的数学家Vladimir Levenshtein在1965年提出。是指利用字符操作，把字符串A转换成字符串B所需要的最少操作数。其中，字符操作包括：</p>
 
@@ -45,66 +47,43 @@ distance.levenshtein(&quot;lenvestein&quot;, &quot;levenshtein&quot;)
 <pre><code>distance.jaccard(&quot;decide&quot;, &quot;resize&quot;)
 </code></pre>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2018-03.html">2020-09-24 09:14</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2018-03.html">2018-03-05 22:36</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/python.html">Python</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2018-03.html">2020-09-23 13:37</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/simhash.html">文本相似度 - Simhash</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/nginx-module.html">Nginx不常用小模块</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/算法/相似度计算方法.md">https://github.com/pengbotao/itopic.go/blob/master/posts/算法/相似度计算方法.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2018-03.html">2018-03-05 22:36</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/python.html">Python</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/simhash.html">文本相似度 - Simhash</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/nginx-module.html">Nginx不常用小模块</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/算法/相似度计算方法.md">https://github.com/pengbotao/itopic.go/blob/master/posts/算法/相似度计算方法.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

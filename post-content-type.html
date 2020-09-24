@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>四种常见的 POST 提交数据方式</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">四种常见的 POST 提交数据方式</h1>
+<div class="content">
+    <h1 class="title">四种常见的 POST 提交数据方式</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<p>HTTP/1.1 协议规定的 HTTP 请求方法有 OPTIONS、GET、HEAD、POST、PUT、DELETE、TRACE、CONNECT 这几种。其中 POST 一般用来向服务端提交数据，本文主要讨论 POST 提交数据的几种方式。</p>
+    <p>HTTP/1.1 协议规定的 HTTP 请求方法有 OPTIONS、GET、HEAD、POST、PUT、DELETE、TRACE、CONNECT 这几种。其中 POST 一般用来向服务端提交数据，本文主要讨论 POST 提交数据的几种方式。</p>
 
 <p>我们知道，HTTP 协议是以 ASCII 码传输，建立在 TCP/IP 协议之上的应用层规范。规范把 HTTP 请求分为三个部分：状态行、请求头、消息主体。类似于下面这样：</p>
 
@@ -113,66 +115,43 @@ Content-Type: text/xml
 
 <p>原文链接：<a href="https://www.imququ.com/post/four-ways-to-post-data-in-http.html">https://www.imququ.com/post/four-ways-to-post-data-in-http.html</a></p>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2014-04.html">2020-09-24 09:14</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2014-04.html">2014-04-16 09:42</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/http.html">HTTP</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2014-04.html">2020-09-23 13:37</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/rbac-design.html">RBAC权限设计</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/dedaoinfo.html">得道网 - SAE开发者认证</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/前端设计/四种常见的 POST 提交数据方式.md">https://github.com/pengbotao/itopic.go/blob/master/posts/前端设计/四种常见的 POST 提交数据方式.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2014-04.html">2014-04-16 09:42</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/http.html">HTTP</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/rbac-design.html">RBAC权限设计</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/dedaoinfo.html">得道网 - SAE开发者认证</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/前端设计/四种常见的 POST 提交数据方式.md">https://github.com/pengbotao/itopic.go/blob/master/posts/前端设计/四种常见的 POST 提交数据方式.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

@@ -6,16 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>PHP模版引擎 – Twig</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">PHP模版引擎 – Twig</h1>
+<div class="content">
+    <h1 class="title">PHP模版引擎 – Twig</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-</nav>
-
-<p>在网站开发过程中模版引擎是必不可少的，PHP中用的最多的当属Smarty了。目前公司系统也是用的Smarty，如果要新增一个页面只需把网站的头、尾和左侧公共部分通过Smarty的include方式引入进来，然后主体部分写内容即可，用起来也是相当方便。这也是一种比较通用的做法。但维护一段时间后发现有些凌乱了：</p>
+    <p>在网站开发过程中模版引擎是必不可少的，PHP中用的最多的当属Smarty了。目前公司系统也是用的Smarty，如果要新增一个页面只需把网站的头、尾和左侧公共部分通过Smarty的include方式引入进来，然后主体部分写内容即可，用起来也是相当方便。这也是一种比较通用的做法。但维护一段时间后发现有些凌乱了：</p>
 
 <ul>
 <li>公共部分内容越加越多了，不需要用的js、css在一些页面也被强制引进来了</li>
@@ -141,67 +140,44 @@ padding-left:15px; display:block;}
 
 <p>看到Twig后联想到了 lesscss, 动态样式语言，主页<a href="http://www.lesscss.net">http://www.lesscss.net</a> 有兴趣的朋友可以看看。</p>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2013-01.html">2020-08-18 15:14</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2013-01.html">2013-01-26 03:25</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
+        <code style="border:0px;background:none;"><a href="/tag/twig.html">Twig</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2013-01.html">2020-08-18 15:14</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/hi.html">Hello World</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/mysql-suipian-youhua.html">Mysql中Myisam、InnoDB碎片优化</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/PHP模版引擎 – Twig.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/PHP模版引擎 – Twig.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2013-01.html">2013-01-26 03:25</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
-    <code style="border:0px;background:none;"><a href="/tag/twig.html">Twig</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/hi.html">Hello World</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/mysql-suipian-youhua.html">Mysql中Myisam、InnoDB碎片优化</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/PHP模版引擎 – Twig.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/PHP模版引擎 – Twig.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

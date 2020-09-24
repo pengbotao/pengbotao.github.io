@@ -6,53 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>Linux下Web环境配置</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">Linux下Web环境配置</h1>
+<div class="content">
+    <h1 class="title">Linux下Web环境配置</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-openresty">一、OpenResty</a>
-<ul>
-<li><a href="#1-1-编译">1.1 编译</a>
-<ul>
-<li><a href="#mac下编译方式">mac下编译方式</a></li>
-</ul></li>
-<li><a href="#1-2-nginx参考配置">1.2 Nginx参考配置</a></li>
-<li><a href="#1-3-nginx启动">1.3 Nginx启动</a></li>
-</ul></li>
-<li><a href="#二-mysql配置">二、Mysql配置</a>
-<ul>
-<li><a href="#2-1-安装">2.1 安装</a></li>
-<li><a href="#2-2-启动">2.2 启动</a></li>
-<li><a href="#2-3-设置配置文件">2.3 设置配置文件</a></li>
-</ul></li>
-<li><a href="#三-redis安装">三、REDIS安装</a></li>
-<li><a href="#四-php安装">四、PHP安装</a>
-<ul>
-<li><a href="#4-1-安装依赖包">4.1 安装依赖包</a></li>
-</ul></li>
-<li><a href="#4-2-编译php">4.2 编译PHP</a>
-<ul>
-<li>
-<ul>
-<li><a href="#内置扩展安装">内置扩展安装</a></li>
-<li><a href="#mac下编译">mac下编译</a></li>
-</ul></li>
-<li><a href="#4-3-php-fpm启动-重启-终止">4.3 php-fpm启动、重启、终止</a></li>
-<li><a href="#4-4-设置自启动">4.4 设置自启动</a></li>
-<li><a href="#4-5-php配置文件设置">4.5 PHP配置文件设置</a></li>
-<li><a href="#4-6-扩展安装">4.6 扩展安装</a>
-<ul>
-<li><a href="#4-6-1-redis扩展">4.6.1 REDIS扩展</a></li>
-</ul></li>
-</ul></li>
-</ul>
-</nav>
-
-<h1 id="一-openresty">一、OpenResty</h1>
+    <h1 id="一-openresty">一、OpenResty</h1>
 
 <p>OpenResty 是一个基于 Nginx 与 Lua 的高性能 Web 平台，其内部集成了大量精良的 Lua 库、第三方模块以及大多数的依赖项。用于方便地搭建能够处理超高并发、扩展性极高的动态 Web 应用、Web 服务和动态网关。</p>
 
@@ -540,67 +502,44 @@ expose_php = Off
 # make install
 </code></pre>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2016-06.html">2020-09-23 13:40</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2016-06.html">2016-06-23 19:00</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
+        <code style="border:0px;background:none;"><a href="/tag/linux.html">Linux</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-06.html">2020-09-23 13:40</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/win-web-server.html">Windows下Web环境配置</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/jmeter-http-tcp.html">JMeter压力测试HTTP&TCP</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/linux/Linux下Web环境配置.md">https://github.com/pengbotao/itopic.go/blob/master/posts/linux/Linux下Web环境配置.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2016-06.html">2016-06-23 19:00</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
-    <code style="border:0px;background:none;"><a href="/tag/linux.html">Linux</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/win-web-server.html">Windows下Web环境配置</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/jmeter-http-tcp.html">JMeter压力测试HTTP&TCP</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/linux/Linux下Web环境配置.md">https://github.com/pengbotao/itopic.go/blob/master/posts/linux/Linux下Web环境配置.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

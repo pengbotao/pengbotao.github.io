@@ -6,48 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>Windows下Web环境配置</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">Windows下Web环境配置</h1>
+<div class="content">
+    <h1 class="title">Windows下Web环境配置</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-nginx安装">一、Nginx安装</a>
-<ul>
-<li><a href="#1-1-配置文件">1.1 配置文件</a></li>
-<li><a href="#1-2-示例站点">1.2 示例站点</a></li>
-</ul></li>
-<li><a href="#二-php安装">二、PHP安装</a>
-<ul>
-<li><a href="#2-1-下载及安装">2.1 下载及安装</a></li>
-<li><a href="#2-2-解压及配置">2.2 解压及配置</a>
-<ul>
-<li><a href="#2-2-1-修改php扩展路径">2.2.1 修改PHP扩展路径</a></li>
-<li><a href="#2-2-2-打开常用扩展">2.2.2 打开常用扩展</a></li>
-<li><a href="#2-2-3-打开错误显示及设置错误级别">2.2.3 打开错误显示及设置错误级别</a></li>
-<li><a href="#2-2-4-设置时区">2.2.4 设置时区</a></li>
-</ul></li>
-<li><a href="#2-3-命令行运行">2.3 命令行运行</a></li>
-<li><a href="#2-4-启动php">2.4 启动PHP</a></li>
-<li><a href="#2-5-php扩展">2.5 PHP扩展</a></li>
-</ul></li>
-<li><a href="#三-mysql安装">三、Mysql安装</a>
-<ul>
-<li><a href="#3-1-下载">3.1 下载</a></li>
-<li><a href="#3-2-配置">3.2 配置</a></li>
-<li><a href="#3-3-安装mysql为系统服务">3.3 安装Mysql为系统服务</a></li>
-<li><a href="#3-4-mysql初始化">3.4 Mysql初始化</a></li>
-<li><a href="#3-5-启动mysql">3.5 启动Mysql</a></li>
-<li><a href="#3-6-登录mysql">3.6 登录Mysql</a></li>
-</ul></li>
-<li><a href="#四-redis服务端安装">四、Redis服务端安装</a></li>
-<li><a href="#五-php-nginx-启动">五、PHP、Nginx、启动</a></li>
-</ul>
-</nav>
-
-<h1 id="一-nginx安装">一、Nginx安装</h1>
+    <h1 id="一-nginx安装">一、Nginx安装</h1>
 
 <blockquote>
 <p>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。</p>
@@ -331,68 +298,45 @@ pause
 
 <p>然后server中的 <code>fastcgi_pass 127.0.0.1:9000;</code> 改成 <code>fastcgi_pass php_fastcgi_pass;</code></p>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2016-06.html">2020-08-18 15:14</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2016-06.html">2016-06-04 18:00</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
+        <code style="border:0px;background:none;"><a href="/tag/linux.html">Linux</a></code>
+        <code style="border:0px;background:none;"><a href="/tag/环境部署.html">环境部署</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-06.html">2020-08-18 15:14</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/python-project-deploy.html">Python Web项目部署（Gunicorn、uWSGI）</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/linux-web-server.html">Linux下Web环境配置</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/linux/Windows下Web环境配置.md">https://github.com/pengbotao/itopic.go/blob/master/posts/linux/Windows下Web环境配置.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2016-06.html">2016-06-04 18:00</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
-    <code style="border:0px;background:none;"><a href="/tag/linux.html">Linux</a></code>
-    <code style="border:0px;background:none;"><a href="/tag/环境部署.html">环境部署</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/python-project-deploy.html">Python Web项目部署（Gunicorn、uWSGI）</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/linux-web-server.html">Linux下Web环境配置</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/linux/Windows下Web环境配置.md">https://github.com/pengbotao/itopic.go/blob/master/posts/linux/Windows下Web环境配置.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

@@ -6,24 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>项目切换到Swoole实践</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">项目切换到Swoole实践</h1>
+<div class="content">
+    <h1 class="title">项目切换到Swoole实践</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#项目背景">项目背景</a></li>
-<li><a href="#swoole重构">Swoole重构</a></li>
-<li><a href="#压力测试">压力测试</a></li>
-<li><a href="#灰度上线">灰度上线</a></li>
-<li><a href="#正式上线">正式上线</a></li>
-<li><a href="#总结">总结</a></li>
-</ul>
-</nav>
-
-<h1 id="项目背景">项目背景</h1>
+    <h1 id="项目背景">项目背景</h1>
 
 <p>用PHP封装的一套接口系统。主要实现调用第三方API接口并按自定义协议解析后返回给上层。通常情况PHP实现的项目效率问题不那么明显，但这种接口调用场景下性能问题变得很突出。由于PHP采用的php-fpm的方式执行，系统一般会启动N个进程解析PHP脚本，但当某个请求延时严重的时候，处理请求的php-fpm只能阻塞不能处理其他请求。所以，</p>
 
@@ -102,67 +93,44 @@
 <li>面对服务的高可用，在机器层面我们可以做SLB、弹性收缩，但应用层面，可以考虑下限流、熔断、隔离等常用措施。</li>
 </ul>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2019-10.html">2020-07-29 16:09</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2019-10.html">2019-10-12 07:40</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
+        <code style="border:0px;background:none;"><a href="/tag/swoole.html">Swoole</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2019-10.html">2020-07-29 16:09</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/math-thinking.html">小彭有的数学启蒙</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/python.html">Python入门知识点整理</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/项目切换到Swoole实践.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/项目切换到Swoole实践.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2019-10.html">2019-10-12 07:40</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
-    <code style="border:0px;background:none;"><a href="/tag/swoole.html">Swoole</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/math-thinking.html">小彭有的数学启蒙</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/python.html">Python入门知识点整理</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/项目切换到Swoole实践.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/项目切换到Swoole实践.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

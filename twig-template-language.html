@@ -6,26 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>Twig模版语言入门</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">Twig模版语言入门</h1>
+<div class="content">
+    <h1 class="title">Twig模版语言入门</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#可用符号">可用符号</a></li>
-<li><a href="#注释">注释</a></li>
-<li><a href="#变量">变量</a></li>
-<li><a href="#数组遍历">数组遍历</a></li>
-<li><a href="#控制结构">控制结构</a></li>
-<li><a href="#内建过滤器">内建过滤器</a></li>
-<li><a href="#借用自php自带函数的过滤器">借用自PHP自带函数的过滤器</a></li>
-<li><a href="#内建函数">内建函数</a></li>
-</ul>
-</nav>
-
-<p>Twig中有两种定界符 <code>{% ... %}</code> 和 <code>{{ ... }}</code> ， 前一种用来执行语句，比如for循环、IF判断、过滤等操作，后一种模版中用来显示变量。Twig常用用法记录如下：</p>
+    <p>Twig中有两种定界符 <code>{% ... %}</code> 和 <code>{{ ... }}</code> ， 前一种用来执行语句，比如for循环、IF判断、过滤等操作，后一种模版中用来显示变量。Twig常用用法记录如下：</p>
 
 <h1 id="可用符号">可用符号</h1>
 
@@ -277,62 +266,39 @@ a = 1 or b = 2
 <li>template_from_string：根据字符串加载模板</li>
 </ul>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2013-06.html">2013-06-02 19:24</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
+        <code style="border:0px;background:none;"><a href="/tag/twig.html">Twig</a></code>
+    </div>
 
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2013-06.html">2013-06-02 19:24</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/jquery-validate.html">Jquery Validate使用及配置</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/What-kind-of-math-education-do-we-need.html">随记：我们需要怎样的数学教育？</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/Twig模版语言入门.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/Twig模版语言入门.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
-    <code style="border:0px;background:none;"><a href="/tag/twig.html">Twig</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/jquery-validate.html">Jquery Validate使用及配置</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/What-kind-of-math-education-do-we-need.html">随记：我们需要怎样的数学教育？</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/Twig模版语言入门.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/Twig模版语言入门.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

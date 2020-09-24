@@ -6,35 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>Redis集群方案 - twemproxy</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">Redis集群方案 - twemproxy</h1>
+<div class="content">
+    <h1 class="title">Redis集群方案 - twemproxy</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-<ul>
-<li><a href="#一-概述">一、概述</a></li>
-<li><a href="#二-twemproxy安装">二、twemproxy安装</a>
-<ul>
-<li><a href="#2-1-安装autoconf">2.1 安装autoconf</a></li>
-<li><a href="#2-2-安装及启动">2.2 安装及启动</a>
-<ul>
-<li><a href="#2-2-1-安装">2.2.1 安装</a></li>
-<li><a href="#2-2-2-配置">2.2.2 配置</a></li>
-<li><a href="#2-2-3-启动twemproxy">2.2.3 启动twemproxy</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#三-twemproxy使用">三、twemproxy使用</a></li>
-<li><a href="#四-性能测试">四、性能测试</a>
-<ul>
-<li><a href="#4-1-twemproxy">4.1 twemproxy</a></li>
-<li><a href="#4-2-redis">4.2 redis</a></li>
-</ul></li>
-</ul>
-</nav>
-
-<h1 id="一-概述">一、概述</h1>
+    <h1 id="一-概述">一、概述</h1>
 
 <p>Twemproxy是Twitter的一个开源项目，用户实现reids、memcache的集群服务，可以有效的避免单点故障，不过twemproxy本身也是一个单点，需要其他服务来实现搞可用。使用twemproxy后后端缓存服务对用户透明，用户直连twemproxy即可。</p>
 
@@ -256,66 +236,43 @@ OK
 
 <p>原生GET、SET有20w的吞吐量，twemproxy是17w，有15%的差异。目前开发环境已经连到twemproxy，需要连开发机的可使用22121端口。同时，redis3.0版本已提供集群功能，后续可以试试redis本身的集群功能。</p>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2016-08.html">2020-09-23 09:26</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2016-08.html">2016-08-29 16:13</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/redis.html">Redis</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2016-08.html">2020-09-23 09:26</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/charles-proxy-tool.html">Charles抓包工具</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/swoole.html">PHP异步并行扩展 - Swoole</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/redis/Redis集群方案 - twemproxy.md">https://github.com/pengbotao/itopic.go/blob/master/posts/redis/Redis集群方案 - twemproxy.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2016-08.html">2016-08-29 16:13</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/redis.html">Redis</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/charles-proxy-tool.html">Charles抓包工具</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/swoole.html">PHP异步并行扩展 - Swoole</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/redis/Redis集群方案 - twemproxy.md">https://github.com/pengbotao/itopic.go/blob/master/posts/redis/Redis集群方案 - twemproxy.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

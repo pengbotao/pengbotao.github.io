@@ -6,16 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>HTTP中GET长度问题</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">HTTP中GET长度问题</h1>
+<div class="content">
+    <h1 class="title">HTTP中GET长度问题</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
-</nav>
-
-<p>曾做过一个plist的接口，需要将参数编码后放在URL上传递，编码后的URL很长，长到让人担心这么传有没有问题？要弄清这个问题得先弄明白HTTP报文请求格式，借用网上一张图片：</p>
+    <p>曾做过一个plist的接口，需要将参数编码后放在URL上传递，编码后的URL很长，长到让人担心这么传有没有问题？要弄清这个问题得先弄明白HTTP报文请求格式，借用网上一张图片：</p>
 
 <p><img src="../../static/uploads/http-proxy.png" alt="" /></p>
 
@@ -83,67 +82,44 @@ Length:8000000
 
 <p>可见GET请求实际上也是没有长度限制的，只是浏览器和WEB服务器做了控制。。。</p>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2014-07.html">2020-08-18 15:14</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2014-07.html">2014-07-31 16:13</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
+        <code style="border:0px;background:none;"><a href="/tag/http.html">HTTP</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2014-07.html">2020-08-18 15:14</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/chunked-encode.html">HTTP Chunked编码</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/mysql-master-slave-error.html">Mysql主从同步出错</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/HTTP中GET长度问题.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/HTTP中GET长度问题.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2014-07.html">2014-07-31 16:13</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
-    <code style="border:0px;background:none;"><a href="/tag/http.html">HTTP</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/chunked-encode.html">HTTP Chunked编码</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/mysql-master-slave-error.html">Mysql主从同步出错</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/HTTP中GET长度问题.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/HTTP中GET长度问题.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

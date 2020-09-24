@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>GCC简介</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    
 </head>
 <body>
-<h1 class="title">GCC简介</h1>
+<div class="content">
+    <h1 class="title">GCC简介</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<h1 id="一-gcc简介">一、GCC简介</h1>
+    <h1 id="一-gcc简介">一、GCC简介</h1>
 
 <p>通常所说的GCC是<code>GNU Compiler</code>Collection的简称，除了编译程序之外，它还含其他相关工具，所以它能把易于人类使用的高级语言编写的源代码构建成计算机能够直接执行的二进制代码。GCC是Linux平台下最常用的编译程序，它是Linux平台编译器的事实标准。同时，在Linux平台下的嵌入式开发领域，GCC也是用得最普遍的一种编译器。GCC之所以被广泛采用，是因为它能支持各种不同的目标体系结构。例如，它既支持基于宿主的开发（简单讲就是要为某平台编译程序，就在该平台上编译），也支持交叉编译（即在A平台上编译的程序是供平台B使用的）。目前，GCC支持的体系结构有四十余种，常见的有X86系列、Arm、 PowerPC等。同时，GCC还能运行在不同的操作系统上，如<code>Linux</code>、Solaris、Windows等。</p>
 
@@ -163,66 +165,43 @@ gcc可以用来编译.cpp为后缀的c++程序源文件，同样g++也可以。�
 
 <p>对于.c为后缀的源文件，gcc默认使用c编译器去编译，而g++默认调用的是c++的编译器。</p>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2015-04.html">2020-09-24 09:14</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2015-04.html">2015-04-19 12:55</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/c++.html">C++</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2015-04.html">2020-09-23 13:38</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/cpp-primer-plus-function-2.html">C++学习笔记 – 函数探幽</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/cpp-primer-plus-memory-model.html">C++学习笔记 – 内存模型</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/cpp/GCC简介.md">https://github.com/pengbotao/itopic.go/blob/master/posts/cpp/GCC简介.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2015-04.html">2015-04-19 12:55</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/c++.html">C++</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/cpp-primer-plus-function-2.html">C++学习笔记 – 函数探幽</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/cpp-primer-plus-memory-model.html">C++学习笔记 – 内存模型</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/cpp/GCC简介.md">https://github.com/pengbotao/itopic.go/blob/master/posts/cpp/GCC简介.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>

@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>CodeIgniter ( 3 ) - 框架之MVC</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
+    <style type="text/css">
+        .content{padding-left:280px;width:100%;}
+    </style>
 </head>
 <body>
-<h1 class="title">CodeIgniter ( 3 ) - 框架之MVC</h1>
+<div class="content">
+    <h1 class="title">CodeIgniter ( 3 ) - 框架之MVC</h1>
 
-<a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-<nav>
+    <nav>
 <ul>
 <li><a href="#一-控制器">一、控制器</a>
 <ul>
@@ -401,67 +405,44 @@ class MY_Model extends ActiveRecord
 <li>4、关于是否要使用模版的问题，个人趋向于使用模版。直接使用PHP时，需要自己去处理变量的定义问题、转换为HTML实体的问题，而这些问题模版都可以解决，以及会提供一些更方便的操作。</li>
 </ul>
 
-<div class="eof">-- EOF --</div>
-<div class="eof_arrow">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
-</div>
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2013-11.html">2020-09-24 09:18</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2013-11.html">2013-11-01 16:39</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
+        <code style="border:0px;background:none;"><a href="/tag/codeigniter.html">CodeIgniter</a></code>
+    </div>
 
-<div class="eof_tag">
-    最后更新于：
-    <code style="border:0px;background:none;"><a href="/2013-11.html">2020-09-23 09:14</a></code>
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/codeigniter-config.html">CodeIgniter ( 2 ) - 配置详解</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/codeigniter-helpers.html">CodeIgniter ( 4 ) - 辅助信息</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/CodeIgniter ( 3 ) - 框架之MVC.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/CodeIgniter ( 3 ) - 框架之MVC.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
 </div>
-
-<div class="eof_tag">
-    发表于：
-    <code style="border:0px;background:none;"><a href="/2013-11.html">2013-11-01 16:39</a></code>
-</div>
-<div class="eof_tag">
-    标签：
-    <code style="border:0px;background:none;"><a href="/tag/php.html">PHP</a></code>
-    <code style="border:0px;background:none;"><a href="/tag/codeigniter.html">CodeIgniter</a></code>
-</div>
-
-<div id="footer">
-    <ul>
-        <li>
-        <b>上一篇</b>：<a href="/codeigniter-config.html">CodeIgniter ( 2 ) - 配置详解</a>
-        </li>
-        
-        <li>
-        <b>下一篇</b>：<a href="/codeigniter-helpers.html">CodeIgniter ( 4 ) - 辅助信息</a>
-        </li>
-        <li>
-            <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/php/CodeIgniter ( 3 ) - 框架之MVC.md">https://github.com/pengbotao/itopic.go/blob/master/posts/php/CodeIgniter ( 3 ) - 框架之MVC.md</a>
-        <li>
-        <li>
-            @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
-        </li>
-    </ul>
-</div>
-
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
-<script>
-ready(fn);
-function ready(fn){  
-    if(document.addEventListener){
-        document.addEventListener('DOMContentLoaded',function(){
-            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
-            fn();
-        },false);
-    } else if(document.attachEvent) {
-        document.attachEvent('onreadystatechange',function(){
-            if(document.readyState=='complete'){
-                document.detachEvent('onreadystatechange',arguments.callee);  
-                fn();
-            }
-        });
-    }  
-}  
-function fn(){
-    if(document.getElementsByTagName("nav")[0] == undefined || document.getElementsByTagName("nav")[0].innerText == "") {
-        document.getElementsByTagName("body")[0].style = "margin: 0px auto; width: 1280px;";
-    }
-}
-</script>
 </body>
 </html>
