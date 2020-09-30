@@ -133,12 +133,12 @@ spec:
 
 <ul>
 <li><code>普通Service</code>：通过为<code>Kubernetes</code>的Service分配一个集群内部可访问的<code>固定虚拟IP</code>（<code>Cluster IP</code>），实现集群内的访问。为最常见的方式。</li>
-<li><code>Headless Service</code>：该服务不会分配<code>Cluster IP</code>，也不通过<code>kube-proxy</code>做反向代理和负载均衡。而是通过<code>DNS</code>提供稳定的络ID来访问，DNS会将<code>headless service</code>的后端直接解析为podIP列表。主要供<code>StatefulSet</code>使用。</li>
+<li><code>Headless Service</code>：该服务不会分配<code>Cluster IP</code>，也不通过<code>kube-proxy</code>做反向代理和负载均衡。而是通过<code>DNS</code>提供稳定的络ID来访问，DNS会将<code>headless service</code>的后端直接解析为<code>podIP</code>列表。主要供<code>StatefulSet</code>使用。</li>
 </ul>
 
 <h2 id="3-2-nodeport">3.2 NodePort</h2>
 
-<p>除了使用<code>Cluster IP</code>之外，还通过将service的port映射到集群内每个节点的相同一个端口，实现通过<code>nodeIP:nodePort</code>从集群外访问服务。</p>
+<p>除了使用<code>Cluster IP</code>之外，还通过将<code>service</code>的<code>port</code>映射到集群内每个节点的相同一个端口，实现通过<code>nodeIP:nodePort</code>从集群外访问服务。</p>
 
 <h2 id="3-3-loadbalancer">3.3 LoadBalancer</h2>
 
@@ -151,7 +151,11 @@ spec:
 当查询k8s集群内的服务<code>my-service.prod.svc.cluster.local</code>时，集群的<code>DNS</code>服务将返回映射的<code>CNAME</code>记录<code>foo.bar.example.com</code>。</p>
 
 <blockquote>
-<p>备注：前3种模式，定义服务的时候通过selector指定服务对应的pods，根据pods的地址创建出endpoints作为服务后端；Endpoints Controller会watch Service以及pod的变化，维护对应的Endpoint信息。kube-proxy根据Service和Endpoint来维护本地的路由规则。当Endpoint发生变化，即Service以及关联的pod发生变化，kube-proxy都会在每个节点上更新iptables，实现一层负载均衡。而ExternalName模式则不指定selector，相应的也就没有port和endpoints。ExternalName和ClusterIP中的Headles Service同属于Headless Service的两种情况。Headless Service主要是指不分配Service IP，且不通过kube-proxy做反向代理和负载均衡的服务。</p>
+<p>备注：前3种模式，定义服务的时候通过<code>selector</code>指定服务对应的<code>pods</code>，根据<code>pods</code>的地址创建出<code>endpoints</code>作为服务后端；<code>Endpoints Controller</code>会watch <code>Service</code>以及pod的变化，维护对应的<code>Endpoint</code>信息。</p>
+
+<p><code>kube-proxy</code>根据Service和Endpoint来维护本地的路由规则。当<code>Endpoint</code>发生变化，即Service以及关联的pod发生变化，kube-proxy都会在每个节点上更新iptables，实现一层负载均衡。而ExternalName模式则不指定selector，相应的也就没有port和endpoints。</p>
+
+<p><code>ExternalName</code>和<code>ClusterIP</code>中的<code>Headles Service</code>同属于<code>Headless Service</code>的两种情况。<code>Headless Service</code>主要是指不分配<code>Service IP</code>，且不通过<code>kube-proxy</code>做反向代理和负载均衡的服务。</p>
 </blockquote>
 
 <h1 id="四-配置示例">四、配置示例</h1>

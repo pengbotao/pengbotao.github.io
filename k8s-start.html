@@ -45,10 +45,10 @@
 </ul></li>
 <li><a href="#五-概念说明-master">五、概念说明 - Master</a>
 <ul>
-<li><a href="#5-1-apiserver">5.1 apiserver</a></li>
+<li><a href="#5-1-kube-apiserver">5.1 kube-apiserver</a></li>
 <li><a href="#5-2-kube-controller-manager">5.2 kube-controller-manager</a></li>
-<li><a href="#5-3-kube-schedule">5.3 kube-schedule</a></li>
-<li><a href="#5-4-etcd-server">5.4 etcd server</a></li>
+<li><a href="#5-3-kube-scheduler">5.3 kube-scheduler</a></li>
+<li><a href="#5-4-etcd">5.4 etcd</a></li>
 </ul></li>
 <li><a href="#六-概念说明-node">六、概念说明 - Node</a>
 <ul>
@@ -117,7 +117,7 @@
 
 <p><code>kubectl</code>命令操作主节点，主节点要操作<code>Node</code>节点则通过和<code>Node</code>节点上的<code>kubelet</code>交互实现，<code>Client</code>访问则通过防火墙规则访问到<code>Node</code>节点里的特定<code>Pod</code>。</p>
 
-<p>了解到这里后可能就开始懵圈了，好多文章里还会看到<code>Deployment</code>、<code>Service</code>、<code>ReplicaSets/Replication Controller</code>等，一堆概念容易混淆。所以接下来我们先忽略概念，看怎么在Mac电脑上部署个k8s环境，操作一遍之后再来梳理概念和交互。</p>
+<p>了解到这里后可能就开始懵圈了，好多文章里还会看到<code>Deployment</code>、<code>Service</code>、<code>ReplicaSets/Replication Controller</code>等，一堆概念容易混淆。所以接下来我们先忽略概念，看怎么在个人电脑上部署个k8s环境，操作一遍之后再来梳理概念和交互。</p>
 
 <h1 id="二-安装k8s">二、安装K8s</h1>
 
@@ -171,7 +171,9 @@ $ kubectl apply -f https://raw.githubusercontent.com/gotok8s/gotok8s/master/dash
 $ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep kubernetes-dashboard-admin | awk '{print $1}')
 </code></pre>
 
-<p>通过下面的连接访问<code>Dashboard</code>: <code>http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/</code></p>
+<p>通过下面的连接访问<code>Dashboard</code>:</p>
+
+<p><code>http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/</code></p>
 
 <p>输入上一步获取的<code>token</code>, 验证并登陆。到这里环境就装好了。</p>
 
@@ -302,7 +304,7 @@ Events:                   &lt;none&gt;
 <p>这个时候就可以通过<code>http://localhost:38001</code>访问了。</p>
 
 <blockquote>
-<p>注：Mac DockerDesktop环境下type指定其他没有走通，如果存在走不通的情况可以尝试切换type</p>
+<p>注：Mac DockerDesktop环境下type指定其他没有走通，正常指定<code>NodePort</code>应该可以。</p>
 </blockquote>
 
 <h2 id="3-3-扩容-缩容">3.3 扩容 / 缩容</h2>
@@ -329,7 +331,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 
 <p><img src="../../static/uploads/Kubernetes-Dashboard.png" alt="" /></p>
 
-<p>从演示上使用到了Deployment、ReplicaSet、Pod、Service，从Dashboard左侧可以看到更多的名词，接写来对K8s的基础架构做一些描述。</p>
+<p>从演示上使用到了<code>Deployment</code>、<code>ReplicaSet</code>、<code>Pod</code>、<code>Service</code>，从<code>Dashboard</code>左侧可以看到更多的名词，接写来对<code>k8s</code>的基础架构做一些描述。</p>
 
 <h1 id="四-节点说明">四、节点说明</h1>
 
@@ -342,7 +344,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 <ul>
 <li><code>kube-apiserver</code>：资源增删改查的入口</li>
 <li><code>kube-controller-manager</code>：资源对象的大总管</li>
-<li><code>kube-scheduler</code>：负责资源调度（Pod调度）</li>
+<li><code>kube-scheduler</code>：负责资源调度（<code>Pod</code>调度）</li>
 <li><code>etcd Server</code>：<code>kubernetes</code>的所有的资源对象的数据保存在<code>etcd</code>中。</li>
 </ul>
 
@@ -366,10 +368,10 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 
 <ol>
 <li><code>Kubernetes</code>集群中，同宿主机的或不同宿主机的<code>Pod</code>之间要求能够TCP/IP直接通信，因此采用虚拟二层网络技术来实现，例如<code>Flannel</code>，<code>Openvswitch(OVS)</code>等，这样在同个集群中，不同的宿主机的Pod IP为不同IP段的IP，集群中的所有Pod IP都是唯一的，<strong>不同Pod之间可以直接通信</strong>。</li>
-<li>Pod有两种类型：<code>普通Pod</code>和<code>静态Pod</code>。<code>静态Pod</code>即不通过<code>K8S</code>调度和创建，直接在某个具体的Node机器上通过具体的文件来启动。<code>普通Pod</code>则是由<code>K8S</code>创建、调度，同时数据存放在<code>ETCD</code>中。</li>
-<li>Pod IP和具体的容器端口（<code>ContainnerPort</code>）组成一个具体的通信地址，即<code>Endpoint</code>。一个<code>Pod</code>中可以存在多个容器，可以有多个端口，<code>Pod IP</code>一样，即有多个<code>Endpoint</code>。</li>
+<li><code>Pod</code>有两种类型：<code>普通Pod</code>和<code>静态Pod</code>。<code>静态Pod</code>即不通过<code>K8S</code>调度和创建，直接在某个具体的Node机器上通过具体的文件来启动。<code>普通Pod</code>则是由<code>K8S</code>创建、调度，同时数据存放在<code>ETCD</code>中。</li>
+<li><code>Pod IP</code>和具体的容器端口（<code>ContainnerPort</code>）组成一个具体的通信地址，即<code>Endpoint</code>。一个<code>Pod</code>中可以存在多个容器，可以有多个端口，<code>Pod IP</code>一样，即有多个<code>Endpoint</code>。</li>
 <li><code>Pod Volume</code>是定义在<code>Pod</code>之上，被各个容器挂载到自己的文件系统中，可以用分布式文件系统实现后端存储功能。</li>
-<li>Pod中的Event事件可以用来排查问题，可以通过<code>kubectl describe pod xxx</code>来查看对应的事件。</li>
+<li><code>Pod</code>中的<code>Event</code>事件可以用来排查问题，可以通过<code>kubectl describe pod xxx</code>来查看对应的事件。</li>
 <li>每个<code>Pod</code>可以对其能使用的服务器上的计算资源设置限额，一般为<code>CPU</code>和<code>Memory</code>。<code>K8S</code>中一般将千分之一个的<code>CPU</code>配置作为最小单位，用<code>m</code>表示，是一个绝对值，即<code>100m</code>对于一个Core的机器还是48个<code>Core</code>的机器都是一样的大小。<code>Memory</code>配额也是个绝对值，单位为内存字节数。</li>
 <li>资源配额的两个参数
 
@@ -382,16 +384,31 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 <p>这几个概念应该还比较好理解。</p>
 
 <ul>
-<li>通过Master控制各Node节点</li>
-<li>操作Node节点实现节点上Pod的创建与管理</li>
-<li>客户访问Node节点上Pod提供的服务</li>
+<li>通过<code>Master</code>控制各<code>Node</code>节点</li>
+<li>操作<code>Node</code>节点实现节点上<code>Pod</code>的创建与管理</li>
+<li>客户访问<code>Node</code>节点上<code>Pod</code>提供的服务</li>
 </ul>
+
+<p>通过查看<code>kube-system</code>名称空间下的pod可以看到：</p>
+
+<pre><code>$ kubectl get pod -n kube-system
+NAME                                     READY   STATUS    RESTARTS   AGE
+coredns-5644d7b6d9-5tjhf                 1/1     Running   0          29d
+coredns-5644d7b6d9-mjw4w                 1/1     Running   0          29d
+etcd-docker-desktop                      1/1     Running   0          29d
+kube-apiserver-docker-desktop            1/1     Running   0          29d
+kube-controller-manager-docker-desktop   1/1     Running   0          29d
+kube-proxy-db9g7                         1/1     Running   0          29d
+kube-scheduler-docker-desktop            1/1     Running   0          29d
+storage-provisioner                      1/1     Running   1          29d
+vpnkit-controller                        1/1     Running   0          29d
+</code></pre>
 
 <h1 id="五-概念说明-master">五、概念说明 - Master</h1>
 
-<h2 id="5-1-apiserver">5.1 apiserver</h2>
+<h2 id="5-1-kube-apiserver">5.1 kube-apiserver</h2>
 
-<p>k8s API Server提供了k8s各类资源对象（pod,RC,Service等）的增删改查及watch等HTTP Rest接口，是整个系统的数据总线和数据中心。kubernetes API Server的功能： <a href="#refer"><sup>[4]</sup></a></p>
+<p><code>k8s API Server</code>提供了<code>k8s</code>各类资源对象（<code>pod</code>,<code>RC</code>,<code>Service</code>等）的增删改查及<code>watch</code>等<code>HTTP Rest</code>接口，是整个系统的数据总线和数据中心。<code>kubernetes API Server</code>的功能： <a href="#refer"><sup>[4]</sup></a></p>
 
 <ol>
 <li>提供了集群管理的REST API接口(包括认证授权、数据校验以及集群状态变更)；</li>
@@ -465,7 +482,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 <ul>
 <li>是指该服务运行的实例不会在本地存储需要持久化的数据，并且多个实例对于同一个请求响应的结果是完全一致的。</li>
 <li>多个实例可以共享相同的持久化数据。例如：nginx实例，tomcat实例等</li>
-<li>相关的k8s资源有：ReplicaSet、ReplicationController、Deployment等，由于是无状态服务，所以这些控制器创建的pod序号都是随机值。并且在缩容的时候并不会明确缩容某一个pod，而是随机的，因为所有实例得到的返回值都是一样，所以缩容任何一个pod都可以。</li>
+<li>相关的<code>k8s</code>资源有：<code>ReplicaSet</code>、<code>ReplicationController</code>、<code>Deployment</code>等，由于是无状态服务，所以这些控制器创建的pod序号都是随机值。并且在缩容的时候并不会明确缩容某一个pod，而是随机的，因为所有实例得到的返回值都是一样，所以缩容任何一个<code>pod</code>都可以。</li>
 </ul></li>
 <li>有状态服务
 
@@ -523,7 +540,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 
 <p>应用的资源使用率通常都有高峰和骶骨的时候，如何削峰填谷提供集群的整体资源利用率，让service的pod个数自动调整呢？这就依赖于HPA了，顾名思义，使Pod水平自动缩放。</p>
 
-<h2 id="5-3-kube-schedule">5.3 kube-schedule</h2>
+<h2 id="5-3-kube-scheduler">5.3 kube-scheduler</h2>
 
 <p>kube-scheduler是Kubernetes中的关键模块，扮演管家的角色遵从一套机制为Pod提供调度服务，例如基于资源的公平调度、调度Pod到指定节点、或者通信频繁的Pod调度到同一节点等。容器调度本身是一件比较复杂的事，因为要确保以下几个目标：</p>
 
@@ -545,7 +562,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 <li>节点代理服务kubelet通过API Server监听到kube-scheduler产生的绑定信息，获得Pod列表，下载Image并启动容器，然后由kubelet负责拉起Pod。</li>
 </ol>
 
-<h2 id="5-4-etcd-server">5.4 etcd server</h2>
+<h2 id="5-4-etcd">5.4 etcd</h2>
 
 <p>Etcd是Kubernetes集群中的一个十分重要的组件，用于保存集群所有的网络配置和对象的状态信息。 <a href="#refer"><sup>[7]</sup></a></p>
 
@@ -569,8 +586,6 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 <li>service是通过Selector选择的一组Pods的服务抽象，其实就是一个微服务，提供了服务的LB和反向代理的能力，而kube-proxy的主要作用就是负责service的实现。</li>
 <li>service另外一个重要作用是，一个服务后端的Pods可能会随着生存灭亡而发生IP的改变，service的出现，给服务提供了一个固定的IP，而无视后端Endpoint的变化。</li>
 </ul>
-
-<p>这两章中的概念就比较多了，其中的概念与交互流程需要再慢慢吸收下。</p>
 
 <h1 id="七-小结">七、小结</h1>
 
@@ -608,7 +623,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 <li>为<code>Pod</code>创建代理服务，从<code>apiserver</code>获取所有<code>server</code>信息，并根据<code>server</code>信息创建代理服务，实现<code>server</code>到<code>Pod</code>的请求路由和转发，从而实现<code>K8s</code>层级的虚拟转发网络，实现外部访问的访问。</li>
 </ul>
 
-<p>最后，本文档是一个边学习边整理的过程，也并未直接就上多台机器，先通过比较简单的一个环境熟悉起来，了解其中的概念、模块及交互，所以仅当一个入门知识介绍。本章引用的文档也比较多，可以先熟悉下在进入下一篇。</p>
+<p>最后，本文档是一个边学习边整理的过程，先通过比较简单的一个环境熟悉起来，了解其中的概念、模块及交互，所以仅当一个入门知识介绍。本章引用的文档、涉及的概念也比较多，可以先熟悉下在进入下一篇。</p>
 
 <hr />
 
@@ -634,7 +649,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-08.html">2020-09-24 09:14</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-08.html">2020-09-25 17:14</a></code>
     </div>
     
     <div class="eof_tag">

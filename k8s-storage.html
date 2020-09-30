@@ -70,7 +70,7 @@
 
 <h1 id="一-概述">一、概述</h1>
 
-<p>前一篇中介绍了Pod以及Volumes，这里接着对Pod中依赖的存储资源做介绍。</p>
+<p>前一篇中介绍了<code>Pod</code>以及<code>Volumes</code>，这里接着对<code>Pod</code>中依赖的存储资源做介绍。</p>
 
 <h1 id="二-configmap">二、ConfigMap</h1>
 
@@ -308,7 +308,7 @@ MYSQL_PORT = 3306
 
 <h1 id="三-secret">三、Secret</h1>
 
-<p>secret用来保存小片敏感数据的k8s资源，例如密码，token，或者秘钥。这类数据当然也可以存放在Pod或者镜像中，但是放在Secret中是为了更方便的控制如何使用数据，并减少暴露的风险。</p>
+<p><code>secret</code>用来保存小片敏感数据的<code>k8s</code>资源，例如密码，<code>token</code>，或者秘钥。这类数据当然也可以存放在<code>Pod</code>或者镜像中，但是放在<code>Secret</code>中是为了更方便的控制如何使用数据，并减少暴露的风险。</p>
 
 <h2 id="3-1-资源清单">3.1 资源清单</h2>
 
@@ -554,13 +554,13 @@ pv003   3Gi        RWO            Recycle          Available           host     
 
 <h2 id="5-1-关于pvc">5.1 关于PVC</h2>
 
-<p>PersistentVolumeClaim (PVC) 是对 PV 的申请 (Claim)。PVC 通常由普通用户创建和维护。需要为 Pod 分配存储资源时，用户可以创建一个 PVC，指明存储资源的容量大小和访问模式（比如只读）等信息，Kubernetes 会查找并提供满足条件的 PV。</p>
+<p><code>PersistentVolumeClaim (PVC)</code> 是对 <code>PV</code> 的申请 (Claim)。PVC 通常由普通用户创建和维护。需要为 Pod 分配存储资源时，用户可以创建一个 PVC，指明存储资源的容量大小和访问模式（比如只读）等信息，Kubernetes 会查找并提供满足条件的 PV。</p>
 
-<p>有了 PersistentVolumeClaim，用户只需要告诉 Kubernetes 需要什么样的存储资源，而不必关心真正的空间从哪里分配，如何访问等底层细节信息。这些 Storage Provider 的底层信息交给管理员来处理，只有管理员才应该关心创建 PersistentVolume 的细节信息。</p>
+<p>有了 <code>PersistentVolumeClaim</code>，用户只需要告诉 <code>Kubernetes</code> 需要什么样的存储资源，而不必关心真正的空间从哪里分配，如何访问等底层细节信息。这些 Storage Provider 的底层信息交给管理员来处理，只有管理员才应该关心创建 <code>PersistentVolume</code> 的细节信息。</p>
 
 <h2 id="5-2-资源清单">5.2 资源清单</h2>
 
-<p>描述pvc对存储的要求，字段同pv。</p>
+<p>描述<code>pvc</code>对存储的要求，字段同<code>pv</code>。</p>
 
 <h2 id="5-3-示例">5.3 示例</h2>
 
@@ -632,7 +632,7 @@ spec:
 
 <h1 id="六-小结">六、小结</h1>
 
-<p>本章介绍了常用的存储方案，ConfigMap，Secret，PV&amp;PVC，对几种存储方案有个印象，后续使用过程中，在进行说明。至此，跟Pod相关的资源清单、Pod的用法、Pod依赖的周边存储就整理完了，后面将会着重介绍服务部署过程中的三大块，Controller、Service、Ingress。接下来看看如果通过控制器来来控制Pod。</p>
+<p>本章介绍了常用的存储方案，<code>ConfigMap</code>，<code>Secret</code>，<code>PV&amp;PVC</code>，对几种存储方案有个印象，后续使用过程中，在进行说明。至此，跟<code>Pod</code>相关的资源清单、<code>Pod</code>的用法、<code>Pod</code>依赖的周边存储就整理完了，后面将会着重介绍服务部署过程中的三大块，<code>Controller</code>、<code>Service</code>、<code>Ingress</code>。接下来看看如果通过控制器来来控制<code>Pod</code>。</p>
 
 <hr />
 

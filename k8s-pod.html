@@ -812,11 +812,11 @@ spec:
 
 <p>他们处在同一个<code>Pod</code>里，可以直接用<code>127.0.0.1:9000</code>访问<code>PHP</code>，设置后重启<code>Nginx</code>后（<code>/usr/sbin/nginx -s reload</code>）就可以通过<code>curl 127.0.0.1</code>来访问了。</p>
 
-<p>需要注意的是<code>Pod</code>删除后目录就清掉了，所以<code>emptyDir</code>适用一些临时空间的场景。</p>
+<p>需要注意的是<code>Pod</code>删除后目录就清掉了。</p>
 
 <h3 id="2-5-2-hostpath">2.5.2 hostPath</h3>
 
-<p>还是以PHP+Nginx交互，我们来看看用hostPath如何配置。</p>
+<p>还是以<code>PHP</code> + <code>Nginx</code>交互，我们来看看用<code>hostPath</code>如何配置。</p>
 
 <pre><code>apiVersion: v1
 kind: Pod
@@ -1073,7 +1073,7 @@ liveness-pod   1/1     Running   1          2m54s
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-09.html">2020-09-24 09:14</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-09.html">2020-09-25 16:35</a></code>
     </div>
     
     <div class="eof_tag">

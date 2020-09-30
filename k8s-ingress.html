@@ -38,9 +38,9 @@
 
 <h2 id="1-1-关于ingress">1.1 关于ingress</h2>
 
-<p>在前一章中，我们可以通过Service中的NodePort、LoadBalancer的方式来暴露服务的端口，但这也意味着我们需要管理NodePort的端口映射关。</p>
+<p>在前一章中，我们可以通过<code>Service</code>中的<code>NodePort</code>、<code>LoadBalancer</code>的方式来暴露服务的端口，但这也意味着我们需要管理<code>NodePort</code>的端口映射关系。</p>
 
-<p>Ingress可以根据hostname和path将流量转发到不同的Service上。使用Ingress后的流程图如下，相当于在Service上又重新封装了一层，可以根据访问规则，将流量转到不同的Service上。</p>
+<p><code>Ingress</code>可以根据<code>hostname</code>和<code>path</code>将流量转发到不同的<code>Service</code>上。使用<code>Ingress</code>后的流程图如下，相当于在<code>Service</code>上又重新封装了一层，可以根据访问规则，将流量转到不同的<code>Service</code>上。</p>
 
 <p><img src="../../static/uploads/k8s-ingress.png" alt="" /></p>
 
@@ -50,7 +50,7 @@
 
 <p>Ingress-controller：实现反向代理及负载均衡的控制器，解析Ingress规则，根据规则进行转发。</p>
 
-<p>常见的ingress-controller有：ingress-nginx、traefik</p>
+<p>常见的<code>ingress-controller</code>有：<code>ingress-nginx</code>、<code>traefik</code>，这里使用<code>ingres-nginx</code></p>
 
 <h1 id="二-ingress-nginx">二、ingress-nginx</h1>
 
@@ -148,7 +148,7 @@ k8s-go-demo-ingress   demo.k8s.com   localhost   80      47m
 <p>默认使用的80端口，如果本地有其他程序占用80端口可能无法访问。</p>
 </blockquote>
 
-<p>可以进<code>ingress-nginx</code>容器看到，相当于通过Nginx把请求转给后端Service。</p>
+<p>可以进<code>ingress-nginx</code>容器看到，相当于通过<code>Nginx</code>把请求转给后端<code>Service</code>。</p>
 
 <pre><code>$ kubectl get pod -n ingress-nginx
 NAME                                       READY   STATUS    RESTARTS   AGE
@@ -219,6 +219,9 @@ server {
             <b>上一篇</b>：<a href="/k8s-service.html">Kubernetes基础 ( 6 ) - Service</a>
             </li>
             
+            <li>
+            <b>下一篇</b>：<a href="/k8s-example.html">Kubernetes基础 ( 9 ) - 示例</a>
+            </li>
             <li>
                 <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/Kubernetes基础 ( 7 ) - Ingress.md">https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/Kubernetes基础 ( 7 ) - Ingress.md</a>
             <li>

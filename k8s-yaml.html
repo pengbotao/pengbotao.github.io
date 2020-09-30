@@ -148,7 +148,7 @@ spec:
 
 <h1 id="三-yaml基础字段">三、Yaml基础字段</h1>
 
-<p>配置清单的写法如上面示例，不同的资源对象大同小异，通过<code>kubectl explain pod</code>的方式可以查看对应资源的说明文档，要看子节点可以用：<code>kubectl explain pod.spec</code>，所有Yaml中的定义的字段都可以通过该方法查看文档，后面会经常用到。</p>
+<p>配置清单的写法如上面示例，不同的资源对象大同小异，通过<code>kubectl explain pod</code>的方式可以查看对应资源的说明文档，要看子节点可以用：<code>kubectl explain pod.spec</code>，<strong>所有<code>Yaml</code>中的定义的字段都可以通过该方法查看文档，后面会经常用到</strong>。</p>
 
 <pre><code>$ kubectl explain pod
 KIND:     Pod
@@ -329,7 +329,7 @@ error: unable to recognize &quot;itopic.yaml&quot;: no matches for kind &quot;de
 <tr>
 <td>spec.volumes[]</td>
 <td>List</td>
-<td>挂载卷</td>
+<td>存储卷</td>
 </tr>
 
 <tr>
@@ -407,11 +407,13 @@ spec:
 
 <p>来看看这个文件， 定义了一个<code>Deployment</code>，<code>metadata</code>下定义名字为<code>nginx-deploy</code>，这里没有给<code>Deployment</code>打标签，但注意如果定义标签是<code>Deployment</code>的标签，供其他地方做筛选。很多资源清单里这个标签和下面两个一致，但也需要弄清楚这个标签的作用。</p>
 
-<p><code>spec.selector</code>定义了<code>Deployment</code>如何来筛选<code>Pod</code>，规则是存在标签<code>app = nginx-tpl-label</code>。</p>
+<ul>
+<li><p><code>spec.selector</code>定义了<code>Deployment</code>如何来筛选<code>Pod</code>，规则是存在标签<code>app = nginx-tpl-label</code>。</p></li>
 
-<p><code>template</code>定义<code>Pod</code>，<code>template.metadata.labels</code>定义<code>Pod</code>的标签。所以说<code>spec.selector.matchLabels</code>下的标签和<code>spec.template.metadata.labels</code>下的要一致<code>Deployment</code>才可以匹配上该<code>Pod</code>。</p>
+<li><p><code>template</code>定义<code>Pod</code>，<code>template.metadata.labels</code>定义<code>Pod</code>的标签。所以说<code>spec.selector.matchLabels</code>下的标签和<code>spec.template.metadata.labels</code>下的要一致<code>Deployment</code>才可以匹配上该<code>Pod</code>。</p></li>
 
-<p><code>spec.template.spec.containers</code>定义<code>Pod</code>下的容器信息，一个<code>Pod</code>下可以有多个容器。这张图形象的说明了文件中的各区域的作用：</p>
+<li><p><code>spec.template.spec.containers</code>定义<code>Pod</code>下的容器信息，一个<code>Pod</code>下可以有多个容器。这张图形象的说明了文件中的各区域的作用：</p></li>
+</ul>
 
 <p><img src="../../static/uploads/k8s-deploy-example.png" alt="" /></p>
 
@@ -669,7 +671,7 @@ status:
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-09.html">2020-09-24 09:14</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-09.html">2020-09-25 16:31</a></code>
     </div>
     
     <div class="eof_tag">
