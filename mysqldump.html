@@ -26,6 +26,9 @@ mysqldump -uroot -p123456 -t dbname &gt; dbname.sql
 mysqldump -uroot -p123456 dbname &gt; dbname.sql
 </code></pre>
 
+<pre><code>mysqldump --opt --default-character-set=utf8 --hex-blob test --skip-triggers --skip-lock-tables &gt; /data/peng/test.sql
+</code></pre>
+
 <h1 id="导出数据库中指定表">导出数据库中指定表</h1>
 
 <pre><code>-- 导出dbname下的test表结构
@@ -85,7 +88,7 @@ FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '&quot;' LINES TERMINATED BY '\n
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2013-05.html">2020-09-24 09:14</a></code>
+        <code style="border:0px;background:none;"><a href="/2013-05.html">2020-10-23 15:57</a></code>
     </div>
     
     <div class="eof_tag">

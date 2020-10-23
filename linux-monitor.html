@@ -22,12 +22,14 @@
 <ul>
 <li><a href="#一-cpu">一、CPU</a>
 <ul>
-<li><a href="#1-1-sar">1.1 sar</a></li>
-<li><a href="#1-2-vmstat">1.2 vmstat</a></li>
+<li><a href="#1-1-top">1.1 top</a></li>
+<li><a href="#1-2-sar">1.2 sar</a></li>
+<li><a href="#1-3-vmstat">1.3 vmstat</a></li>
 </ul></li>
 <li><a href="#二-内存">二、内存</a>
 <ul>
 <li><a href="#2-1-free">2.1 free</a></li>
+<li><a href="#2-2-proc-meminfo">2.2  /proc/meminfo</a></li>
 </ul></li>
 <li><a href="#三-磁盘">三、磁盘</a>
 <ul>
@@ -38,18 +40,25 @@
 <li><a href="#四-进程">四、进程</a>
 <ul>
 <li><a href="#4-1-ps">4.1 ps</a></li>
-<li><a href="#4-3-strace">4.3 strace</a></li>
+<li><a href="#4-2-lsof">4.2 lsof</a></li>
+<li><a href="#4-4-strace">4.4 strace</a></li>
 </ul></li>
 <li><a href="#五-网络连接">五、网络连接</a>
 <ul>
 <li><a href="#5-1-netstat">5.1 netstat</a></li>
-<li><a href="#5-2-lsof">5.2 lsof</a></li>
-<li><a href="#5-3-ss">5.3 ss</a></li>
-<li><a href="#5-4-smokeping">5.4 smokeping</a></li>
+<li><a href="#5-2-ss">5.2 ss</a></li>
 </ul></li>
-<li><a href="#六-网络流量">六、网络流量</a></li>
+<li><a href="#六-网络流量">六、网络流量</a>
+<ul>
+<li><a href="#6-1-iftop">6.1 iftop</a></li>
+<li><a href="#6-2-smokeping">6.2 smokeping</a></li>
+</ul></li>
 </ul>
 </nav>
+
+<h1 id="一-cpu">一、CPU</h1>
+
+<h2 id="1-1-top">1.1 top</h2>
 
 <pre><code>[root@peng ~]# top
 top - 04:57:54 up 236 days, 14:03,  1 user,  load average: 0.00, 0.01, 0.00
@@ -76,9 +85,7 @@ Swap:        0k total,        0k used,        0k free,  2144800k cached
 
 <p>可以看到平均负载，按1可以看到Cpu数量和内存信息。</p>
 
-<h1 id="一-cpu">一、CPU</h1>
-
-<h2 id="1-1-sar">1.1 sar</h2>
+<h2 id="1-2-sar">1.2 sar</h2>
 
 <pre><code>[root@peng ~]# sar 1
 Linux 2.6.32-754.25.1.el6.x86_64 (peng) 	2020年10月13日 	_x86_64_	(16 CPU)
@@ -97,7 +104,7 @@ Linux 2.6.32-754.25.1.el6.x86_64 (peng) 	2020年10月13日 	_x86_64_	(16 CPU)
 05时02分30秒     all      0.06      0.00      0.06      0.00      0.00     99.87
 </code></pre>
 
-<h2 id="1-2-vmstat">1.2 vmstat</h2>
+<h2 id="1-3-vmstat">1.3 vmstat</h2>
 
 <pre><code>[root@peng ~]# vmstat 1
 procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
@@ -118,6 +125,8 @@ Mem:           15G       2.7G        12G       1.1M       316M       2.0G
 -/+ buffers/cache:       386M        15G
 Swap:           0B         0B         0B
 </code></pre>
+
+<h2 id="2-2-proc-meminfo">2.2  /proc/meminfo</h2>
 
 <h1 id="三-磁盘">三、磁盘</h1>
 
@@ -150,9 +159,11 @@ tmpfs           7.8G   12K  7.8G   1% /dev/shm
 
 <h2 id="4-1-ps">4.1 ps</h2>
 
-<p>## 4.2 pstree</p>
+<h2 id="4-2-lsof">4.2 lsof</h2>
 
-<h2 id="4-3-strace">4.3 strace</h2>
+<p>## 4.3 pstree</p>
+
+<h2 id="4-4-strace">4.4 strace</h2>
 
 <h1 id="五-网络连接">五、网络连接</h1>
 
@@ -165,9 +176,7 @@ tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LIST
 tcp        0      0 0.0.0.0:10050               0.0.0.0:*                   LISTEN      16856/zabbix_agentd
 </code></pre>
 
-<h2 id="5-2-lsof">5.2 lsof</h2>
-
-<h2 id="5-3-ss">5.3 ss</h2>
+<h2 id="5-2-ss">5.2 ss</h2>
 
 <pre><code>[root@peng ~]# ss -s
 Total: 65 (kernel 173)
@@ -182,15 +191,11 @@ INET	  15        15        0
 FRAG	  0         0         0
 </code></pre>
 
-<h2 id="5-4-smokeping">5.4 smokeping</h2>
-
 <h1 id="六-网络流量">六、网络流量</h1>
 
-<p>iftop</p>
+<h2 id="6-1-iftop">6.1 iftop</h2>
 
-<p><a href="https://www.cnblogs.com/peida/archive/2013/03/11/2953420.html">https://www.cnblogs.com/peida/archive/2013/03/11/2953420.html</a></p>
-
-<p><a href="https://www.jb51.net/article/50436.htm">https://www.jb51.net/article/50436.htm</a></p>
+<h2 id="6-2-smokeping">6.2 smokeping</h2>
 
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
@@ -199,7 +204,7 @@ FRAG	  0         0         0
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2017-12.html">2020-10-20 08:49</a></code>
+        <code style="border:0px;background:none;"><a href="/2017-12.html">2020-10-23 16:53</a></code>
     </div>
     
     <div class="eof_tag">
