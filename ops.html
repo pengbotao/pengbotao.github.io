@@ -50,7 +50,7 @@
 
 <p>查看机器开放哪些TCP端口。</p>
 
-<pre><code># netstat -tlnp
+<pre><code>$ netstat -tlnp
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name
 tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      2281/sshd
@@ -69,7 +69,7 @@ $ ls -l /proc/4643/exe
 $ ls -lh /proc/12586/cwd
 
 
-# pwdx 1933
+$ pwdx 1933
 1933: /usr/local/cloudmonitor/wrapper/bin
 </code></pre>
 
@@ -85,14 +85,14 @@ $ ls -lh /proc/12586/cwd
 
 <h2 id="2-1-查找大文件">2.1 查找大文件</h2>
 
-<pre><code>df -h
-du -h / --max-depth=1
+<pre><code>$ df -h
+$ du -h / --max-depth=1
 </code></pre>
 
 <h2 id="2-2-清除超过30天的日志">2. 2 清除超过30天的日志</h2>
 
-<pre><code>find /data/logs -type f -name &quot;*.log.*&quot; -ctime +30 -exec rm -rf {} \; 
-find /data/logs -type f -name &quot;*.log.*&quot; -ctime +30 -print0| xargs -0 rm
+<pre><code>$ find /data/logs -type f -name &quot;*.log.*&quot; -ctime +30 -exec rm -rf {} \; 
+$ find /data/logs -type f -name &quot;*.log.*&quot; -ctime +30 -print0| xargs -0 rm
 </code></pre>
 
 <h1 id="三-数据库">三、数据库</h1>
@@ -121,18 +121,18 @@ Query OK, 0 rows affected (0.00 sec)
 
 <p>文件合并</p>
 
-<pre><code>cat *.csv &gt; merge.csv
-cat a.csv b.csv c.csv &gt; abc.csv
+<pre><code>$ cat *.csv &gt; merge.csv
+$ cat a.csv b.csv c.csv &gt; abc.csv
 </code></pre>
 
 <p>按大小切割，每100M切割</p>
 
-<pre><code>split -b 100m filename
+<pre><code>$ split -b 100m filename
 </code></pre>
 
 <p>按行数切割，每100w行切割，并带上前缀</p>
 
-<pre><code>split -l10000000 pc.txt i_
+<pre><code>$ split -l10000000 pc.txt i_
 </code></pre>
 
 <p>合并：<code>cat x* &gt; pc.txt</code></p>
@@ -157,7 +157,7 @@ $ curl myip.ipip.net
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-09.html">2020-10-23 16:46</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-09.html">2020-10-24 21:51</a></code>
     </div>
     
     <div class="eof_tag">
