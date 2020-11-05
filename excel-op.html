@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Excel表格常用操作</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+    
+</head>
+<body>
+<div class="content">
+    <h1 class="title">Excel表格常用操作</h1>
+
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+
+    <h1 id="vlookup">VLOOKUP</h1>
+
+<p><code>vlookup</code>是一个纵向查找函数，可以将多个表格的数据进行快速引用，函数定义：</p>
+
+<pre><code>VLOOKUP(查找值, 数据表, 列序数, 匹配条件)
+</code></pre>
+
+<ul>
+<li><strong>查找值</strong>：要查找的对象，可以是数值、引用或文本字符串</li>
+<li><strong>数据表</strong>：要查找的数据表区域。比如<code>A:C</code>表示ABC三列，<code>A1:B6</code>表示AB两列的第一行到第六行，<code>A:C+F:H</code>则表示ABCFGH列。</li>
+<li><strong>列序数</strong>：返回数据在数据表区域的第几列，第一列写<code>1</code>，二列写<code>2</code></li>
+<li><strong>匹配条件</strong>：查找时是精确匹配还是大致匹配。如果为<code>FALSE</code>则是精确匹配，如果为<code>TRUE</code>或空则是大致匹配。</li>
+</ul>
+
+<h2 id="示例">示例</h2>
+
+<p>两张数据表：城市表（<code>A:C</code>）、国家表(<code>F:G</code>)，在<code>D</code>列展示城市对应的国家名称。</p>
+
+<p><img src="../../static/uploads/vlookup@2x.png" alt="" /></p>
+
+<p><strong>1. 去掉公式</strong>：当前<code>D</code>列是对<code>G</code>列的引用，如果<code>A</code>列或者<code>G</code>列调整了，则<code>D</code>列也会随着变动。如果想去掉引用公式，让它固定下来：</p>
+
+<pre><code>复制D列 -&gt; 右键 -&gt; 选择性粘贴 -&gt; 数值
+</code></pre>
+
+<p><strong>2. 去掉#N/A</strong>：有时会出现找不到的情况，通过<code>IFERROR</code>函数规避显示的问题，比如默认显示空字符串</p>
+
+<pre><code>=IFERROR(VLOOKUP(A:A,F:G,2,FALSE), &quot;&quot;)
+</code></pre>
+
+<p>当前示例是放在同一个<code>Sheet</code>中，如果处于不同<code>Sheet</code>或者不同文档也是一样的操作。</p>
+
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2020-01.html">2020-11-04 16:28</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2020-01.html">2020-01-25 09:12</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/excel.html">Excel</a></code>
+        <code style="border:0px;background:none;"><a href="/tag/小技能.html">小技能</a></code>
+    </div>
+
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/will-kubernetes-kill-devops.html">Kubernetes 会不会“杀死” DevOps？</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/ps-one-inch.html">用Ps制作一寸证件照</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/小知识/Excel表格常用操作.md">https://github.com/pengbotao/itopic.go/blob/master/posts/小知识/Excel表格常用操作.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+
+<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/小知识/Excel表格常用操作.md" target="_blank"  class="github-corner">
+<svg width="60" height="60" viewBox="0 0 250 250" style="fill: #61687C; color:#fff; position: absolute;top: 0;border: 0;right: 0;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+</body>
+</html>
