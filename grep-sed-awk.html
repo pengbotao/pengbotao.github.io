@@ -49,7 +49,6 @@
 <li><a href="#4-4-变量计算">4.4 变量计算</a></li>
 </ul></li>
 <li><a href="#五-xargs">五、xargs</a></li>
-<li><a href="#六-管道与重定向">六、管道与重定向</a></li>
 </ul>
 </nav>
 
@@ -213,7 +212,7 @@ $ grep -r '&quot;tag&quot;: &quot;Lua&quot;' . --include *.{php,py}
 <tr>
 <td><code>^$</code></td>
 <td>匹配空行</td>
-<td>打印配置文件，不包含<code>#</code>注释，不包含空行<br />`$ cat /etc/salt/master</td>
+<td>打印配置文件，不包含<code>#</code>注释，不包含空行<br /> $ cat /etc/salt/master | grep -v ^# | grep -v ^$</td>
 </tr>
 
 <tr>
@@ -609,14 +608,6 @@ $ free -m | sed -n '2p' | awk '{print ($4+$6+$7)*100/$2}'
 
 <h1 id="五-xargs">五、xargs</h1>
 
-<h1 id="六-管道与重定向">六、管道与重定向</h1>
-
-<p><code>&gt;</code></p>
-
-<p><code>&gt;&gt;</code></p>
-
-<p><code>&amp;</code></p>
-
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
         <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -624,7 +615,7 @@ $ free -m | sed -n '2p' | awk '{print ($4+$6+$7)*100/$2}'
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2017-11.html">2020-10-30 06:21</a></code>
+        <code style="border:0px;background:none;"><a href="/2017-11.html">2020-11-12 21:31</a></code>
     </div>
     
     <div class="eof_tag">
@@ -643,7 +634,7 @@ $ free -m | sed -n '2p' | awk '{print ($4+$6+$7)*100/$2}'
             </li>
             
             <li>
-            <b>下一篇</b>：<a href="/linux-monitor.html">CentOS（ 4 ）- CPU、内存、端口等指标查看</a>
+            <b>下一篇</b>：<a href="/lets-encrypt.html">Let's Encrypt配置SSL免费证书</a>
             </li>
             <li>
                 <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/运维/CentOS（ 3 ）- 文本处理：grep、awk、find、sed等.md">https://github.com/pengbotao/itopic.go/blob/master/posts/运维/CentOS（ 3 ）- 文本处理：grep、awk、find、sed等.md</a>

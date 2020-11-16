@@ -61,6 +61,18 @@
 <p>ps : 输入1则建立xvdb1分区，如已存在该分区，则可以输入2建立xvdb2分区，以下皆以xvdb1为例。</p>
 </blockquote>
 
+<p>或者直接执行：</p>
+
+<pre><code>fdisk /dev/vdb &lt;&lt;EOF
+n
+p
+1
+1
+
+w
+EOF
+</code></pre>
+
 <h2 id="2-3-格式化分区">2.3 格式化分区</h2>
 
 <p><code>mkfs.ext4 /dev/vdb1</code>，使用<code>ext3</code>格式替换<code>ext4</code>即可</p>
@@ -90,8 +102,8 @@ $ echo &quot;/dev/vdb1 /data ext4 defaults 0 0&quot; &gt;&gt; /etc/fstab
 <p>挂载到data目录：<code>mount /dev/xvdb1 /mnt</code></p>
 
 <ul>
-<li>[1]<a href="https://help.aliyun.com/document_detail/25446.html?spm=a2c4g.11186623.6.809.23ce2c3086czfU">挂载数据盘</a></li>
-<li>[2]<a href="https://help.aliyun.com/document_detail/25426.html?spm=a2c4g.11186623.6.811.57763b94m2yKny">Linux格式化数据盘</a></li>
+<li>[1] <a href="https://help.aliyun.com/document_detail/25446.html?spm=a2c4g.11186623.6.809.23ce2c3086czfU">挂载数据盘</a></li>
+<li>[2] <a href="https://help.aliyun.com/document_detail/25426.html?spm=a2c4g.11186623.6.811.57763b94m2yKny">Linux格式化数据盘</a></li>
 </ul>
 
     <div class="eof">-- EOF --</div>
@@ -101,7 +113,7 @@ $ echo &quot;/dev/vdb1 /data ext4 defaults 0 0&quot; &gt;&gt; /etc/fstab
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2017-09.html">2020-10-30 07:04</a></code>
+        <code style="border:0px;background:none;"><a href="/2017-09.html">2020-11-12 21:37</a></code>
     </div>
     
     <div class="eof_tag">
