@@ -39,6 +39,12 @@ mysqldump -uroot -p123456 -t dbname test &gt; test.sql
  
 -- 导出dbname下的test表结构和数据
 mysqldump -uroot -p123456 dbname test &gt; test.sql
+
+-- 导出dbname下的test1 test2表结构和数据
+mysqldump -uroot -p123456 dbname test1 test2 &gt; test.sql
+
+-- 导出t_开头的表结构和数据
+mysqldump -uroot -p 库名 $(mysq l -uroot -p 库名 -Bse &quot;show tables like 't_%'&quot;) &gt; &quot;导出位置.sql&quot;
 </code></pre>
 
 <h1 id="还原">还原</h1>
@@ -75,11 +81,16 @@ FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '&quot;' LINES TERMINATED BY '\n
 
 <p>注： 从本地导入远程服务器需使用<code>LOAD DATA LOCAL INFILE</code></p>
 
-<p>确保local_infile打开且有权限的情况下LOAD DATA若报错：message:The used command is not allowed with this MySQL version</p>
+<p>确保local_infile打开且有权限的情况下LOAD DATA若报错：</p>
 
-<p>1.mysql_connect指定第五个参数128测试，即mysql_connect($host, $user, $pwd, false, CLIENT_LOCAL_FILES)</p>
+<pre><code>message:The used command is not allowed with this MySQL version
+</code></pre>
 
-<p>2.PHP中mysql扩展版本（待确认）</p>
+<ol>
+<li><p>mysql_connect指定第五个参数128测试，即<code>mysql_connect($host, $user, $pwd, false, CLIENT_LOCAL_FILES)</code></p></li>
+
+<li><p>PHP中mysql扩展版本（待确认）</p></li>
+</ol>
 
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
@@ -88,7 +99,7 @@ FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '&quot;' LINES TERMINATED BY '\n
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2013-05.html">2020-10-23 15:57</a></code>
+        <code style="border:0px;background:none;"><a href="/2013-05.html">2020-11-18 15:24</a></code>
     </div>
     
     <div class="eof_tag">

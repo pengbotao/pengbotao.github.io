@@ -123,6 +123,15 @@ mysql&gt; source /tmp/a.txt;
 Query OK, 0 rows affected (0.00 sec)
 </code></pre>
 
+<p>通过Shell删除</p>
+
+<pre><code>#! /bin/bash
+for i in `mysql -uroot -pxxx -Bse &quot;show processlist&quot; | grep -v &quot;show processlist&quot; | awk '{print $1}'`
+do 
+    mysql -uroot -pxxx -e &quot;kill $i&quot;
+done
+</code></pre>
+
 <h1 id="四-日常操作">四、日常操作</h1>
 
 <h2 id="4-1-文件切分与合并">4.1 文件切分与合并</h2>
@@ -165,7 +174,7 @@ $ curl myip.ipip.net
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-09.html">2020-11-12 21:47</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-09.html">2020-11-18 15:53</a></code>
     </div>
     
     <div class="eof_tag">
