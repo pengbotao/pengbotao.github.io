@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>CentOS（ 5 ）- CPU、内存、端口等指标查看</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+    <style type="text/css">
+    @media (min-width: 1200px) {
+        .content{padding-left:280px;width:100%;max-width:100%;}
+    }
+    </style>
+</head>
+<body>
+<div class="content">
+    <h1 class="title">CentOS（ 5 ）- CPU、内存、端口等指标查看</h1>
+
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+
+    <nav>
+<ul>
+<li><a href="#一-cpu">一、CPU</a>
+<ul>
+<li><a href="#1-1-top">1.1 top</a></li>
+<li><a href="#1-2-sar">1.2 sar</a></li>
+<li><a href="#1-3-vmstat">1.3 vmstat</a></li>
+</ul></li>
+<li><a href="#二-内存">二、内存</a>
+<ul>
+<li><a href="#2-1-free">2.1 free</a></li>
+<li><a href="#2-2-proc-meminfo">2.2  /proc/meminfo</a></li>
+</ul></li>
+<li><a href="#三-磁盘">三、磁盘</a>
+<ul>
+<li><a href="#3-1-df">3.1 df</a></li>
+<li><a href="#3-2-du">3.2 du</a></li>
+<li><a href="#3-3-iostat">3.3 iostat</a></li>
+</ul></li>
+<li><a href="#四-进程">四、进程</a>
+<ul>
+<li><a href="#4-1-ps">4.1 ps</a></li>
+<li><a href="#4-2-lsof">4.2 lsof</a></li>
+<li><a href="#4-3-pstree">4.3 pstree</a></li>
+<li><a href="#4-4-strace">4.4 strace</a></li>
+</ul></li>
+<li><a href="#五-网络连接">五、网络连接</a>
+<ul>
+<li><a href="#5-1-netstat">5.1 netstat</a></li>
+<li><a href="#5-2-ss">5.2 ss</a></li>
+</ul></li>
+<li><a href="#六-网络流量">六、网络流量</a>
+<ul>
+<li><a href="#6-1-iftop">6.1 iftop</a></li>
+<li><a href="#6-2-smokeping">6.2 smokeping</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="一-cpu">一、CPU</h1>
+
+<h2 id="1-1-top">1.1 top</h2>
+
+<pre><code>[root@peng ~]# top
+top - 04:57:54 up 236 days, 14:03,  1 user,  load average: 0.00, 0.01, 0.00
+Tasks: 377 total,   1 running, 375 sleeping,   0 stopped,   1 zombie
+Cpu0  :  0.3%us,  0.3%sy,  0.0%ni, 99.0%id,  0.3%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu1  :  0.3%us,  0.7%sy,  0.0%ni, 99.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu2  :  0.0%us,  0.0%sy,  0.0%ni,100.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu3  :  0.0%us,  0.0%sy,  0.0%ni,100.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu4  :  0.0%us,  0.0%sy,  0.0%ni,100.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu5  :  0.3%us,  0.7%sy,  0.0%ni, 99.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu6  :  0.3%us,  0.0%sy,  0.0%ni, 99.7%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu7  :  0.0%us,  0.0%sy,  0.0%ni,100.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu8  :  0.0%us,  0.0%sy,  0.0%ni,100.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu9  :  0.0%us,  0.3%sy,  0.0%ni, 99.7%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu10 :  0.0%us,  0.0%sy,  0.0%ni,100.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu11 :  0.3%us,  0.3%sy,  0.0%ni, 99.3%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu12 :  0.0%us,  0.0%sy,  0.0%ni,100.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu13 :  0.0%us,  0.0%sy,  0.0%ni,100.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu14 :  0.0%us,  0.3%sy,  0.0%ni, 99.7%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Cpu15 :  0.0%us,  0.0%sy,  0.0%ni,100.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Mem:  16465312k total,  2866440k used, 13598872k free,   324020k buffers
+Swap:        0k total,        0k used,        0k free,  2144800k cached
+</code></pre>
+
+<p>可以看到平均负载，按1可以看到Cpu数量和内存信息。</p>
+
+<h2 id="1-2-sar">1.2 sar</h2>
+
+<pre><code>[root@peng ~]# sar 1
+Linux 2.6.32-754.25.1.el6.x86_64 (peng) 	2020年10月13日 	_x86_64_	(16 CPU)
+
+05时02分19秒     CPU     %user     %nice   %system   %iowait    %steal     %idle
+05时02分20秒     all      0.06      0.00      0.06      0.00      0.00     99.87
+05时02分21秒     all      0.06      0.00      0.06      0.00      0.00     99.88
+05时02分22秒     all      0.00      0.00      0.06      0.00      0.00     99.94
+05时02分23秒     all      0.19      0.00      0.38      0.00      0.00     99.44
+05时02分24秒     all      0.13      0.00      0.19      0.06      0.00     99.62
+05时02分25秒     all      0.12      0.00      0.06      0.00      0.00     99.81
+05时02分26秒     all      0.00      0.00      0.06      0.00      0.00     99.94
+05时02分27秒     all      0.06      0.00      0.00      0.00      0.00     99.94
+05时02分28秒     all      0.12      0.00      0.12      0.00      0.00     99.75
+05时02分29秒     all      0.13      0.00      0.13      0.00      0.00     99.75
+05时02分30秒     all      0.06      0.00      0.06      0.00      0.00     99.87
+</code></pre>
+
+<h2 id="1-3-vmstat">1.3 vmstat</h2>
+
+<pre><code>[root@peng ~]# vmstat 1
+procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 1  0      0 13522672 344480 2144948    0    0     0     3    0    0  6  4 90  0  0
+ 0  0      0 13522608 344480 2144948    0    0     0     0 1530 2430  0  0 100  0  0
+ 0  0      0 13522944 344480 2144948    0    0     0     0 1504 2426  0  0 100  0  0
+ 0  0      0 13522864 344480 2144948    0    0     0     0 1563 2476  0  0 100  0  0
+</code></pre>
+
+<h1 id="二-内存">二、内存</h1>
+
+<h2 id="2-1-free">2.1 free</h2>
+
+<pre><code>[root@peng ~]# free -h
+             total       used       free     shared    buffers     cached
+Mem:           15G       2.7G        12G       1.1M       316M       2.0G
+-/+ buffers/cache:       386M        15G
+Swap:           0B         0B         0B
+</code></pre>
+
+<h2 id="2-2-proc-meminfo">2.2  /proc/meminfo</h2>
+
+<h1 id="三-磁盘">三、磁盘</h1>
+
+<p>(io)</p>
+
+<h2 id="3-1-df">3.1 df</h2>
+
+<p>查看磁盘整体情况</p>
+
+<pre><code>[root@peng ~]# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        40G  2.9G   35G   8% /
+tmpfs           7.8G   12K  7.8G   1% /dev/shm
+/dev/vdb1       197G  1.6G  186G   1% /data
+</code></pre>
+
+<h2 id="3-2-du">3.2 du</h2>
+
+<p>查看某个目录下文件占比</p>
+
+<pre><code>[root@peng ~]# du -h /home --max-depth=1
+16K	/home/zabbix
+104K	/home/peng
+188K	/home
+</code></pre>
+
+<h2 id="3-3-iostat">3.3 iostat</h2>
+
+<h1 id="四-进程">四、进程</h1>
+
+<h2 id="4-1-ps">4.1 ps</h2>
+
+<h2 id="4-2-lsof">4.2 lsof</h2>
+
+<h2 id="4-3-pstree">4.3 pstree</h2>
+
+<h2 id="4-4-strace">4.4 strace</h2>
+
+<h1 id="五-网络连接">五、网络连接</h1>
+
+<h2 id="5-1-netstat">5.1 netstat</h2>
+
+<pre><code># netstat -tlnp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name
+tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      2281/sshd
+tcp        0      0 0.0.0.0:10050               0.0.0.0:*                   LISTEN      16856/zabbix_agentd
+</code></pre>
+
+<h2 id="5-2-ss">5.2 ss</h2>
+
+<pre><code>[root@peng ~]# ss -s
+Total: 65 (kernel 173)
+TCP:   71 (estab 4, closed 59, orphaned 0, synrecv 0, timewait 59/0), ports 18
+
+Transport Total     IP        IPv6
+*	  173       -         -
+RAW	  0         0         0
+UDP	  3         3         0
+TCP	  12        12        0
+INET	  15        15        0
+FRAG	  0         0         0
+</code></pre>
+
+<h1 id="六-网络流量">六、网络流量</h1>
+
+<h2 id="6-1-iftop">6.1 iftop</h2>
+
+<h2 id="6-2-smokeping">6.2 smokeping</h2>
+
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2017-12.html">2020-11-18 13:29</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2017-12.html">2017-12-10 21:30</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/运维.html">运维</a></code>
+        <code style="border:0px;background:none;"><a href="/tag/centos.html">CentOS</a></code>
+    </div>
+
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/grep-sed-awk.html">CentOS（ 3 ）- 文本处理：grep、awk、find、sed等</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/linux-sysctl.html">CentOS（ 6 ）- 内核参数优化</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/运维/CentOS（ 5 ）- CPU、内存、端口等指标查看.md">https://github.com/pengbotao/itopic.go/blob/master/posts/运维/CentOS（ 5 ）- CPU、内存、端口等指标查看.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+
+<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/运维/CentOS（ 5 ）- CPU、内存、端口等指标查看.md" target="_blank"  class="github-corner">
+<svg width="60" height="60" viewBox="0 0 250 250" style="fill: #61687C; color:#fff; position: absolute;top: 0;border: 0;right: 0;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+</body>
+</html>
