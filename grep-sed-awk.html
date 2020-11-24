@@ -40,6 +40,7 @@
 <li><a href="#3-3-删除匹配行">3.3 删除匹配行</a></li>
 <li><a href="#3-4-删除指定行">3.4 删除指定行</a></li>
 <li><a href="#3-5-查找指定行">3.5 查找指定行</a></li>
+<li><a href="#3-6-指定行后添加数据">3.6 指定行后添加数据</a></li>
 </ul></li>
 <li><a href="#四-awk">四、awk</a>
 <ul>
@@ -510,6 +511,18 @@ $ sed -n '2,3p' /etc/passwd
 $ sed -n '3,$p' /etc/passwd
 </code></pre>
 
+<h2 id="3-6-指定行后添加数据">3.6 指定行后添加数据</h2>
+
+<p>查找<code>u.local</code>并在后面增加一行：<code>127.0.0.1 t.local</code></p>
+
+<pre><code>$ sed '/u.local/a\127.0.0.1 t.local' /etc/hosts
+</code></pre>
+
+<ul>
+<li>前一行：<code>/i</code></li>
+<li>后一行：<code>/a</code></li>
+</ul>
+
 <h1 id="四-awk">四、awk</h1>
 
 <p>AWK 是一种处理文本文件的语言，是一个强大的文本分析工具。之所以叫 AWK 是因为其取了三位创始人 Alfred Aho，Peter Weinberger, 和 Brian Kernighan 的 Family Name 的首字符。</p>
@@ -615,7 +628,7 @@ $ free -m | sed -n '2p' | awk '{print ($4+$6+$7)*100/$2}'
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2017-11.html">2020-11-18 13:29</a></code>
+        <code style="border:0px;background:none;"><a href="/2017-11.html">2020-11-20 09:29</a></code>
     </div>
     
     <div class="eof_tag">
