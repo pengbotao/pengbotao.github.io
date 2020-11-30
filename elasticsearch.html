@@ -115,7 +115,8 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.271-b09, mixed mode)
 <ul>
 <li>[1]: max file descriptors [65535] for elasticsearch process is too low, increase to at least [65536]</li>
 <li>[2]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</li>
-<li>[3]: java.lang.RuntimeException: can not run elasticsearch as root</li>
+<li>[3]: max number of threads [1024] for user [es] is too low, increase to at least [4096]</li>
+<li>[4]: java.lang.RuntimeException: can not run elasticsearch as root</li>
 </ul>
 
 <p><strong>1. 调整文件句柄数</strong></p>
@@ -135,7 +136,19 @@ vm.max_map_count=655360
 $ sysctl -p
 </code></pre>
 
-<p><strong>3. 切换账户</strong></p>
+<p><strong>3. 线程数</strong></p>
+
+<pre><code>$ vi /etc/security/limits.d/90-nproc.conf
+$ cat /etc/security/limits.d/90-nproc.conf
+# Default limit for number of user's processes to prevent
+# accidental fork bombs.
+# See rhbz #432903 for reasoning.
+
+*          soft    nproc     102400
+root       soft    nproc     unlimited
+</code></pre>
+
+<p><strong>4. 切换账户</strong></p>
 
 <p>提示不能以<code>root</code>用户启动，需切换到其他用户，放后台执行可以通过<code>-d</code>参数：</p>
 
@@ -926,7 +939,7 @@ EOF
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-12.html">2020-11-04 11:44</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-12.html">2020-11-26 18:13</a></code>
     </div>
     
     <div class="eof_tag">
