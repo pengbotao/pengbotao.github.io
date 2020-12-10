@@ -14,7 +14,7 @@
 
     <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-    <h1 id="nfs服务端安装">NFS服务端安装</h1>
+    <h1 id="一-nfs服务端安装">一、NFS服务端安装</h1>
 
 <p>查询是否有安装<code>nfs</code>服务，没有输出则表示没有安装。</p>
 
@@ -26,30 +26,7 @@
 <pre><code>$ yum install -y nfs-utils
 </code></pre>
 
-<p><code>nfs</code>依赖<code>rpcbind</code>，<code>yum</code>安装会自动解决依赖</p>
-
-<pre><code>依赖关系解决
-
-============================================================================================================
-
- 软件包                     架构                版本                             仓库                  大小
-
-正在安装:
- nfs-utils                  x86_64              1:1.2.3-78.el6_10.2              updates              337 k
-为依赖而安装:
- keyutils                   x86_64              1.4-5.el6                        base                  39 k
- libevent                   x86_64              1.4.13-4.el6                     base                  66 k
- libgssglue                 x86_64              0.1-11.el6                       base                  23 k
- libtirpc                   x86_64              0.2.1-15.el6                     base                  82 k
- nfs-utils-lib              x86_64              1.1.5-13.el6                     base                  71 k
- rpcbind                    x86_64              0.2.0-16.el6                     base                  51 k
-
-事务概要
-============================================================================================================
-Install       7 Package(s)
-</code></pre>
-
-<p>安装之后再查询就可以查询到了</p>
+<p><code>nfs</code>依赖<code>rpcbind</code>，<code>yum</code>安装会自动解决依赖，安装之后再查询就可以查询到了</p>
 
 <pre><code>$ rpm -qa | grep nfs
 nfs-utils-1.2.3-78.el6_10.2.x86_64
@@ -63,7 +40,7 @@ nfs-utils-lib-1.1.5-13.el6.x86_64
 
 <p>到这里安装过程就完成了。</p>
 
-<h1 id="nfs服务端启动">NFS服务端启动</h1>
+<h1 id="二-nfs服务端启动">二、NFS服务端启动</h1>
 
 <p>查看<code>nfs</code>服务状态：</p>
 
@@ -99,7 +76,7 @@ rpc.nfsd: unable to set any sockets for nfsd
 <pre><code>$ service rpcbind status
 rpcbind is stopped
 
-$service rpcbind start
+$ service rpcbind start
 Starting rpcbind:                                          [  OK  ]
 </code></pre>
 
@@ -129,20 +106,7 @@ nfsd (pid 27806 27805 27804 27803 27802 27801 27800 27799) is running...
 rpc.rquotad (pid 27769) is running...
 </code></pre>
 
-<p>查看<code>TCP</code>端口：</p>
-
-<pre><code>$ netstat -tlnp
-Active Internet connections (only servers)
-Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name
-tcp        0      0 0.0.0.0:2049                0.0.0.0:*                   LISTEN      -
-tcp        0      0 0.0.0.0:2308                0.0.0.0:*                   LISTEN      27786/rpc.mountd
-tcp        0      0 0.0.0.0:11628               0.0.0.0:*                   LISTEN      27786/rpc.mountd
-tcp        0      0 0.0.0.0:5710                0.0.0.0:*                   LISTEN      27786/rpc.mountd
-tcp        0      0 0.0.0.0:875                 0.0.0.0:*                   LISTEN      27769/rpc.rquotad
-tcp        0      0 0.0.0.0:111                 0.0.0.0:*                   LISTEN      12265/rpcbind
-</code></pre>
-
-<h1 id="nfs服务端配置">NFS服务端配置</h1>
+<h1 id="三-nfs服务端配置">三、NFS服务端配置</h1>
 
 <p>配置文件在<code>/etc/exports</code>，配置文件的格式是：</p>
 
@@ -155,50 +119,82 @@ tcp        0      0 0.0.0.0:111                 0.0.0.0:*                   LIST
 /data/logs 172.16.0.20(rw,async,no_root_squash)
 </code></pre>
 
-<p>其中：<code>/data/logs</code>表示共享目录，<code>172.16.0.20</code>表示共享给指定<code>IP</code>，括号内为<code>nfs</code>共享的相关参数，文件编辑后可以通过<code>exportfs -v</code>校验。</p>
+<p>其中：<code>/data/logs</code>表示共享目录，<code>172.16.0.20</code>表示共享给指定<code>IP</code>，括号内为<code>nfs</code>共享的相关参数。</p>
 
-<h3 id="1-共享给所有主机">1. 共享给所有主机</h3>
+<p>文件编辑后可以通过<code>exportfs -v</code>校验，通过<code>exportfs -r</code>重新加载。</p>
+
+<h2 id="3-1-client设置">3.1 Client设置</h2>
+
+<p>1、共享给所有主机</p>
 
 <pre><code>/data/logs *(sync)
 </code></pre>
 
-<h3 id="2-共享给特定ip段">2. 共享给特定IP段</h3>
-
-<p>共享给<code>172.16.0.*</code>的机器。</p>
+<p>2、共享给特定IP段，共享给<code>172.16.0.*</code>的机器。IP也可以写成：<code>172.16.0.0/24</code></p>
 
 <pre><code>/data/logs 172.16.0.0/255.255.255.0(sync)
 </code></pre>
 
-<p>或者写成：</p>
-
-<pre><code>/data/logs 172.16.0.0/24(sync)
-</code></pre>
-
-<h3 id="3-共享给多主机">3. 共享给多主机</h3>
-
-<p>共享给<code>172.16.0.*</code>和<code>172.16.1.*</code></p>
+<p>3、共享给多主机，共享给<code>172.16.0.*</code> 和 <code>172.16.1.*</code></p>
 
 <pre><code>/data/logs 172.16.0.0/255.255.255.0(sync)
 /data/logs 172.16.1.0/255.255.255.0(sync)
 </code></pre>
 
-<h2 id="options参数说明">OPTIONS参数说明：</h2>
+<h2 id="3-2-options参数说明">3.2 OPTIONS参数说明：</h2>
 
-<h3 id="1-ro-rw">1. ro &amp;&amp; rw</h3>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
 
-<ul>
-<li><code>rw</code>：读写访问</li>
-<li><code>ro</code>：只读访问</li>
-</ul>
+<tbody>
+<tr>
+<td><code>rw</code></td>
+<td>读写访问</td>
+</tr>
 
-<h2 id="2-root-squash-no-root-squash">2. root_squash &amp;&amp; no_root_squash</h2>
+<tr>
+<td><code>ro</code></td>
+<td>只读访问</td>
+</tr>
 
-<ul>
-<li><code>root_squash</code>：把客户端<code>root</code>账号当普通用户对待（默认） 。</li>
-<li><code>no_root_squash</code>：客户端<code>root</code>具有超级权限。</li>
-</ul>
+<tr>
+<td><code>root_squash</code></td>
+<td>把客户端<code>root</code>账号当普通用户对待（默认）</td>
+</tr>
 
-<p>比如：</p>
+<tr>
+<td><code>no_root_squash</code></td>
+<td>客户端<code>root</code>具有超级权限</td>
+</tr>
+
+<tr>
+<td><code>all_squash</code></td>
+<td>共享文件的<code>UID</code>和<code>GID</code>映射匿名用户<code>anonymous</code>，适合公用目录</td>
+</tr>
+
+<tr>
+<td><code>no_all_squash</code></td>
+<td>保留共享文件的<code>UID</code>和<code>GID</code>（默认）</td>
+</tr>
+
+<tr>
+<td><code>sync</code></td>
+<td>同步写入，有修改时同步写入</td>
+</tr>
+
+<tr>
+<td><code>async</code></td>
+<td>可以异步写入，通常可以提升性能，但数据没有实时落地，有异常时可能有丢失。</td>
+</tr>
+</tbody>
+</table>
+
+<p>关于<code>root_squash</code>说明：</p>
 
 <pre><code>$ cat /etc/exports
 /data/test 172.16.60.7(sync,rw,root_squash)
@@ -206,30 +202,16 @@ $ exportfs -v
 /data/test    	172.16.0.30(rw,wdelay,root_squash,no_subtree_check,sec=sys,rw,root_squash,no_all_squash)
 </code></pre>
 
-<p>这个时候挂载之后，客户端<code>root</code>账号创建的文件属于<code>nfsnobody</code>，如果服务端<code>nfsnobody</code>没有<code>test</code>目录权限，那么客户端<code>root</code>用户也无法写入，即把客户端<code>root</code>用户当普通用户看待。</p>
+<p>挂载之后，客户端<code>root</code>账号创建的文件属于<code>nfsnobody</code>，如果服务端<code>nfsnobody</code>没有<code>test</code>目录权限，那么客户端<code>root</code>用户也无法写入，即把客户端<code>root</code>用户当普通用户看待。</p>
 
 <p>如果调整为<code>no_root_squash</code>，则<code>root</code>相当于有超级用户的权限，可以创建文件，同时创建的文件所有者为<code>root</code>。</p>
-
-<h3 id="3-all-squash-no-all-squash">3. all_squash &amp;&amp; no_all_squash</h3>
-
-<ul>
-<li><code>all_squash</code>：共享文件的UID和GID映射匿名用户anonymous，适合公用目录。</li>
-<li><code>no_all_squash</code>：保留共享文件的UID和GID（默认） 。</li>
-</ul>
-
-<h3 id="4-sync-aysnc">4. sync &amp;&amp; aysnc</h3>
-
-<ul>
-<li><code>sync</code>：同步写入，有修改时同步写入</li>
-<li><code>async</code>：可以异步写入，通常可以提升性能，但数据没有实时落地，有异常时可能有丢失。</li>
-</ul>
 
 <p><strong>配置完成之后重新加载<code>exports</code>文件：</strong></p>
 
 <pre><code>$ exportfs -r
 </code></pre>
 
-<h1 id="客户端挂载">客户端挂载</h1>
+<h1 id="四-客户端挂载">四、客户端挂载</h1>
 
 <p>客户端也需要安装<code>yum install -y nfs-utils</code>，挂载命令是：</p>
 
@@ -264,7 +246,7 @@ tmpfs                tmpfs  7.8G   16K  7.8G   1% /dev/shm
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-09.html">2020-12-02 22:05</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-09.html">2020-12-02 22:37</a></code>
     </div>
     
     <div class="eof_tag">

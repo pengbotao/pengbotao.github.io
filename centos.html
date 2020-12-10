@@ -34,18 +34,8 @@
 <li><a href="#四-yum-配置">四、yum 配置</a></li>
 <li><a href="#五-镜像">五、镜像</a>
 <ul>
-<li><a href="#5-1-centos镜像">5.1 CentOS镜像</a>
-<ul>
-<li><a href="#1-备份">1. 备份</a></li>
-<li><a href="#2-下载镜像">2. 下载镜像</a></li>
-<li><a href="#3-更新缓存">3. 更新缓存</a></li>
-</ul></li>
-<li><a href="#5-2-epel-镜像">5.2 epel 镜像</a>
-<ul>
-<li><a href="#1-备份-1">1. 备份</a></li>
-<li><a href="#2-下载镜像-1">2. 下载镜像</a></li>
-<li><a href="#3-更新缓存-1">3. 更新缓存</a></li>
-</ul></li>
+<li><a href="#5-1-centos镜像">5.1 CentOS镜像</a></li>
+<li><a href="#5-2-epel-镜像">5.2 epel 镜像</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -197,12 +187,12 @@ Host peng-node-2
 
 <p>CentOS，是基于 Red Hat Linux 提供的可自由使用源代码的企业级 Linux 发行版本；是一个稳定，可预测，可管理和可复制的免费企业级计算平台。</p>
 
-<h3 id="1-备份">1. 备份</h3>
+<p><strong>1. 备份</strong></p>
 
 <pre><code>mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 </code></pre>
 
-<h3 id="2-下载镜像">2. 下载镜像</h3>
+<p><strong>2. 下载镜像</strong></p>
 
 <p>下载新的 CentOS-Base.repo 到 /etc/yum.repos.d/</p>
 
@@ -216,7 +206,7 @@ $ wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Cent
 $ wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-8.repo
 </code></pre>
 
-<h3 id="3-更新缓存">3. 更新缓存</h3>
+<p><strong>3. 更新缓存</strong></p>
 
 <pre><code>yum clean all
 yum makecache
@@ -226,7 +216,7 @@ yum makecache
 
 <p>EPEL (Extra Packages for Enterprise Linux), 是由 Fedora Special Interest Group 维护的 Enterprise Linux（RHEL、CentOS）中经常用到的包。</p>
 
-<h3 id="1-备份-1">1. 备份</h3>
+<p><strong>1. 备份</strong></p>
 
 <p>备份，如有配置其他epel源</p>
 
@@ -234,7 +224,7 @@ yum makecache
 mv /etc/yum.repos.d/epel-testing.repo /etc/yum.repos.d/epel-testing.repo.backup
 </code></pre>
 
-<h3 id="2-下载镜像-1">2. 下载镜像</h3>
+<p><strong>2. 下载镜像</strong></p>
 
 <p><strong>epel(RHEL 8)</strong></p>
 
@@ -258,7 +248,7 @@ $ wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo
 $ wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-5.repo
 </code></pre>
 
-<h3 id="3-更新缓存-1">3. 更新缓存</h3>
+<p><strong>3. 更新缓存</strong></p>
 
 <pre><code>yum clean all
 yum makecache
@@ -276,7 +266,7 @@ yum makecache
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2017-10.html">2020-11-18 13:29</a></code>
+        <code style="border:0px;background:none;"><a href="/2017-10.html">2020-12-02 22:21</a></code>
     </div>
     
     <div class="eof_tag">
