@@ -106,9 +106,11 @@ $ brew install zlib
 <pre><code># MAC下升级openssl才得以解决
 $ brew upgrade openssl
 $ CFLAGS=&quot;-I$(brew --prefix openssl)/include -I$(xcrun --show-sdk-path)/usr/include&quot; CPPFLAGS=&quot;-I$(brew --prefix openssl)/include&quot; LDFLAGS=&quot;-L$(brew --prefix openssl)/lib&quot; pyenv install -v 3.7.2
+</code></pre>
 
-# CentOS
-$ yum install -y zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel findutils
+<h3 id="centos安装">CentOS安装</h3>
+
+<pre><code>$ yum install -y zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel findutils
 $ CFLAGS=-I/usr/include/openssl \
 LDFLAGS=-L/usr/lib64 \
 pyenv install -v 3.7.2
@@ -122,6 +124,13 @@ pyenv install -v 3.7.2
 * system (set by /Users/peng/.pyenv/version)
   3.7.2
 </code></pre>
+
+<p>@2020-12-18 在CentOS中安装3.7.8成功后安装包<code>DBUtils</code>时出现以下报错：</p>
+
+<pre><code>ModuleNotFoundError: No module named '_ctypes'
+</code></pre>
+
+<p>需要先卸载Python，安装<code>yum install libffi-devel</code>后重装修复。</p>
 
 <p><strong>2. pyenv使用</strong></p>
 
@@ -244,6 +253,11 @@ pyenv-virtualenv: remove /Users/peng/.pyenv/versions/3.7.2/envs/my372? y
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
         <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2015-12.html">2020-12-18 09:06</a></code>
     </div>
     
     <div class="eof_tag">

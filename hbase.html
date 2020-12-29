@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Hbase配置及数据迁移</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+    
+</head>
+<body>
+<div class="content">
+    <h1 class="title">Hbase配置及数据迁移</h1>
+
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+
+    <h1 id="一-关于hbase">一、关于Hbase</h1>
+
+<p>HBase是一个分布式，版本化，面向列的开源数据库，构建在 Apache Hadoop和 Apache ZooKeeper之上，基于谷歌三篇论文中的BigTable而实现。</p>
+
+<p>项目从Mongo、Codis切换到Hbase也是看中到他的存储能力，相较于Codis的内存而言，SSD还是廉价很多，借助HDFS的分布式存储能力，在存储这块没有太多担心的，但毕竟是磁盘存储、分部署存储，读的性能上还是差很多，比较适合写多读少的场景。</p>
+
+<p>使用Hbase两年多来也出现过两次事故，一次是阿里云运维程序处罚Major Compaction导致磁盘写满，触发Hbase2.0.3版本meta表Bug，导致集群不可用，当时通过购买新集群解决，但后续做数据迁移的时候导致hbase开始分裂，短时间磁盘写满，集群被锁住，所以对于Hbase的磁盘空间可以预留50%以上的空间。还有一次是配合阿里云做优化，两个集群的数据压缩算法不一致，导致thrift连接打满，类似这些事故导致集群不可用对核心业务的影响还是比较致命的。</p>
+
+<p>兜兜转转下还是决定自己搭建Hbase集群。</p>
+
+<h1 id="二-准备工作">二、准备工作</h1>
+
+<h2 id="2-1-安装jdk">2.1 安装jdk</h2>
+
+<p>安装JDK并配置环境变量</p>
+
+<pre><code>$ vi /etc/profile
+HADOOP_HOME=/hadoop-2.8.5
+HBASE_HOME=/hbase-2.1.8
+JAVA_HOME=/usr/local/jdk
+PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$HBASE_HOME/bin
+CLASSPATH=$JAVA_HOME/jre/lib/ext:$JAVA_HOME/lib/tools.jar
+export PATH JAVA_HOME CLASSPATH HADOOP_HOME HBASE_HOME
+$ source /etc/profile
+</code></pre>
+
+<h2 id="2-2-配置ssh免登陆">2.2 配置SSH免登陆</h2>
+
+<p>首先给每台机器配置Hosts，</p>
+
+<pre><code>192.168.0.100 peng-hbase-1
+192.168.0.101 peng-hbase-2
+192.168.0.102 peng-hbase-3
+192.168.0.103 peng-hbase-4
+</code></pre>
+
+<p>每台机器运行<code>Hbase</code>的账号<code>~/.ssh/authorized_keys</code>增加授权<code>KEY</code>，确保每台机器都可以登录</p>
+
+<pre><code>$ ssh peng-hbase-1
+$ ssh peng-hbase-2
+$ ssh peng-hbase-3
+$ ssh peng-hbase-4
+</code></pre>
+
+<h2 id="2-3-同步时间">2.3 同步时间</h2>
+
+<pre><code>$ ntpdate time.windows.com
+</code></pre>
+
+<h2 id="2-4-配置zookeeper集群">2.4 配置ZooKeeper集群</h2>
+
+<p>参考<a href="https://itopic.org/zookeeper.html">ZooKeeper配置</a></p>
+
+<h1 id="二-安装hdfs">二、安装HDFS</h1>
+
+<p>下载hadoop安装文件，配置文件目录：<code>{hadooppath}/etc/hadoop/</code>，调整配置文件。</p>
+
+<pre><code>-rw-r--r-- 1 hadoop hadoop 4.7K 12月 24 15:57 hadoop-env.sh
+-rw-r--r-- 1 hadoop hadoop 2.8K 12月 24 14:52 hdfs-site.xml
+-rw-r--r-- 1 hadoop hadoop 1.1K 12月 24 14:49 core-site.xml
+-rw-r--r-- 1 hadoop hadoop   80 12月 24 14:48 slaves
+</code></pre>
+
+<p>同步配置文件到各台机器，<code>Master</code>机器上执行格式化<code>namenode</code>，否则可能出现<code>NameNode</code>未启动的情况。</p>
+
+<pre><code>$ hadoop namenode -format
+</code></pre>
+
+<p>启动<code>HDFS</code>:</p>
+
+<pre><code>$ sh /hadoop-2.8.5/sbin/start-dfs.sh
+</code></pre>
+
+<p>只需要在<code>Master</code>机器上启动即可，如果要停止可以执行<code>stop-dfs.sh</code>脚本，正常启动成功之后可以看到：</p>
+
+<pre><code>$ jps -l
+17873 org.apache.zookeeper.server.quorum.QuorumPeerMain
+22635 org.apache.hadoop.hdfs.server.datanode.DataNode
+22429 org.apache.hadoop.hdfs.server.namenode.NameNode
+23789 sun.tools.jps.Jps
+</code></pre>
+
+<p><code>Master</code>机器上存在<code>NameNode</code> + <code>DataNode</code>进程，备用机存在<code>SenondaryNameNode</code> + <code>DataNode</code>，其它只有<code>DataNode</code>。然后就可以访问<code>Master</code>机器上的<code>http://peng-hbase-1:50070</code>，就可以看到</p>
+
+<p><img src="../../static/uploads/dfshealth.png" alt="" /></p>
+
+<h1 id="三-安装hbase">三、安装Hbase</h1>
+
+<p>下载对应的hbase安装文件，配置文件目录<code>{hbasepath}/conf</code>，调整配置文件：</p>
+
+<pre><code>-rw-r--r-- 1 hadoop hadoop 7.7K 12月 24 17:46 hbase-env.sh
+-rw-r--r-- 1 hadoop hadoop 3.2K 12月 24 15:45 hbase-site.xml
+-rw-r--r-- 1 hadoop hadoop   81 12月 24 15:03 regionservers
+-rw-rw-r-- 1 hadoop hadoop   20 12月 24 15:01 backup-masters
+</code></pre>
+
+<p>同步配置文件到各台机器，启动Hbase：</p>
+
+<pre><code>$ sh /hbase-2.1.8/bin/start-hbase.sh
+</code></pre>
+
+<p>只需要在Master机器上启动即可，如果要停止可以执行<code>stop-hbase.sh</code>脚本，正常启动成功之后可以看到：</p>
+
+<pre><code>$ jps -l
+27571 sun.tools.jps.Jps
+17873 org.apache.zookeeper.server.quorum.QuorumPeerMain
+23114 org.apache.hadoop.hbase.master.HMaster
+23229 org.apache.hadoop.hbase.regionserver.HRegionServer
+22429 org.apache.hadoop.hdfs.server.namenode.NameNode
+22635 org.apache.hadoop.hdfs.server.datanode.DataNode
+</code></pre>
+
+<p>访问<code>http://peng-hbase-1:60010</code>可以看到</p>
+
+<p><img src="../../static/uploads/hbase-master-status.png" alt="" /></p>
+
+<p><strong>如果通过thrift连接可以启动thrift服务，</strong>在<code>Master</code>机器执行：</p>
+
+<pre><code>$ sh /hbase-2.1.8/bin/hbase-daemons.sh start thrift
+</code></pre>
+
+<p>注意<code>hbase-daemons.sh</code> 中 <code>daemon</code>后面有个<code>s</code>，不带<code>s</code>的脚本只会启动当前机器的thrift，带<code>s</code>会在所有节点启动<code>thrift</code>。最后Master机器上的进程有：</p>
+
+<pre><code>$ jps -l
+17873 org.apache.zookeeper.server.quorum.QuorumPeerMain
+29202 sun.tools.jps.Jps
+23114 org.apache.hadoop.hbase.master.HMaster
+22635 org.apache.hadoop.hdfs.server.datanode.DataNode
+23900 org.apache.hadoop.hbase.thrift.ThriftServer
+23229 org.apache.hadoop.hbase.regionserver.HRegionServer
+22429 org.apache.hadoop.hdfs.server.namenode.NameNode
+</code></pre>
+
+<p>注：整个配置方式配置了Hosts文件，调用的机器上也需要配置对应的Hosts才能访问。</p>
+
+<h1 id="四-数据迁移">四、数据迁移</h1>
+
+<h2 id="4-1-购买bds">4.1 购买BDS</h2>
+
+<p>通过阿里云的<code>BDS</code>做数据迁移，在<code>Hbase</code>控制台创建<code>BDS</code>集群。</p>
+
+<h2 id="4-2-配置数据源">4.2 配置数据源</h2>
+
+<p>本地数据源配置方式如下，<code>Hosts</code>信息拷贝上面信息即可。</p>
+
+<pre><code>{
+  &quot;clusterKey&quot;:&quot;192.168.0.100,192.168.0.101,192.168.0.101:2181:/hbase,
+  &quot;hbaseDir&quot;:&quot;/hbase&quot;,
+  &quot;hdfsUri&quot;:&quot;hdfs://peng-hbase-1:9000&quot;
+}
+</code></pre>
+
+<p>如果是阿里云的<code>HBase</code>则直接在<code>BDS</code>中的关联数据库中关联即可。</p>
+
+<h2 id="4-3-账号授权">4.3 账号授权</h2>
+
+<p>迁移之前在<code>Master</code>机器创建<code>.copytmp</code>目录并给<code>hadoop</code>账号授权。</p>
+
+<pre><code>$ hadoop fs -mkdir /.copytmp
+$ hadoop fs -chown hadoop /.copytmp
+</code></pre>
+
+<p>未授权时出现的错误为：</p>
+
+<pre><code>err=org.apache.hadoop.security.AccessControlException: Permission denied: user=hadoop, access=WRITE
+</code></pre>
+
+<h2 id="4-4-创建迁移任务">4.4 创建迁移任务</h2>
+
+<p>在<code>BDS</code>后台创建迁移任务即可。</p>
+
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2021-01.html">2021-01-01 16:00</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/hbase.html">Hbase</a></code>
+    </div>
+
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/lion-english.html">Lion的英语启蒙</a>
+            </li>
+            
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/大数据/Hbase配置及数据迁移.md">https://github.com/pengbotao/itopic.go/blob/master/posts/大数据/Hbase配置及数据迁移.md</a>
+            <li>
+            <li>
+                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+
+<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/大数据/Hbase配置及数据迁移.md" target="_blank"  class="github-corner">
+<svg width="60" height="60" viewBox="0 0 250 250" style="fill: #61687C; color:#fff; position: absolute;top: 0;border: 0;right: 0;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+</body>
+</html>
