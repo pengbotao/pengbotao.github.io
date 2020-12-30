@@ -77,7 +77,20 @@ $ ssh peng-hbase-4
 -rw-r--r-- 1 hadoop hadoop   80 12月 24 14:48 slaves
 </code></pre>
 
-<p>同步配置文件到各台机器，<code>Master</code>机器上执行格式化<code>namenode</code>，否则可能出现<code>NameNode</code>未启动的情况。</p>
+<p><strong>core-site.xml</strong></p>
+
+<pre><code>&lt;value&gt;hdfs://peng-hbase-1:9000&lt;/value&gt;
+</code></pre>
+
+<p><strong>slaves</strong></p>
+
+<pre><code>peng-hbase-1
+peng-hbase-2
+peng-hbase-3
+peng-hbase-4
+</code></pre>
+
+<p>同步配置文件到各台机器，<code>Master</code>机器上执行格式化<code>namenode</code>，否则可能出现<code>NameNode</code>未启动的情况。(用前面配置授权KEY的账号)</p>
 
 <pre><code>$ hadoop namenode -format
 </code></pre>
@@ -100,6 +113,44 @@ $ ssh peng-hbase-4
 
 <p><img src="../../static/uploads/dfshealth.png" alt="" /></p>
 
+<p><strong>测试hdfs是否安装成功</strong>，查看文件列表，命令和文件操作的命令类似：</p>
+
+<pre><code>$ hadoop fs -ls /
+Found 1 items
+drwxr-xr-x   - hadoop supergroup          0 2020-12-29 23:56 /hbase
+</code></pre>
+
+<p>创建目录</p>
+
+<pre><code>$ hadoop fs -mkdir /peng
+</code></pre>
+
+<p>上传文件</p>
+
+<pre><code>$ hadoop fs -put README.md /peng
+</code></pre>
+
+<p>下载文件</p>
+
+<pre><code>hadoop fs -get /peng/README.md
+</code></pre>
+
+<p>查看文件内容</p>
+
+<pre><code>$ hadoop fs -cat /peng/README.md
+Hello HDFS
+</code></pre>
+
+<p>删除文件</p>
+
+<pre><code>$ hadoop fs -rm /peng/README.md
+</code></pre>
+
+<p>删除目录</p>
+
+<pre><code>$ hadoop fs -rm -r /peng
+</code></pre>
+
 <h1 id="三-安装hbase">三、安装Hbase</h1>
 
 <p>下载对应的hbase安装文件，配置文件目录<code>{hbasepath}/conf</code>，调整配置文件：</p>
@@ -108,6 +159,35 @@ $ ssh peng-hbase-4
 -rw-r--r-- 1 hadoop hadoop 3.2K 12月 24 15:45 hbase-site.xml
 -rw-r--r-- 1 hadoop hadoop   81 12月 24 15:03 regionservers
 -rw-rw-r-- 1 hadoop hadoop   20 12月 24 15:01 backup-masters
+</code></pre>
+
+<p><strong>regionservers</strong></p>
+
+<pre><code>peng-hbase-1
+peng-hbase-2
+peng-hbase-3
+peng-hbase-4
+</code></pre>
+
+<p><strong>backup-masters</strong></p>
+
+<pre><code>peng-hbase-4
+</code></pre>
+
+<p><strong>hbase-site.xml</strong></p>
+
+<pre><code>&lt;property&gt;
+    &lt;!-- hbase存放数据目录 --&gt;
+    &lt;name&gt;hbase.rootdir&lt;/name&gt;
+    &lt;!-- 端口要和Hadoop的fs.defaultFS端口一致--&gt;
+    &lt;value&gt;hdfs://peng-hbase-1:9000/hbase&lt;/value&gt;
+&lt;/property&gt;
+    
+&lt;property&gt;
+    &lt;!-- list of  zookooper --&gt;
+    &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;
+    &lt;value&gt;192.168.0.100:2181,192.168.0.101:2181,192.168.0.102:2181&lt;/value&gt;
+&lt;/property&gt;
 </code></pre>
 
 <p>同步配置文件到各台机器，启动Hbase：</p>
@@ -147,7 +227,130 @@ $ ssh peng-hbase-4
 22429 org.apache.hadoop.hdfs.server.namenode.NameNode
 </code></pre>
 
-<p>注：整个配置方式配置了Hosts文件，调用的机器上也需要配置对应的Hosts才能访问。</p>
+<p>注：整个配置方式配置了Hosts文件，调用的机器上也需要配置对应的Hosts才能访问。接下来测试Hbase是否安装成功：</p>
+
+<p>登录hbase命令行</p>
+
+<pre><code>$ hbase shell
+HBase Shell
+Use &quot;help&quot; to get list of supported commands.
+Use &quot;exit&quot; to quit this interactive shell.
+For Reference, please visit: http://hbase.apache.org/2.0/book.html#shell
+Version 2.1.8, rd8333e556c8ed739cf39dab58ddc6b43a50c0965, Tue Nov 19 15:29:04 UTC 2019
+Took 0.0024 seconds
+hbase(main):001:0&gt; list
+TABLE
+0 row(s)
+Took 0.3120 seconds
+=&gt; []
+</code></pre>
+
+<p>创建名称空间</p>
+
+<pre><code>&gt; create_namespace 'demo'
+Took 1.1799 seconds
+</code></pre>
+
+<p>创建数据表</p>
+
+<pre><code>&gt; create 'demo:peng', { NAME =&gt; 'info', TTL =&gt; 86400, VERSIONS =&gt; 3 } , { NAME =&gt; 'exp' , TTL =&gt; 3600}
+Created table demo:peng
+Took 1.2183 seconds
+=&gt; Hbase::Table - demo:peng
+
+&gt; describe 'demo:peng'
+{
+    NAME =&gt; 'exp', 
+    VERSIONS =&gt; '1', 
+    EVICT_BLOCKS_ON_CLOSE =&gt; 'false', 
+    NEW_VERSION_BEHAVIOR =&gt; 'false', 
+    KEEP_DELETED_CELLS =&gt; 'FALSE', 
+    CACHE_DATA_ON_WRITE =&gt; 'false', 
+    DATA_BLOCK_ENCODING =&gt; 'NONE', 
+    TTL =&gt; '3600 SECONDS (1 HOUR)', 
+    MIN_VERSIONS =&gt; '0', 
+    REPLICATION_SCOPE =&gt; '0', 
+    BLOOMFILTER =&gt; 'ROW', 
+    CACHE_INDEX_ON_WRITE =&gt; 'false', 
+    IN_MEMORY =&gt; 'false', 
+    CACHE_BLOOMS_ON_WRITE =&gt; 'false', 
+    PREFETCH_BLOCKS_ON_OPEN =&gt; 'false', 
+    COMPRESSION =&gt; 'NONE', 
+    BLOCKCACHE =&gt; 'true', 
+    BLOCKSIZE =&gt; '65536'
+},
+{
+    NAME =&gt; 'info', 
+    VERSIONS =&gt; '3', 
+    EVICT_BLOCKS_ON_CLOSE =&gt; 'false', 
+    NEW_VERSION_BEHAVIOR =&gt; 'false', 
+    KEEP_DELETED_CELLS =&gt; 'FALSE', 
+    CACHE_DATA_ON_WRITE =&gt; 'false', 
+    DATA_BLOCK_ENCODING =&gt; 'NONE', 
+    TTL =&gt; '86400 SECONDS (1 DAY)', 
+    MIN_VERSIONS =&gt; '0', 
+    REPLICATION_SCOPE =&gt; '0', 
+    BLOOMFILTER =&gt; 'ROW', 
+    CACHE_INDEX_ON_WRITE =&gt; 'false', 
+    IN_MEMORY =&gt; 'false', 
+    CACHE_BLOOMS_ON_WRITE =&gt; 'false', 
+    PREFETCH_BLOCKS_ON_OPEN =&gt; 'false', 
+    COMPRESSION =&gt; 'NONE', 
+    BLOCKCACHE =&gt; 'true', 
+    BLOCKSIZE =&gt; '65536'
+}
+</code></pre>
+
+<p>写入数据</p>
+
+<pre><code>&gt; put 'demo:peng', 'peng','info:name','peng'
+&gt; put 'demo:peng', 'peng','info:age','18'
+</code></pre>
+
+<p>遍历表</p>
+
+<pre><code>&gt; scan 'demo:peng'
+ROW                            COLUMN+CELL
+ Lion                          column=info:age, timestamp=1609293900382, value=5
+ peng                          column=info:age, timestamp=1609293815916, value=18
+ peng                          column=info:name, timestamp=1609293806251, value=peng
+
+&gt; scan 'demo:peng', {'LIMIT' =&gt; 1}
+ROW                            COLUMN+CELL
+ Lion                          column=info:age, timestamp=1609293900382, value=5
+</code></pre>
+
+<p>查看单条记录</p>
+
+<pre><code>&gt; get 'demo:peng', 'peng'
+COLUMN                         CELL
+ info:age                      timestamp=1609293815916, value=18
+ info:name                     timestamp=1609293806251, value=peng
+</code></pre>
+
+<p>多版本测试，表定义中info中定义VERSIONS = 3，多次更新时会保留最后的3个版本。</p>
+
+<pre><code>&gt; put 'demo:peng', 'peng','info:age','30'
+&gt; put 'demo:peng', 'peng','info:age','32'
+&gt; put 'demo:peng', 'peng','info:age','36'
+&gt; get 'demo:peng', 'peng'
+COLUMN                         CELL
+ info:age                      timestamp=1609306879659, value=36
+ info:name                     timestamp=1609306782683, value=peng
+ 
+&gt; get 'demo:peng','peng',{COLUMN=&gt;'info:age',VERSIONS=&gt;3}
+COLUMN                         CELL
+ info:age                      timestamp=1609306879659, value=36
+ info:age                      timestamp=1609306877282, value=32
+ info:age                      timestamp=1609306864690, value=30
+1 row(s)
+</code></pre>
+
+<p>删除表，删除之前需要先禁用表</p>
+
+<pre><code>&gt; disable 'demo:peng'
+&gt; drop 'demo:peng'
+</code></pre>
 
 <h1 id="四-数据迁移">四、数据迁移</h1>
 
