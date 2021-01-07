@@ -101,6 +101,13 @@ secrets file = /etc/rsyncd.pass
 <pre><code>$ rsync -avzP --password-file=rsync.secrets rsync@172.16.196.200::demo/ .
 </code></pre>
 
+<h1 id="五-示例">五、示例</h1>
+
+<p>同步目录下指定类型的文件(只同步py文件)</p>
+
+<pre><code>$ rsync -avzP --include=&quot;*.py&quot; --exclude=&quot;*.*&quot;  root@172.16.0.1:/data/project/  /data/project/
+</code></pre>
+
 <hr />
 
 <ul>
@@ -114,7 +121,7 @@ secrets file = /etc/rsyncd.pass
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-08.html">2020-12-29 18:05</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-08.html">2021-01-07 10:11</a></code>
     </div>
     
     <div class="eof_tag">
@@ -139,7 +146,7 @@ secrets file = /etc/rsyncd.pass
                 <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/运维/Rsync文件同步.md">https://github.com/pengbotao/itopic.go/blob/master/posts/运维/Rsync文件同步.md</a>
             <li>
             <li>
-                @2013-2020 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+                @2013-2021 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
             </li>
         </ul>
     </div>
