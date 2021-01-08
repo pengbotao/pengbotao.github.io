@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>Hbase配置及数据迁移</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
-    
+    <style type="text/css">
+    @media (min-width: 1200px) {
+        .content{padding-left:280px;width:100%;max-width:100%;}
+    }
+    </style>
 </head>
 <body>
 <div class="content">
@@ -14,7 +18,44 @@
 
     <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-    <h1 id="一-关于hbase">一、关于Hbase</h1>
+    <nav>
+<ul>
+<li><a href="#一-关于hbase">一、关于Hbase</a></li>
+<li><a href="#二-准备工作">二、准备工作</a>
+<ul>
+<li><a href="#2-1-安装jdk">2.1 安装jdk</a></li>
+<li><a href="#2-2-配置ssh免登陆">2.2 配置SSH免登陆</a></li>
+<li><a href="#2-3-同步时间">2.3 同步时间</a></li>
+<li><a href="#2-4-配置zookeeper集群">2.4 配置ZooKeeper集群</a></li>
+</ul></li>
+<li><a href="#二-安装hdfs">二、安装HDFS</a></li>
+<li><a href="#三-安装hbase">三、安装Hbase</a></li>
+<li><a href="#四-数据迁移">四、数据迁移</a>
+<ul>
+<li><a href="#4-1-购买bds">4.1 购买BDS</a></li>
+<li><a href="#4-2-配置数据源">4.2 配置数据源</a></li>
+<li><a href="#4-3-账号授权">4.3 账号授权</a></li>
+<li><a href="#4-4-创建迁移任务">4.4 创建迁移任务</a></li>
+</ul></li>
+<li><a href="#五-hbase管理">五、Hbase管理</a>
+<ul>
+<li><a href="#5-1-region均衡">5.1 Region均衡</a></li>
+<li><a href="#5-2-滚动重启">5.2 滚动重启</a></li>
+<li><a href="#5-3-添加节点">5.3 添加节点</a></li>
+<li><a href="#5-4-停止节点">5.4 停止节点</a></li>
+<li><a href="#5-5-重启">5.5 重启</a></li>
+</ul></li>
+<li><a href="#六-hdfs管理">六、HDFS管理</a>
+<ul>
+<li><a href="#6-1-下线节点">6.1 下线节点</a></li>
+<li><a href="#6-2-新增节点">6.2 新增节点</a></li>
+<li><a href="#6-3-增加磁盘">6.3 增加磁盘</a></li>
+<li><a href="#6-4-重启">6.4 重启</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="一-关于hbase">一、关于Hbase</h1>
 
 <p>HBase是一个分布式，版本化，面向列的开源数据库，构建在 Apache Hadoop和 Apache ZooKeeper之上，基于谷歌三篇论文中的BigTable而实现。</p>
 
@@ -103,7 +144,7 @@ peng-hbase-4
 <pre><code>$ hadoop namenode -format
 </code></pre>
 
-<p>启动<code>HDFS</code>:</p>
+<p><strong>启动<code>HDFS</code>:</strong></p>
 
 <pre><code>$ sh /hadoop-2.8.5/sbin/start-dfs.sh
 </code></pre>
@@ -198,7 +239,7 @@ peng-hbase-4
 &lt;/property&gt;
 </code></pre>
 
-<p>同步配置文件到各台机器，启动Hbase：</p>
+<p><strong>同步配置文件到各台机器，启动Hbase：</strong></p>
 
 <pre><code>$ sh /hbase-2.1.8/bin/start-hbase.sh
 </code></pre>
@@ -364,7 +405,7 @@ COLUMN                         CELL
 
 <h2 id="4-1-购买bds">4.1 购买BDS</h2>
 
-<p>通过阿里云的<code>BDS</code>做数据迁移，在<code>Hbase</code>控制台创建<code>BDS</code>集群。</p>
+<p>通过阿里云的<code>BDS</code>做数据迁移，在<code>Hbase</code>控制台创建<code>BDS</code>集群，支持从一个Hbase迁移到另一个Hbase集群。</p>
 
 <h2 id="4-2-配置数据源">4.2 配置数据源</h2>
 
@@ -397,6 +438,187 @@ $ hadoop fs -chown hadoop /.copytmp
 <p>在<code>BDS</code>后台创建迁移任务即可。</p>
 
 <p><img src="../../static/uploads/hbase-bds.png" alt="" /></p>
+
+<h1 id="五-hbase管理">五、Hbase管理</h1>
+
+<h2 id="5-1-region均衡">5.1 Region均衡</h2>
+
+<p>用来均衡多个RegionServer之间的Region数量（Num.Regions），在RegionServer扩容或者缩容过程中都会引起Region的重新分配。可以通过<code>balancer_enabled</code>查看开关。</p>
+
+<pre><code>$ hbase shell
+hbase(main):001:0&gt; balancer_enabled
+true
+Took 0.3317 seconds
+=&gt; true
+</code></pre>
+
+<p>也可以手动设置关闭</p>
+
+<pre><code>hbase(main):003:0&gt; balance_switch false
+Previous balancer state : true
+Took 0.0428 seconds
+=&gt; &quot;true&quot;
+</code></pre>
+
+<p>当关闭后会提示</p>
+
+<pre><code>The Load Balancer is not enabled which will eventually cause performance degradation in HBase 
+as Regions will not be distributed across all RegionServers. 
+The balancer is only expected to be disabled during rolling upgrade scenarios.
+</code></pre>
+
+<h2 id="5-2-滚动重启">5.2 滚动重启</h2>
+
+<p>有个<code>./rolling-restart.sh</code>可以操作滚动重启，但在重启过程中集群会出现不可用。理论上配置文件的修改、节点上下线都可以通过该操作完成。</p>
+
+<blockquote>
+<p>操作的是重启，如果要下线可以先停掉指定节点，然后执行重启。</p>
+</blockquote>
+
+<h2 id="5-3-添加节点">5.3 添加节点</h2>
+
+<p>和前面配置相同，需要添加Host、配置SSH登录、添加regionservers。然后在添加的节点执行：</p>
+
+<pre><code>./hbase-daemon.sh start regionserver
+</code></pre>
+
+<p>启动之后Regions会重新分配，在执行均衡的过程中可能出现某些region不可用的情况。</p>
+
+<pre><code>3 region(s) in transition. 0 region(s) in transition for more than 60000 milliseconds.
+</code></pre>
+
+<h2 id="5-4-停止节点">5.4 停止节点</h2>
+
+<p>通过<code>graceful_stop.sh</code>脚本执行节点下线</p>
+
+<pre><code>$ ./graceful_stop.sh peng-hbase-4
+2021-01-07T15:12:34 Disabling load balancer
+2021-01-07T15:12:39 Previous balancer state was false
+2021-01-07T15:12:39 Unloading peng-hbase-4 region(s)
+...
+2021-01-07T15:13:21 Unloaded peng-hbase-4 region(s)
+2021-01-07T15:13:21 Stopping regionserver on peng-hbase-4
+2021-01-07T15:22:23 Restoring balancer state to true
+</code></pre>
+
+<p>通过日志看到停止过程中有停止负载均衡，迁移<code>region</code>然后停掉<code>regionserver</code>再次打开<code>Region</code>均衡开关。</p>
+
+<h2 id="5-5-重启">5.5 重启</h2>
+
+<p>重启<code>master</code></p>
+
+<pre><code>$ ./hbase-daemon.sh stop master
+$ ./hbase-daemon.sh start master
+</code></pre>
+
+<p>重启<code>regionserver</code></p>
+
+<pre><code>$ ./graceful_stop.sh --restart peng-hbase-4
+</code></pre>
+
+<p>也可以通过<code>rolling</code>脚本启动所有<code>master</code>或<code>regionserver</code></p>
+
+<pre><code>$ ./rolling-restart.sh --master-only
+$ ./rolling-restart.sh --rs-only
+</code></pre>
+
+<p>启停集群</p>
+
+<pre><code>$ ./hbase-2.1.8/bin/start-hbase.sh
+$ ./hbase-2.1.8/bin/stop-hbase.sh
+</code></pre>
+
+<h1 id="六-hdfs管理">六、HDFS管理</h1>
+
+<h2 id="6-1-下线节点">6.1 下线节点</h2>
+
+<p><code>hdfs-site.xml</code>文件配置黑名单，增加需要下线的节点</p>
+
+<pre><code>    &lt;property&gt;
+        &lt;name&gt;dfs.hosts.exclude&lt;/name&gt;
+        &lt;value&gt;/hadoop-2.8.5/etc/hadoop/excludes&lt;/value&gt;
+    &lt;/property&gt;
+</code></pre>
+
+<p>主NameNode上刷新节点，会做数据迁移</p>
+
+<pre><code>$ hdfs dfsadmin -refreshNodes
+</code></pre>
+
+<p>查看节点状态为Decommission in progress</p>
+
+<pre><code>$ hdfs dfsadmin -report
+Name: 192.168.0.103:50010 (peng-hbase-4)
+Hostname: peng-hbase-4
+Decommission Status : Decommission in progress
+Configured Capacity: 802297069568 (747.20 GB)
+DFS Used: 56288714752 (52.42 GB)
+Non DFS Used: 0 (0 B)
+DFS Remaining: 702790262950 (654.52 GB)
+DFS Used%: 7.02%
+DFS Remaining%: 87.60%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 5
+Last contact: Thu Jan 07 17:55:07 CST 2021
+</code></pre>
+
+<p>待状态变为Decommissioned后在对应节点停止datanode</p>
+
+<pre><code>$ hadoop-daemon.sh stop datanode 
+</code></pre>
+
+<p>调整slaves文件并清空excludes数据，重新刷新节点，这个过程需要等待一定时间后会被认定为节点已死。</p>
+
+<h2 id="6-2-新增节点">6.2 新增节点</h2>
+
+<p>修改slaves文件增加新节点，然后执行刷新节点</p>
+
+<pre><code>$ hdfs dfsadmin -refreshNodes
+</code></pre>
+
+<p>启动DataNode</p>
+
+<pre><code>$ hadoop-daemon.sh start datanode 
+</code></pre>
+
+<p>重新平衡</p>
+
+<pre><code>$ ./sbin/start-balancer.sh
+</code></pre>
+
+<h2 id="6-3-增加磁盘">6.3 增加磁盘</h2>
+
+<p>调整hadoop中hdfs-site.xml文件并重启</p>
+
+<pre><code>&lt;property&gt;
+    &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;
+    &lt;value&gt;/data/hdfs/name,/data1/hdfs/name&lt;/value&gt;
+    &lt;description&gt;表示NameNode需要存储数据的地方&lt;/description&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;
+    &lt;value&gt;/data/hdfs/data,/data1/hdfs/data&lt;/value&gt;
+    &lt;description&gt;DataNode存放数据的地方&lt;/description&gt;
+&lt;/property&gt;
+</code></pre>
+
+<h2 id="6-4-重启">6.4 重启</h2>
+
+<p>操作指定节点</p>
+
+<pre><code>$ hadoop-daemon.sh start datanode 
+$ hadoop-daemon.sh stop datanode 
+</code></pre>
+
+<p>启停集群</p>
+
+<pre><code>$ ./start-dfs.sh
+$ ./stop-dfs.sh
+</code></pre>
 
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
