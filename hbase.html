@@ -181,7 +181,7 @@ drwxr-xr-x   - hadoop supergroup          0 2020-12-29 23:56 /hbase
 
 <p>下载文件</p>
 
-<pre><code>hadoop fs -get /peng/README.md
+<pre><code>$ hadoop fs -get /peng/README.md
 </code></pre>
 
 <p>查看文件内容</p>
@@ -198,6 +198,11 @@ Hello HDFS
 <p>删除目录</p>
 
 <pre><code>$ hadoop fs -rm -r /peng
+</code></pre>
+
+<p>查看Hbase存储占用</p>
+
+<pre><code>$ hadoop fs -du -h /hbase/data
 </code></pre>
 
 <h1 id="三-安装hbase">三、安装Hbase</h1>
@@ -608,13 +613,13 @@ Last contact: Thu Jan 07 17:55:07 CST 2021
 
 <h2 id="6-4-重启">6.4 重启</h2>
 
-<p>操作指定节点</p>
+<p>操作指定节点后查看Datanode Information管理页面就可以看到新增的存储空间了。我这里数据有多份，逐一重启datanode后扩容成功。</p>
 
-<pre><code>$ hadoop-daemon.sh start datanode 
-$ hadoop-daemon.sh stop datanode 
+<pre><code>$ ./hadoop-daemon.sh stop datanode 
+$ ./hadoop-daemon.sh start datanode 
 </code></pre>
 
-<p>启停集群</p>
+<p>直接启停整个集群可使用</p>
 
 <pre><code>$ ./start-dfs.sh
 $ ./stop-dfs.sh
@@ -623,6 +628,11 @@ $ ./stop-dfs.sh
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
         <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2021-01.html">2021-01-15 14:44</a></code>
     </div>
     
     <div class="eof_tag">
