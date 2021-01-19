@@ -52,13 +52,145 @@ processManagement:
 about to fork child process, waiting until server is ready for connections.
 forked process: 49268
 child process started successfully, parent exiting
+</code></pre>
 
-$ mongod -f ~/data/mongodb-macos-x86_64-4.4.3/mongod.conf shutdown
+<p>停止服务</p>
+
+<pre><code>$ mongo
+MongoDB shell version v4.4.3
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&amp;gssapiServiceName=mongodb
+Implicit session: session { &quot;id&quot; : UUID(&quot;ef69ef5a-9a83-45f4-a1ca-b63717183535&quot;) }
+MongoDB server version: 4.4.3
+switched to db admin
+&gt; db
+admin
+&gt; db.shutdownServer()
+server should be down...
 </code></pre>
 
 <p>通过官方安装MongoDB GUI管理工具：MongoDB Compass，效果图如下：</p>
 
 <p><img src="../../static/uploads/mongodb-compass.png" alt="" /></p>
+
+<h1 id="常用命令">常用命令</h1>
+
+<p><strong>MongoDB与Mysql结构对比</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>MYSQL</th>
+<th>MongoDB</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>库 - database</td>
+<td>库 - database</td>
+<td></td>
+</tr>
+
+<tr>
+<td>表 - table</td>
+<td>集合 - collection</td>
+<td>表示一组文档</td>
+</tr>
+
+<tr>
+<td>行 - row</td>
+<td>文档 - document</td>
+<td>基本单元，类似关系型数据库中的行</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="增删查改">增删查改</h2>
+
+<p><strong>查询</strong></p>
+
+<pre><code># 显示数据库列表
+&gt; show dbs
+&gt; show databases
+
+# 显示库中的集合
+&gt; show tables
+&gt; show collections
+
+# 切换数据库
+&gt; use demo
+
+&gt; db.articles.find().pretty()
+{
+	&quot;_id&quot; : ObjectId(&quot;6006394a1e1382e154503c71&quot;),
+	&quot;title&quot; : &quot;Hbase配置及数据迁移&quot;,
+	&quot;href&quot; : &quot;https://itopic.org/hbase.html&quot;
+}
+{
+	&quot;_id&quot; : ObjectId(&quot;6006396c1e1382e154503c72&quot;),
+	&quot;title&quot; : &quot;Apache Airflow数据库迁移&quot;,
+	&quot;href&quot; : &quot;https://itopic.org/airflow-data-migration.html&quot;,
+	&quot;top&quot; : 1
+}
+{
+	&quot;_id&quot; : ObjectId(&quot;6006398f1e1382e154503c73&quot;),
+	&quot;title&quot; : &quot;通过kubeadm部署Kubernetes集群&quot;,
+	&quot;href&quot; : &quot;https://itopic.org/k8s-kubeadm-install.html&quot;,
+	&quot;top&quot; : 0
+}
+{
+	&quot;_id&quot; : ObjectId(&quot;60063a931e1382e154503c74&quot;),
+	&quot;title&quot; : &quot;Python入门知识点整理&quot;,
+	&quot;href&quot; : &quot;https://itopic.org/python.html&quot;,
+	&quot;top&quot; : 1,
+	&quot;author&quot; : {
+		&quot;name&quot; : &quot;peng&quot;,
+		&quot;age&quot; : 18
+	}
+}
+
+&gt; db.articles.find({top:1}).pretty()
+{
+	&quot;_id&quot; : ObjectId(&quot;6006396c1e1382e154503c72&quot;),
+	&quot;title&quot; : &quot;Apache Airflow数据库迁移&quot;,
+	&quot;href&quot; : &quot;https://itopic.org/airflow-data-migration.html&quot;,
+	&quot;top&quot; : 1
+}
+
+&gt; db.articles.find({'author.name':'peng'}).pretty()
+{
+	&quot;_id&quot; : ObjectId(&quot;60063a931e1382e154503c74&quot;),
+	&quot;title&quot; : &quot;Python入门知识点整理&quot;,
+	&quot;href&quot; : &quot;https://itopic.org/python.html&quot;,
+	&quot;top&quot; : 1,
+	&quot;author&quot; : {
+		&quot;name&quot; : &quot;peng&quot;,
+		&quot;age&quot; : 18
+	}
+}
+
+&gt; db.articles.count()
+4
+</code></pre>
+
+<p><strong>数据插入</strong></p>
+
+<pre><code>&gt; db.articles.insert({title: &quot;Shell脚本入门&quot;, href: &quot;https://itopic.org/shell-start.html&quot;})
+WriteResult({ &quot;nInserted&quot; : 1 })
+</code></pre>
+
+<p><strong>数据更新</strong></p>
+
+<pre><code>&gt; db.articles.update({title: &quot;Shell脚本入门&quot;}, {title: &quot;Shell脚本入门&quot;, href: &quot;&quot;, top:0})
+WriteResult({ &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 })
+</code></pre>
+
+<p><strong>数据删除</strong></p>
+
+<pre><code>&gt; db.articles.remove({title: &quot;Shell脚本入门&quot;})
+WriteResult({ &quot;nRemoved&quot; : 1 })
+</code></pre>
 
 <hr />
 
@@ -74,7 +206,7 @@ $ mongod -f ~/data/mongodb-macos-x86_64-4.4.3/mongod.conf shutdown
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-12.html">2021-01-18 18:05</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-12.html">2021-01-19 10:12</a></code>
     </div>
     
     <div class="eof_tag">
