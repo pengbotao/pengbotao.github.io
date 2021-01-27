@@ -60,16 +60,14 @@
 
 <h2 id="2-1-环境说明">2.1 环境说明</h2>
 
-<p><code>PHP</code>、<code>Python</code>、<code>Go</code>这几种语言中，<code>PHP</code>的部署算是最麻烦的了，他需要依赖<code>Nginx</code>，<code>PHP</code>和<code>Nginx</code>之间还需要文件共享，静态页面由<code>Nginx</code>处理，<code>PHP</code>页面交给<code>php-fpm</code>解析，所以要配置<code>PHP+Nginx</code>需要先理一理：</p>
-
-<p><code>PHP</code>和<code>Nginx</code>的交互方式，大概有两种方式可供选择：</p>
+<p><code>PHP</code>、<code>Python</code>、<code>Go</code>这几种语言中，<code>PHP</code>的部署算是最麻烦的了，他需要依赖<code>Nginx</code>，<code>PHP</code>和<code>Nginx</code>之间还需要文件共享，静态页面由<code>Nginx</code>处理，<code>PHP</code>页面交给<code>php-fpm</code>解析，所以要配置<code>PHP+Nginx</code>需要先理一理<code>PHP</code>和<code>Nginx</code>的交互方式，大概有两种方式可供选择：</p>
 
 <ul>
 <li><code>PHP</code> 和 <code>Nginx</code>在同一个<code>Pod</code>中</li>
 <li><code>PHP</code> 和 <code>Nginx</code>属于不同的<code>Pod</code>，文件通过<code>Volumes</code>挂载到同一个目录实现共享</li>
 </ul>
 
-<p><strong>这里选择在同一个Pod中</strong>，<code>PHP</code>和<code>Nginx</code>容器都需要能够读取到源代码文件，同一个<code>Pod</code>中挂载的目录各个容器都可以读到，我们可以直接挂个空目录，应用镜像只打代码文件，然后在<code>Pod</code>的<code>initController</code>容器里将代码都拷贝到容器去。</p>
+<p><strong>这里选择在同一个Pod中，即同一个Pod中的多个容器</strong>，<code>PHP</code>和<code>Nginx</code>容器都需要能够读取到源代码文件，同一个<code>Pod</code>中挂载的目录各个容器都可以读到，我们可以直接挂个空目录，应用镜像只打代码文件，然后在<code>Pod</code>的<code>initController</code>容器里将代码都拷贝到容器去。</p>
 
 <p>另外，常规项目配置上的要求：</p>
 
@@ -102,19 +100,19 @@
 Dockerfile api.php    config.php index.php
 </code></pre>
 
-<p>代码文件：<code>index.php</code></p>
+<p><strong>1. 代码文件</strong>：<code>index.php</code></p>
 
 <pre><code>&lt;?php phpinfo();
 </code></pre>
 
-<p>代码文件：<code>api.php</code>，引用了配置文件。</p>
+<p><strong>2. 代码文件</strong>：<code>api.php</code>，引用了配置文件。</p>
 
 <pre><code>&lt;?php
 include &quot;config.php&quot;;
 echo json_encode($config);
 </code></pre>
 
-<p>代码文件：<code>config.php</code></p>
+<p><strong>3. 代码文件</strong>：<code>config.php</code></p>
 
 <pre><code>&lt;?php
 $config = [
@@ -224,7 +222,7 @@ spec:
       - name: init-phpdemo-src
         image: pengbotao/project-php:v2
         imagePullPolicy: IfNotPresent
-        command: ['sh', '-c', &quot;cp -rf /src/* /src-www &amp;&amp; cp /src-config/* /src-www/&quot;]
+        command: ['sh', '-c', &quot;cp -rf /src/* /src-www &amp;&amp; cp /src-config/* /src-www/ &amp;&amp; chown -R www-data:www-data /src-www&quot;]
         volumeMounts:
         - name: wwwroot
           mountPath: /src-www
@@ -283,7 +281,7 @@ spec:
 
 <ul>
 <li>配置了2个副本</li>
-<li>通过<code>initController</code>将文件拷贝到<code>/data/www</code></li>
+<li>通过<code>initController</code>将文件拷贝到<code>/data/www</code>，需要调一下权限，否则php-fpm可能没有写入权限。</li>
 <li><code>PHP</code>设定了最低内存为64M，<code>CPU</code>为0.25</li>
 <li><code>Nginx</code>配置文件通过<code>ConfigMap</code>挂载</li>
 <li><code>Nginx</code>日志文件通过<code>hostPath</code>挂载本机目录</li>
@@ -492,7 +490,7 @@ REVISION  CHANGE-CAUSE
 
 <ul>
 <li>通过<code>StatefulSet</code>来配置服务（实际环境中可能和上面<code>PHP</code>类似属于无状态服务）</li>
-<li><code>Pod</code>中的<code>Nginx</code>与<code>Python</code>容器隔离，让他们属于不同的<code>Pod</code></li>
+<li><code>Pod</code>中的<code>Nginx</code>与<code>Python</code>容器隔离，很多Gunicorn应用会在上面加一层Nginx，这里就是按照这种来配置，演示不同<code>Pod</code>之间的用法</li>
 <li>实现就绪检测和存活检测</li>
 </ul>
 
@@ -800,6 +798,11 @@ spec:
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
         <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2020-11.html">2021-01-27 18:19</a></code>
     </div>
     
     <div class="eof_tag">

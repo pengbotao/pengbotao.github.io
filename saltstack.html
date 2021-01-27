@@ -95,6 +95,35 @@
 
 <p>配置文件在<code>/etc/salt/minion</code></p>
 
+<p>如果配置了阿里源还是找不到，可以按照官网的配置方式(CentOS7)：<a href="https://repo.saltstack.com/#rhel">https://repo.saltstack.com/#rhel</a></p>
+
+<ol>
+<li><em>Run the following commands to install the SaltStack repository and key:</em></li>
+</ol>
+
+<pre><code>   sudo yum install https://repo.saltstack.com/py3/redhat/salt-py3-repo-3002.el7.noarch.rpm 
+</code></pre>
+
+<ol>
+<li><em>Run</em> <code>sudo yum clean expire-cache</code></li>
+
+<li><p><em>Install the salt-minion, salt-master, or other Salt components:</em></p>
+
+<ul>
+<li><code>sudo yum install salt-master</code></li>
+<li><code>sudo yum install salt-minion</code></li>
+<li><code>sudo yum install salt-ssh</code></li>
+<li><code>sudo yum install salt-syndic</code></li>
+<li><code>sudo yum install salt-cloud</code></li>
+<li><code>sudo yum install salt-api</code></li>
+</ul></li>
+
+<li><p>*(<strong>Upgrade only</strong>) Restart all upgraded services, for example:*</p></li>
+</ol>
+
+<pre><code>   sudo systemctl restart salt-minion
+</code></pre>
+
 <h1 id="二-salt配置">二、Salt配置</h1>
 
 <h2 id="2-1-master配置">2.1 Master配置</h2>
@@ -238,7 +267,7 @@ $ salt -N peng cmd.run 'free |head -n 2| tail -n 1' | grep Mem | awk '{a+=$4;b+=
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2019-07.html">2020-11-12 21:29</a></code>
+        <code style="border:0px;background:none;"><a href="/2019-07.html">2021-01-24 11:24</a></code>
     </div>
     
     <div class="eof_tag">

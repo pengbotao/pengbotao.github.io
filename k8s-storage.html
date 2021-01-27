@@ -44,6 +44,7 @@
 <ul>
 <li><a href="#3-2-1-opaque-secret">3.2.1 Opaque Secret</a></li>
 <li><a href="#3-2-2-dockerconfigjson">3.2.2 dockerconfigjson</a></li>
+<li><a href="#3-2-3-创建ssl证书">3.2.3 创建SSL证书</a></li>
 </ul></li>
 <li><a href="#3-3-使用secret">3.3 使用Secret</a>
 <ul>
@@ -295,6 +296,31 @@ MYSQL_USER = 'root'
 MYSQL_PORT = 3306
 </code></pre>
 
+<p>也可以分开将data.key挂载到不同的文件上：</p>
+
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-demo
+spec:
+  restartPolicy: Never
+  containers:
+  - name: busybox
+    image: busybox:1.32.0
+    command: [&quot;sh&quot;, &quot;-c&quot;, &quot;sleep 1000&quot;]
+    volumeMounts:
+    - name: pod-blog-config
+      mountPath: /etc/config.ini
+      subPath: config.ini
+    - name: pod-blog-config
+      mountPath: /bin/database.py
+      subPath: database.py
+  volumes:
+  - name: pod-blog-config
+    configMap:
+      name: blog-config
+</code></pre>
+
 <h2 id="2-4-热更新">2.4 热更新</h2>
 
 <pre><code>$ kubectl edit cm blog-config
@@ -422,6 +448,29 @@ spec:
     image: 192.168.1.100:5000/test:v1
   imagePullSecrets:
   - name: myregistry
+</code></pre>
+
+<h3 id="3-2-3-创建ssl证书">3.2.3 创建SSL证书</h3>
+
+<p>Ingress中可以支持SSL证书配置，可直接通过文件创建：</p>
+
+<pre><code>$ kubectl create secret tls tls-demo-com --cert=demo.com.pem --key=demo.com.key
+</code></pre>
+
+<p>查看如下</p>
+
+<pre><code>$ kubectl describe secret tls-demo-com
+Name:         tls-demo-com
+Namespace:    default
+Labels:       &lt;none&gt;
+Annotations:  &lt;none&gt;
+
+Type:  kubernetes.io/tls
+
+Data
+====
+tls.crt:  4047 bytes
+tls.key:  1676 bytes
 </code></pre>
 
 <h2 id="3-3-使用secret">3.3 使用Secret</h2>
@@ -644,6 +693,11 @@ spec:
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
         <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2020-09.html">2021-01-22 22:51</a></code>
     </div>
     
     <div class="eof_tag">
