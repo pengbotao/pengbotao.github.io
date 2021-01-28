@@ -26,7 +26,8 @@
 <li><a href="#2-1-资源清单">2.1 资源清单</a></li>
 <li><a href="#2-2-创建configmap">2.2 创建ConfigMap</a>
 <ul>
-<li><a href="#2-2-1-通过文件或目录创建">2.2.1 通过文件或目录创建</a></li>
+<li><a href="#2-2-1-通过yaml创建">2.2.1 通过Yaml创建</a></li>
+<li><a href="#2-2-2-通过文件或目录创建">2.2.2 通过文件或目录创建</a></li>
 <li><a href="#2-2-2-通过字面值创建">2.2.2 通过字面值创建</a></li>
 </ul></li>
 <li><a href="#2-3-使用configmap">2.3 使用ConfigMap</a>
@@ -105,7 +106,7 @@ FIELDS:
    metadata	&lt;Object&gt;
 </code></pre>
 
-<p>相比前面的资源对象少了<code>spec</code>字段，多了<code>data</code>和<code>binaryData</code>字段，用来存储自定义的配置，类型都是<code>map[string]string</code>。</p>
+<p>相比前面的资源对象少了<code>spec</code>字段，多了<code>data</code>和<code>binaryData</code>字段，用来存储自定义的配置，类型都是<code>map[string]string</code>，示例：</p>
 
 <pre><code>apiVersion: v1
 kind: ConfigMap
@@ -122,9 +123,44 @@ data:
 
 <h2 id="2-2-创建configmap">2.2 创建ConfigMap</h2>
 
-<p>除了通过资源清单方式创建外，还有一些其他方式：</p>
+<h3 id="2-2-1-通过yaml创建">2.2.1 通过Yaml创建</h3>
 
-<h3 id="2-2-1-通过文件或目录创建">2.2.1 通过文件或目录创建</h3>
+<p>除了上面示例中的单行常量类型的定义，也可以将整个文件的内容定义在ConfigMap中：</p>
+
+<pre><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: s-nginx-conf
+  namespace: default
+data:
+  s.peng.local.conf: |
+    server {
+        listen 80;
+        index  index.php index.html;
+        root /www/public/;
+
+        location / {
+            if (!-e $request_filename) {
+                rewrite ^/(.*)$ /index.php?s=/$1 last;
+            }
+        }
+        fastcgi_intercept_errors on;
+        location ~ \.php {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            fastcgi_split_path_info ^(.+\.php)(/.*)$;
+            fastcgi_param PATH_INFO $fastcgi_path_info;
+            fastcgi_read_timeout 60;
+            fastcgi_connect_timeout 30;
+            fastcgi_send_timeout 30;
+            proxy_next_upstream off;
+            include        fastcgi_params;
+        }
+    }
+</code></pre>
+
+<h3 id="2-2-2-通过文件或目录创建">2.2.2 通过文件或目录创建</h3>
 
 <pre><code>$ ls -lh
 total 16
@@ -148,36 +184,9 @@ $ kubectl create configmap database --from-file=./database.py
 
 <p><code>--from-file</code>指定目录，目录下的所有文件都会在ConfigMap里创建键值对，键名就是文件名，键值就是文件内容。</p>
 
-<pre><code>$ kubectl get cm
-NAME          DATA   AGE
-app-config    2      19m
-blog-config   2      5m
-database      1      2m18s
-
-$ kubectl describe cm blog-config
-Name:         blog-config
-Namespace:    default
-Labels:       &lt;none&gt;
-Annotations:  &lt;none&gt;
-
-Data
-====
-config.ini:
-----
-[runtime]
-env  = online
-host = k8s.local
-database.py:
-----
-MYSQL_HOST = '127.0.0.1'
-MYSQL_USER = 'root'
-MYSQL_PORT = 3306
-Events:  &lt;none&gt;
-</code></pre>
-
 <h3 id="2-2-2-通过字面值创建">2.2.2 通过字面值创建</h3>
 
-<pre><code>kubectl create configmap network-config --from-literal=GATEWAY=192.168.0.1 --from-literal=DNS1=192.168.0.1
+<pre><code>$ kubectl create configmap network-config --from-literal=GATEWAY=192.168.0.1 --from-literal=DNS1=192.168.0.1
 configmap/network-config created
 </code></pre>
 
@@ -296,7 +305,7 @@ MYSQL_USER = 'root'
 MYSQL_PORT = 3306
 </code></pre>
 
-<p>也可以分开将data.key挂载到不同的文件上：</p>
+<p>也可以分开将data.key挂载到不同的文件上，如将config.ini挂载到/etc/config.ini，将database.py挂载到/bin/dabase.py：</p>
 
 <pre><code>apiVersion: v1
 kind: Pod
@@ -307,7 +316,7 @@ spec:
   containers:
   - name: busybox
     image: busybox:1.32.0
-    command: [&quot;sh&quot;, &quot;-c&quot;, &quot;sleep 1000&quot;]
+    command: [&quot;sh&quot;, &quot;-c&quot;, &quot;sleep infinity&quot;]
     volumeMounts:
     - name: pod-blog-config
       mountPath: /etc/config.ini
@@ -330,11 +339,13 @@ spec:
 
 <blockquote>
 <p>Volume挂载的方式可以热更新，但<code>Env</code>的方式更新后环境变量不会同步更新。</p>
+
+<p><strong><a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#mounted-configmaps-are-updated-automatically">Note</a>:</strong>  A container using a ConfigMap as a subPath volume will not receive ConfigMap updates.</p>
 </blockquote>
 
 <h1 id="三-secret">三、Secret</h1>
 
-<p><code>secret</code>用来保存小片敏感数据的<code>k8s</code>资源，例如密码，<code>token</code>，或者秘钥。这类数据当然也可以存放在<code>Pod</code>或者镜像中，但是放在<code>Secret</code>中是为了更方便的控制如何使用数据，并减少暴露的风险。</p>
+<p><code>secret</code>用来保存小片敏感数据的<code>k8s</code>资源，例如密码，<code>token</code>，或者秘钥。</p>
 
 <h2 id="3-1-资源清单">3.1 资源清单</h2>
 
@@ -370,7 +381,7 @@ FIELDS:
 <ul>
 <li><p><code>Opaque</code>：base64编码格式的Secret，用来存储密码、秘钥等</p></li>
 
-<li><p><code>kubernetes.io/service-account-token</code>：用来访问Kubernetes API，由Kubernetes自动创建，并且会自动挂载到Pod的<code>/run/secrets/kubernetes.io/serviceaccount</code>目录中。</p></li>
+<li><p><code>kubernetes.io/service-account-token</code>：用来访问Kubernetes API，由Kubernetes自动创建，并且会自动挂载到Pod的/run/secrets/kubernetes.io/serviceaccount目录中。</p></li>
 
 <li><p><code>kubernetes.io/dockerconfigjson</code>：用来存储私有docker registry的认证信息</p></li>
 </ul>
@@ -677,7 +688,7 @@ spec:
 <li>最后特定的Pod关联PVC，如果没有可用的PV则Pod创建失败</li>
 </ul>
 
-<p>这里只是演示了Pod引用PVC，PVC和PV关联，PV绑定存储，只是服务架构里最底层的一步，并没有展现出在实际服务部署中优势。后面的章节中将会再着重介绍。</p>
+<p>这里只是演示了Pod引用PVC，PVC和PV关联，PV绑定存储，只是服务架构里最底层的一步，并没有展现出在实际服务部署中优势。</p>
 
 <h1 id="六-小结">六、小结</h1>
 
@@ -697,7 +708,7 @@ spec:
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-09.html">2021-01-22 22:51</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-09.html">2021-01-28 10:49</a></code>
     </div>
     
     <div class="eof_tag">
