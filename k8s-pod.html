@@ -500,7 +500,14 @@ DESCRIPTION:
 
 <h3 id="2-4-5-resources">2.4.5 resources</h3>
 
-<p>容器的资源限制</p>
+<p>容器的资源限制，Request用来设置Pod初始化时需要的资源，Limit用来限制容器使用资源的最大值，防止容器不限制的占用资源。</p>
+
+<ul>
+<li>CPU单位100m  = 0.1CPU。可以设置为0.5 也可以设置为500m</li>
+<li>内存单位1Mi = 1024Ki</li>
+</ul>
+
+<p>需要满足关系：0 &lt;= Request &lt;= Limit &lt;=Infinity （如果Limit为0表示不限制）</p>
 
 <table>
 <thead>
@@ -1073,7 +1080,7 @@ liveness-pod   1/1     Running   1          2m54s
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-09.html">2020-09-25 16:35</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-09.html">2021-01-28 14:35</a></code>
     </div>
     
     <div class="eof_tag">

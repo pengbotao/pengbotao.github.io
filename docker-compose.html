@@ -46,24 +46,7 @@
 <li>3、通过<code>docker-compose</code>命令进行启停所有的服务</li>
 </ul>
 
-<p><code>docker-compose.yml</code>示例：</p>
-
-<pre><code>version: '2.0'
-services:
-  web:
-    build: .
-    ports:
-    - &quot;5000:5000&quot;
-    volumes:
-    - .:/code
-    - logvolume01:/var/log
-    links:
-    - redis
-  redis:
-    image: redis
-volumes:
-  logvolume01: {}
-</code></pre>
+<p>Compose的用法更适合于开发环境中，使用Dockerfile很容易创建出镜像，然后通过Compose简单的将多个容器组合起来，至于线上对容器的管理则Kubernetes更适合。</p>
 
 <h2 id="1-2-docker-compose">1.2 <code>docker-compose</code></h2>
 
@@ -131,7 +114,24 @@ volumes:
 
 <h2 id="1-3-docker-compose-yml">1.3 <code>docker-compose.yml</code></h2>
 
-<p><code>docker-compose</code>通过对YAML配置文件的解析实现对容器的整体控制，配置文件常用参数如下：</p>
+<p><code>docker-compose</code>通过对YAML配置文件的解析实现对容器的整体控制，配置示例如下：</p>
+
+<pre><code>version: '2.0'
+services:
+  web:
+    build: .
+    ports:
+    - &quot;5000:5000&quot;
+    volumes:
+    - .:/code
+    - logvolume01:/var/log
+    links:
+    - redis
+  redis:
+    image: redis
+volumes:
+  logvolume01: {}
+</code></pre>
 
 <h1 id="二-参数详解">二、参数详解</h1>
 
@@ -245,7 +245,7 @@ networks:
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-07.html">2020-09-24 09:15</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-07.html">2021-01-28 12:48</a></code>
     </div>
     
     <div class="eof_tag">

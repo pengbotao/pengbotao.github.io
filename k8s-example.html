@@ -222,7 +222,7 @@ spec:
       - name: init-phpdemo-src
         image: pengbotao/project-php:v2
         imagePullPolicy: IfNotPresent
-        command: ['sh', '-c', &quot;cp -rf /src/* /src-www &amp;&amp; cp /src-config/* /src-www/ &amp;&amp; chown -R www-data:www-data /src-www&quot;]
+        command: ['sh', '-c', &quot;cp -rf /src/* /src-www &amp;&amp; cp /src-config/* /src-www/ &quot;]
         volumeMounts:
         - name: wwwroot
           mountPath: /src-www
@@ -281,7 +281,7 @@ spec:
 
 <ul>
 <li>配置了2个副本</li>
-<li>通过<code>initController</code>将文件拷贝到<code>/data/www</code>，需要调一下权限，否则php-fpm可能没有写入权限。</li>
+<li>通过<code>initController</code>将文件拷贝到<code>/data/www</code>，如果php-fpm非root执行需要考虑修改对应权限：<code>&amp;&amp; chown -R www-data:www-data /src-www</code>，否则php-fpm可能没有写入权限。</li>
 <li><code>PHP</code>设定了最低内存为64M，<code>CPU</code>为0.25</li>
 <li><code>Nginx</code>配置文件通过<code>ConfigMap</code>挂载</li>
 <li><code>Nginx</code>日志文件通过<code>hostPath</code>挂载本机目录</li>
@@ -802,7 +802,7 @@ spec:
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-11.html">2021-01-27 18:19</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-11.html">2021-01-28 11:00</a></code>
     </div>
     
     <div class="eof_tag">
