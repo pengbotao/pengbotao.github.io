@@ -20,15 +20,14 @@
 
     <nav>
 <ul>
-<li><a href="#一-概述">一、概述</a>
-<ul>
-<li><a href="#1-1-关于ingress">1.1 关于ingress</a></li>
-<li><a href="#1-2-ingress与ingress-controller">1.2 Ingress与Ingress-controller</a></li>
-</ul></li>
+<li><a href="#一-概述">一、概述</a></li>
 <li><a href="#二-ingress-nginx">二、ingress-nginx</a>
 <ul>
-<li><a href="#2-1-安装ingress-nginx">2.1 安装ingress-nginx</a></li>
-<li><a href="#2-2-ingress-nginx示例">2.2 ingress-nginx示例</a></li>
+<li><a href="#2-1-安装">2.1 安装</a></li>
+<li><a href="#2-2-示例">2.2 示例</a></li>
+<li><a href="#2-3-配置ssl">2.3 配置SSL</a></li>
+<li><a href="#2-4-会话保持">2.4 会话保持</a></li>
+<li><a href="#2-5-多站点配置">2.5 多站点配置</a></li>
 </ul></li>
 <li><a href="#三-小结">三、小结</a></li>
 </ul>
@@ -36,15 +35,13 @@
 
 <h1 id="一-概述">一、概述</h1>
 
-<h2 id="1-1-关于ingress">1.1 关于ingress</h2>
-
 <p>在前一章中，我们可以通过<code>Service</code>中的<code>NodePort</code>、<code>LoadBalancer</code>的方式来暴露服务的端口，但这也意味着我们需要管理<code>NodePort</code>的端口映射关系。</p>
 
 <p><code>Ingress</code>可以根据<code>hostname</code>和<code>path</code>将流量转发到不同的<code>Service</code>上。使用<code>Ingress</code>后的流程图如下，相当于在<code>Service</code>上又重新封装了一层，可以根据访问规则，将流量转到不同的<code>Service</code>上。</p>
 
 <p><img src="../../static/uploads/k8s-ingress.png" alt="" /></p>
 
-<h2 id="1-2-ingress与ingress-controller">1.2 Ingress与Ingress-controller</h2>
+<p><strong>Ingress与Ingress-controller</strong></p>
 
 <p>Ingress对象：k8s中的资源对象，可以通过yaml配置，作用是定义到service的转发规则。</p>
 
@@ -54,7 +51,7 @@
 
 <h1 id="二-ingress-nginx">二、ingress-nginx</h1>
 
-<h2 id="2-1-安装ingress-nginx">2.1 安装ingress-nginx</h2>
+<h2 id="2-1-安装">2.1 安装</h2>
 
 <p>通过官方仓库说明文档 <a href="#refer"><sup>[1]</sup></a>，我的环境是<code>Docker for Mac</code>，应该是执行下面语句。</p>
 
@@ -68,7 +65,7 @@
 
 <p>我这里的处理方法是借助阿里云的仓库，通过构建<code>Github</code>上的<code>Dockerfile</code>。然后直接用阿里云的仓库替换掉后再<code>apply</code>。</p>
 
-<h2 id="2-2-ingress-nginx示例">2.2 ingress-nginx示例</h2>
+<h2 id="2-2-示例">2.2 示例</h2>
 
 <pre><code>apiVersion: apps/v1
 kind: Deployment
@@ -182,6 +179,107 @@ server {
 
 </code></pre>
 
+<h2 id="2-3-配置ssl">2.3 配置SSL</h2>
+
+<p>也可以配置HTTPS访问，首先创建secret保存证书：</p>
+
+<pre><code>$ kubectl create secret tls demo-k8s-com --cert=demo.k8s.com.pem --key=demo.k8s.com.key
+</code></pre>
+
+<p>然后配置ingress使用配置的证书，在注解中设置了ssl-redirect为true会自动跳转到https：</p>
+
+<pre><code>apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: demo
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+spec:
+  tls:
+  - hosts:
+    - demo.k8s.com
+    secretName: demo-k8s-com
+  rules:
+  - host: demo.k8s.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: demo
+          servicePort: 80
+</code></pre>
+
+<h2 id="2-4-会话保持">2.4 会话保持</h2>
+
+<p>默认情况下请求会随机转给后端的pod，可以在注解中增加以下配置达到保持会话的目的。</p>
+
+<pre><code>apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: demo
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: &quot;cookie&quot;
+    nginx.ingress.kubernetes.io/affinity-mode: &quot;persistent&quot;
+    nginx.ingress.kubernetes.io/session-cookie-name: &quot;route&quot;
+spec:
+  rules:
+  - host: demo.k8s.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: demo
+          servicePort: 80
+</code></pre>
+
+<blockquote>
+<p>mode有balanced和persistent，一个是扩容缩时自动均衡，一个是永久固定；另外会在客户端增加一个Cookie，默认名称是INGRESSCOOKIE，上面指定为route</p>
+</blockquote>
+
+<h2 id="2-5-多站点配置">2.5 多站点配置</h2>
+
+<p>也支持同时配置多个站点</p>
+
+<pre><code>apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: demo
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+spec:
+  tls:
+  - hosts:
+    - demo.k8s.com
+    - test.k8s.com
+    - alpha.k8s.com
+    secretName: demo-k8s-com
+  rules:
+  - host: demo.k8s.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: demo
+          servicePort: 80
+  - host: test.k8s.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: test
+          servicePort: 80
+  - host: alpha.k8s.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: alpha
+          servicePort: 80
+</code></pre>
+
 <h1 id="三-小结">三、小结</h1>
 
 <p>到这里，访问流程大致如下：</p>
@@ -196,6 +294,7 @@ server {
 <li>[1] <a href="https://github.com/kubernetes/ingress-nginx/blob/master/docs/deploy/index.md">Installation Guide</a></li>
 <li>[2] <a href="https://segmentfault.com/a/1190000019908991">k8s ingress原理及ingress-nginx部署测试</a></li>
 <li>[3] <a href="https://www.cnblogs.com/panwenbin-logs/p/9915927.html">kubernetes学习笔记之七： Ingress-nginx 部署使用</a></li>
+<li>[4] <a href="https://kubernetes.github.io/ingress-nginx/examples/affinity/cookie/">ingress nginx affinity</a></li>
 </ul>
 
     <div class="eof">-- EOF --</div>
@@ -205,7 +304,7 @@ server {
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-10.html">2021-01-20 18:12</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-10.html">2021-01-28 22:36</a></code>
     </div>
     
     <div class="eof_tag">
