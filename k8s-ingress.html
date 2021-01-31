@@ -35,9 +35,9 @@
 
 <h1 id="一-概述">一、概述</h1>
 
-<p>在前一章中，我们可以通过<code>Service</code>中的<code>NodePort</code>、<code>LoadBalancer</code>的方式来暴露服务的端口，但这也意味着我们需要管理<code>NodePort</code>的端口映射关系。</p>
+<p>在前一章中，我们可以通过Service中的NodePort、LoadBalancer的方式来暴露服务的端口，但这也意味着我们需要管理NodePort的端口映射关系。</p>
 
-<p><code>Ingress</code>可以根据<code>hostname</code>和<code>path</code>将流量转发到不同的<code>Service</code>上。使用<code>Ingress</code>后的流程图如下，相当于在<code>Service</code>上又重新封装了一层，可以根据访问规则，将流量转到不同的<code>Service</code>上。</p>
+<p>Ingress可以根据hostname和path将流量转发到不同的Service上。使用Ingress后的流程图如下，相当于在Service上又重新封装了一层，可以根据访问规则，将流量转到不同的Service上。</p>
 
 <p><img src="../../static/uploads/k8s-ingress.png" alt="" /></p>
 
@@ -47,7 +47,7 @@
 
 <p>Ingress-controller：实现反向代理及负载均衡的控制器，解析Ingress规则，根据规则进行转发。</p>
 
-<p>常见的<code>ingress-controller</code>有：<code>ingress-nginx</code>、<code>traefik</code>，这里使用<code>ingres-nginx</code></p>
+<p>常见的ingress-controller有：ingress-nginx、traefik，这里使用ingres-nginx</p>
 
 <h1 id="二-ingress-nginx">二、ingress-nginx</h1>
 
@@ -304,7 +304,7 @@ spec:
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-10.html">2021-01-28 22:36</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-10.html">2021-01-29 09:38</a></code>
     </div>
     
     <div class="eof_tag">
@@ -324,7 +324,7 @@ spec:
             </li>
             
             <li>
-            <b>下一篇</b>：<a href="/k8s-example.html">Kubernetes基础 ( 9 ) - 示例</a>
+            <b>下一篇</b>：<a href="/k8s-scheduler.html">Kubernetes基础 ( 8 ) - 调度器</a>
             </li>
             <li>
                 <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/Kubernetes基础 ( 7 ) - Ingress.md">https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/Kubernetes基础 ( 7 ) - Ingress.md</a>
