@@ -185,9 +185,9 @@ spec:
 
 <p>前一步中已经通过Ingress实现了内外网的SLB分离，但还是有个问题，如果原有服务带非80端口，则Ingress是不方便处理的。这个时候我们可以通过LoadBalancer来暴露服务。</p>
 
-<p><strong>第一步，</strong>手动创建一个SLB，也可以不设置自动创建，问题是自动创建出来的slb不支持复用，关于区别可以看下面参考文档。</p>
+<p><strong>第一步，</strong> 手动创建一个SLB，也可以不设置自动创建，问题是自动创建出来的slb不支持复用，关于区别可以看下面参考文档。</p>
 
-<p><strong>第二步，</strong>创建Service并指定类型为LoadBalancer</p>
+<p><strong>第二步，</strong> 创建Service并指定类型为LoadBalancer</p>
 
 <pre><code>apiVersion: v1
 kind: Service
@@ -220,7 +220,7 @@ spec:
 
 <h1 id="5-pod内访问slb不通">5. Pod内访问SLB不通</h1>
 
-<p>Service中有一个参数spec.externalTrafficPolicy，可定义为Local或者Cluster，默认通过阿里云SLB出去的配置为Local。这种类型的SLB地址只有在Node中部署了对应的后端Pod才能呗访问，所以前面的Ingress、Service通过SLB暴露服务时需要注意下内部访问情况。</p>
+<p>Service中有一个参数spec.externalTrafficPolicy，可定义为Local或者Cluster，默认为Local。这种类型的SLB地址只有在Node中部署了对应的后端Pod才能被访问，所以前面的Ingress、Service通过SLB暴露服务时需要注意下内部访问情况。</p>
 
 <pre><code>$ kubectl get svc nginx-ingress-lb -n kube-system -o yaml | grep externalTrafficPolicy
 
@@ -234,6 +234,11 @@ spec:
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
         <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2021-02.html">2021-03-07 18:39</a></code>
     </div>
     
     <div class="eof_tag">
