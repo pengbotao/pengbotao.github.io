@@ -255,7 +255,7 @@ spec:
 <pre><code>$ kubectl label node docker-desktop env=sandbox
 </code></pre>
 
-<p>其中operator有：In、NotIn、Exists、DoesNotExists、Gt、Lt ，比如要指定打了env=sandbox标签或者没有打过标签的：</p>
+<p>其中operator有：In、NotIn、Exists、DoesNotExist、Gt、Lt ，比如要指定打了env=sandbox标签或者没有打过标签的：</p>
 
 <pre><code>    spec:
       affinity:
@@ -269,7 +269,7 @@ spec:
                 - sandbox
             - matchExpressions:
               - key: env
-                operator: DoesNotExists
+                operator: DoesNotExist
 </code></pre>
 
 <p>nodeSelectorTerms下的多个条件满足一个就行，matchExpressions下的需要满足所有条件才行。如果是指定preferredDuringSchedulingRequiredDuringExecution则可以这么使用：</p>
@@ -374,7 +374,7 @@ spec:
 
 <p>运行在一起的意思时可以根据指定某些标签比如都是linux系统，都在某一区域等，可以通过topologyKey来指定。</p>
 
-<p>用法同node类似，通过label选择时支持的操作符有：In、NotIn、Exists、DoesNotExists</p>
+<p>用法同node类似，通过label选择时支持的操作符有：In、NotIn、Exists、DoesNotExist</p>
 
 <h2 id="4-1-pod亲和性">4.1 pod亲和性</h2>
 
@@ -524,7 +524,7 @@ spec:
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-10.html">2021-03-07 20:08</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-10.html">2021-03-08 11:12</a></code>
     </div>
     
     <div class="eof_tag">
