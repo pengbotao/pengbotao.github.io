@@ -140,15 +140,43 @@ spec:
         emptyDir: {}
 </code></pre>
 
-<p>日中env的<code>name:aliyun_logs_{test-api-log}</code>定义了logstore的名字为test-api-log，收集的是test.log中的内容。</p>
+<p>日中env的<code>name:aliyun_logs_{test-api-log}</code>定义了logstore的名字为test-api-log，收集的是test.log中的内容。当然也可以以CRD的方式来收集日志：</p>
 
-<p><strong>7. 监控与部署</strong></p>
+<pre><code>apiVersion: log.alibabacloud.com/v1alpha1
+kind: AliyunLogConfig
+metadata:
+  name: api-log
+spec:
+  logstore: aliyun-api-log-storename
+  lifeCycle: 30
+  logtailConfig:
+    inputType: file
+    configName: api-log
+    inputDetail:
+      logType: common_reg_log
+      logPath: /data/log
+      filePattern: api.log
+      logBeginRegex: '\d+-\d+-\d+\s+\d+:\d+:\d+,\d+\s+-\s+.*'
+      dockerFile: true
+      dockerIncludeEnv:
+        ALIYUN_LOGTAIL_USER_DEFINED_ID: &quot;api&quot;
+</code></pre>
+
+<p>具体的可参考：<a href="https://help.aliyun.com/document_detail/74878.html">https://help.aliyun.com/document_detail/74878.html</a></p>
+
+<p><strong>7. 有状态应用</strong></p>
+
+<p>对于有状态应用则可以通过挂载外部存储卷，比如NAS存储，支持动态或者静态的方式创建，挂上就可以解决有状态应用存储的问题了。</p>
+
+<p><strong>8. 监控与部署</strong></p>
 
 <p>集群上有<code>Prometheus</code>监控，可以观察到Node、Pod的运行情况，集群装了metrics，也通过<code>kubectl top node/pod</code>来查看资源使用情况。</p>
 
 <p>项目部署上需要做2个动作，一个是打新的镜像，然后就是通知集群更新镜像即可。</p>
 
 <p>要添加Node也很方便，通过后台直接添加节点即可，会自动装好Node需要的环境，Node下线做个节点排水设置不调度就自动在其他Node上创建了。</p>
+
+<p>总之，阿里云的ACK容器提供了完整的解决方案，也有比较完善的文档：<a href="https://help.aliyun.com/document_detail/86987.html">https://help.aliyun.com/document_detail/86987.html</a></p>
 
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
@@ -157,7 +185,7 @@ spec:
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2021-01.html">2021-02-09 09:31</a></code>
+        <code style="border:0px;background:none;"><a href="/2021-01.html">2021-03-20 21:13</a></code>
     </div>
     
     <div class="eof_tag">
