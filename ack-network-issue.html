@@ -231,6 +231,14 @@ spec:
 
 <p>参考文档：<a href="https://help.aliyun.com/knowledge_detail/171437.html">Kubernetes集群中访问LoadBalancer暴露出去的SLB地址不通</a></p>
 
+<p>而且这个方案还有一个问题是容易触发到SLB的上限： <a href="https://slbnext.console.aliyun.com/slb/quota?spm=5176.smartservice_service_chat.0.0.49373f1bbsfycD">https://slbnext.console.aliyun.com/slb/quota</a></p>
+
+<p>一个SLB开M个端口，目前集群有N个节点，则一个SLB上面会有M*N个ECS实例，而单个SLB的服务器上限默认为200.如果你有50个Node，则每个SLB上只能开4个端口。但为啥还考虑调整为Cluster呢？还是因为旧的内部业务迁移到容器内后，容器内和容器外都还需要访问，但容器内有容器内的访问地址，如果迁移过程不想容器内的调用方调整访问地址，就需要考虑到这个问题。</p>
+
+<hr />
+
+<p>[1] <a href="https://help.aliyun.com/document_detail/86987.html">Kubernetes集群用户指南</a></p>
+
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
         <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -238,7 +246,7 @@ spec:
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2021-02.html">2021-03-07 18:39</a></code>
+        <code style="border:0px;background:none;"><a href="/2021-02.html">2021-03-20 20:50</a></code>
     </div>
     
     <div class="eof_tag">
