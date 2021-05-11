@@ -145,6 +145,14 @@ data:
         prometheus :9153
 </code></pre>
 
+<p>除了配置Hosts也可以通过配置CNAME的方式调整解析：</p>
+
+<pre><code>rewrite stop {
+  name regex demo.api.com demo.default.svc.cluster.local
+  answer name demo.default.svc.cluster.local demo.api.com
+}
+</code></pre>
+
 <h1 id="3-创建多套ingress">3. 创建多套Ingress</h1>
 
 <p><strong>场景说明：</strong></p>
@@ -246,7 +254,7 @@ spec:
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2021-02.html">2021-04-06 07:55</a></code>
+        <code style="border:0px;background:none;"><a href="/2021-02.html">2021-05-06 11:35</a></code>
     </div>
     
     <div class="eof_tag">
@@ -265,9 +273,6 @@ spec:
             <b>上一篇</b>：<a href="/k8s-online.html">Kubernetes项目实践 - ACK集群</a>
             </li>
             
-            <li>
-            <b>下一篇</b>：<a href="/ack-storage-issue.html">ACK集群中的存储问题</a>
-            </li>
             <li>
                 <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/ACK集群中的网络问题.md">https://github.com/pengbotao/itopic.go/blob/master/posts/kubernetes/ACK集群中的网络问题.md</a>
             <li>
