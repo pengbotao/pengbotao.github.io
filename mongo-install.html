@@ -108,6 +108,14 @@ server should be down...
 
 <h2 id="增删查改">增删查改</h2>
 
+<p><strong>连接</strong></p>
+
+<pre><code>$ /data/mongodb-macos-x86_64-4.4.3/bin/mongo --host 127.0.0.1 --port 27017
+$ use demo
+$ db.auth(&quot;demo&quot;, &quot;passwd&quot;)
+$ show collections
+</code></pre>
+
 <p><strong>查询</strong></p>
 
 <pre><code># 显示数据库列表
@@ -192,6 +200,14 @@ WriteResult({ &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModifi
 WriteResult({ &quot;nRemoved&quot; : 1 })
 </code></pre>
 
+<h1 id="数据修复">数据修复</h1>
+
+<p>同步数据后可能出现<strong>ERROR: child process failed, exited with error number 51</strong></p>
+
+<pre><code>$ rm /data/mongodb-macos-x86_64-4.4.3/data/mongod.lock
+$ /data/mongodb-macos-x86_64-4.4.3/bin/mongod --repair --dbpath=/data/mongodb-macos-x86_64-4.4.3/data
+</code></pre>
+
 <hr />
 
 <ul>
@@ -206,7 +222,7 @@ WriteResult({ &quot;nRemoved&quot; : 1 })
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-12.html">2021-01-19 10:12</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-12.html">2021-05-14 15:24</a></code>
     </div>
     
     <div class="eof_tag">

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Gitlab迁移</title>
+    <link rel="stylesheet" href="/static/css/markdown.css">
+    
+</head>
+<body>
+<div class="content">
+    <h1 class="title">Gitlab迁移</h1>
+
+    <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
+
+    <p>目标：Gitlab服务器迁移，需要在新服务器安装及数据同步。</p>
+
+<p>Step1：原Gitlab数据备份</p>
+
+<pre><code>$ gitlab-rake gitlab:backup:create
+Dumping database ...
+Dumping PostgreSQL database gitlabhq_production ... [DONE]
+done
+Dumping repositories ...
+......
+done
+Dumping uploads ...
+done
+Dumping builds ...
+done
+Dumping artifacts ...
+done
+Dumping pages ...
+done
+Dumping lfs objects ...
+done
+Dumping container registry images ...
+[DISABLED]
+Creating backup archive: 1622519542_2021_06_01_gitlab_backup.tar ... done
+Uploading backup archive to remote storage  ... skipped
+Deleting tmp directories ... done
+done
+done
+done
+done
+done
+done
+done
+Deleting old backups ... skipping
+
+$ ls -lh /var/opt/gitlab/backups/
+总用量 639M
+-rw------- 1 git git 269M 6月   1 11:52 1622519542_2021_06_01_gitlab_backup.tar
+</code></pre>
+
+<p>Step2: 安装新Gitlab</p>
+
+<pre><code>$ rpm -ivh gitlab-ce-9.1.3-ce.0.el6.x86_64.rpm
+Preparing...                ########################################### [100%]
+   1:gitlab-ce              ########################################### [100%]
+
+
+       *.                  *.
+      ***                 ***
+     *****               *****
+    .******             *******
+    ********            ********
+   ,,,,,,,,,***********,,,,,,,,,
+  ,,,,,,,,,,,*********,,,,,,,,,,,
+  .,,,,,,,,,,,*******,,,,,,,,,,,,
+      ,,,,,,,,,*****,,,,,,,,,.
+         ,,,,,,,****,,,,,,
+            .,,,***,,,,
+                ,*,.
+
+     _______ __  __          __
+    / ____(_) /_/ /   ____ _/ /_
+   / / __/ / __/ /   / __ `/ __ \
+  / /_/ / / /_/ /___/ /_/ / /_/ /
+  \____/_/\__/_____/\__,_/_.___/
+
+
+gitlab: Thank you for installing GitLab!
+gitlab: To configure and start GitLab, RUN THE FOLLOWING COMMAND:
+
+sudo gitlab-ctl reconfigure
+
+gitlab: GitLab should be reachable at http://demo
+gitlab: Otherwise configure GitLab for your system by editing /etc/gitlab/gitlab.rb file
+gitlab: And running reconfigure again.
+gitlab:
+gitlab: For a comprehensive list of configuration options please see the Omnibus GitLab readme
+gitlab: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md
+gitlab:
+It looks like GitLab has not been configured yet; skipping the upgrade script.
+</code></pre>
+
+<p>安装之后调整配置，配置文件：<code>/etc/gitlab/gitlab.rb</code></p>
+
+<pre><code>gitlab_rails['backup_path'] = &quot;/var/opt/gitlab/backups&quot;
+
+external_url 'http://gitlab.test.com'
+
+git_data_dirs({ &quot;default&quot; =&gt; { &quot;path&quot; =&gt; &quot;/data/git-data&quot;, 'gitaly_address' =&gt; 'unix:/var/opt/gitlab/gitaly/gitaly.socket' } })
+</code></pre>
+
+<p>然后执行：</p>
+
+<pre><code>$ gitlab-ctl reconfigure
+</code></pre>
+
+<p>然后会自动创建用户以及git-data目录。查看状态，可以看到已经都启动了</p>
+
+<pre><code>$ gitlab-ctl status
+run: gitaly: (pid 13300) 3618777s; run: log: (pid 8252) 3619408s
+run: gitlab-monitor: (pid 13310) 3618777s; run: log: (pid 8616) 3619388s
+run: gitlab-workhorse: (pid 13322) 3618776s; run: log: (pid 8286) 3619406s
+run: logrotate: (pid 16000) 764s; run: log: (pid 8347) 3619402s
+run: nginx: (pid 13347) 3618776s; run: log: (pid 8320) 3619404s
+run: node-exporter: (pid 13360) 3618775s; run: log: (pid 8486) 3619394s
+run: postgres-exporter: (pid 13372) 3618775s; run: log: (pid 8583) 3619390s
+run: postgresql: (pid 13383) 3618774s; run: log: (pid 7979) 3619438s
+run: prometheus: (pid 13398) 3618774s; run: log: (pid 8453) 3619396s
+run: redis: (pid 13414) 3618774s; run: log: (pid 7907) 3619444s
+run: redis-exporter: (pid 13423) 3618773s; run: log: (pid 8530) 3619392s
+run: sidekiq: (pid 13434) 3618773s; run: log: (pid 8237) 3619410s
+run: unicorn: (pid 13437) 3618772s; run: log: (pid 8196) 3619412s
+</code></pre>
+
+<p>Step3: 数据迁移。同步备份文件到backups目录，按下面操作输入2个yes后即可。</p>
+
+<pre><code>$ gitlab-ctl stop unicorn 
+$ gitlab-ctl stop sidekiq
+$ gitlab-rake gitlab:backup:restore BACKUP=1622519542_2021_06_01
+$ gitlab-ctl restart
+</code></pre>
+
+    <div class="eof">-- EOF --</div>
+    <div class="eof_arrow">
+        <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2019-06.html">2021-06-01 16:34</a></code>
+    </div>
+    
+    <div class="eof_tag">
+        发表于：
+        <code style="border:0px;background:none;"><a href="/2019-06.html">2019-06-01 11:52</a></code>
+    </div>
+    <div class="eof_tag">
+        标签：
+        <code style="border:0px;background:none;"><a href="/tag/运维.html">运维</a></code>
+    </div>
+
+    <div id="footer">
+        <ul>
+            <li>
+            <b>上一篇</b>：<a href="/mysql-priv.html">Mysql权限认证及用户授权</a>
+            </li>
+            
+            <li>
+            <b>下一篇</b>：<a href="/zookeeper.html">分布式协调服务 - Zookeeper</a>
+            </li>
+            <li>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/运维/Gitlab迁移.md">https://github.com/pengbotao/itopic.go/blob/master/posts/运维/Gitlab迁移.md</a>
+            <li>
+            <li>
+                @2013-2021 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+
+<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/运维/Gitlab迁移.md" target="_blank"  class="github-corner">
+<svg width="60" height="60" viewBox="0 0 250 250" style="fill: #61687C; color:#fff; position: absolute;top: 0;border: 0;right: 0;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+</body>
+</html>
