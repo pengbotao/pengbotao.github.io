@@ -14,7 +14,7 @@
 
     <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-    <p>Coids是一个分部署的Redis解决方案，可以很方便的进行Redis的扩容、数据迁移。项目中大量的使用到Codis3，确实很方便。文档也有中文文档，用起来不难。遗憾的是项目已经很久没更新了，貌似凉了。</p>
+    <p>Codis是一个分部署的Redis解决方案，可以很方便的进行Redis的扩容、数据迁移。项目中大量的使用到Codis3，确实很方便。文档也有中文文档，用起来不难。遗憾的是项目已经很久没更新了，貌似凉了。</p>
 
 <p>Github上给的架构图如下：</p>
 
@@ -46,10 +46,71 @@
 
 <p>如果需要做数据迁移，将Server添加之后通过Migrate就可以将指定Slots迁移到其他机器上，迁移的速度和影响都挺好。要说遗憾的是目前使用的Redis3中不支持碎片的回收只能重启。</p>
 
+<h2 id="日常问题">日常问题</h2>
+
+<p><strong>启动Codis Dashboard</strong></p>
+
+<pre><code>#! /bin/bash
+num_1=`ps -ef |grep codis-dashboard |grep -v grep |wc -l`
+num_2=`ps -ef |grep codis-fe |grep -v grep |wc -l`
+
+if [ $num_1 -lt 1 ];then
+	su - codis -c &quot;/usr/local/codis/codis-dashboard --ncpu=2 --config=/data/codis/conf/dashboard.toml --log=/data/logs/dashboard/dashboard.log --log-level=WARN &amp;&quot;
+else
+	echo &quot;Codis Dashboard is already running&quot;
+fi
+
+if [ $num_2 -lt 1 ];then
+        su - codis -c &quot;/usr/local/codis/codis-fe --ncpu=2 --log=/data/logs/dashboard/fe.log --log-level=WARN --zookeeper=192.168.0.100:2181,192.168.0.101:2181,192.168.0.102:2181 --listen=192.168.0.100:8080 &amp;&quot;
+else
+        echo &quot;Codis fe is already running&quot;
+fi
+</code></pre>
+
+<p><strong>启动Codis Proxy</strong></p>
+
+<pre><code>#! /bin/bash
+num=`ps -ef |grep &quot;proxy.toml&quot; |grep -v grep |wc -l`
+
+if [ $num -lt 1 ];then
+	su - codis -c &quot;/usr/local/codis/codis-proxy --ncpu=4 --config=/data/proxy/proxy.toml --log=/data/logs/proxy/proxy.log --log-level=WARN &amp;&quot;
+else
+	echo &quot;Codis proxy is already running&quot;
+fi
+</code></pre>
+
+<p><strong>启动Codis Server</strong></p>
+
+<pre><code>/usr/local/codis/codis-server /data/codis/redis.conf
+</code></pre>
+
+<p><strong>停止Dashboard</strong></p>
+
+<pre><code>./codis-admin --dashboard=192.168.0.100:18080 --shutdown
+</code></pre>
+
+<p><strong>[ERROR] store: acquire lock of codistest failed</strong></p>
+
+<p>重启或者迁移时容易碰到这个问题，需要移除锁。</p>
+
+<pre><code>./codis-admin --remove-lock --product=codistest --zookeeper=192.168.0.100:2181,192.168.0.101:2181,192.168.0.102:2181
+</code></pre>
+
+<p><strong>添加Proxy</strong></p>
+
+<pre><code>./codis-admin --dashboard=192.168.0.100:18080 --create-proxy --addr 192.168.0.100:11080
+</code></pre>
+
+<p><strong>移除Codis Proxy</strong></p>
+
+<pre><code>./codis-admin --dashboard=192.168.0.100:18080 --remove-proxy --addr=192.168.0.100:11080 --force 
+</code></pre>
+
 <hr />
 
 <ul>
-<li><a href="https://github.com/CodisLabs/codis">https://github.com/CodisLabs/codis</a></li>
+<li>[1] <a href="https://github.com/CodisLabs/codis">https://github.com/CodisLabs/codis</a></li>
+<li>[2] <a href="https://www.cnblogs.com/zhoujinyi/p/9950105.html">使用codis-admin搭建codis集群</a></li>
 </ul>
 
     <div class="eof">-- EOF --</div>
@@ -59,7 +120,7 @@
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2019-11.html">2021-01-15 16:27</a></code>
+        <code style="border:0px;background:none;"><a href="/2019-11.html">2021-06-09 11:25</a></code>
     </div>
     
     <div class="eof_tag">

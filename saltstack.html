@@ -245,13 +245,25 @@ $ salt -N peng cmd.run 'free |head -n 2| tail -n 1' | grep Mem | awk '{print ($4
 $ salt -N peng cmd.run 'free |head -n 2| tail -n 1' | grep Mem | awk '{a+=$4;b+=$6;c+=$7;d+=$2}END{print (a+b+c)*100/d}'
 </code></pre>
 
-<h2 id="3-4-host进行ip替换">3.4 Host进行IP替换</h2>
+<h2 id="3-4-host替换">3.4 Host替换</h2>
 
-<p>替换<code>test</code>分组下的<code>Host</code>配置，<code>sed</code>去掉<code>-i</code>不会执行，只打印替换后的信息。</p>
+<p>修改<code>127.0.0.1 test.salt.com</code>为<code>128.0.0.1 test.salt.com</code></p>
 
 <pre><code># salt -N test cmd.run 'sed -i &quot;s/127.0.0.1 test.salt.com/128.0.0.1 test.salt.com/&quot; /etc/hosts'
+</code></pre>
 
-# salt -N test cmd.run 'sed -i &quot;/127.0.0.1 test.local/d&quot; /etc/hosts'
+<h2 id="3-5-host追加">3.5 Host追加</h2>
+
+<p>在<code>127.0.0.1 test.local</code>后增加一行<code>128.0.0.1 test.salt.com</code></p>
+
+<pre><code># salt -N test cmd.run 'sed -i &quot;/127.0.0.1 test.local/a\128.0.0.1 test.salt.com&quot; /etc/hosts'
+</code></pre>
+
+<h2 id="3-6-删除host">3.6 删除Host</h2>
+
+<p>删除<code>127.0.0.1 test.local</code>配置</p>
+
+<pre><code># salt -N test cmd.run 'sed -i &quot;/127.0.0.1 test.local/d&quot; /etc/hosts'
 </code></pre>
 
 <p><img src="../../static/uploads/saltstack.png" alt="" /></p>
@@ -267,7 +279,7 @@ $ salt -N peng cmd.run 'free |head -n 2| tail -n 1' | grep Mem | awk '{a+=$4;b+=
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2019-07.html">2021-01-24 11:24</a></code>
+        <code style="border:0px;background:none;"><a href="/2019-07.html">2021-06-09 10:54</a></code>
     </div>
     
     <div class="eof_tag">
