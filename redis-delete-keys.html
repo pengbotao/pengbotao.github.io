@@ -83,6 +83,20 @@ mem_allocator:jemalloc-3.2.0
 
 <p>mem_fragmentation_ratio的问题可能还需要优化下，从redis这个问题可以看到，设置cache的时候我们也需要考虑到cache的维护问题，是否该设置cache的过期时间，key的命名方式如何管理，不能只想着把数据塞进去就万事大吉了。</p>
 
+<h1 id="命令">命令</h1>
+
+<p>通过<code>keys *</code>来删除</p>
+
+<pre><code>$ redis-cli --raw keys &quot;test*&quot; | xargs redis-cli del
+</code></pre>
+
+<p>通过<code>scan</code> 来删除</p>
+
+<pre><code>$ redis-cli --scan --pattern &quot;test*&quot; | xargs -L 1000 redis-cli del
+</code></pre>
+
+<p>示例是删除本机，如果非本机管道前后需要指定host和port。</p>
+
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
         <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -90,7 +104,7 @@ mem_allocator:jemalloc-3.2.0
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2014-02.html">2020-11-19 05:40</a></code>
+        <code style="border:0px;background:none;"><a href="/2014-02.html">2021-06-16 06:15</a></code>
     </div>
     
     <div class="eof_tag">
