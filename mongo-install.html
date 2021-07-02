@@ -14,7 +14,9 @@
 
     <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-    <p>通过官方下载社区版本（MongoDB Community Server），选择对应平台下载后解压即可看到可执行程序。</p>
+    <h1 id="一-安装">一、安装</h1>
+
+<p>通过官方下载社区版本（MongoDB Community Server），选择对应平台下载后解压即可看到可执行程序。</p>
 
 <pre><code>$ ls ~/data/mongodb-macos-x86_64-4.4.3/
 LICENSE-Community.txt MPL-2                 README                THIRD-PARTY-NOTICES   bin
@@ -72,8 +74,6 @@ server should be down...
 
 <p><img src="../../static/uploads/mongodb-compass.png" alt="" /></p>
 
-<h1 id="常用命令">常用命令</h1>
-
 <p><strong>MongoDB与Mysql结构对比</strong></p>
 
 <table>
@@ -106,17 +106,28 @@ server should be down...
 </tbody>
 </table>
 
-<h2 id="增删查改">增删查改</h2>
+<h1 id="二-基本用法">二、基本用法</h1>
 
-<p><strong>连接</strong></p>
+<h2 id="2-1-登录">2.1 登录</h2>
 
-<pre><code>$ /data/mongodb-macos-x86_64-4.4.3/bin/mongo --host 127.0.0.1 --port 27017
+<pre><code>$ mongo --host 127.0.0.1 --port 27017
 $ use demo
+
+# 配置文件有开启授权认证时需要先验证
 $ db.auth(&quot;demo&quot;, &quot;passwd&quot;)
 $ show collections
 </code></pre>
 
-<p><strong>查询</strong></p>
+<p>也可以直接登录时指定密码，前面的demo是demo库</p>
+
+<pre><code>&gt; mongo demo -udemo -p
+MongoDB shell version v3.4.24
+Enter password:
+connecting to: mongodb://127.0.0.1:27017/demo
+MongoDB server version: 3.4.24
+</code></pre>
+
+<h2 id="2-2-基本查询">2.2 基本查询</h2>
 
 <pre><code># 显示数据库列表
 &gt; show dbs
@@ -134,28 +145,6 @@ $ show collections
 	&quot;_id&quot; : ObjectId(&quot;6006394a1e1382e154503c71&quot;),
 	&quot;title&quot; : &quot;Hbase配置及数据迁移&quot;,
 	&quot;href&quot; : &quot;https://itopic.org/hbase.html&quot;
-}
-{
-	&quot;_id&quot; : ObjectId(&quot;6006396c1e1382e154503c72&quot;),
-	&quot;title&quot; : &quot;Apache Airflow数据库迁移&quot;,
-	&quot;href&quot; : &quot;https://itopic.org/airflow-data-migration.html&quot;,
-	&quot;top&quot; : 1
-}
-{
-	&quot;_id&quot; : ObjectId(&quot;6006398f1e1382e154503c73&quot;),
-	&quot;title&quot; : &quot;通过kubeadm部署Kubernetes集群&quot;,
-	&quot;href&quot; : &quot;https://itopic.org/k8s-kubeadm-install.html&quot;,
-	&quot;top&quot; : 0
-}
-{
-	&quot;_id&quot; : ObjectId(&quot;60063a931e1382e154503c74&quot;),
-	&quot;title&quot; : &quot;Python入门知识点整理&quot;,
-	&quot;href&quot; : &quot;https://itopic.org/python.html&quot;,
-	&quot;top&quot; : 1,
-	&quot;author&quot; : {
-		&quot;name&quot; : &quot;peng&quot;,
-		&quot;age&quot; : 18
-	}
 }
 
 &gt; db.articles.find({top:1}).pretty()
@@ -180,7 +169,12 @@ $ show collections
 
 &gt; db.articles.count()
 4
+
+# 按创建时间倒叙取3条
+&gt; db.articles.find().limit(3).sort({created_ts: -1})
 </code></pre>
+
+<h2 id="2-3-插入与更新">2.3 插入与更新</h2>
 
 <p><strong>数据插入</strong></p>
 
@@ -194,13 +188,173 @@ WriteResult({ &quot;nInserted&quot; : 1 })
 WriteResult({ &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 })
 </code></pre>
 
-<p><strong>数据删除</strong></p>
+<h2 id="2-4-数据删除">2.4 数据删除</h2>
 
 <pre><code>&gt; db.articles.remove({title: &quot;Shell脚本入门&quot;})
 WriteResult({ &quot;nRemoved&quot; : 1 })
 </code></pre>
 
-<h1 id="数据修复">数据修复</h1>
+<h1 id="三-用户管理">三、用户管理</h1>
+
+<h2 id="3-1-创建用户">3.1 创建用户</h2>
+
+<p>创建admin用户，创建用户时指定角色为root。内置了一些角色：</p>
+
+<table>
+<thead>
+<tr>
+<th><strong>角色</strong></th>
+<th><strong>介绍</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>read</td>
+<td>提供读取所有非系统的集合（数据库）</td>
+</tr>
+
+<tr>
+<td>readWrite</td>
+<td>提供读写所有非系统的集合（数据库）和读取所有角色的所有权限</td>
+</tr>
+
+<tr>
+<td>dbAdmin</td>
+<td>提供执行管理任务的功能，例如与架构相关的任务，索引编制，收集统计信息。此角色不授予用户和角色管理权限。</td>
+</tr>
+
+<tr>
+<td>dbOwner</td>
+<td>提供对数据库执行任何管理操作的功能。此角色组合了readWrite，dbAdmin和userAdmin角色授予的权限。</td>
+</tr>
+
+<tr>
+<td>userAdmin</td>
+<td>提供在当前数据库上创建和修改角色和用户的功能。由于userAdmin角色允许用户向任何用户（包括他们自己）授予任何权限，因此该角色还间接提供对数据库的超级用户访问权限，或者，如果作用于管理数据库，则提供对群集的访问权限。</td>
+</tr>
+
+<tr>
+<td>clusterAdmin</td>
+<td>提供最佳的集群管理访问。此角色组合了clusterManager，clusterMonitor和hostManager角色授予的权限。此外，该角色还提供了dropDatabase操作。</td>
+</tr>
+
+<tr>
+<td>readAnyDatabase</td>
+<td>仅在admin 数据库中使用，提供所有数据库的读权限。</td>
+</tr>
+
+<tr>
+<td>readWriteAnyDatabase</td>
+<td>尽在admin 数据库中使用，提供所有数据库的读写权限</td>
+</tr>
+
+<tr>
+<td>userAdminAnyDatabase</td>
+<td>尽在admin 数据库中使用，提供与userAdmin相同的用户管理操作访问权限，允许用户向任何用户（包括他们自己）授予任何权限，因此该角色还间接提供超级用户访问权限。</td>
+</tr>
+
+<tr>
+<td>dbAdminAnyDatabase</td>
+<td>仅在admin 数据库中使用，提供与dbAdmin相同的数据库管理操作访问权限，该角色还在整个群集上提供listDatabases操作。</td>
+</tr>
+
+<tr>
+<td>root</td>
+<td>尽在admin 数据库中使用，提供超级权限</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>&gt; use.admin  
+&gt; db.createUser({
+  user: 'admin',
+  pwd: '123456',
+  roles:[{
+    role: 'root',
+    db: 'admin'
+  }]
+})
+
+Successfully added user: {
+	&quot;user&quot; : &quot;admin&quot;,
+	&quot;roles&quot; : [
+		{
+			&quot;role&quot; : &quot;root&quot;,
+			&quot;db&quot; : &quot;admin&quot;
+		}
+	]
+}
+</code></pre>
+
+<p><strong>查看用户</strong>，需要切换到对应的库下面</p>
+
+<pre><code>&gt; use demo
+switched to db demo
+&gt; show users
+{
+	&quot;_id&quot; : &quot;demo.demo&quot;,
+	&quot;userId&quot; : BinData(4,&quot;dzjECUu2Q4aNATGogyNRTw==&quot;),
+	&quot;user&quot; : &quot;demo&quot;,
+	&quot;db&quot; : &quot;demo&quot;,
+	&quot;roles&quot; : [
+		{
+			&quot;role&quot; : &quot;dbOwner&quot;,
+			&quot;db&quot; : &quot;demo&quot;
+		}
+	]
+}
+&gt; use admin
+&gt; db.system.users.find().pretty()
+</code></pre>
+
+<p><strong>创建用户</strong></p>
+
+<pre><code>&gt; use demo
+&gt; db.createUser({
+  user: 'demo',
+  pwd: '123456',
+  roles:[{
+    role: 'dbOwner',
+    db: 'demo'
+  }]
+})
+</code></pre>
+
+<h2 id="3-2-删除用户">3.2 删除用户</h2>
+
+<pre><code>&gt; use demo
+&gt; db.dropUser('demo')
+</code></pre>
+
+<h2 id="3-3-更新密码">3.3 更新密码</h2>
+
+<pre><code>&gt; db.updateUser('demo', {pwd: '123456'})
+</code></pre>
+
+<h1 id="四-数据库管理">四、数据库管理</h1>
+
+<h2 id="4-1-创建数据库">4.1 创建数据库</h2>
+
+<p><strong>创建数据库</strong>，需要传入一条记录才可以看到对应的数据库。</p>
+
+<pre><code>&gt; use demo
+&gt; db.articles.insert({title: &quot;Shell脚本入门&quot;, href: &quot;https://itopic.org/shell-start.html&quot;})
+</code></pre>
+
+<h2 id="4-2-删除集合">4.2 删除集合</h2>
+
+<pre><code>&gt; show collections
+&gt; db.articles.drop()
+</code></pre>
+
+<h2 id="4-3-删除数据库">4.3 删除数据库</h2>
+
+<pre><code>&gt; use demo
+&gt; db.dropDatabase()
+</code></pre>
+
+<h1 id="五-数据修复">五、数据修复</h1>
 
 <p>同步数据后可能出现<strong>ERROR: child process failed, exited with error number 51</strong></p>
 
@@ -222,7 +376,7 @@ $ /data/mongodb-macos-x86_64-4.4.3/bin/mongod --repair --dbpath=/data/mongodb-ma
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-12.html">2021-05-14 15:24</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-12.html">2021-07-02 13:38</a></code>
     </div>
     
     <div class="eof_tag">
