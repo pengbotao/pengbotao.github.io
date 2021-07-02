@@ -14,16 +14,9 @@
 
     <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
-    <p>Elasticsearch的配置相对简单，可以通过环境变量注册配置信息，基本上就是常规的StatefulSet的配置方式。包括以下几点：</p>
+    <p>Elasticsearch的配置相对简单，可以通过环境变量注册配置信息，基本上就是常规的StatefulSet的配置方式。常规的配置包括：pv/pvc的创建，service来暴露服务，通过SatefulSet启动服务。</p>
 
-<ul>
-<li>创建pv与pvc</li>
-<li>创建service</li>
-<li>创建statefulSet</li>
-<li>创建kibana</li>
-</ul>
-
-<p><strong>1. 创建pv/pvc</strong></p>
+<p><strong>第一步， 创建pv/pvc</strong>，这里使用阿里云的NAS存储，如果使用其他NFS或者磁盘之类，找对应的配置方式即可。</p>
 
 <pre><code>apiVersion: v1
 kind: PersistentVolume
@@ -64,7 +57,7 @@ spec:
       project: es-demo-pv
 </code></pre>
 
-<p><strong>2. 创建Service</strong></p>
+<p><strong>第二步， 创建Service</strong></p>
 
 <pre><code>apiVersion: v1
 kind: Service
@@ -286,7 +279,7 @@ Bulk 1428005 / 1428110 [========================================================
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2021-05.html">2021-06-30 12:42</a></code>
+        <code style="border:0px;background:none;"><a href="/2021-05.html">2021-07-02 16:33</a></code>
     </div>
     
     <div class="eof_tag">
