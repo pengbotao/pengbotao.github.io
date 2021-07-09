@@ -38,6 +38,7 @@
 <ul>
 <li><a href="#3-1-数据迁移">3.1 数据迁移</a></li>
 <li><a href="#3-2-调整分区数">3.2 调整分区数</a></li>
+<li><a href="#3-3-调整副本数">3.3 调整副本数</a></li>
 </ul></li>
 <li><a href="#四-kafka-manager">四、Kafka-manager</a></li>
 </ul>
@@ -173,6 +174,37 @@ Topic:peng	PartitionCount:3	ReplicationFactor:2	Configs:
 <pre><code>$ ./kafka-topics.sh --zookeeper 192.168.1.100:2181 --alter --topic peng --partitions 5
 </code></pre>
 
+<h2 id="3-3-调整副本数">3.3 调整副本数</h2>
+
+<p><strong>第一步，生成文件，参考Stack Overflow上的脚本</strong></p>
+
+<pre><code>#!/bin/bash
+
+brokerids=&quot;0,1,2&quot;
+#topics=`./kafka-topics.sh --list --zookeeper zookeeper-kafka:2181`
+topics=&quot;peng&quot;
+while read -r line; do lines+=(&quot;$line&quot;); done &lt;&lt;&lt;&quot;$topics&quot;
+echo '{&quot;version&quot;:1,
+  &quot;partitions&quot;:['
+for t in $topics; do
+    sep=&quot;,&quot;
+    pcount=$(./kafka-topics.sh --describe --zookeeper zookeeper-kafka:2181 --topic $t | awk '{print $2}' | uniq -c |awk 'NR==2{print $1}')
+    for i in $(seq 0 $[pcount - 1]); do
+        if [ &quot;${t}&quot; == &quot;${lines[-1]}&quot; ] &amp;&amp; [ &quot;$[pcount - 1]&quot; == &quot;$i&quot; ]; then sep=&quot;&quot;; fi
+        randombrokers=$(echo &quot;$brokerids&quot; | sed -r 's/,/ /g' | tr &quot; &quot; &quot;\n&quot; | shuf | tr  &quot;\n&quot; &quot;,&quot; | head -c -1)
+        echo &quot;    {\&quot;topic\&quot;:\&quot;${t}\&quot;,\&quot;partition\&quot;:${i},\&quot;replicas\&quot;:[${randombrokers}]}$sep&quot;
+    done
+done
+
+echo '  ]
+}'
+</code></pre>
+
+<p><strong>第二步，执行调整</strong></p>
+
+<pre><code>./kafka-reassign-partitions.sh --zookeeper zookeeper-kafka:2181 --reassignment-json-file tmp.json --execute
+</code></pre>
+
 <h1 id="四-kafka-manager">四、Kafka-manager</h1>
 
 <blockquote>
@@ -186,11 +218,17 @@ Topic:peng	PartitionCount:3	ReplicationFactor:2	Configs:
 <ul>
 <li>[1] <a href="http://kafka.apache.org/">Apache Kafka</a></li>
 <li>[2] <a href="https://github.com/yahoo/CMAK/">Kafka-Manager</a></li>
+<li>[3] <a href="https://stackoverflow.com/questions/37960767/how-to-change-the-number-of-replicas-of-a-kafka-topic">How to change the number of replicas of a Kafka topic?</a></li>
 </ul>
 
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
         <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    </div>
+    
+    <div class="eof_tag">
+        最后更新于：
+        <code style="border:0px;background:none;"><a href="/2021-05.html">2021-07-09 21:57</a></code>
     </div>
     
     <div class="eof_tag">
