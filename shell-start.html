@@ -26,8 +26,8 @@
 <li><a href="#1-2-if语句">1.2 if语句</a></li>
 <li><a href="#1-3-反引号">1.3 反引号</a></li>
 <li><a href="#1-4-关系运算符">1.4 关系运算符</a></li>
-<li><a href="#1-5-逻辑运算符">1.5 逻辑运算符</a></li>
-<li><a href="#1-6-布尔运算符">1.6 布尔运算符</a></li>
+<li><a href="#1-5-布尔运算符">1.5 布尔运算符</a></li>
+<li><a href="#1-6-逻辑运算符">1.6 逻辑运算符</a></li>
 <li><a href="#1-7-字符串运算符">1.7 字符串运算符</a></li>
 <li><a href="#1-8-文件判断">1.8 文件判断</a></li>
 <li><a href="#1-9-特殊参数">1.9 特殊参数</a></li>
@@ -153,35 +153,7 @@ fi
 </tbody>
 </table>
 
-<h2 id="1-5-逻辑运算符">1.5 逻辑运算符</h2>
-
-<p>假定变量 a 为 10，变量 b 为 20:</p>
-
-<table>
-<thead>
-<tr>
-<th align="left">运算符</th>
-<th align="left">说明</th>
-<th align="left">举例</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="left"><code>&amp;&amp;</code></td>
-<td align="left">逻辑的 AND</td>
-<td align="left"><code>[[ $a -lt 100 &amp;&amp; $b -gt 100 ]]</code> 返回 false</td>
-</tr>
-
-<tr>
-<td align="left">||</td>
-<td align="left">逻辑的 OR</td>
-<td align="left"></td>
-</tr>
-</tbody>
-</table>
-
-<h2 id="1-6-布尔运算符">1.6 布尔运算符</h2>
+<h2 id="1-5-布尔运算符">1.5 布尔运算符</h2>
 
 <table>
 <thead>
@@ -212,6 +184,56 @@ fi
 </tr>
 </tbody>
 </table>
+
+<blockquote>
+<p>注：示例中多个条件为一个中括号</p>
+</blockquote>
+
+<h2 id="1-6-逻辑运算符">1.6 逻辑运算符</h2>
+
+<p>假定变量 a 为 10，变量 b 为 20:</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">运算符</th>
+<th align="left">说明</th>
+<th align="left">举例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><code>&amp;&amp;</code></td>
+<td align="left">逻辑的 AND</td>
+<td align="left"><code>[[ $a -lt 100 &amp;&amp; $b -gt 100 ]]</code> 返回 false</td>
+</tr>
+
+<tr>
+<td align="left">||</td>
+<td align="left">逻辑的 OR</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>注：示例中多个条件为2个中括号</p>
+</blockquote>
+
+<p>这里有两种写法：</p>
+
+<pre><code>if [[ $a &lt; 20 || $b &gt; 100 ]]; then
+    echo &quot;$a &lt; 20 or $b &gt; 100&quot;
+fi
+
+
+if [ $a -lt 20 -o $b -gt 100 ]; then
+    echo &quot;$a &lt; 20 or $b &gt; 100&quot;
+fi
+</code></pre>
+
+<p>在<code>[[</code>中使用<code>&amp;&amp;</code>和<code>||</code>表示逻辑与和逻辑或。<code>[</code>中使用<code>-a</code> 和<code>-o</code> 表示逻辑与和逻辑或。</p>
 
 <h2 id="1-7-字符串运算符">1.7 字符串运算符</h2>
 
@@ -246,7 +268,7 @@ fi
 <tr>
 <td><code>-n</code></td>
 <td>检测字符串长度是否为0，不为0返回 true。</td>
-<td><code>[ -z $a ]</code> 返回 true。</td>
+<td><code>[ -n $a ]</code> 返回 true。</td>
 </tr>
 
 <tr>
@@ -686,7 +708,7 @@ EOF
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-10.html">2021-06-23 14:17</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-10.html">2021-07-23 22:16</a></code>
     </div>
     
     <div class="eof_tag">
