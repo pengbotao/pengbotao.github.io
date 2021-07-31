@@ -21,15 +21,16 @@
 <li>Reids &gt;= 6.0</li>
 </ul>
 
-<p>Deployment文件如下，有使用到外部存储用来存储操作回放文件，pv的存储前面配置的较多，可直接使用阿里云的Nas或者磁盘。</p>
+<p>StatefulSet文件如下，有使用到外部存储用来存储操作回放文件，pv的存储前面配置的较多，可直接使用阿里云的Nas或者磁盘。</p>
 
 <pre><code>apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: jumpserver
   labels:
     app: jumpserver
 spec:
+  serviceName: jumpserver
   replicas: 1
   selector:
     matchLabels:
@@ -116,7 +117,7 @@ spec:
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2021-07.html">2021-07-26 21:54</a></code>
+        <code style="border:0px;background:none;"><a href="/2021-07.html">2021-07-27 09:52</a></code>
     </div>
     
     <div class="eof_tag">
