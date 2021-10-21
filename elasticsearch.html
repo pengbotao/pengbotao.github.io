@@ -41,8 +41,11 @@
 </ul></li>
 <li><a href="#五-索引定义">五、索引定义</a>
 <ul>
-<li><a href="#5-1-keyword">5.1 Keyword</a></li>
-<li><a href="#5-2-text">5.2 Text</a></li>
+<li><a href="#5-1-索引类型">5.1 索引类型</a>
+<ul>
+<li><a href="#5-1-1-keyword">5.1.1 Keyword</a></li>
+<li><a href="#5-1-2-text">5.1.2 Text</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#六-查询语句">六、查询语句</a>
 <ul>
@@ -50,7 +53,7 @@
 <li><a href="#6-2-精确查询-term">6.2 精确查询 - Term</a></li>
 <li><a href="#6-3-全文查询-match">6.3 全文查询 - Match</a></li>
 <li><a href="#6-4-范围查询">6.4 范围查询</a></li>
-<li><a href="#6-5-符合查询">6.5 符合查询</a></li>
+<li><a href="#6-5-复合查询">6.5 复合查询</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -799,99 +802,9 @@ EOF
 
 <h1 id="五-索引定义">五、索引定义</h1>
 
-<p>通过前面章节对es有个简单的认知，其中有两块内容日常使用会比较频繁，一个是如何建立索引，索引的字段如何定义；一个是如何查询。本章节来看看索引定义中需要注意的问题。</p>
+<h2 id="5-1-索引类型">5.1 索引类型</h2>
 
-<p><strong>字段类型</strong></p>
-
-<table>
-<thead>
-<tr>
-<th>分类</th>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>Common Types</td>
-<td>binary</td>
-<td>Binary value encoded as a Base64 string.</td>
-</tr>
-
-<tr>
-<td></td>
-<td>bollean</td>
-<td><code>true</code> and <code>false</code> values.</td>
-</tr>
-
-<tr>
-<td></td>
-<td>Keyword: <br />- keyword<br />- constant_keyword<br />- wildcard</td>
-<td>The keyword family, including <code>keyword</code>, <code>constant_keyword</code>, and <code>wildcard</code>.</td>
-</tr>
-
-<tr>
-<td></td>
-<td>Numbers:<br />- long<br />- double</td>
-<td>Numeric types, such as <code>long</code> and <code>double</code>, used to express amounts.</td>
-</tr>
-
-<tr>
-<td></td>
-<td>Dates:<br />- date<br />- date_nanos</td>
-<td></td>
-</tr>
-
-<tr>
-<td></td>
-<td>alias</td>
-<td>Defines an alias for an existing field.</td>
-</tr>
-
-<tr>
-<td>Objects and relational types</td>
-<td>Object</td>
-<td>A JSON object.</td>
-</tr>
-
-<tr>
-<td>Structured data types</td>
-<td>Range:<br />- long_rage<br />- double_range<br />- date_range<br />- ip_range</td>
-<td>Range types, such as <code>long_range</code>, <code>double_range</code>, <code>date_range</code>, and <code>ip_range</code>.</td>
-</tr>
-
-<tr>
-<td></td>
-<td>ip</td>
-<td>IPv4 and IPv6 addresses.</td>
-</tr>
-
-<tr>
-<td>Text search types</td>
-<td>text</td>
-<td></td>
-</tr>
-
-<tr>
-<td>Spatial data types</td>
-<td>geo_point</td>
-<td>Latitude and longitude points.</td>
-</tr>
-
-<tr>
-<td></td>
-<td>geo_shape</td>
-<td>Complex shapes, such as polygons.</td>
-</tr>
-</tbody>
-</table>
-
-<ul>
-<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/master/mapping-types.html">https://www.elastic.co/guide/en/elasticsearch/reference/master/mapping-types.html</a></li>
-</ul>
-
-<h2 id="5-1-keyword">5.1 Keyword</h2>
+<h3 id="5-1-1-keyword">5.1.1 Keyword</h3>
 
 <ul>
 <li>keyword: 通常用来存储结构化数据，比如ID、Email、状态码、标签等</li>
@@ -901,7 +814,7 @@ EOF
 
 <p>Keyword字段常用来做排序、聚合、Term级别查询，避免将keyword用于全文搜索，全文搜索可以使用text类型。</p>
 
-<h2 id="5-2-text">5.2 Text</h2>
+<h3 id="5-1-2-text">5.1.2 Text</h3>
 
 <p>会进行全文索引的字段，会对字段进行分词，然后索引，可以模糊查询。</p>
 
@@ -918,7 +831,7 @@ EOF
 
 <h2 id="6-2-精确查询-term">6.2 精确查询 - Term</h2>
 
-<p>Term查询用于查询确定的值。相当于<code>Where Name = Peng</code></p>
+<p>Term查询用于查询确定的值。相当于<code>Where Name = peng</code>。</p>
 
 <pre><code>{
   &quot;query&quot;: {
@@ -927,7 +840,7 @@ EOF
 }
 </code></pre>
 
-<p>相当于<code>Where Name in ('Peng', 'Lion')</code></p>
+<p>相当于<code>Where Name in ('peng', 'lion')</code></p>
 
 <pre><code>{
   &quot;query&quot;: {
@@ -935,6 +848,21 @@ EOF
   }
 }
 </code></pre>
+
+<p>但需要注意的是被查询的字段会否会分词，默认<code>text</code>会分词、忽略大小写，这就可能造成无法返回结果。文本类型有<code>text</code>和<code>keyword</code>类型，其中<code>keyword</code>取代了不需要分词的<code>string</code>。比如：</p>
+
+<pre><code>&quot;name&quot; : {
+  &quot;type&quot; : &quot;text&quot;,
+  &quot;fields&quot; : {
+    &quot;keyword&quot; : {
+      &quot;type&quot; : &quot;keyword&quot;,
+      &quot;ignore_above&quot; : 256
+    }
+  }
+},
+</code></pre>
+
+<p>上面例子如果要精确匹配可以使用下面的<code>keyword</code>：<code>name.keyword</code>。</p>
 
 <h2 id="6-3-全文查询-match">6.3 全文查询 - Match</h2>
 
@@ -961,6 +889,32 @@ EOF
 }
 </code></pre>
 
+<p>match还有2个变种：<code>match_phrase</code> 和 <code>multi_match</code>，match_phrase用于同时满足所有词，同时也可以增加slop调整少一个也行。</p>
+
+<pre><code>{
+  &quot;query&quot;: {
+     &quot;match_phrase&quot;: {
+        &quot;name&quot;: {
+          &quot;query&quot;: &quot;Bobby Peng&quot;,
+          &quot;slop&quot; : 1
+       }
+      }
+    }
+}
+</code></pre>
+
+<p>multi_match用于多个字段匹配，有一个字段满足即可</p>
+
+<pre><code>{
+  &quot;query&quot;: {
+     &quot;multi_match&quot;: {
+          &quot;query&quot;: &quot;Bobby Peng&quot;,
+          &quot;fields&quot; : [&quot;name&quot;, &quot;title&quot;]
+      }
+    }
+}
+</code></pre>
+
 <h2 id="6-4-范围查询">6.4 范围查询</h2>
 
 <pre><code>{
@@ -975,7 +929,7 @@ EOF
 }
 </code></pre>
 
-<h2 id="6-5-符合查询">6.5 符合查询</h2>
+<h2 id="6-5-复合查询">6.5 复合查询</h2>
 
 <p>bool 复合查询用于组合叶子查询语句或复合查询语句。如：must, should, must_not, or filter。</p>
 
@@ -1029,7 +983,7 @@ EOF
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-12.html">2021-09-27 16:03</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-12.html">2021-09-30 09:05</a></code>
     </div>
     
     <div class="eof_tag">
