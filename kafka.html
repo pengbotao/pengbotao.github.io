@@ -33,6 +33,7 @@
 <li><a href="#2-4-查看topic">2.4 查看Topic</a></li>
 <li><a href="#2-5-发消息">2.5 发消息</a></li>
 <li><a href="#2-6-接消息">2.6 接消息</a></li>
+<li><a href="#2-7-查看消费情况">2.7 查看消费情况</a></li>
 </ul></li>
 <li><a href="#三-日常管理">三、日常管理</a>
 <ul>
@@ -120,6 +121,11 @@ Topic:peng	PartitionCount:3	ReplicationFactor:2	Configs:
 <h2 id="2-6-接消息">2.6 接消息</h2>
 
 <pre><code>$ ./kafka-console-consumer.sh --bootstrap-server 192.168.1.100:8080 --topic peng --from-beginning 
+</code></pre>
+
+<h2 id="2-7-查看消费情况">2.7 查看消费情况</h2>
+
+<pre><code>$ ./kafka-consumer-groups.sh --bootstrap-server 192.168.1.100:8080 --describe --group http
 </code></pre>
 
 <h1 id="三-日常管理">三、日常管理</h1>
@@ -228,7 +234,7 @@ echo '  ]
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2021-04.html">2021-09-15 08:27</a></code>
+        <code style="border:0px;background:none;"><a href="/2021-04.html">2021-12-03 14:20</a></code>
     </div>
     
     <div class="eof_tag">
@@ -238,6 +244,7 @@ echo '  ]
     <div class="eof_tag">
         标签：
         <code style="border:0px;background:none;"><a href="/tag/kafka.html">Kafka</a></code>
+        <code style="border:0px;background:none;"><a href="/tag/elk.html">ELK</a></code>
     </div>
 
     <div id="footer">
