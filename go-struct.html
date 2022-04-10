@@ -80,6 +80,42 @@ func (p Person) Info() string {
 <li>可通过<code>.</code>形式来获取到结构体的成员属性和方法，如<code>p.Name</code></li>
 </ul>
 
+<p>当然并不只有<code>struct</code>可以定义方法，比如给<code>[]int</code>增加排序功能：</p>
+
+<pre><code>package main
+
+import (
+	&quot;fmt&quot;
+	&quot;sort&quot;
+)
+
+type MyInt []int
+
+func (m MyInt) Len() int {
+	return len(m)
+}
+
+func (m MyInt) Less(i, j int) bool {
+	return m[i] &gt; m[j]
+}
+
+func (m MyInt) Swap(i, j int) {
+	m[i], m[j] = m[j], m[i]
+}
+
+func main() {
+	data := MyInt{1, 3, 2, 4}
+	sort.Sort(data)
+	fmt.Println(data)
+}
+</code></pre>
+
+<blockquote>
+<p>注：方法中的类型限定如果是指针，则只能通过指针类型调用；如果非指针，则通过值和指针类型都可以调用。</p>
+
+<p>一个值类型可能有多处引用无法确定唯一，但一个引用可以关联到确定的值，所以指针类型只能通过指针调用。</p>
+</blockquote>
+
 <h2 id="1-2-初始化及调用">1.2 初始化及调用</h2>
 
 <pre><code>func main() {
@@ -161,26 +197,8 @@ Name: iTopic, Age: 19
 <li><code>Info</code>方法的结构体类型改为了<code>(p *Person)</code>，多了一个星号（<code>*</code>）。</li>
 <li><code>Info</code>方法内部使用去区别，还是用<code>p.Age</code>访问，并且可以成功修改<code>Age</code>属性。</li>
 <li>如果把<code>Info</code>方法的<code>(p *Person)</code>定义改回<code>(p Person)</code>，重新执行可以看到执行完成之后<code>p.Age</code>还会是18，即值拷贝。</li>
+<li>此处为指针接收器，则不可以通过<code>Person{}.Info()</code>来调用，函数传递上需要是<code>*Person</code>类型。</li>
 </ul>
-
-<p>但这里有一个潜在的类型问题，既然p的类型为<code>*Person</code>，改为<code>(p Person)</code>为何方法不会报类型错误。同样，不使用new来创建<code>*Person</code>类型，也可以调用成功。</p>
-
-<pre><code>func main() {
-	p := Person{&quot;iTopic&quot;, 18}
-	fmt.Println(p)
-	fmt.Println(p.Info())
-	fmt.Println(p)
-}
-</code></pre>
-
-<p>如果定义一个函数形参为<code>p *Person</code>，此时若传入非引用则会报类型错误：<code>cannot use p (type Person) as type *Person in argument to test</code>，可见正常情况下会认定为不同的类型。</p>
-
-<pre><code>func test(p *Person) {
-	fmt.Println(p.Name)
-}
-</code></pre>
-
-<p>但从实际情况上看，请求的两种方式：<code>Person{&quot;iTopic&quot;, 18}</code> 和 <code>new(Person)</code> 与 方法定义的两种方式<code>(p Person)</code> 和 <code>(p *Person)</code>，这四种情况组合起来都可以执行成功，唯一的区别点在于如果方法上是<code>(p *Person)</code>则实参会被改写，否则不会（传值与传址区别这里不表）。</p>
 
 <h1 id="三-结构体内嵌">三、结构体内嵌</h1>
 
@@ -327,6 +345,11 @@ func main() {
 }
 </code></pre>
 
+<p>注：不能声明一个接口的指针，比如函数使用<code>*ExportHandler</code>类型， 则会提示：</p>
+
+<pre><code>type *ExportHandler is pointer to interface, not interface
+</code></pre>
+
 <h2 id="4-2-空接口">4.2 空接口</h2>
 
 <p>空接口就是不含有方法的接口：<code>interface{}</code>，相当于所有的类型都实现了空接口，从示例可以看到类型都可以传给函数<code>show</code>而不会报类型错误。</p>
@@ -354,7 +377,7 @@ func main() {
 //invalid operation: v + 1 (mismatched types interface {} and int)
 </code></pre>
 
-<p>所以要做运算需要做数据类型判断：</p>
+<p>所以要做运算需要做断言：</p>
 
 <pre><code>func show(v interface{}) {
 	switch val := v.(type) {
@@ -388,7 +411,7 @@ func main() {
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-04.html">2021-09-15 08:27</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-04.html">2022-04-10 01:32</a></code>
     </div>
     
     <div class="eof_tag">
@@ -410,17 +433,17 @@ func main() {
             <b>下一篇</b>：<a href="/go-types.html">Golang ( 4 ) - 类型总结</a>
             </li>
             <li>
-                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts\go\Golang ( 3 ) - 结构体和接口.md">https://github.com/pengbotao/itopic.go/blob/master/posts\go\Golang ( 3 ) - 结构体和接口.md</a>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang ( 3 ) - 结构体和接口.md">https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang ( 3 ) - 结构体和接口.md</a>
             <li>
             <li>
-                @2013-2021 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+                @2013-2022 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
             </li>
         </ul>
     </div>
 </div>
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 
-<a href="https://github.com/pengbotao/itopic.go/blob/master/posts\go\Golang ( 3 ) - 结构体和接口.md" target="_blank"  class="github-corner">
+<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang ( 3 ) - 结构体和接口.md" target="_blank"  class="github-corner">
 <svg width="60" height="60" viewBox="0 0 250 250" style="fill: #61687C; color:#fff; position: absolute;top: 0;border: 0;right: 0;" aria-hidden="true">
     <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
     <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>

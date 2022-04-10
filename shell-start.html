@@ -25,10 +25,10 @@
 <li><a href="#1-1-变量定义">1.1 变量定义</a></li>
 <li><a href="#1-2-if语句">1.2 if语句</a></li>
 <li><a href="#1-3-反引号">1.3 反引号</a></li>
-<li><a href="#1-4-关系运算符">1.4 关系运算符</a></li>
-<li><a href="#1-5-布尔运算符">1.5 布尔运算符</a></li>
-<li><a href="#1-6-逻辑运算符">1.6 逻辑运算符</a></li>
-<li><a href="#1-7-字符串运算符">1.7 字符串运算符</a></li>
+<li><a href="#1-4-数字比较">1.4 数字比较</a></li>
+<li><a href="#1-5-字符串比较">1.5 字符串比较</a></li>
+<li><a href="#1-6-布尔运算符">1.6 布尔运算符</a></li>
+<li><a href="#1-7-逻辑运算符">1.7 逻辑运算符</a></li>
 <li><a href="#1-8-文件判断">1.8 文件判断</a></li>
 <li><a href="#1-9-特殊参数">1.9 特殊参数</a></li>
 </ul></li>
@@ -103,7 +103,11 @@ fi
 <pre><code>num=$(ps -ef |grep zookeeper | grep -v grep | wc -l)
 </code></pre>
 
-<h2 id="1-4-关系运算符">1.4 关系运算符</h2>
+<h2 id="1-4-数字比较">1.4 数字比较</h2>
+
+<blockquote>
+<p>关系运算符只支持数字，不支持字符串，除非字符串的值是数字。</p>
+</blockquote>
 
 <table>
 <thead>
@@ -153,89 +157,7 @@ fi
 </tbody>
 </table>
 
-<h2 id="1-5-布尔运算符">1.5 布尔运算符</h2>
-
-<table>
-<thead>
-<tr>
-<th>运算符</th>
-<th>说明</th>
-<th>举例</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td><code>!</code></td>
-<td>非运算，表达式为 true 则返回 false，否则返回 true。</td>
-<td><code>[ ! false ]</code> 返回 true。</td>
-</tr>
-
-<tr>
-<td><code>-o</code></td>
-<td>或运算，有一个表达式为 true 则返回 true。</td>
-<td><code>[ $a -lt 20 -o $b -gt 100 ]</code>返回 true。</td>
-</tr>
-
-<tr>
-<td><code>-a</code></td>
-<td>与运算，两个表达式都为 true 才返回 true。</td>
-<td><code>[ $a -lt 20 -a $b -gt 100 ]</code> 返回 false。</td>
-</tr>
-</tbody>
-</table>
-
-<blockquote>
-<p>注：示例中多个条件为一个中括号</p>
-</blockquote>
-
-<h2 id="1-6-逻辑运算符">1.6 逻辑运算符</h2>
-
-<p>假定变量 a 为 10，变量 b 为 20:</p>
-
-<table>
-<thead>
-<tr>
-<th align="left">运算符</th>
-<th align="left">说明</th>
-<th align="left">举例</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="left"><code>&amp;&amp;</code></td>
-<td align="left">逻辑的 AND</td>
-<td align="left"><code>[[ $a -lt 100 &amp;&amp; $b -gt 100 ]]</code> 返回 false</td>
-</tr>
-
-<tr>
-<td align="left">||</td>
-<td align="left">逻辑的 OR</td>
-<td align="left"></td>
-</tr>
-</tbody>
-</table>
-
-<blockquote>
-<p>注：示例中多个条件为2个中括号</p>
-</blockquote>
-
-<p>这里有两种写法：</p>
-
-<pre><code>if [[ $a &lt; 20 || $b &gt; 100 ]]; then
-    echo &quot;$a &lt; 20 or $b &gt; 100&quot;
-fi
-
-
-if [ $a -lt 20 -o $b -gt 100 ]; then
-    echo &quot;$a &lt; 20 or $b &gt; 100&quot;
-fi
-</code></pre>
-
-<p>在<code>[[</code>中使用<code>&amp;&amp;</code>和<code>||</code>表示逻辑与和逻辑或。<code>[</code>中使用<code>-a</code> 和<code>-o</code> 表示逻辑与和逻辑或。</p>
-
-<h2 id="1-7-字符串运算符">1.7 字符串运算符</h2>
+<h2 id="1-5-字符串比较">1.5 字符串比较</h2>
 
 <table>
 <thead>
@@ -278,6 +200,108 @@ fi
 </tr>
 </tbody>
 </table>
+
+<p>字符串比较如果是使用单中括号最好在字符串上添加双引号，防止字符串为空时报语法错误，使用双中括号可以避免语法错误。</p>
+
+<pre><code>[ &quot;$a&quot; == &quot;$b&quot; ] &amp;&amp; echo &quot;==&quot;
+[[ $a == $b ]] &amp;&amp; echo &quot;==&quot;
+</code></pre>
+
+<p>关于等号，在这里使用单个等号或者两个等都都是可以的。但双中括号可以用来做模糊匹配，如下以prefix开头的字符串：</p>
+
+<pre><code>[[ $a == prefix* ]] &amp;&amp; echo &quot;==&quot;
+</code></pre>
+
+<h2 id="1-6-布尔运算符">1.6 布尔运算符</h2>
+
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>说明</th>
+<th>举例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>!</code></td>
+<td>非运算，表达式为 true 则返回 false，否则返回 true。</td>
+<td><code>[ ! false ]</code> 返回 true。</td>
+</tr>
+
+<tr>
+<td><code>-o</code></td>
+<td>或运算，有一个表达式为 true 则返回 true。</td>
+<td><code>[ $a -lt 20 -o $b -gt 100 ]</code>返回 true。</td>
+</tr>
+
+<tr>
+<td><code>-a</code></td>
+<td>与运算，两个表达式都为 true 才返回 true。</td>
+<td><code>[ $a -lt 20 -a $b -gt 100 ]</code> 返回 false。</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>注：示例中多个条件为一个中括号</p>
+</blockquote>
+
+<p>结合前面的数字比较，有多个条件则可以：</p>
+
+<pre><code>[ $a -eq 10 -a $b -eq 20 ] &amp;&amp; echo &quot;==&quot;
+[ &quot;$c&quot; == &quot;c&quot; -a &quot;$d&quot; == &quot;d&quot; ] &amp;&amp; echo &quot;==&quot;
+</code></pre>
+
+<h2 id="1-7-逻辑运算符">1.7 逻辑运算符</h2>
+
+<p>假定变量 a 为 10，变量 b 为 20:</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">运算符</th>
+<th align="left">说明</th>
+<th align="left">举例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><code>&amp;&amp;</code></td>
+<td align="left">逻辑的 AND</td>
+<td align="left"><code>[[ $a -lt 100 &amp;&amp; $b -gt 100 ]]</code> 返回 false</td>
+</tr>
+
+<tr>
+<td align="left">||</td>
+<td align="left">逻辑的 OR</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>注：示例中多个条件为2个中括号</p>
+</blockquote>
+
+<p>这里有两种写法，在<code>[[</code>中使用<code>&amp;&amp;</code>和<code>||</code>表示逻辑与和逻辑或。<code>[</code>中使用<code>-a</code> 和<code>-o</code> 表示逻辑与和逻辑或。</p>
+
+<pre><code>if [[ $a &lt; 20 || $b &gt; 100 ]]; then
+    echo &quot;$a &lt; 20 or $b &gt; 100&quot;
+fi
+
+
+if [ $a -lt 20 -o $b -gt 100 ]; then
+    echo &quot;$a &lt; 20 or $b &gt; 100&quot;
+fi
+</code></pre>
+
+<p>当然还可以把条件进行拆分，<code>&amp;&amp;</code> 和 <code>||</code> 的优先级是相同的。</p>
+
+<pre><code>[ $a -lt 20 ] &amp;&amp; [ $b -gt 100 ] &amp;&amp; echo &quot;$a &lt; 20 and $b &gt; 100&quot;
+</code></pre>
 
 <h2 id="1-8-文件判断">1.8 文件判断</h2>
 
@@ -341,12 +365,11 @@ fi
 
 <p>使用方法如下：</p>
 
-<pre><code>fpath=&quot;/etc/passwd&quot;
-if [ -e $fpath ]; then
+<pre><code>[ -e &quot;/etc/passwd&quot; ] &amp;&amp; {
   echo File exits;
-else
+} || {
   echo Does not exit;
-fi
+}
 </code></pre>
 
 <h2 id="1-9-特殊参数">1.9 特殊参数</h2>
@@ -457,6 +480,19 @@ esac
 
 for loop in 1 2 3 4 5
 do 
+    echo &quot;The value is $loop&quot;
+done
+
+params=&quot;
+  1
+  2
+  3
+  4
+  5
+&quot;
+
+for loop in $params
+do
     echo &quot;The value is $loop&quot;
 done
 </code></pre>
@@ -708,7 +744,7 @@ EOF
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-10.html">2021-09-15 08:27</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-10.html">2022-04-10 01:32</a></code>
     </div>
     
     <div class="eof_tag">
@@ -731,17 +767,17 @@ EOF
             <b>下一篇</b>：<a href="/elasticsearch.html">全文搜索引擎 - Elasticsearch</a>
             </li>
             <li>
-                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts\shell\Shell脚本入门.md">https://github.com/pengbotao/itopic.go/blob/master/posts\shell\Shell脚本入门.md</a>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/shell/Shell脚本入门.md">https://github.com/pengbotao/itopic.go/blob/master/posts/shell/Shell脚本入门.md</a>
             <li>
             <li>
-                @2013-2021 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+                @2013-2022 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
             </li>
         </ul>
     </div>
 </div>
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 
-<a href="https://github.com/pengbotao/itopic.go/blob/master/posts\shell\Shell脚本入门.md" target="_blank"  class="github-corner">
+<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/shell/Shell脚本入门.md" target="_blank"  class="github-corner">
 <svg width="60" height="60" viewBox="0 0 250 250" style="fill: #61687C; color:#fff; position: absolute;top: 0;border: 0;right: 0;" aria-hidden="true">
     <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
     <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
