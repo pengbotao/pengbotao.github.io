@@ -77,6 +77,77 @@ func main() {
 
 <p>发现每次都随机到相同的值，需要指定下随机种子：<code>rand.Seed(time.Now().UnixNano())</code></p>
 
+<h3 id="4-map元素不可寻址">4. Map元素不可寻址</h3>
+
+<pre><code>type Person struct {
+	Name string
+	Age  int
+}
+
+func main() {
+	x := make(map[string]Person)
+	x[&quot;Lion&quot;] = Person{&quot;Lion&quot;, 3}
+
+	x[&quot;Lion&quot;].Name = &quot;Test&quot;
+}
+</code></pre>
+
+<blockquote>
+<p>./main.go:17:17: cannot assign to struct field x[&ldquo;Lion&rdquo;].Name in map</p>
+</blockquote>
+
+<h3 id="5-defer函数">5. defer函数</h3>
+
+<pre><code>func A(s string) string {
+	fmt.Println(&quot;Defer &quot;, s)
+	return s
+}
+
+func main() {
+	defer A(A(&quot;A&quot;))
+	defer A(A(&quot;B&quot;))
+}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>Defer  A
+Defer  B
+Defer  B
+Defer  A
+</code></pre>
+
+<h3 id="5-make参数">5. make参数</h3>
+
+<pre><code>func main() {
+	s := make([]int, 3)
+	s = append(s, 1, 2, 3)
+	fmt.Println(s)
+}
+</code></pre>
+
+<h3 id="6-map并发读写">6. map并发读写</h3>
+
+<pre><code>func main() {
+	m := make(map[int]struct{})
+	go func() {
+		for {
+			m[0] = struct{}{}
+		}
+	}()
+	go func() {
+		for {
+			fmt.Println(m[0])
+		}
+	}()
+	select {}
+}
+</code></pre>
+
+<blockquote>
+<p>fatal error: concurrent map read and map write</p>
+</blockquote>
+
     <div class="eof">-- EOF --</div>
     <div class="eof_arrow">
         <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
@@ -84,7 +155,7 @@ func main() {
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2021-02.html">2022-09-24 18:19</a></code>
+        <code style="border:0px;background:none;"><a href="/2021-02.html">2022-09-28 10:29</a></code>
     </div>
     
     <div class="eof_tag">
@@ -109,7 +180,7 @@ func main() {
                 <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang易错知识点.md">https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang易错知识点.md</a>
             <li>
             <li>
-                @2013-2022 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+                @2013-2023 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
             </li>
         </ul>
     </div>

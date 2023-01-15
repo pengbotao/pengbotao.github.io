@@ -24,12 +24,12 @@
 <ul>
 <li><a href="#1-1-基本定义">1.1 基本定义</a></li>
 <li><a href="#1-2-定义方法">1.2 定义方法</a></li>
-<li><a href="#1-2-初始化及调用">1.2 初始化及调用</a></li>
+<li><a href="#1-2-初始化">1.2 初始化</a></li>
 </ul></li>
-<li><a href="#二-结构体传参">二、结构体传参</a>
+<li><a href="#二-方法接收器">二、方法接收器</a>
 <ul>
-<li><a href="#2-1-指针">2.1 指针</a></li>
-<li><a href="#2-2-结构体指针与传参">2.2 结构体指针与传参</a></li>
+<li><a href="#2-1-指针接收器">2.1 指针接收器</a></li>
+<li><a href="#2-2-结构体调用">2.2 结构体调用</a></li>
 </ul></li>
 <li><a href="#三-结构体内嵌">三、结构体内嵌</a>
 <ul>
@@ -41,6 +41,12 @@
 <ul>
 <li><a href="#4-1-接口定义">4.1 接口定义</a></li>
 <li><a href="#4-2-空接口">4.2 空接口</a></li>
+<li><a href="#4-3-接口嵌套">4.3 接口嵌套</a></li>
+</ul></li>
+<li><a href="#五-结构体与接口">五、结构体与接口</a>
+<ul>
+<li><a href="#5-1-结构体实现接口">5.1 结构体实现接口</a></li>
+<li><a href="#5-2-结构体内嵌接口">5.2 结构体内嵌接口</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -80,43 +86,7 @@ func (p Person) Info() string {
 <li>可通过<code>.</code>形式来获取到结构体的成员属性和方法，如<code>p.Name</code></li>
 </ul>
 
-<p>当然并不只有<code>struct</code>可以定义方法，比如给<code>[]int</code>增加排序功能：</p>
-
-<pre><code>package main
-
-import (
-	&quot;fmt&quot;
-	&quot;sort&quot;
-)
-
-type MyInt []int
-
-func (m MyInt) Len() int {
-	return len(m)
-}
-
-func (m MyInt) Less(i, j int) bool {
-	return m[i] &gt; m[j]
-}
-
-func (m MyInt) Swap(i, j int) {
-	m[i], m[j] = m[j], m[i]
-}
-
-func main() {
-	data := MyInt{1, 3, 2, 4}
-	sort.Sort(data)
-	fmt.Println(data)
-}
-</code></pre>
-
-<blockquote>
-<p>注：方法中的类型限定如果是指针，则只能通过指针类型调用；如果非指针，则通过值和指针类型都可以调用。</p>
-
-<p>一个值类型可能有多处引用无法确定唯一，但一个引用可以关联到确定的值，所以指针类型只能通过指针调用。</p>
-</blockquote>
-
-<h2 id="1-2-初始化及调用">1.2 初始化及调用</h2>
+<h2 id="1-2-初始化">1.2 初始化</h2>
 
 <pre><code>func main() {
 	//方式一：先定义然后进行赋值
@@ -145,25 +115,16 @@ func main() {
 
 <ul>
 <li>属性和方法都通过<code>.</code>来访问。</li>
-<li>调用过程就像是初始化了一个类，并调用了类的方法。<code>Info()</code>方法可以访问当前结构体示例<code>p</code>的成员属性。</li>
+<li>调用过程就像是初始化了一个类，并调用了类的方法。<code>Info()</code>方法也可以访问当前结构体实例<code>p</code>的成员属性。</li>
 </ul>
 
-<h1 id="二-结构体传参">二、结构体传参</h1>
+<h1 id="二-方法接收器">二、方法接收器</h1>
 
-<h2 id="2-1-指针">2.1 指针</h2>
+<p>前面定义方法里使用的接收类型是<code>Person</code>，他等效于：<code>func Info(p Person) string {}</code>，我们知道函数是可以传指针的，这里的接收方式也可以通过指针来接收。</p>
 
-<p>可以用<code>new</code>函数来创建一个结构体指针，如：<code>p := new(Person)</code>，此时实际返回的数据类型是<code>*Person</code>，通过<code>var p Person</code>定义返回的数据类型为<code>Person</code>。</p>
+<h2 id="2-1-指针接收器">2.1 指针接收器</h2>
 
-<ul>
-<li>结构体也是值类型，函数内部不会改变，而结构体指针作为参数传递时是可以改变实参的值。所以是否使用指针可以看是否需要在函数内部改变实参的值。</li>
-<li>虽然是<code>*Person</code>类型，但使用时并不需要<code>*</code>来访问结构体成员，直接使用<code>.</code>就可以。</li>
-<li>另外，相比值类型的拷贝，指针类型只是传递一个地址拷贝，效率上好一些。</li>
-<li>除了<code>new</code>之后还有一种方式 <code>&amp;Person{}</code>，表达式<code>new(Type)</code>和<code>&amp;Type{}</code>是等价的。</li>
-</ul>
-
-<h2 id="2-2-结构体指针与传参">2.2 结构体指针与传参</h2>
-
-<p>结构体也是传值的类型，有了指针，前面结构体方法定义与参数传递上则有一些变化的情况，如:</p>
+<p>前面结构体方法上也可以通过指针的方式来接收。</p>
 
 <pre><code>type Person struct {
 	Name string
@@ -176,9 +137,7 @@ func (p *Person) Info() string {
 }
 
 func main() {
-	p := new(Person)
-	p.Name = &quot;iTopic&quot;
-	p.Age = 18
+	p := &amp;Person{&quot;iTopic&quot;, 18}
 	fmt.Println(p)
 	fmt.Println(p.Info())
 	fmt.Println(p)
@@ -195,16 +154,70 @@ Name: iTopic, Age: 19
 
 <ul>
 <li><code>Info</code>方法的结构体类型改为了<code>(p *Person)</code>，多了一个星号（<code>*</code>）。</li>
-<li><code>Info</code>方法内部使用去区别，还是用<code>p.Age</code>访问，并且可以成功修改<code>Age</code>属性。</li>
+<li><code>Info</code>方法内部使用无区别，还是用<code>p.Age</code>访问，由于是接收的指针，可以直接修改结构的属性。</li>
 <li>如果把<code>Info</code>方法的<code>(p *Person)</code>定义改回<code>(p Person)</code>，重新执行可以看到执行完成之后<code>p.Age</code>还会是18，即值拷贝。</li>
-<li>此处为指针接收器，则不可以通过<code>Person{}.Info()</code>来调用，函数传递上需要是<code>*Person</code>类型。</li>
+<li>此处为指针接收器，则不可以通过<code>Person{}.Info()</code>来调用，函数传递上需要是<code>*Person</code>类型，可以写成：<code>(&amp;Person{}).Info()</code></li>
 </ul>
+
+<h2 id="2-2-结构体调用">2.2 结构体调用</h2>
+
+<p>这里一种有4种调用方式：</p>
+
+<pre><code>func (p *Person) Info() {
+	fmt.Printf(&quot;Pointer: Name: %s, Age: %d\n&quot;, p.Name, p.Age)
+}
+
+func (p Person) Job() {
+	fmt.Printf(&quot;Value: Name: %s, Age: %d\n&quot;, p.Name, p.Age)
+}
+
+func main() {
+	//第一种情况：不通，报错 cannot call pointer method on Person{}
+	//Person{}.Info()
+	Person{}.Job()     // 输出：Value: Name: , Age: 0
+	(&amp;Person{}).Info() //输出：Pointer: Name: , Age: 0
+	(&amp;Person{}).Job()  //输出：Value: Name: , Age: 0
+}
+</code></pre>
+
+<p>第一种方式报错，提示不能通过结构体值类型来调用指针方法。如果我们将初始化赋值给一个新的变量，则Go语言会帮我们做自动转换，都可以调用成功：</p>
+
+<pre><code>func main() {
+	p1 := Person{}
+	p2 := &amp;Person{}
+	p1.Info()
+	p1.Job()
+	p2.Info()
+	p2.Job()
+}
+</code></pre>
+
+<p>这里有一个示例，可以看看梳理下结构体的调用：</p>
+
+<pre><code>type Person struct {
+	Name string
+}
+
+func (p *Person) Info() {
+	fmt.Printf(&quot;Name: %s\n&quot;, p.Name)
+}
+
+func main() {
+	p := []Person{{&quot;A&quot;}, {&quot;B&quot;}, {&quot;C&quot;}}
+	for _, v := range p {
+		go v.Info()
+	}
+	time.Sleep(3 * time.Second)
+}
+</code></pre>
+
+<p>由于Person定义的是值类型，而调用的是指针接收的方法，所以Go的语法糖会帮我们做转换，直接运行的是<code>go (*v).Info()</code>，也就是取了v的地址，而range遍历过程中v用的是同一个变量地址。所以最后输出的是3个C，如果将Person的指针接收改成值接收的方式就可以顺利的输出ABC了。</p>
 
 <h1 id="三-结构体内嵌">三、结构体内嵌</h1>
 
 <h2 id="3-1-基本嵌套">3.1 基本嵌套</h2>
 
-<p>结构体是由多种数据类型组合起来的高级类型，自然结构体也可以嵌套结构体。按理所当然的去设置和访问就好了，比如：<code>p.Job.CompanyName</code></p>
+<p>结构体是由多种数据类型组合起来的高级类型，自然结构体也可以嵌套结构体，这种用法就相当于定义了一个属性是一个复合类型。</p>
 
 <pre><code>type Person struct {
 	Name string
@@ -259,7 +272,7 @@ func main() {
 {iTopic 18 {iTopic.org}} Name: iTopic, Age: 19 Job: iTopic.org
 </code></pre>
 
-<p>如果存在同名的字段和方法则会优先获取到当前结构体的属性和方法，不存在才会去父结构体找。比如将<code>Job.CompanyName</code>改成<code>Name</code>，方法改成<code>Info()</code>，则可以这样子访问：</p>
+<p>如果存在同名的字段和方法则会优先获取到当前结构体的属性和方法，不存在才会去父结构体找。比如将<code>Job.CompanyName</code>改成<code>Name</code>，方法改成<code>Info()</code>，则可以按下面这样子访问，如果有多个这种继承字段也存在同名的方法，则就需要上面这种显示的指定了，否则会报：<code>ambiguous selector p.Info</code></p>
 
 <pre><code>func main() {
 	var p Person
@@ -270,11 +283,39 @@ func main() {
 }
 </code></pre>
 
-<p>如果有多个这种继承字段也存在同名的方法，则就需要上面这种显示的指定了，否则会报：<code>ambiguous selector p.Info</code></p>
+<p>关于匿名嵌套这里有一点要补充，他其实并不是其它语言中的继承思路，Go本身是不支持继承，而是一种组合的思路。组合之后新的结构体有的老的结构体的方法和属性，但从访问层级上看还是满足原有的访问规则，并不是通过继承改变基类的属性和方法。</p>
+
+<pre><code>type Person struct {
+	Name string
+	Age  int
+}
+
+func (p *Person) Info() {
+	fmt.Printf(&quot;Name: %s\n&quot;, p.Name)
+}
+
+type Student struct {
+	Person
+	Name string
+}
+
+func (s *Student) Detail() {
+	fmt.Printf(&quot;Name: %s\n&quot;, s.Name)
+	s.Info()
+}
+
+func main() {
+	s := Student{}
+	s.Name = &quot;Lion&quot;
+	s.Detail()
+}
+</code></pre>
+
+<p>示例中设置<code>s.Name</code>按优先级设置的是<code>Student</code>结构体的，而<code>s.Info()</code>中访问的<code>p.Name</code>是<code>Person</code>的，由于并没有对<code>Person.Name</code>赋值，所以<code>s.Info()</code>打印就是就初始值空字符串。</p>
 
 <h2 id="3-2-结构体锁">3.2 结构体锁</h2>
 
-<p>这里为前一章节的一个示例，比如对<code>Age</code>进行一千次调用累加操作，如果要确保数据准确就需要上锁，而<code>sync.Mutex</code>也是一个结构体，所以可以直接用内嵌的方式，<code>Person</code>就继承了<code>Lock()</code>和<code>Unlock()</code>方法了。</p>
+<p>这里为前一章节的一个示例，比如对<code>Age</code>进行一千次调用累加操作，如果要确保数据准确就需要上锁，而<code>sync.Mutex</code>也是一个结构体，所以可以直接用内嵌的方式，<code>Person</code>就组合了<code>Lock()</code>和<code>Unlock()</code>方法了。</p>
 
 <pre><code>type Person struct {
 	Name string
@@ -395,6 +436,58 @@ func main() {
 }
 </code></pre>
 
+<h2 id="4-3-接口嵌套">4.3 接口嵌套</h2>
+
+<p>接口也是支持内嵌的，通过嵌入其他接口就可以实现接口的组合。比如这是io包中的接口定义，<code>ReadWriter</code>接口通过组合的方式就相当于定义了两个方法。</p>
+
+<pre><code>type Reader interface {
+	Read(p []byte) (n int, err error)
+}
+
+type Writer interface {
+	Write(p []byte) (n int, err error)
+}
+
+type ReadWriter interface {
+	Reader
+	Writer
+}
+</code></pre>
+
+<h1 id="五-结构体与接口">五、结构体与接口</h1>
+
+<h2 id="5-1-结构体实现接口">5.1 结构体实现接口</h2>
+
+<p>前面接口定义中已经通过结构体来实现了接口，但如果想让某个结构体强制实现接口中的定义，可以这么做，相当于做了一个变量初始化，值做了类型强转。</p>
+
+<pre><code>var _ ExportHandler = (*CsvExporter)(nil)
+</code></pre>
+
+<h2 id="5-2-结构体内嵌接口">5.2 结构体内嵌接口</h2>
+
+<p>内嵌接口就相当于给结构体多定义了几个方法，可以通过传入外部实现了的接口的结构体。</p>
+
+<pre><code>type Person struct {
+	Name string
+	Age  int
+	Human
+}
+
+type Student struct {
+	Name string
+	Human
+}
+
+func (s Student) Info() {
+	fmt.Printf(&quot;Name: %s\n&quot;, s.Name)
+}
+
+func main() {
+	p := Person{Human: Student{Name: &quot;ABC&quot;}}
+	p.Info()
+}
+</code></pre>
+
 <hr />
 
 <ul>
@@ -411,7 +504,7 @@ func main() {
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-04.html">2022-09-24 18:19</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-04.html">2023-01-15 11:40</a></code>
     </div>
     
     <div class="eof_tag">
@@ -436,7 +529,7 @@ func main() {
                 <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang ( 3 ) - 结构体和接口.md">https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang ( 3 ) - 结构体和接口.md</a>
             <li>
             <li>
-                @2013-2022 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+                @2013-2023 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
             </li>
         </ul>
     </div>
