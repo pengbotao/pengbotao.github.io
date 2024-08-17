@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Golang ( 5 ) - 并发编程</title>
+    <title>Golang ( 4 ) - 并发编程</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
     <style type="text/css">
     @media (min-width: 1200px) {
@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="content">
-    <h1 class="title">Golang ( 5 ) - 并发编程</h1>
+    <h1 class="title">Golang ( 4 ) - 并发编程</h1>
 
     <a href="/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
 
@@ -45,6 +45,18 @@
 <ul>
 <li><a href="#6-1-先处理再消费">6.1 先处理再消费</a></li>
 <li><a href="#6-2-边处理边消费">6.2 边处理边消费</a></li>
+</ul></li>
+<li><a href="#七-context">七、Context</a>
+<ul>
+<li><a href="#7-1-withcancel">7.1 WithCancel</a></li>
+<li><a href="#7-2-withdeadline">7.2 WithDeadline</a></li>
+<li><a href="#7-3-withtimeout">7.3 WithTimeout</a></li>
+<li><a href="#7-4-withvalue">7.4 WithValue</a></li>
+</ul></li>
+<li><a href="#八-并发库">八、并发库</a>
+<ul>
+<li><a href="#8-1-errgroup">8.1 errgroup</a></li>
+<li><a href="#8-2-ants">8.2 ants</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -466,7 +478,213 @@ func main() {
 }
 </code></pre>
 
-<p>协程之间的通信进制大体如上，下一篇将介绍怎么通过上下文<code>Context</code>来控制协程之间的交互。</p>
+<h1 id="七-context">七、Context</h1>
+
+<p>用于协程之间传递上下文信息，包含取消信号、超时信号、传值。<code>context</code>包中定义了一个<code>context.Context</code>结构体，可通过两种方式获取：</p>
+
+<pre><code>context.Background()
+context.TODO()
+</code></pre>
+
+<p>支持四种使用方式，使用时需要传入<code>context.Context</code>对象并返回新的Context对象，其中取消、超时会返回一个取消函数。</p>
+
+<h2 id="7-1-withcancel">7.1 WithCancel</h2>
+
+<p>取消信号，返回<code>context.Context</code>和取消函数<code>CancelFunc</code>，调用<code>CancelFunc</code>则会终止调用树上协程的执行。</p>
+
+<pre><code>func WithCancel(parent Context) (ctx Context, cancel CancelFunc)
+</code></pre>
+
+<h2 id="7-2-withdeadline">7.2 WithDeadline</h2>
+
+<p>超时截止时间，设置具体的截止时间点。</p>
+
+<pre><code>WithDeadline(parent Context, d time.Time) (Context, CancelFunc)
+</code></pre>
+
+<h2 id="7-3-withtimeout">7.3 WithTimeout</h2>
+
+<p>超时信号，和<code>WithDeadline</code>的相似，时间点从<code>WithDeadline</code>的具体时间点变为从当前时间开始的相对时间。</p>
+
+<pre><code>func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
+</code></pre>
+
+<h2 id="7-4-withvalue">7.4 WithValue</h2>
+
+<p>键值，可以在协程之间进行简单的数据传递。</p>
+
+<pre><code>func WithValue(parent Context, key, val interface{}) Context
+</code></pre>
+
+<h1 id="八-并发库">八、并发库</h1>
+
+<h2 id="8-1-errgroup">8.1 errgroup</h2>
+
+<p>1、通过errgroup来执行通过方法，最后同步等待执行完成，从示例看少了Add/Done的操作。</p>
+
+<pre><code>eg := errgroup.Group{}
+eg.Go(func() error {
+	// logic 1
+})
+eg.Go(func() error {
+	// logic 2
+})
+if err = eg.Wait(); err != nil {
+	return
+}
+</code></pre>
+
+<p>2、可以控制并发</p>
+
+<pre><code>var (
+	eg    = errgroup.Group{}
+	limit = make(chan struct{}, consts.Five)
+	mu    sync.Mutex
+)
+for _, classID := range classList {
+	limit &lt;- struct{}{}
+	classID := classID
+	eg.Go(func() error {
+		defer func() {
+			&lt;-limit
+		}()
+
+		var classInfo string // logic
+
+		mu.Lock()
+		resp[classID] = classInfo
+		mu.Unlock()
+		return nil
+	})
+}
+err = eg.Wait()
+return
+</code></pre>
+
+<p>3、还可以增加取消函数，当有函数执行失败时可以提前取消。</p>
+
+<pre><code>var (
+	eg, cancel    = errgroup.WithContext(ctx)
+	mu            = sync.Mutex{}
+	limit         = make(chan struct{}, consts.Five)
+	resp = map[string]string{}
+)
+
+for _, classID := range classList {
+	limit &lt;- struct{}{}
+	classID := classID
+	eg.Go(func() error {
+		defer func() {
+			&lt;-limit
+		}()
+		select {
+		case &lt;-cancel.Done():
+			return nil
+		default:
+			var classInfo string // logic
+
+			mu.Lock()
+			resp[classID] = classInfo
+			mu.Unlock()
+		}
+		return nil
+	})
+}
+if err = eg.Wait(); err != nil {
+	return
+}
+</code></pre>
+
+<h2 id="8-2-ants">8.2 ants</h2>
+
+<p>ants是一个高性能的 goroutine 池，实现了对大规模 goroutine 的调度管理、goroutine 复用，允许使用者在开发并发程序的时候限制 goroutine 数量，复用资源，达到更高效执行任务的效果。</p>
+
+<pre><code>func main() {
+	var wg sync.WaitGroup
+
+	// 任务函数
+	task := func() {
+		fmt.Println(&quot;Running task&quot;)
+		time.Sleep(1 * time.Second) // 模拟任务执行时间
+		wg.Done()                   // 任务完成，计数减1
+	}
+
+	// 创建一个大小为 10 的 goroutine 池
+	pool, _ := ants.NewPool(10)
+	defer pool.Release()
+
+	// 提交任务到池中
+	for i := 0; i &lt; 20; i++ {
+		wg.Add(1) // 计数加1
+
+		// 提交任务并检查错误
+		err := pool.Submit(task)
+		if err != nil {
+			fmt.Printf(&quot;Task submission failed: %v\n&quot;, err)
+			wg.Done() // 提交失败时手动调用 Done 以避免阻塞
+		}
+	}
+
+	// 等待所有任务完成
+	wg.Wait()
+
+	fmt.Println(&quot;All tasks completed.&quot;)
+}
+</code></pre>
+
+<p>这里是一个并发读取文件，然后分批处理的协程池示例：</p>
+
+<pre><code>pool, err := ants.NewPool(poolNum)
+if err != nil {
+	return
+}
+defer pool.Release()
+var (
+	wg = &amp;sync.WaitGroup{}
+
+	batchChan     = make(chan []string, 10000)
+	scanner       = bufio.NewScanner(objFile)
+	batchLineNum  = 100 // 100行处理一次
+)
+go func() {
+	defer close(batchChan)
+	var (
+		lines  = make([]string, 0, batchLineNum)
+	)
+	for scanner.Scan() {
+		var line = scanner.Text()
+		lines = append(lines, line)
+		if len(lines) &gt;= batchLineNum {
+			batchChan &lt;- lines
+			lines = make([]string, 0, batchLineNum)
+		}
+	}
+	if len(lines) &gt; 0 {
+		batchChan &lt;- lines
+	}
+	if err = scanner.Err(); err != nil {
+		// log
+	}
+}()
+
+processBatch := func(ctx *gin.Context, batch []string) {
+	wg.Add(1)
+	e := pool.Submit(func() {
+		defer wg.Done()
+
+		// logic
+	})
+	if e != nil {
+		wg.Done()
+	}
+}
+
+for batch := range batchChan {
+	processBatch(ctx, batch)
+}
+
+wg.Wait()
+</code></pre>
 
 <hr />
 
@@ -476,6 +694,8 @@ func main() {
 <li>[3] <a href="http://yuedu.163.com/source/a4b77ff9abaf4109acd11c38e5c8babc_4">七周七并发模型</a></li>
 <li>[4] <a href="http://c.biancheng.net/view/97.html">Go语言通道（chan）——goroutine之间通信的管道</a></li>
 <li>[5] <a href="http://www.361way.com/rwmutex/5984.html">golang sync包互斥锁和读写锁的使用</a></li>
+<li>[6] <a href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-context/">Go语言设计与实现 - 6.1 上下文 Context</a></li>
+<li>[7] <a href="https://blog.wu-boy.com/2020/05/understant-golang-context-in-10-minutes/">用 10 分鐘了解 Go 語言 context package 使用場景及介紹</a></li>
 </ul>
 
     <div class="eof">-- EOF --</div>
@@ -485,12 +705,12 @@ func main() {
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2020-05.html">2023-01-15 13:29</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-05.html">2024-08-17 11:13</a></code>
     </div>
     
     <div class="eof_tag">
         发表于：
-        <code style="border:0px;background:none;"><a href="/2020-05.html">2020-05-24 13:00</a></code>
+        <code style="border:0px;background:none;"><a href="/2020-05.html">2020-05-12 20:00</a></code>
     </div>
     <div class="eof_tag">
         标签：
@@ -500,24 +720,24 @@ func main() {
     <div id="footer">
         <ul>
             <li>
-            <b>上一篇</b>：<a href="/go-types.html">Golang ( 4 ) - 类型总结</a>
+            <b>上一篇</b>：<a href="/go-struct.html">Golang ( 3 ) - 结构体和接口</a>
             </li>
             
             <li>
-            <b>下一篇</b>：<a href="/go-context.html">Golang ( 6 ) - 上下文Context</a>
+            <b>下一篇</b>：<a href="/go-tips.html">Golang ( 5 ) - 小知识点</a>
             </li>
             <li>
-                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang ( 5 ) - 并发编程.md">https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang ( 5 ) - 并发编程.md</a>
+                <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang ( 4 ) - 并发编程.md">https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang ( 4 ) - 并发编程.md</a>
             <li>
             <li>
-                @2013-2023 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+                @2013-2024 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
             </li>
         </ul>
     </div>
 </div>
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 
-<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang ( 5 ) - 并发编程.md" target="_blank"  class="github-corner">
+<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/go/Golang ( 4 ) - 并发编程.md" target="_blank"  class="github-corner">
 <svg width="60" height="60" viewBox="0 0 250 250" style="fill: #61687C; color:#fff; position: absolute;top: 0;border: 0;right: 0;" aria-hidden="true">
     <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
     <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>

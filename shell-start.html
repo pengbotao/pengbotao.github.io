@@ -56,6 +56,13 @@
 <li><a href="#6-3-here-document">6.3 Here Document</a></li>
 <li><a href="#6-4-dev-null文件">6.4 /dev/null文件</a></li>
 </ul></li>
+<li><a href="#七-代码片段">七、代码片段</a>
+<ul>
+<li><a href="#7-1-循环处理">7.1 循环处理</a></li>
+<li><a href="#7-2-读取文件">7.2 读取文件</a></li>
+<li><a href="#7-3-按函数执行">7.3 按函数执行</a></li>
+<li><a href="#7-4-多个函数">7.4 多个函数</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -732,6 +739,109 @@ EOF
 <pre><code>$ command &gt; /dev/null 2&gt;&amp;1
 </code></pre>
 
+<h1 id="七-代码片段">七、代码片段</h1>
+
+<h2 id="7-1-循环处理">7.1 循环处理</h2>
+
+<pre><code>#! /bin/bash
+
+output_file=&quot;./export/test.data&quot;
+
+&gt; &quot;$output_file&quot;
+
+for idx in {0..100}; do
+    echo &quot;start export idx:$idx&quot; &gt;&gt; &quot;$output_file&quot;
+done
+
+echo &quot;output: $output_file&quot;
+</code></pre>
+
+<h2 id="7-2-读取文件">7.2 读取文件</h2>
+
+<pre><code>#!/bin/sh
+
+if [ &quot;$#&quot; -ne 1 ]; then
+    echo &quot;Usage: $0 &lt;file_path&gt;&quot;
+    exit 1
+fi
+
+file_path=&quot;$1&quot;
+
+while IFS= read -r line || [ -n &quot;$line&quot; ]; do
+  echo &quot;$line&quot;
+done &lt; &quot;$file_path&quot;
+</code></pre>
+
+<h2 id="7-3-按函数执行">7.3 按函数执行</h2>
+
+<pre><code>#!/bin/bash
+
+check_keyword() {
+    local filename=&quot;$1&quot;
+    local keyword=&quot;$2&quot;
+
+    tmpdir=&quot;./data/tmp&quot;
+    if [ ! -d &quot;$tmpdir&quot; ]; then
+        mkdir -p &quot;$tmpdir&quot;
+    fi
+
+    while IFS= read -r file || [ -n &quot;$file&quot; ]; do
+        output=&quot;${tmpdir}/${file}_search.txt&quot;
+        &gt; &quot;$output&quot;
+        grep &quot;$keyword&quot; $file &gt;&gt; &quot;$output&quot;
+    done &lt; &quot;$filename&quot;
+}
+
+if [ &quot;$#&quot; -ne 2 ]; then
+    echo &quot;Usage: $0 &lt;filename&gt; &lt;keyword&gt;&quot;
+    exit 1
+fi
+
+# 调用函数，并传递参数
+check_keyword &quot;$1&quot; &quot;$2&quot;
+</code></pre>
+
+<h2 id="7-4-多个函数">7.4 多个函数</h2>
+
+<pre><code>#!/bin/bash
+
+main() {
+    if [ &quot;$#&quot; -ne 2 ]; then
+        echo &quot;Usage: $0 &lt;source&gt; &lt;keyword&gt;&quot;
+        exit 1
+    fi
+
+    local source=&quot;$1&quot;
+    local keyword=&quot;$2&quot;
+
+    case &quot;$source&quot; in
+        &quot;1&quot;)
+            process_1
+            ;;
+        &quot;2&quot;)
+            process_2
+            ;;
+        *)
+            echo &quot;Invalid source: $source&quot;
+            exit 1
+            ;;
+    esac
+}
+
+
+process_1() {
+   echo &quot;$keyword&quot;
+}
+
+process_2() {
+   :
+}
+
+
+# 调用主函数
+main &quot;$@&quot;
+</code></pre>
+
 <ul>
 <li>[1] <a href="http://c.biancheng.net/cpp/shell/">Linux Shell脚本教程：30分钟玩转Shell脚本编程</a></li>
 <li>[2] <a href="https://www.runoob.com/linux/linux-shell.html">Runoob Shell教程</a></li>
@@ -744,7 +854,7 @@ EOF
     
     <div class="eof_tag">
         最后更新于：
-        <code style="border:0px;background:none;"><a href="/2018-10.html">2022-09-24 18:19</a></code>
+        <code style="border:0px;background:none;"><a href="/2018-10.html">2024-01-14 17:24</a></code>
     </div>
     
     <div class="eof_tag">
@@ -770,7 +880,7 @@ EOF
                 <b>Github地址</b>：<a href="https://github.com/pengbotao/itopic.go/blob/master/posts/shell/Shell脚本入门.md">https://github.com/pengbotao/itopic.go/blob/master/posts/shell/Shell脚本入门.md</a>
             <li>
             <li>
-                @2013-2023 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+                @2013-2024 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
             </li>
         </ul>
     </div>
